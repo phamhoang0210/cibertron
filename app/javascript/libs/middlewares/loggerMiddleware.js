@@ -1,0 +1,31 @@
+/* eslint no-console: 0 */
+
+export default function logger({ getState }) {
+  return next => action => {
+    if (process.env.NODE_ENV == 'development') {
+      console.log('will dispatch', action);
+    }
+
+    // Call the next dispatch method in the middleware chain.
+    const result = next(action);
+
+    if (process.env.NODE_ENV == 'development') {
+      // We can't _read_ immutable objects in console out-of-the-box.
+      const state = getState();
+      const readableState = {};
+
+      Object.keys(state).forEach(storeItem => {
+        readableState[storeItem] = (
+          state[storeItem].toJS ? state[storeItem].toJS() : state[storeItem]
+        );
+        return;
+      });
+
+      console.log('state after dispatch', readableState);
+    }
+
+    // This will likely be the action itself, unless
+    // a middleware further in chain changed it.
+    return result;
+  };
+}

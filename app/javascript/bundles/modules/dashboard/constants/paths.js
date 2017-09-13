@@ -1,0 +1,1 @@
+export const SERVICE_INFOS_API_URL = '/api/v1/service_infos'
