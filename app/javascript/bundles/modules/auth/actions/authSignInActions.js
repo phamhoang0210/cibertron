@@ -15,23 +15,21 @@ function signInSuccess(data) {
   }
 }
 
-function setLocalCredentials(data) {
-  authHelper.setCredentials({
-    'access-token': data['access-token'],
-    'client': data['client'],
-    'uid': data['uid'],
-  })
-}
-
-function redirectToHome() {
-
-}
 
 function signInFailure(error) {
   return {
     type: actionTypes.SIGN_IN_FAILURE,
     error,
   }
+}
+
+
+function setLocalCredentials(data) {
+  authHelper.setCredentials({
+    'access-token': data['access-token'],
+    'client': data['client'],
+    'uid': data['uid'],
+  })
 }
 
 export function signIn(params = {}, onSuccess = null) {

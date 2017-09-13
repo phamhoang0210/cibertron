@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20170913021544) do
     t.string "internal_name"
     t.string "avatar_url"
     t.text "description"
+    t.string "link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

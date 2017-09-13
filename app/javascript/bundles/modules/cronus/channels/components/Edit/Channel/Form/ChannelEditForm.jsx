@@ -2,9 +2,10 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
+const { TextArea } = Input
+const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
 
-const Option = Select.Option
 const FormItem = Form.Item
 
 class ChannelEditForm extends React.Component {
@@ -85,12 +86,21 @@ class ChannelEditForm extends React.Component {
                     initialValue: channel.get('code'),
                   })(<Input />)}
                 </FormItem>
+                <FormItem label="Description" {...this.formItemLayout}>
+                  {getFieldDecorator('description', {
+                    initialValue: channel.get('description'),
+                  })(<TextArea />)}
+                </FormItem>
                 <FormItem label="Provider" {...this.formItemLayout}>
                   {getFieldDecorator('provider_id', {
                     rules: [{ required: true, message: 'Provider is required!' }],
                     initialValue: `${channel.getIn(['provider', 'id'])}`,
                   })(
-                    <Select placeholder="Please select a provider">
+                    <Select
+                      showSearch
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      placeholder="Please select a provider"
+                    >
                       {providers.map(provider => (
                         <Option value={`${provider.get('id')}`} key={provider.get('id')}>
                           {provider.get('name')}
@@ -103,7 +113,11 @@ class ChannelEditForm extends React.Component {
                   {getFieldDecorator('category_id', {
                     initialValue: `${channel.getIn(['category', 'id'])}`,
                   })(
-                    <Select placeholder="Please select a category">
+                    <Select
+                      showSearch
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      placeholder="Please select a category"
+                    >
                       {categories.map(category => (
                         <Option value={`${category.get('id')}`} key={category.get('id')}>
                           {category.get('name')}

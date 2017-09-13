@@ -5,6 +5,7 @@ class CreateServiceInfos < ActiveRecord::Migration[5.1]
       t.string :internal_name
       t.string :avatar_url
       t.text :description
+      t.string :link
       t.timestamps
     end
   end

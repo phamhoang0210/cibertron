@@ -1,4 +1,5 @@
 import React from 'react'
+import 'styles/layouts/layout'
 import 'styles/layouts/auth/auth_layout'
 
 class AuthLayout extends React.Component {
@@ -8,7 +9,7 @@ class AuthLayout extends React.Component {
 
   render() {
     return (
-      <div className="layout-login">
+      <div className="layout-wraper auth-layout">
         {this.props.children}
       </div>
     );

@@ -1,7 +1,7 @@
 import request from 'axios'
 import ReactOnRails from 'react-on-rails'
 import {getCredentials} from 'helpers/auth/authHelper'
-const BASE_API_URL = '';
+const BASE_API_URL = ''
 
 export default {
 

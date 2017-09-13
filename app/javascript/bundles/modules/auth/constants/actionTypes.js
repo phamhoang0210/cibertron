@@ -1,3 +1,7 @@
 export const SET_IS_SIGNING = 'SET_IS_SIGNING'
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE'
+
+export const SET_IS_SIGN_OUT = 'SET_IS_SIGN_OUT'
+export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'
+export const SIGN_OUT_FAILURE = 'SIGN_OUT_FAILURE'

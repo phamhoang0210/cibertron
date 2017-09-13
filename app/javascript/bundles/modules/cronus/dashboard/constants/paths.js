@@ -1,1 +1,0 @@
-export const CRONUS_URL = '/cronus'

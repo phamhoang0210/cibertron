@@ -24,7 +24,7 @@ class ServiceList extends React.Component {
           )}
           {serviceInfos.map(service => {
             const handleClick = (e) => {
-              window.location.href = `/${service.get('internal_name')}`
+              window.location.href = service.get('link')
             }
 
             return (

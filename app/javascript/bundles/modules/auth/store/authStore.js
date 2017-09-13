@@ -5,12 +5,13 @@ import loggerMiddleware from 'libs/middlewares/loggerMiddleware'
 import reducers, { initialStates } from '../reducers'
 
 export default (props, railsContext) => {
-  const {authState, authSignUpState, authSignInState} = initialStates
+  const {authState, authSignUpState, authSignInState, authSignOutState} = initialStates
 
   const initialState = {
     authState,
     authSignUpState,
     authSignInState,
+    authSignOutState,
   }
 
   const reducer = combineReducers({

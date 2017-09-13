@@ -1,6 +1,6 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import ChannelTableBox from './Channel/ChannelTable/ChannelTableBox'
+import ChannelsTableBox from './Channel/ChannelsTable/ChannelsTableBox'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class IndexScreen extends React.Component {
     return (
       <div>
         <h1>Channels</h1>
-        <ChannelTableBox {...this.props}/>
+        <ChannelsTableBox {...this.props}/>
       </div>
     )
   }
