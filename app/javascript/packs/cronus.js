@@ -1,5 +1,4 @@
 import ReactOnRails from 'react-on-rails'
-import AuthApp from 'modules/auth/registers/AuthApp'
 import CronusChannelsApp from 'modules/cronus/channels/registers/CronusChannelsApp'
 import CronusCategoriesApp from 'modules/cronus/categories/registers/CronusCategoriesApp'
 import CronusProvidersApp from 'modules/cronus/providers/registers/CronusProvidersApp'
@@ -8,7 +7,6 @@ import CronusCampaignsApp from 'modules/cronus/campaigns/registers/CronusCampaig
 
 // This is how react_on_rails can see the HelloWorld in the browser.
 ReactOnRails.register({
-  AuthApp,
   CronusChannelsApp,
   CronusCategoriesApp,
   CronusProvidersApp,
