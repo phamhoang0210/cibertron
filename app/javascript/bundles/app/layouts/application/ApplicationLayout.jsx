@@ -1,11 +1,13 @@
 import React from 'react'
 import _ from 'lodash'
 import { Layout, Menu, Icon, Row, Col } from 'antd'
-const { Content, Sider } = Layout
-const SubMenu = Menu.SubMenu
-import 'styles/layouts/layout'
 import Footer from '../Footer'
 import Header from '../Header'
+
+import 'styles/layouts/layout'
+
+const { Content, Sider } = Layout
+const SubMenu = Menu.SubMenu
 
 class ApplicationLayout extends React.Component {
   constructor(props, context) {
