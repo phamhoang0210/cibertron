@@ -1,24 +1,23 @@
-# README
+# Run the app locally
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Install [Yarn](https://yarnpkg.com/en/)
+* Ensure node version is >= 6.0
+* Copy files `database.yml, secrest.yml, authservice_jwt.pub` to app/config
+* Run `bundle install`
+* Run `yarn insall`
+* Run `foreman start -f Procfile.dev`
+* Visit http://localhost:3000
 
-Things you may want to cover:
+## Installation notes
 
-* Ruby version
+It was created via: `rails new gaia --webpack=react -d mysql`
 
-* System dependencies
+## Interesting files not present in previous versions of Rails
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- [package.json](package.json)
+- [yarn.lock](yarn.lock)
+- [.babelrc](.babelrc)
+- [config/webpack/custom.js](config/webpack/custom.js)
+- [config/webpacker.yml](config/webpacker.yml)
+- [app/javascript/packs](app/javascript/packs)
+- [bin/webpack-dev-server](bin/webpack-dev-server)
