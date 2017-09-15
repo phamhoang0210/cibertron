@@ -1,6 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {USERSERVICE_BASE_URL, DEPARTMENTS_API_PATH} from '../constants/paths'
+import {AUTHSERVICE_BASE_URL, DEPARTMENTS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -29,7 +29,7 @@ export function createDepartment(params = {}) {
     dispatch(setIsCreatingDepartment())
 
     return authRequest
-      .submitEntity(`${USERSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}`, params)
+      .submitEntity(`${AUTHSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}`, params)
       .then(res => dispatch(createDepartmentSuccess(res.data)))
       .catch(error => dispatch(createDepartmentFailure(error)))
   }

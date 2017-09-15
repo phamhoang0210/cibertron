@@ -46,8 +46,9 @@ class AccountNewForm extends React.Component {
     const {newState, sharedState} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
-    const accounts = sharedState.get('accounts')
     const isCreatingAccount = newState.get('isCreatingAccount')
+
+    const departments = sharedState.get('departments')
     
     return (
       <div style={{marginTop: '8px'}}>
@@ -71,6 +72,23 @@ class AccountNewForm extends React.Component {
               </FormItem>
               <FormItem label="Name" {...this.formItemLayout}>
                 {getFieldDecorator('name')(<Input />)}
+              </FormItem>
+              <FormItem label="Department" {...this.formItemLayout}>
+                {getFieldDecorator('department_id', {
+                  rules: [{ required: true, message: 'Department is required!' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    placeholder="Please select a department"
+                  >
+                    {departments.map(department => (
+                      <Option value={`${department.get('id')}`} key={department.get('id')}>
+                        {department.get('name')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
               </FormItem>
               <FormItem label="Password" {...this.formItemLayout}>
                 {getFieldDecorator('password', {

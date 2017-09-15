@@ -5,6 +5,14 @@ import loggerMiddleware from 'libs/middlewares/loggerMiddleware'
 import reducers, { initialStates } from '../reducers'
 
 export default (props, railsContext) => {
+  const {railsContextState, indexState, newState, editState} = initialStates
+  const initialState = {
+    indexState,
+    newState,
+    editState,
+    railsContextState: railsContextState.merge(railsContext),
+  }
+
   const reducer = combineReducers({
     ...reducers,
     routing: routerReducer,
@@ -14,5 +22,5 @@ export default (props, railsContext) => {
     applyMiddleware(thunkMiddleware, loggerMiddleware)
   )(createStore);
 
-  return finalCreateStore(reducer, initialStates)
+  return finalCreateStore(reducer, initialState)
 };

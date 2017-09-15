@@ -8,6 +8,9 @@ class NewScreen extends React.Component {
 
   componentDidMount() {
     const {actions} = this.props
+    actions.fetchDepartments({per_page: 'infinite'})
+    // actions.fetchRoles({per_page: 'infinite'})
+    // actions.fetchAdminroles({per_page: 'infinite'})
   }
 
   render() {

@@ -2,32 +2,54 @@ import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
-  users: [],
-  isFetchingUsers: false,
+  companies: [],
+  supDepartments: [],
+  isFetchingCompanies: false,
+  isFetchingSupDepartments: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
   const { type, record, records, filters, error } = action
   
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_USERS: {
+    case actionTypes.SET_IS_FETCHING_COMPANIES: {
       return $$state.merge({
-        isFetchingUsers: true,
+        isFetchingCompanies: true,
       })
     }
 
-    case actionTypes.FETCH_USERS_SUCCESS: {
+    case actionTypes.FETCH_COMPANIES_SUCCESS: {
       return $$state.merge({
-        isFetchingUsers: true,
-        users: records,
+        isFetchingCompanies: false,
+        companies: records,
       })
     }
 
-    case actionTypes.FETCH_USERS_FAILURE: {
+    case actionTypes.FETCH_COMPANIES_FAILURE: {
       return $$state.merge({
-        isFetchingUsers: true,
+        isFetchingCompanies: false,
       })
     }
+
+    case actionTypes.SET_IS_FETCHING_SUP_DEPARTMENTS: {
+      return $$state.merge({
+        isFetchingSupDepartments: true,
+      })
+    }
+
+    case actionTypes.FETCH_SUP_DEPARTMENTS_SUCCESS: {
+      return $$state.merge({
+        isFetchingSupDepartments: false,
+        supDepartments: records,
+      })
+    }
+
+    case actionTypes.FETCH_SUP_DEPARTMENTS_FAILURE: {
+      return $$state.merge({
+        isFetchingSupDepartments: false,
+      })
+    }
+
     default: {
       return $$state
     }

@@ -8,8 +8,9 @@ class EditScreen extends React.Component {
 
   componentDidMount() {
     const {actions, params} = this.props
-    actions.fetchDepartment(params.id)
-    actions.fetchUsers({per_page: 'infinite'})
+    actions.fetchDepartment(params.id, {fields: 'company{},sup_department{}'})
+    actions.fetchCompanies({per_page: 'infinite'})
+    actions.fetchSupDepartments({per_page: 'infinite'})
   }
 
   render() {

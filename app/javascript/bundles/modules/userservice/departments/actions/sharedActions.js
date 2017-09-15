@@ -1,35 +1,66 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {USERSERVICE_BASE_URL, USERS_API_PATH} from '../constants/paths'
+import {AUTHSERVICE_BASE_URL, COMPANIES_API_PATH, DEPARTMENTS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
-function setIsFetchingUsers() {
+function setIsFetchingCompanies() {
   return {
-    type: actionTypes.SET_IS_FETCHING_USERS,
+    type: actionTypes.SET_IS_FETCHING_COMPANIES,
   }
 }
 
-function fetchUsersSuccess({records, filters}) {
+function fetchCompaniesSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_USERS_SUCCESS,
+    type: actionTypes.FETCH_COMPANIES_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchUsersFailure(error) {
+function fetchCompaniesFailure(error) {
   return {
-    type: actionTypes.FETCH_USERS_FAILURE,
+    type: actionTypes.FETCH_COMPANIES_FAILURE,
     error,
   }
 }
 
-export function fetchUsers(params = {}) {
+export function fetchCompanies(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingUsers())
+    dispatch(setIsFetchingCompanies())
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)
-      .then(res => dispatch(fetchUsersSuccess(res.data)))
-      .catch(error => dispatch(fetchUsersFailure(error)))
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${COMPANIES_API_PATH}`, params)
+      .then(res => dispatch(fetchCompaniesSuccess(res.data)))
+      .catch(error => dispatch(fetchCompaniesFailure(error)))
+  }
+}
+
+function setIsFetchingSupDepartments() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_SUP_DEPARTMENTS,
+  }
+}
+
+function fetchSupDepartmentsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_SUP_DEPARTMENTS_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchSupDepartmentsFailure(error) {
+  return {
+    type: actionTypes.FETCH_SUP_DEPARTMENTS_FAILURE,
+    error,
+  }
+}
+
+export function fetchSupDepartments(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingSupDepartments())
+    authRequest
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}`, params)
+      .then(res => dispatch(fetchSupDepartmentsSuccess(res.data)))
+      .catch(error => dispatch(fetchSupDepartmentsFailure(error)))
   }
 }

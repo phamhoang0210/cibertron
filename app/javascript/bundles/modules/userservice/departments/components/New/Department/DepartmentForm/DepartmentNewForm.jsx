@@ -46,7 +46,8 @@ class DepartmentNewForm extends React.Component {
     const {newState, sharedState} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
-    const users = sharedState.get('users')
+    const companies = sharedState.get('companies')
+    const supDepartments = sharedState.get('supDepartments')
     const isCreatingDepartment = newState.get('isCreatingDepartment')
     
     return (
@@ -75,16 +76,31 @@ class DepartmentNewForm extends React.Component {
               <FormItem label="Description" {...this.formItemLayout}>
                 {getFieldDecorator('description')(<TextArea />)}
               </FormItem>
-              <FormItem label="Manager" {...this.formItemLayout}>
-                {getFieldDecorator('manager_id')(
+              <FormItem label="Company" {...this.formItemLayout}>
+                {getFieldDecorator('company_id')(
                   <Select
                     showSearch
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    placeholder="Please select a manager"
+                    placeholder="Please select a company"
                   >
-                    {users.map(user => (
-                      <Option value={`${user.get('id')}`} key={user.get('id')}>
-                        {user.get('username')}
+                    {companies.map(company => (
+                      <Option value={`${company.get('id')}`} key={company.get('id')}>
+                        {company.get('name')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem label="Department" {...this.formItemLayout}>
+                {getFieldDecorator('sup_department_id')(
+                  <Select
+                    showSearch
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    placeholder="Please select a super department"
+                  >
+                    {supDepartments.map(department => (
+                      <Option value={`${department.get('id')}`} key={department.get('id')}>
+                        {department.get('name')}
                       </Option>
                     ))}
                   </Select>

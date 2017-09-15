@@ -29,9 +29,13 @@ class DepartmentTableBox extends React.Component {
       dataIndex: 'description',
       key: 'description',
     }, {
-      title: 'Manager',
-      dataIndex: 'manager.username',
-      key: 'manager_username',
+      title: 'Department',
+      dataIndex: 'sup_department.name',
+      key: 'sup_department_name',
+    }, {
+      title: 'Company',
+      dataIndex: 'company.name',
+      key: 'company_name',
     }, {
       title: 'Action',
       key: 'action',
