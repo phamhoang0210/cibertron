@@ -21,10 +21,6 @@ class AccountTableBox extends React.Component {
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Username',
-      dataIndex: 'nickname',
-      key: 'nickname',
-    }, {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -32,6 +28,22 @@ class AccountTableBox extends React.Component {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+    }, {
+      title: 'Role',
+      dataIndex: 'role.name',
+      key: 'role_name',
+    }, {
+      title: 'Admin role',
+      dataIndex: 'adminrole.name',
+      key: 'adminrole_name',
+    }, {
+      title: 'Department',
+      dataIndex: 'department.name',
+      key: 'department_name',
+    }, {
+      title: 'Company',
+      dataIndex: 'company.name',
+      key: 'company_name',
     }, {
       title: 'Action',
       key: 'action',

@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   accounts: [],
   accountFilters: {
     ...defaultFilters,
-    fields: 'team{}'
+    fields: 'department{},role{},adminrole{},company{}'
   },
   isFetchingAccounts: false,
 })

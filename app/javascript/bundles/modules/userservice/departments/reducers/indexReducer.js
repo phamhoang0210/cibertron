@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   departments: [],
   departmentFilters: {
     ...defaultFilters,
-    fields: 'manager{}'
+    fields: 'sup_department{},company{}'
   },
   isFetchingDepartments: false,
 })

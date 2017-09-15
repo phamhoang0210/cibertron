@@ -1,6 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {USERSERVICE_BASE_URL, DEPARTMENTS_API_PATH} from '../constants/paths'
+import {AUTHSERVICE_BASE_URL, DEPARTMENTS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -28,7 +28,7 @@ export function fetchDepartment(departmentId, params = {}) {
   return dispatch => {
     dispatch(setIsFetchingDepartment())
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}/${departmentId}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}/${departmentId}`, params)
       .then(res => dispatch(fetchDepartmentSuccess(res.data)))
       .catch(error => dispatch(fetchDepartmentFailure(error)))
   }
@@ -60,7 +60,7 @@ export function updateDepartment(departmentId, params = {}) {
   return dispatch => {
     dispatch(setIsUpdatingDepartment(departmentId))
     authRequest
-      .putEntity(`${USERSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}/${departmentId}`, params)
+      .putEntity(`${AUTHSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}/${departmentId}`, params)
       .then(res => dispatch(updateDepartmentSuccess(res.data)))
       .catch(error => dispatch(updateDepartmentFailure(error, departmentId)))
   }
