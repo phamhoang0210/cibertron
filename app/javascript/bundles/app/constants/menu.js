@@ -33,6 +33,20 @@ export const menuData = [
       },
     ],
   },
+
+  {
+    type: 'subMenu',
+    path: '/sol',
+    title: (<span><Icon type='solution' /><span>SOL</span></span>),
+    items: [
+      {
+        type: 'link', 
+        path: '/sol/promos',
+        title: 'Promos',
+      },
+    ],
+  },
+
   {
     type: 'subMenu',
     path: '/userservice',
@@ -49,5 +63,5 @@ export const menuData = [
         title: 'Departments',
       },
     ],
-  }
+  },
 ]
