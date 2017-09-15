@@ -1,4 +1,4 @@
-import { SIGN_IN_PATH } from 'app/constants/paths'
+import { SIGN_IN_PATH, SIGN_OUT_PATH } from 'app/constants/paths'
 
 export function getCredentials() {
   return {
@@ -35,4 +35,8 @@ export function requireAuth() {
   if(!isAuthenticated()) {
     window.location.href = `${SIGN_IN_PATH}?redirect_url=${window.location.href}`
   }
+}
+
+export function handleAuthFailure() {
+  window.location.href = SIGN_OUT_PATH
 }
