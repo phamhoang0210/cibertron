@@ -1,1 +1,1 @@
-actionTypes.js
+// fetch campaigns
