@@ -5,10 +5,10 @@ const SubMenu = Menu.SubMenu
 class Header extends React.Component {
   render() {
     return (
-      <Layout.Header style={{ background: '#fff', padding: 0 }}>
+      <Layout.Header style={{ background: '#fff', padding: 0, height: 48}}>
         <Row type="flex" justify="end">
           <Col span={4}>
-            <Menu mode="horizontal" onClick={null} style={{ lineHeight: '64px', float: 'right' }}>
+            <Menu mode="horizontal" onClick={null} style={{ lineHeight: '48px', float: 'right' }}>
               <SubMenu
                 title={<span>
                   <Icon type="user" />

@@ -37,10 +37,6 @@ class NodesTableBox extends React.Component {
       dataIndex: 'channel.code',
       key: 'channel_code',
     }, {
-      title: 'Category',
-      dataIndex: 'category.name',
-      key: 'category_name',
-    }, {
       title: 'Action',
       key: 'action',
       render: (cell, row) => {

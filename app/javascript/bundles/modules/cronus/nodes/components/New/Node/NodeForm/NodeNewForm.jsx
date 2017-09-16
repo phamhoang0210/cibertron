@@ -8,6 +8,8 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 const Option = Select.Option
 const FormItem = Form.Item
 
+const CODE_DELIMITER = '|$|'
+
 class NodeNewForm extends React.Component {
   constructor(props) {
     super(props)
@@ -47,10 +49,17 @@ class NodeNewForm extends React.Component {
   formatFormData(values) {
     let params = values
     const worker = params.worker
-    if(worker) {
+    const product = params.product
+
+    if(worker && worker.length == 2) {
       params.worker_type = worker[0]
-      params.worker_id = worker[1][0]
-      params.worker_code = worker[1][1]
+      params.worker_id = worker[1].split(CODE_DELIMITER)[0]
+      params.worker_code = worker[1].split(CODE_DELIMITER)[1]
+    }
+    if(product && product.length == 2) {
+      params.product_type = product[0]
+      params.product_id = product[1].split(CODE_DELIMITER)[0]
+      params.product_code = product[1].split(CODE_DELIMITER)[1]
     }
 
     return params
@@ -59,10 +68,16 @@ class NodeNewForm extends React.Component {
   getWorkerCascaderOptions() {
     const {newState, sharedState} = this.props
     const users = sharedState.get('users').map(user => (
-      Map({value: [user.get('id'), user.get('username')], label: user.get('id')})
+      Map({
+        value: `${user.get('id')}${CODE_DELIMITER}${user.get('username')}`,
+        label: user.get('username')
+      })
     ))
     const departments = sharedState.get('departments').map(department => (
-      Map({value: [department.get('id'), department.get('code')], label: department.get('name')})
+      Map({
+        value: `${department.get('id')}${CODE_DELIMITER}${department.get('code')}`,
+        label: department.get('name')
+      })
     ))
 
     return [
@@ -79,6 +94,46 @@ class NodeNewForm extends React.Component {
     ]
   }
 
+  getProductCascaderOptions() {
+    const {newState, sharedState} = this.props
+    const courses = sharedState.get('courses').map(course => (
+      Map({
+        value: `${course.get('id')}${CODE_DELIMITER}${course.get('code')}`,
+        label: `${course.get('code')} - ${course.get('name')}`
+      })
+    ))
+    const combos = sharedState.get('combos').map(combo => (
+      Map({
+        value: `${combo.get('id')}${CODE_DELIMITER}${combo.get('code')}`,
+        label: `${combo.get('code')} - ${combo.get('name')}`
+      })
+    ))
+    const targets = sharedState.get('targets').map(target => (
+      Map({
+        value: `${target.get('id')}${CODE_DELIMITER}${target.get('code')}`,
+        label: `${target.get('code')} - ${target.get('name')}`
+      })
+    ))
+
+    return [
+      {
+        value: 'Course',
+        label: 'Course',
+        children: courses.toJS(),
+      },
+      {
+        value: 'Combo',
+        label: 'Combo',
+        children: combos.toJS(),
+      },
+      {
+        value: 'Target',
+        label: 'List',
+        children: targets.toJS(),
+      }
+    ]
+  }
+
   render() {
     const {newState, sharedState} = this.props
     const { getFieldDecorator } = this.props.form
@@ -86,6 +141,7 @@ class NodeNewForm extends React.Component {
     const isCreatingNode = newState.get('isCreatingNode')
     const channels = sharedState.get('channels')
     const workerCascaderOptions = this.getWorkerCascaderOptions()
+    const productCascaderOptions = this.getProductCascaderOptions()
     
     return (
       <div style={{marginTop: '8px'}}>
@@ -126,7 +182,20 @@ class NodeNewForm extends React.Component {
               </FormItem>
               <FormItem label="Worker" {...this.formItemLayout}>
                 {getFieldDecorator('worker')(
-                  <Cascader options={workerCascaderOptions} onChange={null} placeholder="Please select worker" />
+                  <Cascader
+                    options={workerCascaderOptions}
+                    placeholder="Please select worker"
+                    showSearch
+                  />
+                )}
+              </FormItem>
+              <FormItem label="Product" {...this.formItemLayout}>
+                {getFieldDecorator('product')(
+                  <Cascader
+                    options={productCascaderOptions}
+                    placeholder="Please select product"
+                    showSearch
+                  />
                 )}
               </FormItem>
               <FormItem  {...this.buttonItemLayout}>
