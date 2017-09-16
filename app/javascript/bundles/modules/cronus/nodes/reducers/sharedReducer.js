@@ -3,9 +3,12 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   channels: [],
-  categories: [],
+  users: [],
+  departments: [],
+
   isFetchingChannels: false,
-  isFetchingCategories: false,
+  isFetchingUsers: false,
+  isFetchingDepartments: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -28,6 +31,44 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_CHANNELS_FAILURE: {
       return $$state.merge({
         isFetchingChannels: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_USERS: {
+      return $$state.merge({
+        isFetchingUsers: true,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_SUCCESS: {
+      return $$state.merge({
+        isFetchingUsers: false,
+        users: records,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_FAILURE: {
+      return $$state.merge({
+        isFetchingUsers: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_DEPARTMENTS: {
+      return $$state.merge({
+        isFetchingDepartments: true,
+      })
+    }
+
+    case actionTypes.FETCH_DEPARTMENTS_SUCCESS: {
+      return $$state.merge({
+        isFetchingDepartments: false,
+        departments: records,
+      })
+    }
+
+    case actionTypes.FETCH_DEPARTMENTS_FAILURE: {
+      return $$state.merge({
+        isFetchingDepartments: false,
       })
     }
     
