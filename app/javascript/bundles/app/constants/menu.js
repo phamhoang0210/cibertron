@@ -4,7 +4,7 @@ export const menuData = [
   {
     type: 'subMenu',
     path: '/cronus',
-    title: (<span><Icon type='star' /><span>Cronus</span></span>),
+    title: (<span><Icon type='star' /><span>CRONUS</span></span>),
     items: [
       { 
         type: 'link',
@@ -31,6 +31,11 @@ export const menuData = [
         path: '/cronus/categories',
         title: 'Categories',
       },
+      {
+        type: 'link',
+        path: '/cronus/campaign_bydates',
+        title: 'Campaign bydates',
+      },
     ],
   },
 
@@ -50,7 +55,7 @@ export const menuData = [
   {
     type: 'subMenu',
     path: '/userservice',
-    title: (<span><Icon type='user' /><span>Userservice</span></span>),
+    title: (<span><Icon type='user' /><span>USERSERVICE</span></span>),
     items: [
       {
         type: 'link', 

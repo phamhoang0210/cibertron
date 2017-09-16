@@ -76,7 +76,7 @@ GEM
     jwtauth (0.3.1)
       jwt (>= 1.5.6)
     kgio (2.11.0)
-    libv8 (5.3.332.38.5-x86_64-linux)
+    libv8 (5.3.332.38.5)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)

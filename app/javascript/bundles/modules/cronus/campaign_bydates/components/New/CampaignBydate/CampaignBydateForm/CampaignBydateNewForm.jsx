@@ -1,14 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
-import { Map } from 'immutable'
 import { browserHistory } from 'react-router'
-import { Form, Input, Row, Col, Button, Select, Alert, Cascader } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert } from 'antd'
+const { TextArea } = Input
+const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
 
-const Option = Select.Option
 const FormItem = Form.Item
 
-class NodeNewForm extends React.Component {
+class CampaignBydateNewForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -24,7 +24,6 @@ class NodeNewForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
-      'formatFormData',
     ])
   }
 
@@ -38,54 +37,18 @@ class NodeNewForm extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let params = this.formatFormData(values)
-        actions.createNode({record: params})
+        actions.createCampaignBydate({record: values})
       }
     })
-  }
-
-  formatFormData(values) {
-    let params = values
-    const worker = params.worker
-    if(worker) {
-      params.worker_type = worker[0]
-      params.worker_id = worker[1][0]
-      params.worker_code = worker[1][1]
-    }
-
-    return params
-  }
-
-  getWorkerCascaderOptions() {
-    const {newState, sharedState} = this.props
-    const users = sharedState.get('users').map(user => (
-      Map({value: [user.get('id'), user.get('username')], label: user.get('id')})
-    ))
-    const departments = sharedState.get('departments').map(department => (
-      Map({value: [department.get('id'), department.get('code')], label: department.get('name')})
-    ))
-
-    return [
-      {
-        value: 'User',
-        label: 'User',
-        children: users.toJS(),
-      },
-      {
-        value: 'Department',
-        label: 'Department',
-        children: departments.toJS(),
-      }
-    ]
   }
 
   render() {
     const {newState, sharedState} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
-    const isCreatingNode = newState.get('isCreatingNode')
-    const channels = sharedState.get('channels')
-    const workerCascaderOptions = this.getWorkerCascaderOptions()
+    const isCreatingCampaignBydate = newState.get('isCreatingCampaignBydate')
+    const campaigns = sharedState.get('campaigns')
+    const categories = sharedState.get('categories')
     
     return (
       <div style={{marginTop: '8px'}}>
@@ -102,35 +65,53 @@ class NodeNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
+              <FormItem label="Name" {...this.formItemLayout}>
+                {getFieldDecorator('name', {
+                  rules: [{ required: true, message: 'Name is required!' }],
+                })(<Input />)}
+              </FormItem>
               <FormItem label="Code" {...this.formItemLayout}>
                 {getFieldDecorator('code', {
                   rules: [{ required: true, message: 'Code is required!' }],
                 })(<Input />)}
               </FormItem>
-              <FormItem label="Channel" {...this.formItemLayout}>
-                {getFieldDecorator('channel_id', {
-                  rules: [{ required: true, message: 'Channel is required!' }],
+              <FormItem label="Description" {...this.formItemLayout}>
+                {getFieldDecorator('description')(<TextArea />)}
+              </FormItem>
+              <FormItem label="Campaign" {...this.formItemLayout}>
+                {getFieldDecorator('campaign_id', {
+                  rules: [{ required: true, message: 'Campaign is required!' }],
                 })(
                   <Select
                     showSearch
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    placeholder="Please select a channel"
+                    placeholder="Please select a campaign"
                   >
-                    {channels.map(channel => (
-                      <Option value={`${channel.get('id')}`} key={channel.get('id')}>
-                        {channel.get('name')}
+                    {campaigns.map(campaign => (
+                      <Option value={`${campaign.get('id')}`} key={campaign.get('id')}>
+                        {campaign.get('name')}
                       </Option>
                     ))}
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Worker" {...this.formItemLayout}>
-                {getFieldDecorator('worker')(
-                  <Cascader options={workerCascaderOptions} onChange={null} placeholder="Please select worker" />
+              <FormItem label="Category" {...this.formItemLayout}>
+                {getFieldDecorator('category_id')(
+                  <Select
+                    showSearch
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    placeholder="Please select a category"
+                  >
+                    {categories.map(category => (
+                      <Option value={`${category.get('id')}`} key={category.get('id')}>
+                        {category.get('name')}
+                      </Option>
+                    ))}
+                  </Select>
                 )}
               </FormItem>
               <FormItem  {...this.buttonItemLayout}>
-                <Button type="primary" htmlType="submit" loading={isCreatingNode}>
+                <Button type="primary" htmlType="submit" loading={isCreatingCampaignBydate}>
                   Create
                 </Button>
                 <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
@@ -145,4 +126,4 @@ class NodeNewForm extends React.Component {
   }
 }
 
-export default Form.create()(NodeNewForm)
+export default Form.create()(CampaignBydateNewForm)
