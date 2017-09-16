@@ -16,7 +16,7 @@ class ContentBreadcrumb extends React.Component {
         {_paths.map(path => {
           const breadcrumb = breadcrumbData.getIn(path)
           let link = path.join('/')
-          if (link == '') { link = 'http://localhost:3000/'}
+          if (link == '') { link = '/'}
           return (
             <Breadcrumb.Item key={link}>
               {breadcrumb && (
