@@ -106,6 +106,8 @@ GEM
     pry-rails (0.3.6)
       pry (>= 0.10.4)
     public_suffix (3.0.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     pureapi (0.5.1)
       activesupport (>= 3.0.0)
     rack (2.0.3)
@@ -216,6 +218,7 @@ DEPENDENCIES
   mini_racer
   mysql2 (>= 0.3.18, < 0.5)
   pry-rails
+  pundit
   pureapi (~> 0.5.1)
   rails (~> 5.1.4)
   react_on_rails (~> 9.0.1)

@@ -9,4 +9,10 @@ Jwtauth.setup do |config|
 
   # Entity represent for current session
   # config.session_entity = User
+
+  # Define current service (String) contain entities
+  config.service_name = 'gaia'
+
+  # Define namespace (String | Array) include +current service+ for service
+  config.namespace = 'gaia'
 end
