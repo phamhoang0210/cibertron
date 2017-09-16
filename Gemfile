@@ -63,5 +63,5 @@ gem 'react_on_rails', '~> 9.0.1'
 gem 'mini_racer', platforms: :ruby
 
 # Use for basic api of resources
-gem 'pureapi', '~> 0.3.0'
-gem 'jwtauth', '~> 0.2.3'
+gem 'pureapi', '~> 0.5.1'
+gem 'jwtauth', '~> 0.3.1'
