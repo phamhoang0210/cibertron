@@ -38,7 +38,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.SET_IS_DELETING_PROVIDER: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('providers', providers => (
           providers.update(
             providers.findIndex(c => c.get('id') == providerId),
@@ -53,7 +53,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_PROVIDER_SUCCESS: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('providers', providers => (
           providers.update(
             providers.findIndex(c => c.get('id') == providerId),
@@ -68,7 +68,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_PROVIDER_FAILURE: {
-      $$state.withMutations(state => (
+     return  $$state.withMutations(state => (
         state.update('providers', providers => (
           providers.update(
             providers.findIndex(c => c.get('id') == providerId),

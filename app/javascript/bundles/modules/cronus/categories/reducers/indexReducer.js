@@ -38,7 +38,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.SET_IS_DELETING_CATEGORY: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('categories', categories => (
           categories.update(
             categories.findIndex(c => c.get('id') == categoryId),
@@ -53,7 +53,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_CATEGORY_SUCCESS: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('categories', categories => (
           categories.update(
             categories.findIndex(c => c.get('id') == categoryId),
@@ -68,7 +68,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_CATEGORY_FAILURE: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('categories', categories => (
           categories.update(
             categories.findIndex(c => c.get('id') == categoryId),

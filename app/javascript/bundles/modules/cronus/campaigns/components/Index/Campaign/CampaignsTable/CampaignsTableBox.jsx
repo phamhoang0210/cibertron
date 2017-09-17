@@ -41,7 +41,7 @@ class CampaignsTableBox extends React.Component {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger">
+              <Button type="danger" loading={row.isDeleting}>
                 Delete
               </Button>
             </Popconfirm>
