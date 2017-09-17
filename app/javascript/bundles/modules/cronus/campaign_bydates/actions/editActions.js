@@ -1,6 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {CRONUS_BASE_URL, CAMPAIGN_BYDATESS_API_PATH} from '../constants/paths'
+import {CRONUS_BASE_URL, CAMPAIGN_BYDATES_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -28,40 +28,8 @@ export function fetchCampaignBydate(campaignBydateId, params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaignBydate())
     authRequest
-      .fetchEntities(`${CRONUS_BASE_URL}${CAMPAIGN_BYDATESS_API_PATH}/${campaignBydateId}`, params)
+      .fetchEntities(`${CRONUS_BASE_URL}${CAMPAIGN_BYDATES_API_PATH}/${campaignBydateId}`, params)
       .then(res => dispatch(fetchCampaignBydateSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignBydateFailure(error)))
-  }
-}
-
-function setIsUpdatingCampaignBydate(campaignBydateId) {
-  return {
-    type: actionTypes.SET_IS_UPDATING_CAMPAIGN_BYDATES,
-    campaignBydateId,
-  }
-}
-
-function updateCampaignBydateSuccess(record) {
-  return {
-    type: actionTypes.UPDATE_CAMPAIGN_BYDATES_SUCCESS,
-    record,
-  }
-}
-
-function updateCampaignBydateFailure(error, campaignBydateId) {
-  return {
-    type: actionTypes.UPDATE_CAMPAIGN_BYDATES_FAILURE,
-    error,
-    campaignBydateId,
-  }
-}
-
-export function updateCampaignBydate(campaignBydateId, params = {}) {
-  return dispatch => {
-    dispatch(setIsUpdatingCampaignBydate(campaignBydateId))
-    authRequest
-      .putEntity(`${CRONUS_BASE_URL}${CAMPAIGN_BYDATESS_API_PATH}/${campaignBydateId}`, params)
-      .then(res => dispatch(updateCampaignBydateSuccess(res.data)))
-      .catch(error => dispatch(updateCampaignBydateFailure(error, campaignBydateId)))
   }
 }

@@ -38,7 +38,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.SET_IS_DELETING_CHANNEL: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('channels', channels => (
           channels.update(
             channels.findIndex(c => c.get('id') == channelId),
@@ -53,7 +53,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_CHANNEL_SUCCESS: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('channels', channels => (
           channels.update(
             channels.findIndex(c => c.get('id') == channelId),
@@ -68,7 +68,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_CHANNEL_FAILURE: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('channels', channels => (
           channels.update(
             channels.findIndex(c => c.get('id') == channelId),

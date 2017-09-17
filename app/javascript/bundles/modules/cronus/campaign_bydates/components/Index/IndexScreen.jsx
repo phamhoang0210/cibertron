@@ -1,7 +1,6 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import CampaignBydatesTableBox from './CampaignBydate/CampaignBydatesTable/CampaignBydatesTableBox'
-
+import CampaignsTableBox from './Campaign/CampaignsTable/CampaignsTableBox'
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -9,17 +8,17 @@ class IndexScreen extends React.Component {
 
   componentDidMount() {
     const {actions, indexState} = this.props
-    const campaignBydateParams = getFilterParams(indexState.get('campaignBydateFilters'))
-    actions.fetchCampaignBydates(campaignBydateParams)
+    const campaignParams = getFilterParams(indexState.get('campaignFilters'))
+    actions.fetchCampaigns(campaignParams)
+    actions.fetchListCampaign({per_page: 'infinite'})
   }
 
   render() {
     const {indexState} = this.props
     return (
       <div>
-        <h1>Filter box</h1>
-        <hr/>
-        <CampaignBydatesTableBox {...this.props}/>
+        <h1>Campaign bydates</h1>
+        <CampaignsTableBox {...this.props}/>
       </div>
     )
   }
