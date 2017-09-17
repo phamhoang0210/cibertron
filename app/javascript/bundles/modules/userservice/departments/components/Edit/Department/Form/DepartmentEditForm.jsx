@@ -48,7 +48,8 @@ class DepartmentEditForm extends React.Component {
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const department = editState.get('department')
-    const users = sharedState.get('users')
+    const companies = sharedState.get('companies')
+    const supDepartments = sharedState.get('supDepartments')
     const isUpdatingDepartment = editState.get('isUpdatingDepartment')
     const isFetchingDepartment = editState.get('isFetchingDepartment')
     
@@ -89,18 +90,35 @@ class DepartmentEditForm extends React.Component {
                     initialValue: department.get('description')
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Manager" {...this.formItemLayout}>
-                  {getFieldDecorator('manager_id', {
-                    initialValue: `${department.get('manager_id')}`
+                <FormItem label="Company" {...this.formItemLayout}>
+                  {getFieldDecorator('company_id', {
+                    initialValue: `${department.getIn(['company', 'id'])}`
                   })(
                     <Select
                       showSearch
                       filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                      placeholder="Please select a manager"
+                      placeholder="Please select a company"
                     >
-                      {users.map(user => (
-                        <Option value={`${user.get('id')}`} key={user.get('id')}>
-                          {user.get('username')}
+                      {companies.map(company => (
+                        <Option value={`${company.get('id')}`} key={company.get('id')}>
+                          {company.get('name')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label="Department" {...this.formItemLayout}>
+                  {getFieldDecorator('sup_department_id', {
+                    initialValue: `${department.getIn(['sup_department', 'id'])}`
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      placeholder="Please select a super department"
+                    >
+                      {supDepartments.map(department => (
+                        <Option value={`${department.get('id')}`} key={department.get('id')}>
+                          {department.get('name')}
                         </Option>
                       ))}
                     </Select>

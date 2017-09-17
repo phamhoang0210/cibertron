@@ -9,6 +9,11 @@ class NewScreen extends React.Component {
   componentDidMount() {
     const {actions} = this.props
     actions.fetchChannels({per_page: 'infinite'})
+    actions.fetchUsers({per_page: 'infinite'})
+    actions.fetchDepartments({per_page: 'infinite'})
+    actions.fetchTargets({per_page: 'infinite'})
+    actions.fetchCourses({per_page: 'infinite'})
+    actions.fetchCombos({per_page: 'infinite'})
   }
 
   render() {

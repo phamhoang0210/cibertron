@@ -1,7 +1,12 @@
 import request from 'axios'
 import ReactOnRails from 'react-on-rails'
-import {getCredentials} from 'helpers/auth/authHelper'
+import { getCredentials, handleAuthFailure } from 'helpers/auth/authHelper'
 const BASE_API_URL = ''
+
+function validateStatus(status) {
+  if (status == 401) { handleAuthFailure() }
+  return status >= 200 && status < 300
+}
 
 export default {
 
@@ -14,6 +19,7 @@ export default {
       responseType: 'json',
       params: params,
       headers: credentials,
+      validateStatus: validateStatus,
     });
   },
 
@@ -27,6 +33,7 @@ export default {
       responseType: 'json',
       headers: {...credentials, ...railsAuthenticityHeaders},
       data: entity,
+      validateStatus: validateStatus,
     });
   },
 
@@ -40,6 +47,7 @@ export default {
       responseType: 'json',
       headers: {...credentials, ...railsAuthenticityHeaders},
       data: entity,
+      validateStatus: validateStatus,
     });
   },
 
@@ -53,6 +61,7 @@ export default {
       responseType: 'json',
       headers: {...credentials, ...railsAuthenticityHeaders},
       data: entity,
+      validateStatus: validateStatus,
     });
   },
 
@@ -66,6 +75,7 @@ export default {
       responseType: 'json',
       headers: {...credentials, ...railsAuthenticityHeaders},
       data: entity,
+      validateStatus: validateStatus,
     });
   },
 };

@@ -25,7 +25,7 @@ class UserserviceLayout extends React.Component {
           <Header/>
           <Content style={{ margin: '16px 16px 0', overflow: 'initial' }}>
             <ContentBreadcrumb location={location}/>
-            <div style={{ marginTop: 16,padding: 16, background: '#fff' }}>
+            <div style={{ marginTop: 16, padding: '4px 16px 0px 16px', background: '#fff' }}>
               {this.props.children}
             </div>
           </Content>

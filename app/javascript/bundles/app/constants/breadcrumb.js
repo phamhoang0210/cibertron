@@ -47,6 +47,14 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         },
       },
+      // Home > Cronus > Campaign bydates
+      campaign_bydates: {
+        title: 'Campaign bydates',
+        // Home > Cronus > Campaign bydates > Create
+        new: {
+          title: 'Create'
+        }
+      }
     },
     // Home > SOL
     sol: {

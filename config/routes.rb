@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       option.resources :providers
       option.resources :nodes
       option.resources :campaigns
+      option.resources :campaign_bydates
     end
   end
 

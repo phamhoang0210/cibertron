@@ -1,6 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {USERSERVICE_BASE_URL, DEPARTMENTS_API_PATH} from '../constants/paths'
+import {AUTHSERVICE_BASE_URL, DEPARTMENTS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -29,7 +29,7 @@ export function fetchDepartments(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingDepartments())
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}`, params)
       .then(res => dispatch(fetchDepartmentsSuccess(res.data)))
       .catch(error => dispatch(fetchDepartmentsFailure(error)))
   }
@@ -60,7 +60,7 @@ export function deleteDepartment(departmentId) {
   return (dispatch, getStore) => {
     dispatch(setIsDeletingDepartment(departmentId))
     authRequest
-      .deleteEntity(`${USERSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}/${departmentId}`)
+      .deleteEntity(`${AUTHSERVICE_BASE_URL}${DEPARTMENTS_API_PATH}/${departmentId}`)
       .then(res => {
         dispatch(deleteDepartmentSuccess(res.data))
         const filterParams = getFilterParams(getStore().indexState.get('departmentFilters'))

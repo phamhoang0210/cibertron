@@ -8,7 +8,8 @@ class NewScreen extends React.Component {
 
   componentDidMount() {
     const {actions} = this.props
-    actions.fetchUsers({per_page: 'infinite'})
+    actions.fetchCompanies({per_page: 'infinite'})
+    actions.fetchSupDepartments({per_page: 'infinite'})
   }
 
   render() {
