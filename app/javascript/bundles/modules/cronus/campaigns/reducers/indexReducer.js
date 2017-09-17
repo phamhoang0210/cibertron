@@ -38,7 +38,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.SET_IS_DELETING_CAMPAIGN: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('campaigns', campaigns => (
           campaigns.update(
             campaigns.findIndex(c => c.get('id') == campaignId),
@@ -53,7 +53,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_CAMPAIGN_SUCCESS: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('campaigns', campaigns => (
           campaigns.update(
             campaigns.findIndex(c => c.get('id') == campaignId),
@@ -68,7 +68,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_CAMPAIGN_FAILURE: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('campaigns', campaigns => (
           campaigns.update(
             campaigns.findIndex(c => c.get('id') == campaignId),

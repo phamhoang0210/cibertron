@@ -38,7 +38,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.SET_IS_DELETING_DEPARTMENT: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('departments', departments => (
           departments.update(
             departments.findIndex(c => c.get('id') == departmentId),
@@ -53,7 +53,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_DEPARTMENT_SUCCESS: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('departments', departments => (
           departments.update(
             departments.findIndex(c => c.get('id') == departmentId),
@@ -68,7 +68,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_DEPARTMENT_FAILURE: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('departments', departments => (
           departments.update(
             departments.findIndex(c => c.get('id') == departmentId),

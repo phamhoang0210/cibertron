@@ -38,7 +38,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.SET_IS_DELETING_NODE: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('nodes', nodes => (
           nodes.update(
             nodes.findIndex(c => c.get('id') == nodeId),
@@ -53,7 +53,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_NODE_SUCCESS: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('nodes', nodes => (
           nodes.update(
             nodes.findIndex(c => c.get('id') == nodeId),
@@ -68,7 +68,7 @@ export default function indexReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.DELETE_NODE_FAILURE: {
-      $$state.withMutations(state => (
+      return $$state.withMutations(state => (
         state.update('nodes', nodes => (
           nodes.update(
             nodes.findIndex(c => c.get('id') == nodeId),
