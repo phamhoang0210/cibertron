@@ -44,6 +44,26 @@ export const menuData = [
         path: '/sol/promos',
         title: 'Promos',
       },
+      {
+        type: 'link', 
+        path: '/sol/courses',
+        title: 'Courses',
+      },
+      {
+        type: 'link', 
+        path: '/sol/combos',
+        title: 'Combos',
+      },
+      {
+        type: 'link', 
+        path: '/sol/targets',
+        title: 'Targets',
+      },
+      {
+        type: 'link', 
+        path: '/sol/systemlogs',
+        title: 'System Logs',
+      },
     ],
   },
 
