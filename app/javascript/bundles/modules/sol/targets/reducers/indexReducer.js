@@ -5,45 +5,45 @@ import { defaultFilters } from 'app/constants/initialState'
 
 export const initialState = Immutable.fromJS({
   alert: null,
-  courses: [],
-  courseFilters: {
+  targets: [],
+  targetFilters: {
     ...defaultFilters,
     fields: ''
   },
-  isFetchingCourses: false,
+  isFetchingTargets: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
-  const { type, record, records, filters, error, courseId } = action
+  const { type, record, records, filters, error, targetId } = action
   
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_COURSES: {
+    case actionTypes.SET_IS_FETCHING_TARGETS: {
       return $$state.merge({
-        isFetchingNodes: true,
+        isFetchingTargets: true,
       })
     }
 
-    case actionTypes.FETCH_COURSES_SUCCESS: {
+    case actionTypes.FETCH_TARGETS_SUCCESS: {
       return $$state.merge({
-        isFetchingNodes: false,
-        courses: records,
-        courseFilters: filters,
+        isFetchingTargets: false,
+        targets: records,
+        targetFilters: filters,
       })
     }
 
-    case actionTypes.FETCH_COURSES_FAILURE: {
+    case actionTypes.FETCH_TARGETS_FAILURE: {
       return $$state.merge({
-        isFetchingNodes: false,
+        isFetchingTargets: false,
       })
     }
 
-    case actionTypes.SET_IS_DELETING_COURSE: {
+    case actionTypes.SET_IS_DELETING_TARGET: {
       $$state.withMutations(state => (
-        state.update('courses', courses => (
-          courses.update(
-            courses.findIndex(c => c.get('id') == courseId),
-            courseItem => (
-              courseItem.merge({
+        state.update('targets', targets => (
+          targets.update(
+            targets.findIndex(c => c.get('id') == targetId),
+            targetItem => (
+              targetItem.merge({
                 isDeleting: true,
               })
             )
@@ -52,13 +52,13 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
-    case actionTypes.DELETE_COURSE_SUCCESS: {
+    case actionTypes.DELETE_TARGET_SUCCESS: {
       $$state.withMutations(state => (
-        state.update('courses', courses => (
-          courses.update(
-            courses.findIndex(c => c.get('id') == courseId),
-            courseItem => (
-              courseItem.merge({
+        state.update('targets', targets => (
+          targets.update(
+            targets.findIndex(c => c.get('id') == targetId),
+            targetItem => (
+              targetItem.merge({
                 isDeleting: false,
               })
             )
@@ -67,13 +67,13 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
-    case actionTypes.DELETE_COURSE_FAILURE: {
+    case actionTypes.DELETE_TARGET_FAILURE: {
       $$state.withMutations(state => (
-        state.update('courses', courses => (
-          courses.update(
-            courses.findIndex(c => c.get('id') == courseId),
-            courseItem => (
-              courseItem.merge({
+        state.update('targets', targets => (
+          targets.update(
+            targets.findIndex(c => c.get('id') == targetId),
+            targetItem => (
+              targetItem.merge({
                 isDeleting: false,
               })
             )
