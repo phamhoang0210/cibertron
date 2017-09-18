@@ -36,13 +36,9 @@ class PromosTableBox extends React.Component {
             key: 'operation',
             render: () => (
               <span className={'table-operation'}>
-                <a href="#">Pause</a>
+                <a href="#">Pause</a>&nbsp;
                 <a href="#">Stop</a>
-                <Dropdown overlay={menu}>
-                  <a href="#">
-                    More <Icon type="down" />
-                  </a>
-                </Dropdown>
+                
               </span>
             ),
           },
@@ -68,12 +64,15 @@ class PromosTableBox extends React.Component {
 
       const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Platform', dataIndex: 'platform', key: 'platform' },
-        { title: 'Version', dataIndex: 'version', key: 'version' },
-        { title: 'Upgraded', dataIndex: 'upgradeNum', key: 'upgradeNum' },
+        { title: 'Type', dataIndex: 'platform', key: 'platform' },
+        { title: 'Target', dataIndex: 'version', key: 'version' },
         { title: 'Creator', dataIndex: 'creator', key: 'creator' },
         { title: 'Date', dataIndex: 'createdAt', key: 'createdAt' },
-        { title: 'Action', key: 'operation', render: () => <a href="#">Publish</a> },
+        { title: 'Action', key: 'operation', render: () => 
+            <span className={'table-operation'}>
+              <a href="#">Edit</a>&nbsp;
+              <a href="#">Delete</a>  
+            </span> },
       ];
 
       const data = [];
