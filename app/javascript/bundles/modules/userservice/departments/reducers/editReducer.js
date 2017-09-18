@@ -45,7 +45,9 @@ export default function editReducer($$state = initialState, action = null) {
         isUpdatingDepartment: false,
         department: record,
         alert: createSuccessAlert('Department was successfully updated'),
-      })
+      }).update('department', departmentItem => (
+        departmentItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_DEPARTMENT_FAILURE: {

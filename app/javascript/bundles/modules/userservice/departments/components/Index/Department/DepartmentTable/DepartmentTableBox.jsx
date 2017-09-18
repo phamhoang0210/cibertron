@@ -102,6 +102,7 @@ class DepartmentTableBox extends React.Component {
           Add
         </Button>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={departments.toJS()}
           pagination={{

@@ -45,7 +45,9 @@ export default function editReducer($$state = initialState, action = null) {
         isUpdatingLead: false,
         lead: record,
         alert: createSuccessAlert('Lead was successfully updated'),
-      })
+      }).update('lead', leadItem => (
+        leadItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_LEAD_FAILURE: {

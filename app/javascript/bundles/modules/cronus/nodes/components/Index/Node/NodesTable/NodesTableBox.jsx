@@ -102,6 +102,7 @@ class NodesTableBox extends React.Component {
           Add
         </Button>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={nodes.toJS()}
           pagination={{
