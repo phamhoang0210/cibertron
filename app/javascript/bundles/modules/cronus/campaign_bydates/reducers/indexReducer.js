@@ -10,14 +10,16 @@ export const initialState = Immutable.fromJS({
     ...defaultFilters,
     fields: 'node{}'
   },
+  importCampaignBydatesResults: [],
   isFetchingCampaigns: false,
+  isImportCampaignBydates: false,
   createCampaignBydateAlert: null,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error,
-    campaignBydateId, campaign,
+    campaignBydateId, campaign, importResult,
   } = action
   
   switch (type) {
@@ -217,6 +219,27 @@ export default function indexReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingCampaignBydate: false,
         createCampaignBydateAlert: parseError(error)
+      })
+    }
+
+    case actionTypes.SET_IS_IMPORTING_CAMPAIGN_BYDATES: {
+      return $$state.merge({
+        importCampaignBydatesResults: [],
+        isImportCampaignBydates: true,
+      })
+    }
+
+    case actionTypes.IMPORT_CAMPAIGN_BYDATES_SUCCESS: {
+      return $$state.merge({
+        importCampaignBydatesResults: importResult,
+        isImportCampaignBydates: false,
+      })
+    }
+
+    case actionTypes.IMPORT_CAMPAIGN_BYDATES_FAILURE: {
+      return $$state.merge({
+        importCampaignBydatesResults: [],
+        isImportCampaignBydates: false,
       })
     }
 

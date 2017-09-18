@@ -78,4 +78,22 @@ export default {
       validateStatus: validateStatus,
     });
   },
+
+  uploadEntity(path, entity = {}) {
+    const credentials = getCredentials()
+    const railsAuthenticityHeaders = ReactOnRails.authenticityHeaders()
+    
+    return request({
+      method: 'POST',
+      url: BASE_API_URL + path,
+      responseType: 'json',
+      headers: {
+        ...credentials,
+        ...railsAuthenticityHeaders,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: entity,
+      validateStatus: validateStatus,
+    });
+  }
 };
