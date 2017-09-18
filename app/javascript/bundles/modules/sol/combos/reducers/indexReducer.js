@@ -19,13 +19,13 @@ export default function indexReducer($$state = initialState, action = null) {
   switch (type) {
     case actionTypes.SET_IS_FETCHING_COMBOS: {
       return $$state.merge({
-        isFetchingNodes: true,
+        isFetchingCombos: true,
       })
     }
 
     case actionTypes.FETCH_COMBOS_SUCCESS: {
       return $$state.merge({
-        isFetchingNodes: false,
+        isFetchingCombos: false,
         combos: records,
         comboFilters: filters,
       })
@@ -33,7 +33,7 @@ export default function indexReducer($$state = initialState, action = null) {
 
     case actionTypes.FETCH_COMBOS_FAILURE: {
       return $$state.merge({
-        isFetchingNodes: false,
+        isFetchingCombos: false,
       })
     }
 

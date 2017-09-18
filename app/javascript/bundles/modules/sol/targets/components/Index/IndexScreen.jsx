@@ -1,6 +1,6 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import CoursesTableBox from './Course/CoursesTable/CoursesTableBox'
+import TargetsTableBox from './Target/TargetsTable/TargetsTableBox'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -9,16 +9,16 @@ class IndexScreen extends React.Component {
 
   componentDidMount() {
     const {actions, indexState} = this.props
-    const courseParams = getFilterParams(indexState.get('courseFilters'))
-    actions.fetchCourses(courseParams)
+    const targetParams = getFilterParams(indexState.get('targetFilters'))
+    actions.fetchTargets(targetParams)
   }
 
   render() {
     const {indexState} = this.props
     return (
       <div>
-        <h1>Courses</h1>
-        <CoursesTableBox {...this.props}/>
+        <h1>Targets</h1>
+        <TargetsTableBox {...this.props}/>
       </div>
     )
   }

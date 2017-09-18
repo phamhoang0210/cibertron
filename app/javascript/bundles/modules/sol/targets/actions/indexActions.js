@@ -1,71 +1,71 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {SOL_BASE_URL, COURSES_API_PATH} from '../constants/paths'
+import {SOL_BASE_URL, TARGETS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
-function setIsFetchingCourses() {
+function setIsFetchingTargets() {
   return {
-    type: actionTypes.SET_IS_FETCHING_COURSES,
+    type: actionTypes.SET_IS_FETCHING_TARGETS,
   }
 }
 
-function fetchCoursesSuccess({records, filters}) {
+function fetchTargetsSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_COURSES_SUCCESS,
+    type: actionTypes.FETCH_TARGETS_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchCoursesFailure(error) {
+function fetchTargetsFailure(error) {
   return {
-    type: actionTypes.FETCH_COURSES_FAILURE,
+    type: actionTypes.FETCH_TARGETS_FAILURE,
     error,
   }
 }
 
-export function fetchCourses(params = {}) {
+export function fetchTargets(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingCourses())
+    dispatch(setIsFetchingTargets())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${COURSES_API_PATH}`, params)
-      .then(res => dispatch(fetchCoursesSuccess(res.data)))
-      .catch(error => dispatch(fetchCoursesFailure(error)))
+      .fetchEntities(`${SOL_BASE_URL}${TARGETS_API_PATH}`, params)
+      .then(res => dispatch(fetchTargetsSuccess(res.data)))
+      .catch(error => dispatch(fetchTargetsFailure(error)))
   }
 }
 
-function setIsDeletingCourse(courseId) {
+function setIsDeletingTarget(targetId) {
   return {
-    type: actionTypes.SET_IS_DELETING_COURSE,
-    courseId,
+    type: actionTypes.SET_IS_DELETING_TARGET,
+    targetId,
   }
 }
 
-function deleteCourseSuccess(record) {
+function deleteTargetSuccess(record) {
   return {
-    type: actionTypes.DELETE_COURSE_SUCCESS,
+    type: actionTypes.DELETE_TARGET_SUCCESS,
     record,
   }
 }
 
-function deleteCourseFailure(error, courseId) {
+function deleteTargetFailure(error, targetId) {
   return {
-    type: actionTypes.DELETE_COURSE_FAILURE,
+    type: actionTypes.DELETE_TARGET_FAILURE,
     error,
   }
 }
 
-export function deleteCourse(courseId) {
+export function deleteTarget(targetId) {
   return (dispatch, getStore) => {
-    dispatch(setIsDeletingCourse(courseId))
+    dispatch(setIsDeletingTarget(targetId))
     authRequest
-      .deleteEntity(`${SOL_BASE_URL}${COURSES_API_PATH}/${courseId}`)
+      .deleteEntity(`${SOL_BASE_URL}${TARGETS_API_PATH}/${targetId}`)
       .then(res => {
-        dispatch(deleteCourseSuccess(res.data))
-        const filterParams = getFilterParams(getStore().indexState.get('courseFilters'))
-        dispatch(fetchCourses(filterParams))
+        dispatch(deleteTargetSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('targetFilters'))
+        dispatch(fetchTargets(filterParams))
       })
-      .catch(error => dispatch(deleteCourseFailure(error, courseId)))
+      .catch(error => dispatch(deleteTargetFailure(error, targetId)))
   }
 }
