@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   promoss: [],
   promoFilters: {
     ...defaultFilters,
-    fields: 'node{}'
+    fields: ''
   },
   isFetchingPromos: false,
 })
