@@ -9,7 +9,6 @@ class IndexScreen extends React.Component {
 
   componentDidMount() {
     const {actions, indexState} = this.props
-    console.log(indexState.get('nodeFilters'))
     const promoParams = getFilterParams(indexState.get('promoFilters'))
     actions.fetchPromos(promoParams)
   }
