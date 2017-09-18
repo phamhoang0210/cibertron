@@ -74,7 +74,7 @@ class CombosTableBox extends React.Component {
 
     return (
       <Table
-          className="components-table-demo-nested"
+          size="middle"
           columns={columns}
           expandedRowRender={expandedRowRender}
           dataSource={data}

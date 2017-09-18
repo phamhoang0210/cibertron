@@ -48,11 +48,13 @@ class CoursesTableBox extends React.Component {
     }];
   const data = indexState.get('courses').toJS()
     return (
-      <Table  columns={columns} dataSource={data} 
-              pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
-              onChange={this.handleTableChange}
-              loading={isFetchingCourses}
-              rowKey="id"/>
+      <Table 
+        columns={columns} dataSource={data} 
+        pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
+        onChange={this.handleTableChange}
+        loading={isFetchingCourses}
+        rowKey="id"
+      />
     )
   }
 }

@@ -98,6 +98,7 @@ class ProvidersTableBox extends React.Component {
           Add
         </Button>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={providers.toJS()}
           pagination={{

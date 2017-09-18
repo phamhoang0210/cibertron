@@ -45,7 +45,9 @@ export default function editReducer($$state = initialState, action = null) {
         isUpdatingNode: false,
         node: record,
         alert: createSuccessAlert('Node was successfully updated'),
-      })
+      }).update('node', nodeItem => (
+        nodeItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_NODE_FAILURE: {

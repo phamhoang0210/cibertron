@@ -124,6 +124,7 @@ class EditableTable extends React.Component {
 
     return (
       <Table
+        size="middle"
         dataSource={editableCDataSource}
         columns={editableColumns}
         {...props}

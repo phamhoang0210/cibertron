@@ -45,7 +45,9 @@ export default function editReducer($$state = initialState, action = null) {
         isUpdatingProvider: false,
         provider: record,
         alert: createSuccessAlert('Provider was successfully updated'),
-      })
+      }).update('provider', providerItem => (
+        providerItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_PROVIDER_FAILURE: {

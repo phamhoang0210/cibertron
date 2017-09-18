@@ -106,6 +106,7 @@ class ChannelsTableBox extends React.Component {
           Add
         </Button>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={channels.toJS()}
           pagination={{

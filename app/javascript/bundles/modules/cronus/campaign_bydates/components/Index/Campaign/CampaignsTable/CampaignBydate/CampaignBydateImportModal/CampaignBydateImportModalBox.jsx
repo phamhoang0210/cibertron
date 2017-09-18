@@ -75,6 +75,7 @@ class CampaignBydateImportModalBox extends React.Component {
           Please upload format correct file (.csv, .xlsx). <a href="#">Sample file</a>
         </p>
         <Table
+          size="middle"
           columns={this.resultTableColumns}
           dataSource={importResults.toJS()}
           rowKey="campaign_code"

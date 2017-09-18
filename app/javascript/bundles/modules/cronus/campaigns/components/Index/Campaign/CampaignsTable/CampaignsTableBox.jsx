@@ -94,6 +94,8 @@ class CampaignsTableBox extends React.Component {
           Add
         </Button>
         <Table
+          size="middle"
+          size="middle"
           columns={this.columns}
           dataSource={campaigns.toJS()}
           pagination={{

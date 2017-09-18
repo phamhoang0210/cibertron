@@ -89,6 +89,7 @@ class PromosTableBox extends React.Component {
       }
       return (
         <Table
+          size="middle"
           className="components-table-demo-nested"
           columns={columns}
           expandedRowRender={expandedRowRender}

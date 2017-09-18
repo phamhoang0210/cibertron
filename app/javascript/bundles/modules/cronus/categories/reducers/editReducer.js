@@ -43,9 +43,10 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CATEGORY_SUCCESS: {
       return $$state.merge({
         isUpdatingCategory: false,
-        category: record,
         alert: createSuccessAlert('Category was successfully updated'),
-      })
+      }).update('category', categoryItem => (
+        categoryItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_CATEGORY_FAILURE: {
