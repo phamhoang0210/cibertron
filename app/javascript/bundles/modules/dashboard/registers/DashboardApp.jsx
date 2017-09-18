@@ -6,6 +6,8 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { Router, browserHistory } from 'react-router'
 import dashboardStore from '../store/dashboardStore'
 import routes from '../routes/routes'
+import { LocaleProvider } from 'antd'
+import enUS from 'antd/lib/locale-provider/en_US'
 
 export default (props, railsContext) => {
   const store = dashboardStore(props, railsContext)
@@ -16,8 +18,10 @@ export default (props, railsContext) => {
   )
 
   return (
-      <Provider store={store}>
-        <Router history={history} children={routes} />
-      </Provider>
+      <LocaleProvider locale={enUS}>
+        <Provider store={store}>
+          <Router history={history} children={routes} />
+        </Provider>
+      </LocaleProvider>
     )
 }
