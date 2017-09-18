@@ -4,3 +4,10 @@ import {
   SOL_BASE_URL, PROMOS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
+
+
+function setIsFetchingCourses() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PROMOS,
+  }
+}

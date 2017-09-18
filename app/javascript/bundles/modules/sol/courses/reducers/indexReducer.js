@@ -19,13 +19,13 @@ export default function indexReducer($$state = initialState, action = null) {
   switch (type) {
     case actionTypes.SET_IS_FETCHING_COURSES: {
       return $$state.merge({
-        isFetchingNodes: true,
+        isFetchingCourses: true,
       })
     }
 
     case actionTypes.FETCH_COURSES_SUCCESS: {
       return $$state.merge({
-        isFetchingNodes: false,
+        isFetchingCourses: false,
         courses: records,
         courseFilters: filters,
       })
@@ -33,7 +33,7 @@ export default function indexReducer($$state = initialState, action = null) {
 
     case actionTypes.FETCH_COURSES_FAILURE: {
       return $$state.merge({
-        isFetchingNodes: false,
+        isFetchingCourses: false,
       })
     }
 
