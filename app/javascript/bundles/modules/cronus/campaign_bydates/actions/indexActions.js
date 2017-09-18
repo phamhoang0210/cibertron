@@ -175,3 +175,34 @@ export function createCampaignBydate(params = {}) {
       .catch(error => dispatch(createCampaignBydateFailure(error)))
   }
 }
+
+function setIsImportCampaignBydates() {
+  return {
+    type: actionTypes.SET_IS_IMPORTING_CAMPAIGN_BYDATES,
+  }
+}
+
+function importCampaignBydatesSucces(importResult) {
+  return {
+    type: actionTypes.IMPORT_CAMPAIGN_BYDATES_SUCCESS,
+    importResult,
+  }
+}
+
+function importCampaignBydatesFailure(error) {
+  return {
+    type: actionTypes.IMPORT_CAMPAIGN_BYDATES_FAILURE,
+    error,
+  }
+}
+
+export function importCampaignBydates(params = {}) {
+  return dispatch => {
+    dispatch(setIsImportCampaignBydates())
+
+    return authRequest
+      .uploadEntity(`${CRONUS_BASE_URL}${CAMPAIGN_BYDATES_API_PATH}/import`, params)
+      .then(res => dispatch(importCampaignBydatesSucces(res.data)))
+      .catch(error => dispatch(importCampaignBydatesFailure(error)))
+  }
+}
