@@ -34,6 +34,10 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
       option.resources :promos
+      option.resources :courses
+      option.resources :combos
+      option.resources :targets
+      option.resources :systemlogs
     end
   end
 
