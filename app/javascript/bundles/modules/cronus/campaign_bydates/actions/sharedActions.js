@@ -1,37 +1,37 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  CRONUS_BASE_URL, CAMPAIGNS_API_PATH, CATEGORIES_API_PATH
+  CRONUS_BASE_URL, CAMPAIGNS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
-function setIsFetchingCampaigns() {
+function setIsFetchingListCampaign() {
   return {
-    type: actionTypes.SET_IS_FETCHING_CAMPAIGNS,
+    type: actionTypes.SET_IS_FETCHING_LIST_CAMPAIGN,
   }
 }
 
-function fetchCampaignsSuccess({records, filters}) {
+function fetchListCampaignSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_CAMPAIGNS_SUCCESS,
+    type: actionTypes.FETCH_LIST_CAMPAIGN_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchCampaignsFailure(error) {
+function fetchListCampaignFailure(error) {
   return {
-    type: actionTypes.FETCH_CAMPAIGNS_FAILURE,
+    type: actionTypes.FETCH_LIST_CAMPAIGN_FAILURE,
     error,
   }
 }
 
-export function fetchCampaigns(params = {}) {
+export function fetchListCampaign(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingCampaigns())
+    dispatch(setIsFetchingListCampaign())
     authRequest
       .fetchEntities(`${CRONUS_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
-      .then(res => dispatch(fetchCampaignsSuccess(res.data)))
-      .catch(error => dispatch(fetchCampaignsFailure(error)))
+      .then(res => dispatch(fetchListCampaignSuccess(res.data)))
+      .catch(error => dispatch(fetchListCampaignFailure(error)))
   }
 }

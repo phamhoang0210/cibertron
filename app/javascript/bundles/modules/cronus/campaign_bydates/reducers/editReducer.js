@@ -33,27 +33,6 @@ export default function editReducer($$state = initialState, action = null) {
         alert: parseError(error)
       })
     }
-
-    case actionTypes.SET_IS_UPDATING_CAMPAIGN_BYDATES: {
-      return $$state.merge({
-        isUpdatingCampaignBydate: true,
-      })
-    }
-
-    case actionTypes.UPDATE_CAMPAIGN_BYDATES_SUCCESS: {
-      return $$state.merge({
-        isUpdatingCampaignBydate: false,
-        campaignBydate: record,
-        alert: createSuccessAlert('CampaignBydate was successfully updated'),
-      })
-    }
-
-    case actionTypes.UPDATE_CAMPAIGN_BYDATES_FAILURE: {
-      return $$state.merge({
-        isUpdatingCampaignBydate: false,
-        alert: parseError(error)
-      })
-    }
     default: {
       return $$state
     }
