@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       option.resources :nodes
       option.resources :campaigns
       option.resources :campaign_bydates
+      option.resources :leads
     end
   end
 
