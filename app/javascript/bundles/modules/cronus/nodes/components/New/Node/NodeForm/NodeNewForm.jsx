@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Map } from 'immutable'
 import { browserHistory } from 'react-router'
-import { Form, Input, Row, Col, Button, Select, Alert, Cascader } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
@@ -17,6 +17,11 @@ class NodeNewForm extends React.Component {
     this.formItemLayout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 20 }
+    }
+
+    this.formTailLayout = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 8, offset: 4 },
     }
 
     this.buttonItemLayout = {
@@ -105,7 +110,7 @@ class NodeNewForm extends React.Component {
     const combos = sharedState.get('combos').map(combo => (
       Map({
         value: `${combo.get('id')}${CODE_DELIMITER}${combo.get('code')}`,
-        label: `${combo.get('code')} - ${combo.get('name')}`
+        label: `${combo.get('code')} - ${combo.get('title')}`
       })
     ))
     const targets = sharedState.get('targets').map(target => (
@@ -136,7 +141,7 @@ class NodeNewForm extends React.Component {
 
   render() {
     const {newState, sharedState} = this.props
-    const { getFieldDecorator } = this.props.form
+    const {getFieldDecorator, getFieldValue} = this.props.form
     const alert = newState.get('alert')
     const isCreatingNode = newState.get('isCreatingNode')
     const channels = sharedState.get('channels')
@@ -158,11 +163,6 @@ class NodeNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Code" {...this.formItemLayout}>
-                {getFieldDecorator('code', {
-                  rules: [{ required: true, message: 'Code is required!' }],
-                })(<Input />)}
-              </FormItem>
               <FormItem label="Channel" {...this.formItemLayout}>
                 {getFieldDecorator('channel_id', {
                   rules: [{ required: true, message: 'Channel is required!' }],
@@ -198,6 +198,21 @@ class NodeNewForm extends React.Component {
                   />
                 )}
               </FormItem>
+              <FormItem {...this.formTailLayout}>
+                {getFieldDecorator('auto_generate_code', {
+                  valuePropName: 'checked',
+                  initialValue: true,
+                })(
+                  <Checkbox>Auto generate code</Checkbox>
+                )}
+              </FormItem>
+              {!getFieldValue('auto_generate_code') && (
+                <FormItem label="Code" {...this.formItemLayout}>
+                  {getFieldDecorator('code', {
+                    rules: [{ required: true, message: 'Code is required!' }],
+                  })(<Input />)}
+                </FormItem>
+              )}
               <FormItem  {...this.buttonItemLayout}>
                 <Button type="primary" htmlType="submit" loading={isCreatingNode}>
                   Create

@@ -25,13 +25,31 @@ class NodesTableBox extends React.Component {
       dataIndex: 'code',
       key: 'code',
     }, {
-      title: 'Worker code',
-      dataIndex: 'worker_code',
-      key: 'worker_code',
+      title: 'Worker',
+      dataIndex: 'worker_id',
+      key: 'worker',
+      render: (text, record) => {
+        if(text) {
+          return (
+            <span>
+              <b>{record.worker_code}</b> {record.worker_type ? `(${record.worker_type})` : ''}
+            </span>
+          )
+        }
+      },
     }, {
-      title: 'Product code',
-      dataIndex: 'product_code',
-      key: 'product_code',
+      title: 'Product',
+      dataIndex: 'product_id',
+      key: 'product',
+      render: (text, record) => {
+        if(text) {
+          return (
+            <span>
+              <b>{record.product_code}</b> {record.product_type ? `(${record.product_type})` : ''}
+            </span>
+          )
+        }
+      },
     }, {
       title: 'Channel code',
       dataIndex: 'channel.code',

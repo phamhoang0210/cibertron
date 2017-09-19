@@ -50,7 +50,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingLead: false,
         lead: record,
-        alert: createSuccessAlert('Lead was successfully created'),
+        alert: createSuccessAlert(`Lead was successfully created`),
       })
     }
 

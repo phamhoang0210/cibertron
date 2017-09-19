@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingChannel: false,
         channel: record,
-        alert: createSuccessAlert('Channel was successfully created'),
+        alert: createSuccessAlert(`Channel was successfully created. {code: ${record.code}}`),
       })
     }
 
