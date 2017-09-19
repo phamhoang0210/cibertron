@@ -54,7 +54,7 @@ class LeadNewC3Form extends React.Component {
     const combos = sharedState.get('combos').map(combo => (
       Map({
         value: `${combo.get('id')}${CODE_DELIMITER}${combo.get('code')}`,
-        label: `${combo.get('code')} - ${combo.get('title')}`
+        label: `${combo.get('code')} - ${combo.get('name')}`
       })
     ))
 
