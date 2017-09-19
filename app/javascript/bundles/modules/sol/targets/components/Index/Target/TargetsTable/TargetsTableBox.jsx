@@ -15,6 +15,19 @@ class TargetsTableBox extends React.Component {
     ])
   }
 
+  handleDelete(targetId) {
+    const {actions, indexState} = this.props
+    actions.deleteTarget(targetId)
+  }
+
+  handleEdit(targetId) {
+    browserHistory.push(`${TARGETS_URL}/${targetId}/edit`)
+  }
+
+  handleAdd(e) {
+    browserHistory.push(`${TARGETS_URL}/new`)
+  }
+
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState} = this.props
     let targetParams = getFilterParams(indexState.get('targetFilters'))
@@ -44,16 +57,21 @@ class TargetsTableBox extends React.Component {
     };
 
     return (
-      <Table
-          className="components-table-demo-nested"
-          columns={columns}
-          expandedRowRender={expandedRowRender}
-          dataSource={data}
-          pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
-          onChange={this.handleTableChange}
-          loading={isFetchingTargets}
-          rowKey="id"
-        />
+      <div style={{marginTop: '8px'}}>
+        <Button type="primary" onClick={this.handleAdd} ghost style={{marginBottom: '8px'}}>
+           <Icon type="plus" /> New
+        </Button>
+        <Table
+            className="components-table-demo-nested"
+            columns={columns}
+            expandedRowRender={expandedRowRender}
+            dataSource={data}
+            pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
+            onChange={this.handleTableChange}
+            loading={isFetchingTargets}
+            rowKey="id"
+          />
+      </div>
     );
   }
 
