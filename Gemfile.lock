@@ -73,7 +73,7 @@ GEM
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
     jwt (2.0.0)
-    jwtauth (0.3.1)
+    jwtauth (0.3.2)
       jwt (>= 1.5.6)
     kgio (2.11.0)
     libv8 (5.3.332.38.5)
@@ -213,7 +213,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   jbuilder (~> 2.5)
-  jwtauth (~> 0.3.1)
+  jwtauth (~> 0.3.2)
   listen (>= 3.0.5, < 3.2)
   mini_racer
   mysql2 (>= 0.3.18, < 0.5)
