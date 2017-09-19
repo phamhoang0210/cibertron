@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
-import { Form, Input, Row, Col, Button, Select, Alert } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
@@ -18,6 +18,11 @@ class CampaignNewForm extends React.Component {
 
     this.buttonItemLayout = {
       wrapperCol: { span: 20, offset: 4 },
+    }
+
+    this.formTailLayout = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 8, offset: 4 },
     }
 
     _.bindAll(this, [
@@ -43,7 +48,7 @@ class CampaignNewForm extends React.Component {
 
   render() {
     const {newState, sharedState} = this.props
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator, getFieldValue } = this.props.form
     const alert = newState.get('alert')
     const isCreatingCampaign = newState.get('isCreatingCampaign')
     const nodes = sharedState.get('nodes')
@@ -63,11 +68,6 @@ class CampaignNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Code" {...this.formItemLayout}>
-                {getFieldDecorator('code', {
-                  rules: [{ required: true, message: 'Code is required!' }],
-                })(<Input />)}
-              </FormItem>
               <FormItem label="Node" {...this.formItemLayout}>
                 {getFieldDecorator('node_id', {
                   rules: [{ required: true, message: 'Node is required!' }],
@@ -85,6 +85,21 @@ class CampaignNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
+              <FormItem {...this.formTailLayout}>
+                {getFieldDecorator('auto_generate_code', {
+                  valuePropName: 'checked',
+                  initialValue: true,
+                })(
+                  <Checkbox>Auto generate code</Checkbox>
+                )}
+              </FormItem>
+              {!getFieldValue('auto_generate_code') && (
+                <FormItem label="Code" {...this.formItemLayout}>
+                  {getFieldDecorator('code', {
+                  rules: [{ required: true, message: 'Code is required!' }],
+                })(<Input />)}
+                </FormItem>
+              )}
               <FormItem  {...this.buttonItemLayout}>
                 <Button type="primary" htmlType="submit" loading={isCreatingCampaign}>
                   Create
