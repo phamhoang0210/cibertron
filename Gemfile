@@ -64,6 +64,6 @@ gem 'mini_racer', platforms: :ruby
 
 # Use for basic api of resources
 gem 'pureapi', '~> 0.5.1'
-gem 'jwtauth', '~> 0.3.1'
+gem 'jwtauth', '~> 0.3.2'
 
 gem "pundit"
