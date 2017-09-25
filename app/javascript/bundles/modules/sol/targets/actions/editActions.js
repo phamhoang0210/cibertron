@@ -36,21 +36,21 @@ export function fetchTarget(targetId, params = {}) {
 
 function setIsUpdatingTarget(targetId) {
   return {
-    type: actionTypes.SET_IS_UPDATING_TARGETS,
+    type: actionTypes.SET_IS_UPDATING_TARGET,
     targetId,
   }
 }
 
 function updateTargetSuccess(record) {
   return {
-    type: actionTypes.UPDATE_TARGETS_SUCCESS,
+    type: actionTypes.UPDATE_TARGET_SUCCESS,
     record,
   }
 }
 
 function updateTargetFailure(error, targetId) {
   return {
-    type: actionTypes.UPDATE_TARGETS_FAILURE,
+    type: actionTypes.UPDATE_TARGET_FAILURE,
     error,
     targetId,
   }
