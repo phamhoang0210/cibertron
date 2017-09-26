@@ -1,12 +1,11 @@
 .box {
   padding: 16px;
-  border-radius: 6px;
+  border-radius: 3px;
+  border-top: 3px solid #d2d6de;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 
   &-default {
     background: #fbfbfb;
-  }
-
-  &-with-boder {
-    border: 1px solid #d9d9d9;
+    border-top-color: #d2d6de;
   }
 }
