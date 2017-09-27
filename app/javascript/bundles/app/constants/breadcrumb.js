@@ -120,6 +120,26 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         },
       },
+    },
+    // Home > Nauh
+    nauh: {
+      title: 'Nauh',
+      // Home > Nauh > Leads
+      leads: {
+        title: 'Leads',
+        // Home > Nauh > Leads > Create
+        new: {
+          title: 'Create',
+        }
+      },
+      // Home > Nauh > Orders
+      orders: {
+        title: 'Orders',
+        // Home > Nauh > Orders > Create
+        new: {
+          title: 'Create',
+        }
+      }
     }
   }
 })

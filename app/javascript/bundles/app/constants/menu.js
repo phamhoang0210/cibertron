@@ -4,7 +4,7 @@ export const menuData = [
   {
     type: 'subMenu',
     path: '/cronus',
-    title: (<span><Icon type='star' /><span>CRONUS</span></span>),
+    title: 'CRONUS',
     items: [
       { 
         type: 'link',
@@ -46,7 +46,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/sol',
-    title: (<span><Icon type='solution' /><span>SOL</span></span>),
+    title: 'SOL',
     items: [
       {
         type: 'link', 
@@ -73,7 +73,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/userservice',
-    title: (<span><Icon type='user' /><span>USERSERVICE</span></span>),
+    title: 'USERSERVICE',
     items: [
       {
         type: 'link', 
@@ -85,5 +85,20 @@ export const menuData = [
         title: 'Departments',
       },
     ],
-  },
+  }, {
+    type: 'subMenu',
+    path: '/nauh',
+    title: 'NAUH',
+    items: [
+      {
+        type: 'link', 
+        path: '/nauh/leads',
+        title: 'Leads',
+      } , {
+        type: 'link', 
+        path: '/nauh/orders',
+        title: 'Orders',
+      }
+    ]
+  }
 ]

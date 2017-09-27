@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edumall apps - Nauh</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'nauh' %>
+    <%= stylesheet_pack_tag 'nauh' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
