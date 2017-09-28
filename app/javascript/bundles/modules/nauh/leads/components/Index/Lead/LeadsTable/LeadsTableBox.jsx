@@ -34,6 +34,7 @@ class LeadsTableBox extends React.Component {
       'handleAdd',
       'handleSearch',
       'handleCreateOrder',
+      'handleAssign',
     ])
 
     this.columns = [{
@@ -67,6 +68,16 @@ class LeadsTableBox extends React.Component {
         if(value) {
           return (<Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>)
         }
+      }
+    }, {
+      title: 'Staff',
+      dataIndex: 'staff_id',
+      key: 'staff_id',
+      render: value => {
+        const {sharedState} = this.props
+        const users = sharedState.get('users')
+        const user = users.find(u => u.get('id') == value)
+        return user ? user.get('username') : ''
       }
     }, {
       title: 'Action',
@@ -132,6 +143,10 @@ class LeadsTableBox extends React.Component {
     actions.fetchLeads(mergeDeep([leadParams, {compconds: {'email.like': `%${keyword}%`}}]))
   }
 
+  handleAssign() {
+    browserHistory.push(`${LEADS_URL}/assign`)
+  }
+
   render() {
     const {indexState, actions} = this.props
     const leads = indexState.get('leads')
@@ -143,7 +158,6 @@ class LeadsTableBox extends React.Component {
         <Row style={{marginBottom: '8px'}}>
           <Col span={18}>
             <Button
-              style={{marginBottom: '8px'}}
               onClick={this.handleAdd}
             >
               Add
@@ -159,6 +173,12 @@ class LeadsTableBox extends React.Component {
               visible={this.state.showImportModal}
               handleCancel={() => this.setState({showImportModal: false})}
             />
+            <Button
+              style={{marginLeft: '4px'}}
+              onClick={this.handleAssign}
+            >
+              Assign
+            </Button>
           </Col>
           <Col span={6} style={{ textAlign: 'right' }}>
             <Search

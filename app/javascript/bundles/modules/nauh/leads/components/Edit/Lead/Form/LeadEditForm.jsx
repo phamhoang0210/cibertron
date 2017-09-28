@@ -50,6 +50,7 @@ class LeadEditForm extends React.Component {
     const isUpdatingLead = editState.get('isUpdatingLead')
     const isFetchingLead = editState.get('isFetchingLead')
     const leadLevels = sharedState.get('leadLevels')
+    const users = sharedState.get('users')
     
     return (
       <div style={{marginTop: '8px'}}>
@@ -78,6 +79,16 @@ class LeadEditForm extends React.Component {
                 <FormItem label="Mobile" {...this.formItemLayout}>
                   <Input value={lead.get('mobile')} disabled/>
                 </FormItem>
+                <FormItem label="Name" {...this.formItemLayout}>
+                  {getFieldDecorator('name', {
+                    initialValue: lead.get('name'),
+                  })(<Input />)}
+                </FormItem>
+                <FormItem label="Address" {...this.formItemLayout}>
+                  {getFieldDecorator('address', {
+                    initialValue: lead.get('address'),
+                  })(<Input />)}
+                </FormItem>
                 <FormItem label="Level" {...this.formItemLayout}>
                   {getFieldDecorator('lead_level_id', {
                     rules: [{ required: true, message: 'Lead level is required!' }],
@@ -95,15 +106,21 @@ class LeadEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Name" {...this.formItemLayout}>
-                  {getFieldDecorator('name', {
-                    initialValue: lead.get('name'),
-                  })(<Input />)}
-                </FormItem>
-                <FormItem label="Address" {...this.formItemLayout}>
-                  {getFieldDecorator('address', {
-                    initialValue: lead.get('address'),
-                  })(<Input />)}
+                <FormItem label="Staff" {...this.formItemLayout}>
+                  {getFieldDecorator('staff_id', {
+                    initialValue: `${lead.get('staff_id')}`,
+                  })(
+                    <Select
+                      showSearch
+                      placeholder="Please select a staff"
+                    >
+                      {users.map(user => (
+                        <Option value={`${user.get('id')}`} key={user.get('id')}>
+                          {user.get('username')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
                 </FormItem>
                 <FormItem  {...this.buttonItemLayout}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingLead}>

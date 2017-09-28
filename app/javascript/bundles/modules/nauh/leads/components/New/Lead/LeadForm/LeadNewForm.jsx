@@ -52,6 +52,7 @@ class LeadNewForm extends React.Component {
     const alert = newState.get('alert')
     const isCreatingLead = newState.get('isCreatingLead')
     const leadLevels = sharedState.get('leadLevels')
+    const users = sharedState.get('users')
     
     return (
       <div style={{marginTop: '8px'}}>
@@ -95,6 +96,20 @@ class LeadNewForm extends React.Component {
                     {leadLevels.map(leadLevel => (
                       <Option value={`${leadLevel.get('id')}`} key={leadLevel.get('id')}>
                         {leadLevel.get('name')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem label="Staff" {...this.formItemLayout}>
+                {getFieldDecorator('staff_id')(
+                  <Select
+                    showSearch
+                    placeholder="Please select a staff"
+                  >
+                    {users.map(user => (
+                      <Option value={`${user.get('id')}`} key={user.get('id')}>
+                        {user.get('username')}
                       </Option>
                     ))}
                   </Select>
