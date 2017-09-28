@@ -141,3 +141,34 @@ export function fetchEmailLeads(lead, params) {
       .catch(error => dispatch(fetchEmailLeadsFailure(lead, error)))
   }
 }
+
+function setIsImportingLeads() {
+  return {
+    type: actionTypes.SET_IS_IMPORTING_LEADS,
+  }
+}
+
+function importLeadsSucces(importResult) {
+  return {
+    type: actionTypes.IMPORT_LEADS_SUCCESS,
+    importResult,
+  }
+}
+
+function importLeadsFailure(error) {
+  return {
+    type: actionTypes.IMPORT_LEADS_FAILURE,
+    error,
+  }
+}
+
+export function importLeads(params = {}) {
+  return dispatch => {
+    dispatch(setIsImportingLeads())
+
+    return authRequest
+      .uploadEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}/import`, params)
+      .then(res => dispatch(importLeadsSucces(res.data)))
+      .catch(error => dispatch(importLeadsFailure(error)))
+  }
+}

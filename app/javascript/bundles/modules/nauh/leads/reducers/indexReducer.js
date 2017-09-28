@@ -6,17 +6,19 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
   leads: [],
+  importLeadsResults: [],
   leadFilters: {
     ...defaultFilters,
     fields: 'lead_level{}'
   },
   isFetchingLeads: false,
+  isImportingLeads: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, leadId,
-    lead,
+    lead, importResult,
   } = action
   
   switch (type) {
@@ -183,6 +185,27 @@ export default function indexReducer($$state = initialState, action = null) {
           )
         ))
       ))
+    }
+
+    case actionTypes.SET_IS_IMPORTING_LEADS: {
+      return $$state.merge({
+        importLeadsResults: [],
+        isImportingLeads: true,
+      })
+    }
+
+    case actionTypes.IMPORT_LEADS_SUCCESS: {
+      return $$state.merge({
+        importLeadsResults: importResult,
+        isImportingLeads: false,
+      })
+    }
+
+    case actionTypes.IMPORT_LEADS_FAILURE: {
+      return $$state.merge({
+        importLeadsResults: [],
+        isImportingLeads: false,
+      })
     }
 
     default: {

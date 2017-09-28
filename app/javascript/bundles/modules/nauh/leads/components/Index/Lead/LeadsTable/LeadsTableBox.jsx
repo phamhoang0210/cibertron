@@ -7,6 +7,7 @@ import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
 import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
+import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
@@ -21,6 +22,10 @@ const LEVEL_COLOR_MAPPINGS = {
 class LeadsTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      showImportModal: false,
+    }
 
     _.bindAll(this, [
       'handleTableChange',
@@ -143,6 +148,17 @@ class LeadsTableBox extends React.Component {
             >
               Add
             </Button>
+            <Button
+              style={{marginLeft: '4px'}}
+              onClick={(e) => this.setState({showImportModal: true})}
+            >
+              Import
+            </Button>
+            <LeadImportModalBox
+              {...this.props}
+              visible={this.state.showImportModal}
+              handleCancel={() => this.setState({showImportModal: false})}
+            />
           </Col>
           <Col span={6} style={{ textAlign: 'right' }}>
             <Search
