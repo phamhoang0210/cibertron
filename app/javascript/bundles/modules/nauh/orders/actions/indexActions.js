@@ -53,6 +53,7 @@ function deleteOrderFailure(error, orderId) {
   return {
     type: actionTypes.DELETE_ORDER_FAILURE,
     error,
+    orderId,
   }
 }
 
