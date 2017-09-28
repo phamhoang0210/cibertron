@@ -53,6 +53,7 @@ function deleteCategoryFailure(error, categoryId) {
   return {
     type: actionTypes.DELETE_CATEGORY_FAILURE,
     error,
+    categoryId,
   }
 }
 

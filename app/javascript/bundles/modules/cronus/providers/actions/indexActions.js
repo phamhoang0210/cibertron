@@ -53,6 +53,7 @@ function deleteProviderFailure(error, providerId) {
   return {
     type: actionTypes.DELETE_PROVIDER_FAILURE,
     error,
+    providerId,
   }
 }
 

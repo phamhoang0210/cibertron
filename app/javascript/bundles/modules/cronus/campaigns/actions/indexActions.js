@@ -53,6 +53,7 @@ function deleteCampaignFailure(error, campaignId) {
   return {
     type: actionTypes.DELETE_CAMPAIGN_FAILURE,
     error,
+    campaignId,
   }
 }
 
