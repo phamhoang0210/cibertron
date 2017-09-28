@@ -42,11 +42,13 @@ class OrderNewForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const {actions} = this.props
+    const {actions, newState} = this.props
+    const lead = newState.get('lead')
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let params = this.formatFormData(values)
+        params.lead_id = lead.get('id')
         actions.createOrder({record: params})
       }
     })
