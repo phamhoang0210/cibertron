@@ -5,7 +5,7 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 
 const { Option } = Select
 
-class CampaignBydateImportModalBox extends React.Component {
+class LeadImportModalBox extends React.Component {
   constructor(props) {
     super(props)
 
@@ -15,14 +15,18 @@ class CampaignBydateImportModalBox extends React.Component {
 
     this.resultTableColumns = [
       {
-        title: 'Campaign code',
-        dataIndex: 'campaign_code',
-        key: 'campaign_code',
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
       }, {
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
-        render: (text, record) => (<Tag color={record.status == 'success' ? 'green' : 'red'}>{text}</Tag>),
+        render: (text, record) => (
+          <Tag color={record.status == 'success' ? 'green' : 'red'}>
+            {text}
+          </Tag>
+        ),
       }, {
         title: 'Message',
         dataIndex: 'message',
@@ -37,18 +41,18 @@ class CampaignBydateImportModalBox extends React.Component {
     var data = new FormData()
     data.append('file', file)
     
-    actions.importCampaignBydates(data)
+    actions.importLeads(data)
   }
 
   render() {
     const {visible, handleCancel, indexState} = this.props
-    const alert = indexState.get('importCampaignBydateAlert')
-    const importResults = indexState.get('importCampaignBydatesResults')
-    const isImportCampaignBydates = indexState.get('isImportCampaignBydates')
+    const alert = indexState.get('importLeadAlert')
+    const importResults = indexState.get('importLeadsResults')
+    const isImportingLeads = indexState.get('isImportingLeads')
 
     return (
       <Modal
-        title="Import campaign bydates"
+        title="Import leads"
         visible={visible}
         onOk={this.handleImport}
         onCancel={handleCancel}
@@ -79,8 +83,8 @@ class CampaignBydateImportModalBox extends React.Component {
           pagination={{ pageSize: 10 }} 
           columns={this.resultTableColumns}
           dataSource={importResults.toJS()}
-          rowKey="campaign_code"
-          loading={isImportCampaignBydates}
+          rowKey="email"
+          loading={isImportingLeads}
           title={() => (<b>Import results:</b>)}
         />
       </Modal>
@@ -88,4 +92,4 @@ class CampaignBydateImportModalBox extends React.Component {
   }
 }
 
-export default CampaignBydateImportModalBox
+export default LeadImportModalBox
