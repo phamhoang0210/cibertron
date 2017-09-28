@@ -45,7 +45,11 @@ Rails.application.routes.draw do
   namespace :nauh do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
-      option.resources :leads
+      option.resources :leads do
+        collection do
+          get 'assign', to: 'leads#assign'
+        end
+      end
       option.resources :orders
     end
   end

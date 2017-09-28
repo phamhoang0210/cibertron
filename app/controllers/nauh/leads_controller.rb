@@ -11,5 +11,9 @@ module Nauh
     # GET /nauh/leads/new
     def new
     end
+
+    # GET /nauh/leads/assign
+    def assign
+    end
   end
 end
