@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
-import { parseError } from 'helpers/applicationHelper'
 import { defaultFilters } from 'app/constants/initialState'
+import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 
 export const initialState = Immutable.fromJS({
   alert: null,
@@ -51,7 +51,9 @@ export default function indexReducer($$state = initialState, action = null) {
               })
             )
           )
-        ))
+        )).merge({
+          alert: null,
+        })
       ))
     }
 
@@ -66,7 +68,9 @@ export default function indexReducer($$state = initialState, action = null) {
               })
             )
           )
-        ))
+        )).merge({
+          alert: null,
+        })
       ))
     }
 
@@ -81,7 +85,9 @@ export default function indexReducer($$state = initialState, action = null) {
               })
             )
           )
-        ))
+        )).merge({
+          alert: parseError(error),
+        })
       ))
     }
 

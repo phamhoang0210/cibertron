@@ -56,6 +56,7 @@ function deleteLeadFailure(error, leadId) {
   return {
     type: actionTypes.DELETE_LEAD_FAILURE,
     error,
+    leadId,
   }
 }
 
