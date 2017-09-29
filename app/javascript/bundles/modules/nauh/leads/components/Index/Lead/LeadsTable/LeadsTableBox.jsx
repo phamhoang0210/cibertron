@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Table, Icon, Button, Popconfirm, Input, Row, Col, Tag, Tabs } from 'antd'
+import { Table, Icon, Button, Popconfirm, Input, Row, Col, Tag, Tabs, Badge } from 'antd'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
@@ -17,6 +17,12 @@ const LEVEL_COLOR_MAPPINGS = {
   'A2': '#108ee9',
   'A3': '#87d068',
   'A3X': '#f50',
+}
+
+const BADGE_STATUS_MAPPINGS = {
+  'default': 'warning',
+  'processing': 'processing',
+  'done': 'success',
 }
 
 class LeadsTableBox extends React.Component {
@@ -57,9 +63,20 @@ class LeadsTableBox extends React.Component {
       dataIndex: 'address',
       key: 'address',
     }, {
+      title: 'Interest',
+      dataIndex: 'interest',
+      key: 'interest',
+    }, {
       title: 'Note',
       dataIndex: 'note',
       key: 'note',
+    }, {
+      title: 'Care status',
+      dataIndex: 'care_status',
+      key: 'care_status',
+      render: value => (
+        <Badge status={BADGE_STATUS_MAPPINGS[value]} text={value} />
+      )
     }, {
       title: 'Level',
       dataIndex: 'lead_level.name',

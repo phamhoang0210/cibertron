@@ -39,7 +39,7 @@ class OrderFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
     const inCompFields = ['campaign_id']
-    const timerangeFields = ['created_at']
+    const timerangeFields = ['created_at', 'updated_at']
 
     let compconds = {}
     inCompFields.forEach(field => {
@@ -49,8 +49,8 @@ class OrderFiltersFormBox extends React.Component {
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
-      compconds[`${field}.gte]`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[`${field}.lt]`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
 
@@ -79,6 +79,21 @@ class OrderFiltersFormBox extends React.Component {
             <FormItem label="Created in" {...this.formItemLayout}>
               {getFieldDecorator('created_at')(
                 <RangePicker
+                  style={{width: '100%'}}
+                  format={LONG_DATETIME_FORMAT}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
+                  }}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label="Updated in" {...this.formItemLayout}>
+              {getFieldDecorator('updated_at')(
+                <RangePicker
+                  style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
                   showTime={{
                     hideDisabledOptions: true,

@@ -6,6 +6,7 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
 const FormItem = Form.Item
+const TextArea = Input.TextArea
 
 class LeadEditForm extends React.Component {
   constructor(props) {
@@ -88,6 +89,32 @@ class LeadEditForm extends React.Component {
                   {getFieldDecorator('address', {
                     initialValue: lead.get('address'),
                   })(<Input />)}
+                </FormItem>
+                <FormItem label="Interest" {...this.formItemLayout}>
+                  {getFieldDecorator('interest', {
+                    initialValue: lead.get('interest'),
+                  })(<TextArea />)}
+                </FormItem>
+                <FormItem label="Note" {...this.formItemLayout}>
+                  {getFieldDecorator('note', {
+                    initialValue: lead.get('note'),
+                  })(<TextArea />)}
+                </FormItem>
+                <FormItem label="Care status" {...this.formItemLayout}>
+                  {getFieldDecorator('care_status', {
+                    rules: [{ required: true, message: 'Care status is required!' }],
+                    initialValue: `${lead.get('care_status')}`,
+                  })(
+                    <Select
+                      showSearch
+                      placeholder="Please select a level"
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      <Option value="default">default</Option>
+                      <Option value="processing">processing</Option>
+                      <Option value="done">done</Option>
+                    </Select>
+                  )}
                 </FormItem>
                 <FormItem label="Level" {...this.formItemLayout}>
                   {getFieldDecorator('lead_level_id', {

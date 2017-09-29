@@ -17,8 +17,8 @@ class LeadFiltersFormBox extends React.Component {
     super(props)
 
     this.formItemLayout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 19 },
+      labelCol: { span: 7 },
+      wrapperCol: { span: 17 },
     }
 
     _.bindAll(this, [
@@ -34,7 +34,6 @@ class LeadFiltersFormBox extends React.Component {
       if (!err) {
         const {actions, indexState} = this.props
         let leadParams = getFilterParams(indexState.get('leadFilters'))
-
         actions.fetchLeads(mergeDeep([leadParams, this.formatFormData(values)]))
       }
     })
@@ -42,8 +41,8 @@ class LeadFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['lead_level_id', 'staff_id']
-    const timerangeFields = ['created_at']
+    const inCompFields = ['lead_level_id', 'staff_id', 'care_status']
+    const timerangeFields = ['created_at', 'updated_at']
     
     let compconds = {}
     inCompFields.forEach(field => {
@@ -53,11 +52,11 @@ class LeadFiltersFormBox extends React.Component {
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
-      compconds[`${field}.gte]`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[`${field}.lt]`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-
+    
     return mergeDeep([formatedValues, {compconds: compconds}])
   }
 
@@ -86,6 +85,21 @@ class LeadFiltersFormBox extends React.Component {
             <FormItem label="Created in" {...this.formItemLayout}>
               {getFieldDecorator('created_at')(
                 <RangePicker
+                  style={{width: '100%'}}
+                  format={LONG_DATETIME_FORMAT}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
+                  }}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label="Updated in" {...this.formItemLayout}>
+              {getFieldDecorator('updated_at')(
+                <RangePicker
+                  style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
                   showTime={{
                     hideDisabledOptions: true,
@@ -129,6 +143,23 @@ class LeadFiltersFormBox extends React.Component {
                       {user.username}
                     </Option>
                   ))}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label="Status" {...this.formItemLayout}>
+              {getFieldDecorator('care_status', {
+                rules: [{ type: 'array' }]
+              })(
+                <Select
+                  mode="multiple"
+                  placeholder="-- All --"
+                  allowClear={true}
+                >
+                  <Option value="default">default</Option>
+                  <Option value="processing">processing</Option>
+                  <Option value="done">done</Option>
                 </Select>
               )}
             </FormItem>
