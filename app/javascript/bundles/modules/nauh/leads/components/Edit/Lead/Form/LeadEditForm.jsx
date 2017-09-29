@@ -113,6 +113,7 @@ class LeadEditForm extends React.Component {
                       <Option value="default">default</Option>
                       <Option value="processing">processing</Option>
                       <Option value="done">done</Option>
+                      <Option value="cancelled">cancelled</Option>
                     </Select>
                   )}
                 </FormItem>
