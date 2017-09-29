@@ -6,6 +6,7 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
 const FormItem = Form.Item
+const TextArea = Input.TextArea
 
 class LeadNewForm extends React.Component {
   constructor(props) {
@@ -84,6 +85,15 @@ class LeadNewForm extends React.Component {
               </FormItem>
               <FormItem label="Address" {...this.formItemLayout}>
                 {getFieldDecorator('address')(<Input />)}
+              </FormItem>
+              <FormItem label="Address" {...this.formItemLayout}>
+                {getFieldDecorator('address')(<Input />)}
+              </FormItem>
+              <FormItem label="Interest" {...this.formItemLayout}>
+                {getFieldDecorator('interest')(<TextArea />)}
+              </FormItem>
+              <FormItem label="Note" {...this.formItemLayout}>
+                {getFieldDecorator('note')(<TextArea />)}
               </FormItem>
               <FormItem label="Level" {...this.formItemLayout}>
                 {getFieldDecorator('lead_level_id', {
