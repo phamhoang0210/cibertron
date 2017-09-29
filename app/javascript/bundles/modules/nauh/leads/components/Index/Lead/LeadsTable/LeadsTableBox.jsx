@@ -119,6 +119,14 @@ class LeadsTableBox extends React.Component {
       render: (cell, row) => {
         return (
           <span>
+            <Button type="primary" style={{ width: '100%'}} onClick={(e) => this.handleCreateOrder(row.id)}>
+              Create order
+            </Button>
+            <br/>
+            <Button style={{marginTop: '4px', width: '100%'}} onClick={(e) => this.handleEdit(row.id)}>
+              Edit
+            </Button>
+            <br/>
             <Popconfirm
               placement="topLeft"
               title="Are you sure delete this lead?"
@@ -126,18 +134,10 @@ class LeadsTableBox extends React.Component {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger" loading={row.isDeleting} style={{ width: '100%'}}>
+              <Button type="danger" loading={row.isDeleting} style={{ marginTop: '4px', width: '100%' }}>
                 Delete
               </Button>
             </Popconfirm>
-            <br/>
-            <Button style={{marginTop: '4px', width: '100%'}} onClick={(e) => this.handleEdit(row.id)}>
-              Edit
-            </Button>
-            <br/>
-            <Button type="primary" style={{marginTop: '4px', width: '100%'}} onClick={(e) => this.handleCreateOrder(row.id)}>
-              Create order
-            </Button>
           </span>
         )
       },
