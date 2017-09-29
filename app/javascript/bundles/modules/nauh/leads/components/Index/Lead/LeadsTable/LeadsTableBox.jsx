@@ -54,6 +54,7 @@ class LeadsTableBox extends React.Component {
       title: 'Info',
       dataIndex: 'name',
       key: 'info',
+      width: '15%',
       render: (value, record) => (
         <div>
           <b>{record.name}</b><br/>
@@ -69,10 +70,12 @@ class LeadsTableBox extends React.Component {
       title: 'Interest',
       dataIndex: 'interest',
       key: 'interest',
+      width: '15%',
     }, {
       title: 'Note',
       dataIndex: 'note',
       key: 'note',
+      width: '15%',
     }, {
       title: 'Assigned at',
       dataIndex: 'assigned_at',
@@ -112,6 +115,7 @@ class LeadsTableBox extends React.Component {
     }, {
       title: 'Action',
       key: 'action',
+      width: 80,
       render: (cell, row) => {
         return (
           <span>
@@ -122,14 +126,16 @@ class LeadsTableBox extends React.Component {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger" loading={row.isDeleting}>
+              <Button type="danger" loading={row.isDeleting} style={{ width: '100%'}}>
                 Delete
               </Button>
             </Popconfirm>
-            <Button style={{marginLeft: '4px'}} onClick={(e) => this.handleEdit(row.id)}>
+            <br/>
+            <Button style={{marginTop: '4px', width: '100%'}} onClick={(e) => this.handleEdit(row.id)}>
               Edit
             </Button>
-            <Button type="primary" style={{marginLeft: '4px'}} onClick={(e) => this.handleCreateOrder(row.id)}>
+            <br/>
+            <Button type="primary" style={{marginTop: '4px', width: '100%'}} onClick={(e) => this.handleCreateOrder(row.id)}>
               Create order
             </Button>
           </span>
