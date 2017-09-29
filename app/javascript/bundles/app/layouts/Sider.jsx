@@ -40,7 +40,7 @@ class Sider extends React.Component {
     return (
       <Layout.Sider width={230} style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}>
         <div className="logo">
-          <span>EDUMALL</span>
+          <img alt="Edumall logo"src="/assets/edumall-logo-full.png" />
         </div>
         <Menu 
           theme="dark"

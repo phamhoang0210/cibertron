@@ -42,7 +42,7 @@ class LeadFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
     const inCompFields = ['lead_level_id', 'staff_id', 'care_status']
-    const timerangeFields = ['created_at', 'updated_at']
+    const timerangeFields = ['created_at', 'imported_at', 'assigned_at']
     
     let compconds = {}
     inCompFields.forEach(field => {
@@ -96,8 +96,22 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Updated in" {...this.formItemLayout}>
-              {getFieldDecorator('updated_at')(
+            <FormItem label="Imported in" {...this.formItemLayout}>
+              {getFieldDecorator('imported_at')(
+                <RangePicker
+                  style={{width: '100%'}}
+                  format={LONG_DATETIME_FORMAT}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
+                  }}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label="Assigned in" {...this.formItemLayout}>
+              {getFieldDecorator('assigned_at')(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
