@@ -1,9 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
+import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { CAMPAIGNS_URL } from '../../../../constants/paths'
+
+const { Search } = Input
 
 class CampaignsTableBox extends React.Component {
   constructor(props) {
@@ -13,7 +15,8 @@ class CampaignsTableBox extends React.Component {
       'handleTableChange',
       'handleDelete',
       'handleEdit',
-      'handleAdd'
+      'handleAdd',
+      'handleSearch',
     ])
 
     this.columns = [{
@@ -79,6 +82,12 @@ class CampaignsTableBox extends React.Component {
     actions.fetchCampaigns(campaignParams)
   }
 
+  handleSearch(keyword) {
+    const {actions, indexState} = this.props
+    let campaignParams = getFilterParams(indexState.get('campaignFilters'))
+    actions.fetchCampaigns(mergeDeep([campaignParams, {compconds: {'code.like': `%${keyword}%`}}]))
+  }
+
   render() {
     const {indexState} = this.props
     const campaigns = indexState.get('campaigns')
@@ -87,12 +96,22 @@ class CampaignsTableBox extends React.Component {
 
     return (
       <div style={{marginTop: '8px'}}>
-        <Button
-          style={{marginBottom: '8px'}}
-          onClick={this.handleAdd}
-        >
-          Add
-        </Button>
+        <Row style={{marginBottom: '8px'}}>
+          <Col span={18}>
+            <Button
+              style={{marginBottom: '8px'}}
+              onClick={this.handleAdd}
+            >
+              Add
+            </Button>
+          </Col>
+          <Col span={6} style={{ textAlign: 'right' }}>
+            <Search
+              placeholder="Search by code.."
+              onSearch={this.handleSearch}
+            />
+          </Col>
+        </Row>
         <Table
           size="middle"
           size="middle"
