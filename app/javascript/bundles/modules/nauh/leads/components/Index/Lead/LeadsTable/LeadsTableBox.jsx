@@ -23,6 +23,7 @@ const BADGE_STATUS_MAPPINGS = {
   'default': 'warning',
   'processing': 'processing',
   'done': 'success',
+  'cancelled': 'default',
 }
 
 class LeadsTableBox extends React.Component {
