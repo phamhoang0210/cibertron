@@ -130,6 +130,7 @@ class LeadNewC3Form extends React.Component {
                     options={courseCascaderOptions}
                     placeholder="Please select course"
                     showSearch
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                   />
                 )}
               </FormItem>

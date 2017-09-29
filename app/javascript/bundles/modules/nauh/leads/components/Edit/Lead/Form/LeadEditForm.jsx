@@ -97,6 +97,7 @@ class LeadEditForm extends React.Component {
                     <Select
                       showSearch
                       placeholder="Please select a level"
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
                       {leadLevels.map(leadLevel => (
                         <Option value={`${leadLevel.get('id')}`} key={leadLevel.get('id')}>
@@ -113,6 +114,7 @@ class LeadEditForm extends React.Component {
                     <Select
                       showSearch
                       placeholder="Please select a staff"
+                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
                       {users.map(user => (
                         <Option value={`${user.get('id')}`} key={user.get('id')}>
