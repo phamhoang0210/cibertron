@@ -8,6 +8,8 @@ import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
 import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
 import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
+import { SHORT_DATETIME_FORMAT } from 'app/constants/config'
+import moment from 'moment'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
@@ -71,6 +73,16 @@ class LeadsTableBox extends React.Component {
       title: 'Note',
       dataIndex: 'note',
       key: 'note',
+    }, {
+      title: 'Assigned at',
+      dataIndex: 'assigned_at',
+      key: 'assigned_at',
+      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
+    }, {
+      title: 'Imported at',
+      dataIndex: 'imported_at',
+      key: 'imported_at',
+      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
       title: 'Care status',
       dataIndex: 'care_status',

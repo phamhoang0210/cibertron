@@ -1,8 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
-import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import moment from 'moment'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -99,6 +100,16 @@ class LeadEditForm extends React.Component {
                   {getFieldDecorator('note', {
                     initialValue: lead.get('note'),
                   })(<TextArea />)}
+                </FormItem>
+                <FormItem label="Imported at" {...this.formItemLayout}>
+                  {getFieldDecorator('imported_at', {
+                    initialValue: lead.get('imported_at') && moment(lead.get('imported_at')),
+                  })(<DatePicker />)}
+                </FormItem>
+                <FormItem label="Assigned at" {...this.formItemLayout}>
+                  {getFieldDecorator('assigned_at', {
+                    initialValue: lead.get('assigned_at') && moment(lead.get('assigned_at')),
+                  })(<DatePicker />)}
                 </FormItem>
                 <FormItem label="Care status" {...this.formItemLayout}>
                   {getFieldDecorator('care_status', {
