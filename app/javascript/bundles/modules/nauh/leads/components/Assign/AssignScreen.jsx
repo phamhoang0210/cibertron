@@ -27,8 +27,8 @@ class AssignScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Assign</h1>
+      <div className="main-content nauh-leads-assign">
+        <h1 className="main-content-title">Assign</h1>
         <ReportTableBox {...this.props}/>
       </div>
     )

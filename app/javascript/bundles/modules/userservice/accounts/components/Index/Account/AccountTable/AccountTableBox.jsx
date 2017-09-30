@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm } from 'antd'
+import { Table, Icon, Button, Popconfirm, Row, Col } from 'antd'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ACCOUNTS_URL } from '../../../../constants/paths'
@@ -45,11 +45,11 @@ class AccountTableBox extends React.Component {
       dataIndex: 'company.name',
       key: 'company_name',
     }, {
-      title: 'Action',
+      title: '',
       key: 'action',
       render: (cell, row) => {
         return (
-          <span>
+          <div className="text-align--right">
             <Popconfirm
               placement="topLeft"
               title="Are you sure delete this account?"
@@ -61,10 +61,13 @@ class AccountTableBox extends React.Component {
                 Delete
               </Button>
             </Popconfirm>
-            <Button style={{marginLeft: '4px'}} onClick={(e) => this.handleEdit(row.id)}>
+            <Button
+              className="button-margin--left--default"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
               Edit
             </Button>
-          </span>
+          </div>
         )
       },
     }];
@@ -102,14 +105,18 @@ class AccountTableBox extends React.Component {
     const isFetchingAccounts = indexState.get('isFetchingAccounts')
 
     return (
-      <div style={{marginTop: '8px'}}>
-        <Button
-          style={{marginBottom: '8px'}}
-          onClick={this.handleAdd}
-        >
-          Add
-        </Button>
+      <div className="main-content-table-box">
+        <Row className="main-content-table-box-tools">
+          <Col span={18}>
+            <Button
+              onClick={this.handleAdd}
+            >
+              Add
+            </Button>
+          </Col>
+        </Row>
         <Table
+          className="main-content-table-box-body"
           size="middle"
           columns={this.columns}
           dataSource={accounts.toJS()}

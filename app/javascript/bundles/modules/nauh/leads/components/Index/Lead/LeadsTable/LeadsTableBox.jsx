@@ -1,7 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Table, Icon, Button, Popconfirm, Input, Row, Col, Tag, Tabs, Badge } from 'antd'
+import {
+  Table, Button, Popconfirm, Input, Row, Col,
+  Tag, Tabs, Badge,
+} from 'antd'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
@@ -47,10 +50,6 @@ class LeadsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-    }, {
       title: 'Info',
       dataIndex: 'name',
       key: 'info',
@@ -63,14 +62,10 @@ class LeadsTableBox extends React.Component {
         </div>
       )
     }, {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    }, {
       title: 'Interest',
       dataIndex: 'interest',
       key: 'interest',
-      width: '15%',
+      width: '10%',
     }, {
       title: 'Note',
       dataIndex: 'note',
@@ -113,17 +108,25 @@ class LeadsTableBox extends React.Component {
         return user ? user.get('username') : ''
       }
     }, {
-      title: 'Action',
+      title: '',
       key: 'action',
-      width: 80,
+      width: 100,
       render: (cell, row) => {
         return (
-          <span>
-            <Button type="primary" style={{ width: '100%'}} onClick={(e) => this.handleCreateOrder(row.id)}>
+          <div className="text-align--right">
+            <Button
+              type="primary"
+              style={{ width: '100%'}}
+              onClick={(e) => this.handleCreateOrder(row.id)}
+            >
               Create order
             </Button>
             <br/>
-            <Button style={{marginTop: '4px', width: '100%'}} onClick={(e) => this.handleEdit(row.id)}>
+            <Button
+              className="button-margin--top--default"
+              style={{width: '100%'}}
+              onClick={(e) => this.handleEdit(row.id)}
+            >
               Edit
             </Button>
             <br/>
@@ -134,11 +137,16 @@ class LeadsTableBox extends React.Component {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger" loading={row.isDeleting} style={{ marginTop: '4px', width: '100%' }}>
+              <Button
+                className="button-margin--top--default"
+                type="danger"
+                loading={row.isDeleting}
+                style={{ width: '100%' }}
+              >
                 Delete
               </Button>
             </Popconfirm>
-          </span>
+          </div>
         )
       },
     }];
@@ -190,8 +198,8 @@ class LeadsTableBox extends React.Component {
     const isFetchingLeads = indexState.get('isFetchingLeads')
 
     return (
-      <div style={{marginTop: '8px'}}>
-        <Row style={{marginBottom: '8px'}}>
+      <div className="main-content-table-box">
+        <Row className="main-content-table-box-tools">
           <Col span={18}>
             <Button
               onClick={this.handleAdd}
@@ -199,7 +207,7 @@ class LeadsTableBox extends React.Component {
               Add
             </Button>
             <Button
-              style={{marginLeft: '4px'}}
+              className="button-margin--left--default"
               onClick={(e) => this.setState({showImportModal: true})}
             >
               Import
@@ -210,13 +218,13 @@ class LeadsTableBox extends React.Component {
               handleCancel={() => this.setState({showImportModal: false})}
             />
             <Button
-              style={{marginLeft: '4px'}}
+              className="button-margin--left--default"
               onClick={this.handleAssign}
             >
               Assign
             </Button>
           </Col>
-          <Col span={6} style={{ textAlign: 'right' }}>
+          <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
               placeholder="Search by email.."
               onSearch={this.handleSearch}
@@ -224,6 +232,7 @@ class LeadsTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+          bordered
           size="middle"
           columns={this.columns}
           dataSource={leads.toJS()}

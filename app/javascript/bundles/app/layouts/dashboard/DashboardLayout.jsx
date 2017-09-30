@@ -4,19 +4,19 @@ import { Layout, Menu, Icon, Row, Col } from 'antd'
 import Footer from '../Footer'
 import Header from '../Header'
 
-import 'styles/layouts/layout'
+import 'styles/app/layouts/dashboard/dashboard_layout'
 
 const { Content, Sider } = Layout
 const SubMenu = Menu.SubMenu
 
-class ApplicationLayout extends React.Component {
+class DashboardLayout extends React.Component {
   constructor(props, context) {
     super(props, context)
   }
 
   render() {
     return (
-      <Layout className="layout-wraper application-layout">
+      <Layout className="layout-wraper dashboard-layout">
         <Layout style={{ minHeight: '100vh' }}>
           <Header/>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
@@ -32,4 +32,4 @@ class ApplicationLayout extends React.Component {
   }
 }
 
-export default ApplicationLayout
+export default DashboardLayout

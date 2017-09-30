@@ -29,8 +29,8 @@ class IndexScreen extends React.Component {
   render() {
     const {indexState} = this.props
     return (
-      <div>
-        <h1>Channels</h1>
+      <div className="main-content cronus-channels">
+        <h1 className="main-content-title">Channels</h1>
         <ChannelsTableBox {...this.props}/>
       </div>
     )

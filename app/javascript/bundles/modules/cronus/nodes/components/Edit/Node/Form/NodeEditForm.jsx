@@ -146,9 +146,9 @@ class NodeEditForm extends React.Component {
     const productCascaderOptions = this.getProductCascaderOptions()
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}
@@ -158,7 +158,7 @@ class NodeEditForm extends React.Component {
           </Row>
         )}
         {isFetchingNode && (
-          <div style={{textAlign: 'center'}}>
+          <div className="main-content-form-box-loading-box">
             <Spin />
           </div>
         )}

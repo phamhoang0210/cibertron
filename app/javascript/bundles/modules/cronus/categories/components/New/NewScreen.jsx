@@ -12,8 +12,8 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new category</h1>
+      <div className="main-content cronus-categories-new">
+        <h1 className="main-content-title">Create new category</h1>
         <CategoryNewForm {...this.props}/>
       </div>
     )

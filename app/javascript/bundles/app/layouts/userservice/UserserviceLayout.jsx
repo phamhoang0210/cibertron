@@ -6,7 +6,7 @@ import Header from '../Header'
 import ContentBreadcrumb from '../ContentBreadcrumb'
 import Sider from '../Sider'
 
-import 'styles/layouts/layout'
+import 'styles/app/layouts/userservice/userservice_layout'
 
 const { Content } = Layout
 
@@ -21,11 +21,11 @@ class UserserviceLayout extends React.Component {
     return (
       <Layout className="layout-wraper userservice-layout">
         <Sider location={location}/>
-        <Layout style={{ marginLeft: 230, minHeight: '100vh' }}>
+        <Layout className="layout-content">
           <Header/>
-          <Content style={{ margin: '16px 16px 0', overflow: 'initial' }}>
+          <Content className="content-wraper">
             <ContentBreadcrumb location={location}/>
-            <div style={{ marginTop: 16, padding: '4px 16px 0px 16px', background: '#fff' }}>
+            <div className="content-box">
               {this.props.children}
             </div>
           </Content>

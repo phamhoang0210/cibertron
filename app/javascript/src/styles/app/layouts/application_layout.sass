@@ -1,0 +1,31 @@
+@import './partials/box'
+@import './partials/measure'
+
+.layout-wraper
+  .layout-content
+    margin-left: 230px
+    min-height: 100vh
+    &-header
+      background: #fff
+      padding: 0
+      height: 48px
+      &-menu
+        line-height: 47px
+        float: right
+    &-footer
+      text-align: center
+    & > .content-wraper
+      margin: 16px 16px 0px
+      overflow: initial
+      & > .content-box
+        margin-top: 16px
+        padding: 4px 16px 0px 16px
+        background: #fff
+  .layout-sider
+    overflow:  auto
+    height: 100vh
+    position:  fixed
+    left: 0px
+    &-logo
+      padding: 16px
+      border-bottom: 1px dotted #666

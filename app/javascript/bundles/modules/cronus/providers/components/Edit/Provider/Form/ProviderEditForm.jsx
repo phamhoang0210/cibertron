@@ -51,9 +51,9 @@ class ProviderEditForm extends React.Component {
     const isFetchingProvider = editState.get('isFetchingProvider')
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}
@@ -63,7 +63,7 @@ class ProviderEditForm extends React.Component {
           </Row>
         )}
         {isFetchingProvider && (
-          <div style={{textAlign: 'center'}}>
+          <div className="main-content-form-box-search-box">
             <Spin />
           </div>
         )}

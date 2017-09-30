@@ -51,9 +51,9 @@ class ChannelNewForm extends React.Component {
     const categories = sharedState.get('categories')
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}

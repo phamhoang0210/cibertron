@@ -32,11 +32,11 @@ class CategoriesTableBox extends React.Component {
       dataIndex: 'code',
       key: 'code',
     }, {
-      title: 'Action',
+      title: '',
       key: 'action',
       render: (cell, row) => {
         return (
-          <span>
+          <div className="text-align--right">
             <Popconfirm
               placement="topLeft"
               title="Are you sure delete this category?"
@@ -48,10 +48,13 @@ class CategoriesTableBox extends React.Component {
                 Delete
               </Button>
             </Popconfirm>
-            <Button style={{marginLeft: '4px'}} onClick={(e) => this.handleEdit(row.id)}>
+            <Button
+              className="button-margin--left--default"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
               Edit
             </Button>
-          </span>
+          </div>
         )
       },
     }];
@@ -95,17 +98,16 @@ class CategoriesTableBox extends React.Component {
     const isFetchingCategories = indexState.get('isFetchingCategories')
 
     return (
-      <div style={{marginTop: '8px'}}>
-        <Row style={{marginBottom: '8px'}}>
+      <div className="main-content-table-box">
+        <Row className="main-content-table-box-tools">
           <Col span={18}>
             <Button
-              style={{marginBottom: '8px'}}
               onClick={this.handleAdd}
             >
               Add
             </Button>
           </Col>
-          <Col span={6} style={{ textAlign: 'right' }}>
+          <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
               placeholder="Search by code.."
               onSearch={this.handleSearch}
@@ -113,6 +115,7 @@ class CategoriesTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+          className="main-content-table-box-body"
           size="middle"
           columns={this.columns}
           dataSource={categories.toJS()}

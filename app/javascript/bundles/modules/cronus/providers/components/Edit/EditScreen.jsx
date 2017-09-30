@@ -13,8 +13,8 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Update provider</h1>
+      <div className="main-content cronus-providers-edit">
+        <h1 className="main-content-title">Update provider</h1>
         <ProviderEditForm {...this.props}/>
       </div>
     )

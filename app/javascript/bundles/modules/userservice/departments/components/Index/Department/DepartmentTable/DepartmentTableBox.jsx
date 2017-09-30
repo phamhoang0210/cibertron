@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm } from 'antd'
+import { Table, Icon, Button, Popconfirm, Row, Col } from 'antd'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { DEPARTMENTS_URL } from '../../../../constants/paths'
@@ -94,14 +94,21 @@ class DepartmentTableBox extends React.Component {
     const isFetchingDepartments = indexState.get('isFetchingDepartments')
 
     return (
-      <div style={{marginTop: '8px'}}>
-        <Button
-          style={{marginBottom: '8px'}}
-          onClick={this.handleAdd}
-        >
-          Add
-        </Button>
+      <div className="main-content-table-box">
+        <Row className="main-content-table-box-tools">
+          <Col span={18}>
+            <Button
+              onClick={this.handleAdd}
+            >
+              Add
+            </Button>
+          </Col>
+          <Col span={6} className="main-content-table-box-tools-search-box">
+            
+          </Col>
+        </Row>
         <Table
+          className="main-content-table-box-body"
           size="middle"
           columns={this.columns}
           dataSource={departments.toJS()}

@@ -52,9 +52,9 @@ class OrderEditForm extends React.Component {
     const nodes = sharedState.get('nodes')
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}
@@ -64,7 +64,7 @@ class OrderEditForm extends React.Component {
           </Row>
         )}
         {isFetchingOrder && (
-          <div style={{textAlign: 'center'}}>
+          <div className="main-content-form-box-loading-box">
             <Spin />
           </div>
         )}
@@ -91,10 +91,18 @@ class OrderEditForm extends React.Component {
                   )}
                 </FormItem>
                 <FormItem  {...this.buttonItemLayout}>
-                  <Button type="primary" htmlType="submit" loading={isUpdatingOrder}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isUpdatingOrder}
+                  >
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button
+                    className="button-margin--left--default"
+                    type="default"
+                    onClick={this.handleBack}
+                    >
                     Back
                   </Button>
                 </FormItem>

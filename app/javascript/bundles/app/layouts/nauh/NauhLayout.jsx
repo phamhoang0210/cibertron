@@ -6,7 +6,7 @@ import Header from '../Header'
 import ContentBreadcrumb from '../ContentBreadcrumb'
 import Sider from '../Sider'
 
-import 'styles/layouts/layout'
+import 'styles/app/layouts/nauh/nauh_layout'
 
 const { Content } = Layout
 
@@ -17,14 +17,15 @@ class NauhLayout extends React.Component {
 
   render() {
     const {location} = this.props
+    
     return (
-      <Layout className="layout-wraper cronus-layout">
+      <Layout className="layout-wraper nauh-layout">
         <Sider location={location}/>
-        <Layout style={{ marginLeft: 230, minHeight: '100vh' }}>
+        <Layout className="layout-content">
           <Header/>
-          <Content style={{ margin: '16px 16px 0', overflow: 'initial' }}>
+          <Content className="content-wraper">
             <ContentBreadcrumb location={location}/>
-            <div style={{ marginTop: 16, padding: '4px 16px 0px 16px', background: '#fff' }}>
+            <div className="content-box">
               {this.props.children}
             </div>
           </Content>

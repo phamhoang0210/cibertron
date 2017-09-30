@@ -16,8 +16,8 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Update account</h1>
+      <div className="main-content userservice-accounts-edit">
+        <h1 className="main-content-title">Update account</h1>
         <AccountEditBox {...this.props}/>
       </div>
     )
