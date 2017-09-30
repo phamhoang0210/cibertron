@@ -30,7 +30,9 @@ class ServiceList extends React.Component {
             return (
               <Col span={6} style={{marginTop: '16px', cursor: 'pointer'}} key={service.get('id')}>
                 <Card title={service.get('name')} bordered={false} onClick={handleClick}>
-                  {service.get('description')}
+                  <p style={{height: '36px', lineHeight: '12px', overflowY: 'auto'}}>
+                    {service.get('description')}
+                  </p>
                 </Card>
               </Col>
             )

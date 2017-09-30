@@ -43,9 +43,10 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CHANNEL_SUCCESS: {
       return $$state.merge({
         isUpdatingChannel: false,
-        channel: record,
         alert: createSuccessAlert('Channel was successfully updated'),
-      })
+      }).update('channel', channelItem => (
+        channelItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_CHANNEL_FAILURE: {

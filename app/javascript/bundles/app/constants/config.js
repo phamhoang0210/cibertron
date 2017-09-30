@@ -1,0 +1,3 @@
+export const LONG_DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
+export const SHORT_DATETIME_FORMAT = 'DD/MM/YYYY, HH:MM'
+export const MYSQL_DATETIME_FORMAT = 'YYYY-MM-DD HH:MM:SS'

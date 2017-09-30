@@ -1,9 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
+import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { CATEGORIES_URL } from '../../../../constants/paths'
+
+const { Search } = Input
 
 class CategoriesTableBox extends React.Component {
   constructor(props) {
@@ -13,7 +15,8 @@ class CategoriesTableBox extends React.Component {
       'handleTableChange',
       'handleDelete',
       'handleEdit',
-      'handleAdd'
+      'handleAdd',
+      'handleSearch',
     ])
 
     this.columns = [{
@@ -79,6 +82,12 @@ class CategoriesTableBox extends React.Component {
     actions.fetchCategories(categoryParams)
   }
 
+  handleSearch(keyword) {
+    const {actions, indexState} = this.props
+    let categoryParams = getFilterParams(indexState.get('categoryFilters'))
+    actions.fetchCategories(mergeDeep([categoryParams, {compconds: {'code.like': `%${keyword}%`}}]))
+  }
+
   render() {
     const {indexState} = this.props
     const categories = indexState.get('categories')
@@ -87,13 +96,24 @@ class CategoriesTableBox extends React.Component {
 
     return (
       <div style={{marginTop: '8px'}}>
-        <Button
-          style={{marginBottom: '8px'}}
-          onClick={this.handleAdd}
-        >
-          Add
-        </Button>
+        <Row style={{marginBottom: '8px'}}>
+          <Col span={18}>
+            <Button
+              style={{marginBottom: '8px'}}
+              onClick={this.handleAdd}
+            >
+              Add
+            </Button>
+          </Col>
+          <Col span={6} style={{ textAlign: 'right' }}>
+            <Search
+              placeholder="Search by code.."
+              onSearch={this.handleSearch}
+            />
+          </Col>
+        </Row>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={categories.toJS()}
           pagination={{

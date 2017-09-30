@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingCampaign: false,
         campaign: record,
-        alert: createSuccessAlert('Campaign was successfully created'),
+        alert: createSuccessAlert(`Campaign was successfully created. {code: ${record.code}}`),
       })
     }
 

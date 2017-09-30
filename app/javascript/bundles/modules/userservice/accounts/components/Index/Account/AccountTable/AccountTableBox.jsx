@@ -110,6 +110,7 @@ class AccountTableBox extends React.Component {
           Add
         </Button>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={accounts.toJS()}
           pagination={{

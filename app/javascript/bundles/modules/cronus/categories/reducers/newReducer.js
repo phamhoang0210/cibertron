@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingCategory: false,
         category: record,
-        alert: createSuccessAlert('Category was successfully created'),
+        alert: createSuccessAlert(`Category was successfully created. {code: ${record.code}}`),
       })
     }
 

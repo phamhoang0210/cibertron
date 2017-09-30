@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       option.resources :nodes
       option.resources :campaigns
       option.resources :campaign_bydates
+      option.resources :leads
     end
   end
 
@@ -34,6 +35,22 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
       option.resources :promos
+      option.resources :courses
+      option.resources :combos
+      option.resources :targets
+      option.resources :systemlogs
+    end
+  end
+
+  namespace :nauh do
+    root to: 'dashboard#index'
+    with_options only: [:index, :new, :edit] do |option|
+      option.resources :leads do
+        collection do
+          get 'assign', to: 'leads#assign'
+        end
+      end
+      option.resources :orders
     end
   end
 

@@ -1,6 +1,8 @@
 import request from 'axios'
 import ReactOnRails from 'react-on-rails'
 import { getCredentials, handleAuthFailure } from 'helpers/auth/authHelper'
+import Qs from 'qs'
+
 const BASE_API_URL = ''
 
 function validateStatus(status) {
@@ -9,7 +11,6 @@ function validateStatus(status) {
 }
 
 export default {
-
   fetchEntities(path, params = {}) {
     const credentials = getCredentials()
 
@@ -18,6 +19,9 @@ export default {
       url: BASE_API_URL + path,
       responseType: 'json',
       params: params,
+      paramsSerializer: function(params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+      },
       headers: credentials,
       validateStatus: validateStatus,
     });
@@ -78,4 +82,22 @@ export default {
       validateStatus: validateStatus,
     });
   },
+
+  uploadEntity(path, entity = {}) {
+    const credentials = getCredentials()
+    const railsAuthenticityHeaders = ReactOnRails.authenticityHeaders()
+    
+    return request({
+      method: 'POST',
+      url: BASE_API_URL + path,
+      responseType: 'json',
+      headers: {
+        ...credentials,
+        ...railsAuthenticityHeaders,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: entity,
+      validateStatus: validateStatus,
+    });
+  }
 };

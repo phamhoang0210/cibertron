@@ -54,7 +54,52 @@ export const breadcrumbData = Immutable.fromJS({
         new: {
           title: 'Create'
         }
+      },
+      // Home > Cronus > Leads
+      leads: {
+        title: 'Leads',
+        // Home > Cronus > Leads > New
+        new: {
+          title: 'Create'
+        }
       }
+    },
+    // Home > SOL
+    sol: {
+      title: 'SOL',
+      // Home > SOL > Promos
+      promos: {
+        title: 'Promos',
+        // Home > SOL > Promos > Create
+        new: {
+          title: 'Create',
+        },
+      },
+      courses: {
+        title: 'Courses',
+        // Home > SOL > Promos > Create
+        new: {
+          title: 'Create',
+        },
+      },
+      combos: {
+        title: 'Combos',
+        // Home > SOL > Promos > Create
+        new: {
+          title: 'Create',
+        },
+      },
+      targets: {
+        title: 'Targets',
+        // Home > SOL > Promos > Create
+        new: {
+          title: 'Create',
+        },
+      },
+      systemlogs: {
+        title: 'System Logs',
+        // Home > SOL > Promos > Create
+      },
     },
     // Home > Userservice
     userservice: {
@@ -75,6 +120,26 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         },
       },
+    },
+    // Home > Nauh
+    nauh: {
+      title: 'Nauh',
+      // Home > Nauh > Leads
+      leads: {
+        title: 'Leads',
+        // Home > Nauh > Leads > Create
+        new: {
+          title: 'Create',
+        }
+      },
+      // Home > Nauh > Orders
+      orders: {
+        title: 'Orders',
+        // Home > Nauh > Orders > Create
+        new: {
+          title: 'Create',
+        }
+      }
     }
   }
 })

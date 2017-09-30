@@ -1,6 +1,7 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import ChannelsTableBox from './Channel/ChannelsTable/ChannelsTableBox'
+import { notification } from 'antd'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -11,6 +12,18 @@ class IndexScreen extends React.Component {
     const {actions, indexState} = this.props
     const channelParams = getFilterParams(indexState.get('channelFilters'))
     actions.fetchChannels(channelParams)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const alert = this.props.indexState.get('alert')
+    const nextAlert = nextProps.indexState.get('alert')
+    if(nextAlert && !nextAlert.equals(alert)) {
+      nextAlert.get('messages').forEach(message => {
+        notification[nextAlert.get('type')]({
+          message: message,
+        })
+      })
+    }
   }
 
   render() {

@@ -1,9 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
+import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { NODES_URL } from '../../../../constants/paths'
+
+const { Search } = Input
 
 class NodesTableBox extends React.Component {
   constructor(props) {
@@ -13,7 +15,8 @@ class NodesTableBox extends React.Component {
       'handleTableChange',
       'handleDelete',
       'handleEdit',
-      'handleAdd'
+      'handleAdd',
+      'handleSearch',
     ])
 
     this.columns = [{
@@ -25,13 +28,31 @@ class NodesTableBox extends React.Component {
       dataIndex: 'code',
       key: 'code',
     }, {
-      title: 'Worker code',
-      dataIndex: 'worker_code',
-      key: 'worker_code',
+      title: 'Worker',
+      dataIndex: 'worker_id',
+      key: 'worker',
+      render: (text, record) => {
+        if(text) {
+          return (
+            <span>
+              <b>{record.worker_code}</b> {record.worker_type ? `(${record.worker_type})` : ''}
+            </span>
+          )
+        }
+      },
     }, {
-      title: 'Product code',
-      dataIndex: 'product_code',
-      key: 'product_code',
+      title: 'Product',
+      dataIndex: 'product_id',
+      key: 'product',
+      render: (text, record) => {
+        if(text) {
+          return (
+            <span>
+              <b>{record.product_code}</b> {record.product_type ? `(${record.product_type})` : ''}
+            </span>
+          )
+        }
+      },
     }, {
       title: 'Channel code',
       dataIndex: 'channel.code',
@@ -87,6 +108,12 @@ class NodesTableBox extends React.Component {
     actions.fetchNodes(nodeParams)
   }
 
+  handleSearch(keyword) {
+    const {actions, indexState} = this.props
+    let nodeParams = getFilterParams(indexState.get('nodeFilters'))
+    actions.fetchNodes(mergeDeep([nodeParams, {compconds: {'code.like': `%${keyword}%`}}]))
+  }
+
   render() {
     const {indexState} = this.props
     const nodes = indexState.get('nodes')
@@ -95,13 +122,24 @@ class NodesTableBox extends React.Component {
 
     return (
       <div style={{marginTop: '8px'}}>
-        <Button
-          style={{marginBottom: '8px'}}
-          onClick={this.handleAdd}
-        >
-          Add
-        </Button>
+        <Row style={{marginBottom: '8px'}}>
+          <Col span={18}>
+            <Button
+              style={{marginBottom: '8px'}}
+              onClick={this.handleAdd}
+            >
+              Add
+            </Button>
+          </Col>
+          <Col span={6} style={{ textAlign: 'right' }}>
+            <Search
+              placeholder="Search by code.."
+              onSearch={this.handleSearch}
+            />
+          </Col>
+        </Row>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={nodes.toJS()}
           pagination={{

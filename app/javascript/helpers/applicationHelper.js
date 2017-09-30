@@ -1,3 +1,6 @@
+import { Map} from 'immutable'
+import DeepMerge from 'deep-merge/multiple'
+
 export function parseError(error) {
   const response = error.response
   let alertMessages = ['System error!']
@@ -34,6 +37,7 @@ export function getFilterParams(filters) {
   const orders = filters.get('orders')
   const searches = filters.get('searches')
   const fields = filters.get('fields')
+  const compconds = filters.get('compconds')
 
   // fetch page params
   if (page) {
@@ -50,5 +54,18 @@ export function getFilterParams(filters) {
     params.fields = fields
   }
 
+  // fetch compconds
+  if (compconds) {
+    params.compconds = compconds.toJS()
+  }
+
   return Object.assign({}, params, searches.toJS())
+}
+
+export function mergeDeep(objs = []) {
+  const merge = DeepMerge(function (a, b) {
+    return b
+  })
+  
+  return merge(objs)
 }

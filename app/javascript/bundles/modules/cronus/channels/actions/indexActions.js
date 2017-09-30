@@ -53,6 +53,7 @@ function deleteChannelFailure(error, channelId) {
   return {
     type: actionTypes.DELETE_CHANNEL_FAILURE,
     error,
+    channelId,
   }
 }
 

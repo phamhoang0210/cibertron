@@ -53,6 +53,7 @@ function deleteNodeFailure(error, nodeId) {
   return {
     type: actionTypes.DELETE_NODE_FAILURE,
     error,
+    nodeId,
   }
 }
 

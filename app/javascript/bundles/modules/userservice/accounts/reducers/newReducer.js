@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingAccount: false,
         account: record,
-        alert: createSuccessAlert('Account was successfully created'),
+        alert: createSuccessAlert(`Account was successfully created. {id: ${record.id}}`),
       })
     }
 

@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingNode: false,
         node: record,
-        alert: createSuccessAlert('Node was successfully created'),
+        alert: createSuccessAlert(`Node was successfully created. {code: ${record.code}}`),
       })
     }
 

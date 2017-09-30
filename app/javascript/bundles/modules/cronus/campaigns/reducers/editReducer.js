@@ -43,9 +43,10 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CAMPAIGN_SUCCESS: {
       return $$state.merge({
         isUpdatingCampaign: false,
-        campaign: record,
         alert: createSuccessAlert('Campaign was successfully updated'),
-      })
+      }).update('campaign', campaignItem => (
+        campaignItem.merge(record)
+      ))
     }
 
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {

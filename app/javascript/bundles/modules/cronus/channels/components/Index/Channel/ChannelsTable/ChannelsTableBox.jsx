@@ -1,9 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
+import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { CHANNELS_URL } from '../../../../constants/paths'
+
+const { Search } = Input
 
 class ChannelsTableBox extends React.Component {
   constructor(props) {
@@ -13,7 +15,8 @@ class ChannelsTableBox extends React.Component {
       'handleTableChange',
       'handleDelete',
       'handleEdit',
-      'handleAdd'
+      'handleAdd',
+      'handleSearch',
     ])
 
     this.columns = [{
@@ -91,6 +94,12 @@ class ChannelsTableBox extends React.Component {
     actions.fetchChannels(channelParams)
   }
 
+  handleSearch(keyword) {
+    const {actions, indexState} = this.props
+    let channelParams = getFilterParams(indexState.get('channelFilters'))
+    actions.fetchChannels(mergeDeep([channelParams, {compconds: {'code.like': `%${keyword}%`}}]))
+  }
+
   render() {
     const {indexState} = this.props
     const channels = indexState.get('channels')
@@ -99,13 +108,24 @@ class ChannelsTableBox extends React.Component {
 
     return (
       <div style={{marginTop: '8px'}}>
-        <Button
-          style={{marginBottom: '8px'}}
-          onClick={this.handleAdd}
-        >
-          Add
-        </Button>
+        <Row style={{marginBottom: '8px'}}>
+          <Col span={18}>
+            <Button
+              style={{marginBottom: '8px'}}
+              onClick={this.handleAdd}
+            >
+              Add
+            </Button>
+          </Col>
+          <Col span={6} style={{ textAlign: 'right' }}>
+            <Search
+              placeholder="Search by code.."
+              onSearch={this.handleSearch}
+            />
+          </Col>
+        </Row>
         <Table
+          size="middle"
           columns={this.columns}
           dataSource={channels.toJS()}
           pagination={{

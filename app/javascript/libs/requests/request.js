@@ -1,5 +1,6 @@
 import request from 'axios';
 import ReactOnRails from 'react-on-rails';
+import Qs from 'qs'
 
 const BASE_API_URL = '';
 
@@ -11,6 +12,9 @@ export default {
       url: BASE_API_URL + path,
       responseType: 'json',
       params: params,
+      paramsSerializer: function(params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+      },
     });
   },
 

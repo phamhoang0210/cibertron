@@ -3,110 +3,60 @@ import _ from 'lodash'
 import { Table, Icon, Button, Popconfirm } from 'antd'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
-import { CAMPAIGNS_URL } from '../../../../constants/paths'
+import { PROMOS_URL } from '../../../../constants/paths'
 import { Badge, Menu, Dropdown } from 'antd';
 
 class PromosTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    _.bindAll(this, [
+      'handleTableChange',
+    ])
+  }
+
+  handleTableChange(pagination, filters, sorter) {
+    const {actions, indexState} = this.props
+    let promoParams = getFilterParams(indexState.get('promoFilters'))
+    const {current, pageSize, total} = pagination
+
+    if(current != promoParams.page) {
+      promoParams.page = current
+    }
+
+    actions.fetchPromos(promoParams)
   }
 
   render() {
-    const menu = (
-      <Menu>
-        <Menu.Item>
-          Action 1
-        </Menu.Item>
-        <Menu.Item>
-          Action 2
-        </Menu.Item>
-      </Menu>
-    );
+    const {indexState} = this.props
+    const promos = indexState.get('promos')
+    const paging = indexState.getIn(['promoFilters', 'paging'])
+    const isFetchingPromos = indexState.get('isFetchingPromos')
+    const data = indexState.get('promos').toJS()
+    const columns = [
+      {title: 'Name', dataIndex: 'name', key: 'name'}, 
+      {title: 'Type', dataIndex: 'promo_type', key: 'promo_type'},
+      {title: 'Target', dataIndex: 'target_id', key: 'target_id'},
+      {title: 'Date', dataIndex: 'created_at', key: 'created_at'}
+    ]
 
-    function NestedTable() {
-      const expandedRowRender = () => {
-        const columns = [
-          { title: 'Date', dataIndex: 'date', key: 'date' },
-          { title: 'Name', dataIndex: 'name', key: 'name' },
-          { title: 'Status', key: 'state', render: () => <span><Badge status="success" />Finished</span> },
-          { title: 'Upgrade Status', dataIndex: 'upgradeNum', key: 'upgradeNum' },
-          {
-            title: 'Action',
-            dataIndex: 'operation',
-            key: 'operation',
-            render: () => (
-              <span className={'table-operation'}>
-                <a href="#">Pause</a>
-                <a href="#">Stop</a>
-                <Dropdown overlay={menu}>
-                  <a href="#">
-                    More <Icon type="down" />
-                  </a>
-                </Dropdown>
-              </span>
-            ),
-          },
-        ];
+    const expandedRowRender = (record) => {
+      
+    };
 
-        const data = [];
-        for (let i = 0; i < 3; ++i) {
-          data.push({
-            key: i,
-            date: '2014-12-24 23:12:00',
-            name: 'This is production name',
-            upgradeNum: 'Upgraded: 56',
-          });
-        }
-        return (
-          <Table
-            columns={columns}
-            dataSource={data}
-            pagination={false}
-          />
-        );
-      };
-
-      const columns = [
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Platform', dataIndex: 'platform', key: 'platform' },
-        { title: 'Version', dataIndex: 'version', key: 'version' },
-        { title: 'Upgraded', dataIndex: 'upgradeNum', key: 'upgradeNum' },
-        { title: 'Creator', dataIndex: 'creator', key: 'creator' },
-        { title: 'Date', dataIndex: 'createdAt', key: 'createdAt' },
-        { title: 'Action', key: 'operation', render: () => <a href="#">Publish</a> },
-      ];
-
-      const data = [];
-      for (let i = 0; i < 3; ++i) {
-        data.push({
-          key: i,
-          name: 'Screem',
-          platform: 'iOS',
-          version: '10.3.4.5654',
-          upgradeNum: 500,
-          creator: 'Jack',
-          createdAt: '2014-12-24 23:12:00',
-        });
-      }
-      return (
-        <Table
+    return (
+      <Table
           className="components-table-demo-nested"
           columns={columns}
           expandedRowRender={expandedRowRender}
           dataSource={data}
+          pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
+          onChange={this.handleTableChange}
+          loading={isFetchingPromos}
+          rowKey="id"
         />
-      );
-    }
-    return (
-      <NestedTable />
-    )
+    );
   }
+
 }
-
 export default PromosTableBox
-
-
-
-
-
-

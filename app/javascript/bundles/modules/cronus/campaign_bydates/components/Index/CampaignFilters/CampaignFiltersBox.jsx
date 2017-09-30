@@ -9,8 +9,8 @@ class CampaignFiltersBox extends React.Component {
     super(props)
 
     this.formItemLayout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 19 },
+      labelCol: { span: 7 },
+      wrapperCol: { span: 17 },
     }
   }
 
