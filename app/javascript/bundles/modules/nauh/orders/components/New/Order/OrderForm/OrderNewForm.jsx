@@ -106,9 +106,9 @@ class OrderNewForm extends React.Component {
     const productCascaderOptions = this.getProductCascaderOptions()
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}
@@ -118,7 +118,7 @@ class OrderNewForm extends React.Component {
           </Row>
         )}
         {isFetchingLead && (
-          <div style={{textAlign: 'center'}}>
+          <div className="main-content-form-box-loading-box">
             <Spin />
           </div>
         )}
@@ -186,7 +186,11 @@ class OrderNewForm extends React.Component {
                   )}
                 </FormItem>
                 <FormItem  {...this.buttonItemLayout}>
-                  <Button type="primary" htmlType="submit" loading={isCreatingOrder}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isCreatingOrder}
+                  >
                     Create
                   </Button>
                   {/*<Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>

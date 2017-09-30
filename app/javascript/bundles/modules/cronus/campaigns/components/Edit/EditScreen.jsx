@@ -14,8 +14,8 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Update campaign</h1>
+      <div className="main-content cronus-campaigns-edit">
+        <h1 className="main-content-title">Update campaign</h1>
         <CampaignEditForm {...this.props}/>
       </div>
     )

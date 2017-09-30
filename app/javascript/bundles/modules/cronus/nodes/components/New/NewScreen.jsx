@@ -18,8 +18,8 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new node</h1>
+      <div className="main-content cronus-nodes-new">
+        <h1 className="main-content-title">Create new node</h1>
         <NodeNewForm {...this.props}/>
       </div>
     )

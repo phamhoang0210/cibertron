@@ -52,9 +52,9 @@ class CampaignEditForm extends React.Component {
     const nodes = sharedState.get('nodes')
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}
@@ -64,11 +64,11 @@ class CampaignEditForm extends React.Component {
           </Row>
         )}
         {isFetchingCampaign && (
-          <div style={{textAlign: 'center'}}>
+          <div className="main-content-form-box-loading-box">
             <Spin />
           </div>
         )}
-        <Row>
+        <Row className="main-content-form-box-body">
           <Col span={10}>
             {campaign && !campaign.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">

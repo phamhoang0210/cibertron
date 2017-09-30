@@ -2,7 +2,6 @@ import React from 'react'
 import _ from 'lodash'
 import SignInForm from './SignInForm'
 import { Alert } from 'antd'
-import 'styles/auth/login'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 class AuthSignInScreen extends React.Component {

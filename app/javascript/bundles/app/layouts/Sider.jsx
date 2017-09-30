@@ -38,9 +38,11 @@ class Sider extends React.Component {
     }
 
     return (
-      <Layout.Sider width={230} style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}>
-        <div className="logo">
-          <img alt="Edumall logo"src="/assets/edumall-logo-full.png" />
+      <Layout.Sider width={230} className="layout-sider">
+        <div className="layout-sider-logo">
+          <a href="/">
+            <img alt="Edumall logo"src="/assets/edumall-logo-full.png" />
+          </a>
         </div>
         <Menu 
           theme="dark"

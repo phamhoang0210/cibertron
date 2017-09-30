@@ -12,8 +12,8 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new provider</h1>
+      <div className="main-content cronus-providers-new">
+        <h1 className="main-content-title">Create new provider</h1>
         <ProviderNewForm {...this.props}/>
       </div>
     )

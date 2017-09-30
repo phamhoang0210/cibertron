@@ -15,8 +15,8 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Update lead</h1>
+      <div className="main-content nauh-leads-edit">
+        <h1 className="main-content-title">Update lead</h1>
         <LeadEditForm {...this.props}/>
       </div>
     )

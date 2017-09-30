@@ -62,8 +62,8 @@ class CampaignsTableBox extends React.Component {
     const isFetchingCampaigns = indexState.get('isFetchingCampaigns')
 
     return (
-      <div style={{marginTop: '8px'}}>
-        <Row style={{marginBottom: '8px'}}>
+      <div className="main-content-table-box">
+        <Row className="main-content-table-box-tools">
           <Col span={18}>
             <Button onClick={(e) => this.setState({showAddModal: true})}>Add</Button>
             <CampaignBydateAddModalBox
@@ -72,7 +72,7 @@ class CampaignsTableBox extends React.Component {
               handleCancel={() => this.setState({showAddModal: false})}
             />
             <Button
-              style={{marginLeft: '4px'}}
+              className="button-margin--left--default"
               onClick={(e) => this.setState({showImportModal: true})}
             >
               Import
@@ -83,7 +83,7 @@ class CampaignsTableBox extends React.Component {
               handleCancel={() => this.setState({showImportModal: false})}
             />
           </Col>
-          <Col span={6} style={{ textAlign: 'right' }}>
+          <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
               placeholder="Search campaign by code.."
               onSearch={this.handleSearch}
@@ -91,6 +91,7 @@ class CampaignsTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+           className="main-content-table-box-body"
           size="middle"
           columns={this.columns}
           dataSource={campaigns.toJS()}

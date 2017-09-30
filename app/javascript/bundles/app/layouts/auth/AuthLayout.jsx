@@ -1,6 +1,5 @@
 import React from 'react'
-import 'styles/layouts/layout'
-import 'styles/layouts/auth/auth_layout'
+import 'styles/app/layouts/auth/auth_layout'
 
 class AuthLayout extends React.Component {
   constructor(props, context) {

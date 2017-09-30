@@ -19,8 +19,8 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new order</h1>
+      <div className="main-content nauh-orders-new">
+        <h1 className="main-content-title">Create new order</h1>
         <OrderNewForm {...this.props}/>
       </div>
     )

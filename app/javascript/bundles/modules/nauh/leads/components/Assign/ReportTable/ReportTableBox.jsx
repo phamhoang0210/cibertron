@@ -57,8 +57,8 @@ class ReportTableBox extends React.Component {
     const emptyStaffReport = leadReport.find(r => !r.get('staff_id'))
 
     return (
-      <div style={{marginTop: '8px'}}>
-        <Row style={{marginBottom: '8px'}}>
+      <div className="main-content-table-box">
+        <Row className="main-content-table-box-tools">
           <Col span={24}>
             <LeadAssignFormBox {...this.props}/>
           </Col>

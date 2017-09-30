@@ -55,9 +55,9 @@ class LeadEditForm extends React.Component {
     const users = sharedState.get('users')
     
     return (
-      <div style={{marginTop: '8px'}}>
+      <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
-          <Row style={{marginBottom: '8px'}}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={10}>
               <AlertBox
                 messages={alert.get('messages')}
@@ -67,7 +67,7 @@ class LeadEditForm extends React.Component {
           </Row>
         )}
         {isFetchingLead && (
-          <div style={{textAlign: 'center'}}>
+          <div className="main-content-form-box-loading-box">
             <Spin />
           </div>
         )}
@@ -164,10 +164,18 @@ class LeadEditForm extends React.Component {
                   )}
                 </FormItem>
                 <FormItem  {...this.buttonItemLayout}>
-                  <Button type="primary" htmlType="submit" loading={isUpdatingLead}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isUpdatingLead}
+                  >
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button
+                    className="button-margin--left--default"
+                    type="default"
+                    onClick={this.handleBack}
+                  >
                     Back
                   </Button>
                 </FormItem>

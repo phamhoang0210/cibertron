@@ -14,8 +14,8 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new lead</h1>
+      <div className="main-content nauh-leads-new">
+        <h1 className="main-content-title">Create new lead</h1>
         <LeadNewForm {...this.props}/>
       </div>
     )

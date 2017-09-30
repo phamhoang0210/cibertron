@@ -32,8 +32,8 @@ class IndexScreen extends React.Component {
   render() {
     const {indexState} = this.props
     return (
-      <div>
-        <h1>Leads</h1>
+      <div className="main-content nauh-leads">
+        <h1 className="main-content-title">Leads</h1>
         <LeadFiltersFormBox {...this.props}/>
         <LeadsTableBox {...this.props}/>
       </div>
