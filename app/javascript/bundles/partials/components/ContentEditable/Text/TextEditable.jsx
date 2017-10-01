@@ -38,7 +38,7 @@ class TextEditable extends React.Component {
 
   render() {
     const { className, tagName, html, ...props } = this.props
-    const itemClassNames = classNames('contenteditable text-editable', className)
+    const itemClassNames = classNames('contenteditable', 'contenteditable-text-editable', className)
 
     return React.createElement(
       tagName || 'div',

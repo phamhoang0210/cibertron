@@ -55,6 +55,7 @@ class SelectEditable extends React.Component {
 
     return (
       <div
+        className="contenteditable contenteditable-select-editable"
         onClick={this.onClick}
       >
         {content}
