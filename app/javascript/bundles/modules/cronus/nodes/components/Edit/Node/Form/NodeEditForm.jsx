@@ -1,26 +1,19 @@
 import React from 'react'
 import {Map} from 'immutable'
 import _ from 'lodash'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { CODE_DELIMITER } from 'app/constants/cascader'
 import { browserHistory } from 'react-router'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox, Spin } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
 const FormItem = Form.Item
-const CODE_DELIMITER = '|.|'
 
 class NodeEditForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -166,14 +159,14 @@ class NodeEditForm extends React.Component {
           <Col span={10}>
             {node && !node.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Channel" {...this.formItemLayout}>
+                <FormItem label="Channel" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('channel_id', {
                     rules: [{ required: true, message: 'Channel is required!' }],
                     initialValue: `${node.getIn(['channel', 'id'])}`,
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a channel"
                     >
                       {channels.map(channel => (
@@ -184,7 +177,7 @@ class NodeEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Worker" {...this.formItemLayout}>
+                <FormItem label="Worker" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('worker', {
                     initialValue: [node.get('worker_type'), `${node.get('worker_id')}${CODE_DELIMITER}${node.get('worker_code')}`],
                   })(
@@ -195,7 +188,7 @@ class NodeEditForm extends React.Component {
                     />
                   )}
                 </FormItem>
-                <FormItem label="Product" {...this.formItemLayout}>
+                <FormItem label="Product" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('product', {
                     initialValue: [node.get('product_type'), `${node.get('product_id')}${CODE_DELIMITER}${node.get('product_code')}`],
                   })(
@@ -206,11 +199,11 @@ class NodeEditForm extends React.Component {
                     />
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingNode}>
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

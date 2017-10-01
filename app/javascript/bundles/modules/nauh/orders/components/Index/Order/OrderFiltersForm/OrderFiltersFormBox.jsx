@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { selectFilterOption } from 'helpers/antdHelper'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT } from 'app/constants/config'
 import moment from 'moment'
 
@@ -113,7 +114,7 @@ class OrderFiltersFormBox extends React.Component {
                   placeholder="-- All --"
                   allowClear={true}
                   showSearch
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  filterOption={selectFilterOption}
                 >
                   {campaigns.toJS().map(campaign => (
                     <Option value={`${campaign.id}`} key={campaign.id}>

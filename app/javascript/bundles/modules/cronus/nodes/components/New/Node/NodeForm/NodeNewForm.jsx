@@ -2,31 +2,18 @@ import React from 'react'
 import _ from 'lodash'
 import { Map } from 'immutable'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
+import { CODE_DELIMITER } from 'app/constants/cascader'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
 const FormItem = Form.Item
 
-const CODE_DELIMITER = '|$|'
-
 class NodeNewForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.formTailLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 8, offset: 4 },
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -163,13 +150,13 @@ class NodeNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Channel" {...this.formItemLayout}>
+              <FormItem label="Channel" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('channel_id', {
                   rules: [{ required: true, message: 'Channel is required!' }],
                 })(
                   <Select
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                     placeholder="Please select a channel"
                   >
                     {channels.map(channel => (
@@ -180,7 +167,7 @@ class NodeNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Worker" {...this.formItemLayout}>
+              <FormItem label="Worker" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('worker')(
                   <Cascader
                     options={workerCascaderOptions}
@@ -189,7 +176,7 @@ class NodeNewForm extends React.Component {
                   />
                 )}
               </FormItem>
-              <FormItem label="Product" {...this.formItemLayout}>
+              <FormItem label="Product" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('product')(
                   <Cascader
                     options={productCascaderOptions}
@@ -198,7 +185,7 @@ class NodeNewForm extends React.Component {
                   />
                 )}
               </FormItem>
-              <FormItem {...this.formTailLayout}>
+              <FormItem {...DEFAULT_FORM_TAIL_LAYOUT}>
                 {getFieldDecorator('auto_generate_code', {
                   valuePropName: 'checked',
                   initialValue: true,
@@ -207,17 +194,17 @@ class NodeNewForm extends React.Component {
                 )}
               </FormItem>
               {!getFieldValue('auto_generate_code') && (
-                <FormItem label="Code" {...this.formItemLayout}>
+                <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('code', {
                     rules: [{ required: true, message: 'Code is required!' }],
                   })(<Input />)}
                 </FormItem>
               )}
-              <FormItem  {...this.buttonItemLayout}>
+              <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingNode}>
                   Create
                 </Button>
-                <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                   Back
                 </Button>
               </FormItem>

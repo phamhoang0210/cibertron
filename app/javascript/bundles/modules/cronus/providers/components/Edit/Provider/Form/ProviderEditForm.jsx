@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
@@ -10,15 +11,6 @@ const FormItem = Form.Item
 class ProviderEditForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -71,23 +63,23 @@ class ProviderEditForm extends React.Component {
           <Col span={10}>
             {provider && !provider.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Name" {...this.formItemLayout}>
+                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: 'Name is required!' }],
                     initialValue: provider.get('name'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Code" {...this.formItemLayout}>
+                <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('code', {
                     rules: [{ required: true, message: 'Code is required!' }],
                     initialValue: provider.get('code'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingProvider}>
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

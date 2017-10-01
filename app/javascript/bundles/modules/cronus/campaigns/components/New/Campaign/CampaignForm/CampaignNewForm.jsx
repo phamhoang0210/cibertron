@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Checkbox } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
@@ -10,20 +12,6 @@ const FormItem = Form.Item
 class CampaignNewForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
-
-    this.formTailLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 8, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -68,13 +56,13 @@ class CampaignNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Node" {...this.formItemLayout}>
+              <FormItem label="Node" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('node_id', {
                   rules: [{ required: true, message: 'Node is required!' }],
                 })(
                   <Select
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                     placeholder="Please select a node"
                   >
                     {nodes.map(node => (
@@ -85,7 +73,7 @@ class CampaignNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem {...this.formTailLayout}>
+              <FormItem {...DEFAULT_FORM_TAIL_LAYOUT}>
                 {getFieldDecorator('auto_generate_code', {
                   valuePropName: 'checked',
                   initialValue: true,
@@ -94,17 +82,17 @@ class CampaignNewForm extends React.Component {
                 )}
               </FormItem>
               {!getFieldValue('auto_generate_code') && (
-                <FormItem label="Code" {...this.formItemLayout}>
+                <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('code', {
                   rules: [{ required: true, message: 'Code is required!' }],
                 })(<Input />)}
                 </FormItem>
               )}
-              <FormItem  {...this.buttonItemLayout}>
+              <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingCampaign}>
                   Create
                 </Button>
-                <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                   Back
                 </Button>
               </FormItem>

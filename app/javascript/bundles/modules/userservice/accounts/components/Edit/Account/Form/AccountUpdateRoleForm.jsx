@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 const { TextArea } = Input
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -11,16 +13,7 @@ const FormItem = Form.Item
 class AccountUpdateRoleForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
-
+    
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
@@ -74,13 +67,13 @@ class AccountUpdateRoleForm extends React.Component {
           <Col span={10}>
             {account && !account.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Admin role" {...this.formItemLayout}>
+                <FormItem label="Admin role" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('aruser_assignment_attributes[adminrole_id]', {
                     initialValue: account.getIn(['adminrole', 'id'])
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a adminrole"
                     >
                       {adminroles.map(adminrole => (
@@ -91,13 +84,13 @@ class AccountUpdateRoleForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Role" {...this.formItemLayout}>
+                <FormItem label="Role" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('user_assignment_attributes[role_id]', {
                     initialValue: account.getIn(['role', 'id'])
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a role"
                     >
                       {roles.map(role => (
@@ -108,11 +101,11 @@ class AccountUpdateRoleForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingAccount}>
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

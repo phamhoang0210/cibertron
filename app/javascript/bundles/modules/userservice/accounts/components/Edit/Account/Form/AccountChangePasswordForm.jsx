@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 const { TextArea } = Input
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -11,15 +12,6 @@ const FormItem = Form.Item
 class AccountChangePasswordForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -72,21 +64,21 @@ class AccountChangePasswordForm extends React.Component {
           <Col span={10}>
             {account && !account.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Password" {...this.formItemLayout}>
+                <FormItem label="Password" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: 'Password is required!' }],
                   })(<Input/>)}
                 </FormItem>
-                <FormItem label="Password confirmation" {...this.formItemLayout}>
+                <FormItem label="Password confirmation" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('password_confirmation', {
                     rules: [{ required: true, message: 'Password confirmation is required!' }],
                   })(<Input/>)}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingAccount}>
                     Save
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

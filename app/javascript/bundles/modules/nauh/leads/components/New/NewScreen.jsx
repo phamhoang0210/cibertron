@@ -9,6 +9,7 @@ class NewScreen extends React.Component {
   componentDidMount() {
     const {actions} = this.props
     actions.fetchLeadLevels({per_page: 'infinite'})
+    actions.fetchCareStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
   }
 

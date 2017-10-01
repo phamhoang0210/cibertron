@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
@@ -10,15 +12,6 @@ const FormItem = Form.Item
 class LeadEditForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -72,14 +65,14 @@ class LeadEditForm extends React.Component {
           <Col span={10}>
             {lead && !lead.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Node" {...this.formItemLayout}>
+                <FormItem label="Node" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('node_id', {
                     rules: [{ required: true, message: 'Node is required!' }],
                     initialValue: `${lead.getIn(['node', 'id'])}`,
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a node"
                     >
                       {nodes.map(node => (
@@ -90,11 +83,11 @@ class LeadEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingLead}>
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

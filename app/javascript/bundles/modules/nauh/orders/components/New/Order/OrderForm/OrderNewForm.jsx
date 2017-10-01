@@ -7,28 +7,16 @@ import {
   InputNumber,
 } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
+import { CODE_DELIMITER } from 'app/constants/cascader'
 
 const Option = Select.Option
 const FormItem = Form.Item
-const CODE_DELIMITER = '|$|'
 
 class OrderNewForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
-
-    this.formTailLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 8, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -126,31 +114,31 @@ class OrderNewForm extends React.Component {
           {lead && !lead.isEmpty() && (
             <Col span={10}>
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Name" {...this.formItemLayout}>
+                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: 'Name is required!' }],
                     initialValue: lead.get('name'),
                   })(<Input/>)}
                 </FormItem>
-                <FormItem label="Email" {...this.formItemLayout}>
+                <FormItem label="Email" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('email', {
                     rules: [{ required: true, message: 'Email is required!' }],
                     initialValue: lead.get('email'),
                   })(<Input/>)}
                 </FormItem>
-                <FormItem label="Mobile" {...this.formItemLayout}>
+                <FormItem label="Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('mobile', {
                     rules: [{ required: true, message: 'Mobile is required!' }],
                     initialValue: lead.get('mobile'),
                   })(<Input/>)}
                 </FormItem>
-                <FormItem label="Address" {...this.formItemLayout}>
+                <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('address', {
                     rules: [{ required: true, message: 'Address is required!' }],
                     initialValue: lead.get('address'),
                   })(<Input/>)}
                 </FormItem>
-                <FormItem label="Course" {...this.formItemLayout}>
+                <FormItem label="Course" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('product', {
                     rules: [{ required: true, message: 'Node is required!' }],
                   })(
@@ -161,20 +149,20 @@ class OrderNewForm extends React.Component {
                     />
                   )}
                 </FormItem>
-                <FormItem label="Promotion price" {...this.formItemLayout}>
+                <FormItem label="Promotion price" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('promotion_price', {
                     rules: [{ required: true, message: 'Price is required!' }],
                   })(
                     <Input/>
                   )}
                 </FormItem>
-                <FormItem label="Campaign" {...this.formItemLayout}>
+                <FormItem label="Campaign" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('campaign_id', {
                     rules: [{ required: true, message: 'Campaign is required!' }],
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a campaign"
                     >
                       {campaigns.map(campaign => (
@@ -185,7 +173,7 @@ class OrderNewForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button
                     type="primary"
                     htmlType="submit"
@@ -193,7 +181,7 @@ class OrderNewForm extends React.Component {
                   >
                     Create
                   </Button>
-                  {/*<Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  {/*<Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>*/}
                 </FormItem>
