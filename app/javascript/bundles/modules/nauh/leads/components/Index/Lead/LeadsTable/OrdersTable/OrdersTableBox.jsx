@@ -4,7 +4,7 @@ import { List } from 'immutable'
 import { Table } from 'antd'
 import { getFilterParams } from 'helpers/applicationHelper'
 import moment from 'moment'
-import { LONG_DATETIME_FORMAT } from 'app/constants/config'
+import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { EROS_BASE_URL } from 'app/constants/paths'
 
 class OrdersTableBox extends React.Component {

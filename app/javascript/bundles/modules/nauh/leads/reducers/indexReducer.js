@@ -217,7 +217,9 @@ export default function indexReducer($$state = initialState, action = null) {
               leadItem.merge({isUpdating: true})
             )
           )
-        ))
+        )).merge({
+          alert: null,
+        })
       ))
     }
 
@@ -230,7 +232,9 @@ export default function indexReducer($$state = initialState, action = null) {
               leadItem.merge({...record, isUpdating: false})
             )
           )
-        ))
+        )).merge({
+          alert: null,
+        })
       ))
     }
 
@@ -243,7 +247,9 @@ export default function indexReducer($$state = initialState, action = null) {
               leadItem.merge({isUpdating: false})
             )
           )
-        ))
+        )).merge({
+          alert: parseError(error),
+        })
       ))
     }
 

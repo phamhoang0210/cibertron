@@ -1,7 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
-import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT } from 'app/constants/config'
+import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
+import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { NAUH_BASE_URL, LEAD_EXPORT_API_PATH } from '../../../../constants/paths'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import moment from 'moment'
@@ -15,11 +16,6 @@ const RangePicker = DatePicker.RangePicker
 class LeadFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 7 },
-      wrapperCol: { span: 17 },
-    }
 
     _.bindAll(this, [
       'handleFilter',
@@ -41,7 +37,7 @@ class LeadFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['lead_level_id', 'staff_id', 'care_status']
+    const inCompFields = ['lead_level_id', 'staff_id', 'care_status_id']
     const timerangeFields = ['created_at', 'imported_at', 'assigned_at']
     
     let compconds = {}
@@ -71,6 +67,7 @@ class LeadFiltersFormBox extends React.Component {
     const {indexState, form, sharedState} = this.props
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
+    const careStatuses = sharedState.get('careStatuses')
     const users = sharedState.get('users')
     const totalPage = indexState.getIn(['leadFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
@@ -82,49 +79,40 @@ class LeadFiltersFormBox extends React.Component {
       >
         <Row gutter={40}>
           <Col span={8}>
-            <FormItem label="Created in" {...this.formItemLayout}>
+            <FormItem label="Created in" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('created_at')(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
-                  showTime={{
-                    hideDisabledOptions: true,
-                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                  }}
+                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Imported in" {...this.formItemLayout}>
+            <FormItem label="Imported in" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('imported_at')(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
-                  showTime={{
-                    hideDisabledOptions: true,
-                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                  }}
+                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Assigned in" {...this.formItemLayout}>
+            <FormItem label="Assigned in" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('assigned_at')(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
-                  showTime={{
-                    hideDisabledOptions: true,
-                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                  }}
+                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Level" {...this.formItemLayout}>
+            <FormItem label="Level" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('lead_level_id', {
                 rules: [{ type: 'array' }]
               })(
@@ -143,7 +131,7 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Staff" {...this.formItemLayout}>
+            <FormItem label="Staff" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('staff_id', {
                 rules: [{ type: 'array' }]
               })(
@@ -162,8 +150,8 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Status" {...this.formItemLayout}>
-              {getFieldDecorator('care_status', {
+            <FormItem label="Status" {...FILTER_FORM_ITEM_LAYOUT}>
+              {getFieldDecorator('care_status_id', {
                 rules: [{ type: 'array' }]
               })(
                 <Select
@@ -171,10 +159,11 @@ class LeadFiltersFormBox extends React.Component {
                   placeholder="-- All --"
                   allowClear={true}
                 >
-                  <Option value="default">default</Option>
-                  <Option value="processing">processing</Option>
-                  <Option value="done">done</Option>
-                  <Option value="cancelled">cancelled</Option>
+                  {careStatuses.toJS().map(status => (
+                    <Option value={`${status.id}`} key={status.id}>
+                      {status.code}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </FormItem>

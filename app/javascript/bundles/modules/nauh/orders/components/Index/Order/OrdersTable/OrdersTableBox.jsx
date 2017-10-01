@@ -5,7 +5,7 @@ import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
 import moment from 'moment'
-import { LONG_DATETIME_FORMAT } from 'app/constants/config'
+import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { EROS_BASE_URL } from 'app/constants/paths'
 
 const { Search } = Input
