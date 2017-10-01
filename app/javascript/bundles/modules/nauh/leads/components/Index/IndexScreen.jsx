@@ -14,6 +14,7 @@ class IndexScreen extends React.Component {
     const leadParams = getFilterParams(indexState.get('leadFilters'))
     actions.fetchLeads(leadParams)
     actions.fetchLeadLevels({per_page: 'infinite'})
+    actions.fetchCareStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
   }
 

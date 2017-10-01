@@ -45,7 +45,7 @@ class LeadsTableBox extends React.Component {
                 Delete
               </Button>
             </Popconfirm>
-            <Button style={{marginLeft: '4px'}} onClick={(e) => this.handleEdit(row.id)}>
+            <Button className="button-margin--left--default" onClick={(e) => this.handleEdit(row.id)}>
               Edit
             </Button>
           </span>

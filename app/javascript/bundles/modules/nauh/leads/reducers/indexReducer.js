@@ -9,7 +9,7 @@ export const initialState = Immutable.fromJS({
   importLeadsResults: [],
   leadFilters: {
     ...defaultFilters,
-    fields: 'lead_level{}'
+    fields: 'lead_level{},care_status{}'
   },
   isFetchingLeads: false,
   isImportingLeads: false,
@@ -206,6 +206,45 @@ export default function indexReducer($$state = initialState, action = null) {
         importLeadsResults: [],
         isImportingLeads: false,
       })
+    }
+
+    case actionTypes.SET_IS_UPDATING_LEAD_ATTRS: {
+      return $$state.withMutations(state => (
+        state.update('leads', leads => (
+          leads.update(
+            leads.findIndex(leadItem => leadItem.get('id') == leadId),
+            leadItem => (
+              leadItem.merge({isUpdating: true})
+            )
+          )
+        ))
+      ))
+    }
+
+    case actionTypes.UPDATE_LEAD_ATTRS_SUCCESS: {
+      return $$state.withMutations(state => (
+        state.update('leads', leads => (
+          leads.update(
+            leads.findIndex(leadItem => leadItem.get('id') == record.id),
+            leadItem => (
+              leadItem.merge({...record, isUpdating: false})
+            )
+          )
+        ))
+      ))
+    }
+
+    case actionTypes.UPDATE_LEAD_ATTRS_FAILURE: {
+      return $$state.withMutations(state => (
+        state.update('leads', leads => (
+          leads.update(
+            leads.findIndex(leadItem => leadItem.get('id') == leadId),
+            leadItem => (
+              leadItem.merge({isUpdating: false})
+            )
+          )
+        ))
+      ))
     }
 
     default: {

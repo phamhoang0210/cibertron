@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
@@ -11,15 +13,6 @@ const FormItem = Form.Item
 class ChannelEditForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -74,31 +67,31 @@ class ChannelEditForm extends React.Component {
           <Col span={10}>
             {channel && !channel.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Name" {...this.formItemLayout}>
+                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: 'Name is required!' }],
                     initialValue: channel.get('name'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Code" {...this.formItemLayout}>
+                <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('code', {
                     rules: [{ required: true, message: 'Code is required!' }],
                     initialValue: channel.get('code'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Description" {...this.formItemLayout}>
+                <FormItem label="Description" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('description', {
                     initialValue: channel.get('description'),
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Provider" {...this.formItemLayout}>
+                <FormItem label="Provider" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('provider_id', {
                     rules: [{ required: true, message: 'Provider is required!' }],
                     initialValue: `${channel.getIn(['provider', 'id'])}`,
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a provider"
                     >
                       {providers.map(provider => (
@@ -109,13 +102,13 @@ class ChannelEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Category" {...this.formItemLayout}>
+                <FormItem label="Category" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('category_id', {
                     initialValue: `${channel.getIn(['category', 'id'])}`,
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a category"
                     >
                       {categories.map(category => (
@@ -126,11 +119,11 @@ class ChannelEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingChannel}>
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

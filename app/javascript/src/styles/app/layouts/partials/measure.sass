@@ -1,5 +1,6 @@
 $margin-button-default: 4px;
-$table-row-height-md: 100px;
+$table-row-max-height-md: 160px;
+$table-row-min-height-md: 80px;
 
 .text
   &-align
@@ -23,3 +24,15 @@ $table-row-height-md: 100px;
     &--left
       &--default
         margin-left: $margin-button-default
+.table
+  &-row
+    &-height
+      &--md
+        max-height: $table-row-max-height-md
+        min-height: $table-row-min-height-md
+        overflow-y: auto
+    &-status
+      &--updating
+        background: #fcf8e3
+      &--deleting
+        background: #f2dede

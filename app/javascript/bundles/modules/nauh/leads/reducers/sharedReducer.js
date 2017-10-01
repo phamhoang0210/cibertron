@@ -3,9 +3,11 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   leadLevels: [],
+  careStatuses: [],
   users: [],
   isFetchingLeadLevels: false,
   isFetchingUsers: false,
+  isFetchingCareStatuses: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -47,6 +49,25 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_USERS_FAILURE: {
       return $$state.merge({
         isFetchingUsers: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_CARE_STATUSES: {
+      return $$state.merge({
+        isFetchingCareStatuses: true,
+      })
+    }
+
+    case actionTypes.FETCH_CARE_STATUSES_SUCCESS: {
+      return $$state.merge({
+        isFetchingCareStatuses: false,
+        careStatuses: records,
+      })
+    }
+
+    case actionTypes.FETCH_CARE_STATUSES_FAILURE: {
+      return $$state.merge({
+        isFetchingCareStatuses: false,
       })
     }
     

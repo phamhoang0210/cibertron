@@ -172,3 +172,35 @@ export function importLeads(params = {}) {
       .catch(error => dispatch(importLeadsFailure(error)))
   }
 }
+
+function setIsUpdatingLeadAttrs(leadId) {
+  return {
+    type: actionTypes.SET_IS_UPDATING_LEAD_ATTRS,
+    leadId,
+  }
+}
+
+function updateLeadAttrsSuccess(record) {
+  return {
+    type: actionTypes.UPDATE_LEAD_ATTRS_SUCCESS,
+    record,
+  }
+}
+
+function updateLeadAttrsFailure(error, leadId) {
+  return {
+    type: actionTypes.UPDATE_LEAD_ATTRS_FAILURE,
+    error,
+    leadId,
+  }
+}
+
+export function updateLeadAttrs(leadId, params = {}) {
+  return dispatch => {
+    dispatch(setIsUpdatingLeadAttrs(leadId))
+    authRequest
+      .putEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}/${leadId}`, params)
+      .then(res => dispatch(updateLeadAttrsSuccess(res.data)))
+      .catch(error => dispatch(updateLeadAttrsFailure(error, leadId)))
+  }
+}

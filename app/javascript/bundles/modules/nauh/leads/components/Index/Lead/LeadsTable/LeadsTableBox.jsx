@@ -5,7 +5,7 @@ import {
   Table, Button, Popconfirm, Input, Row, Col,
   Tag, Tabs, Badge,
 } from 'antd'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { getFilterParams, mergeDeep, rowClassName } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
@@ -13,6 +13,8 @@ import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
 import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/config'
 import moment from 'moment'
+import TextEditable from 'partials/components/ContentEditable/Text/TextEditable'
+import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
@@ -47,6 +49,7 @@ class LeadsTableBox extends React.Component {
       'handleSearch',
       'handleCreateOrder',
       'handleAssign',
+      'handleUpdateAttrs'
     ])
 
     this.columns = [{
@@ -66,11 +69,29 @@ class LeadsTableBox extends React.Component {
       dataIndex: 'interest',
       key: 'interest',
       width: '10%',
+      render: (value, record) => (
+        <TextEditable
+          className="table-row-height--md"
+          tagName="div"
+          html={value}
+          disabled={record.isUpdating}
+          onChange={v => this.handleUpdateAttrs(record.id, {interest: v})}
+        />
+      )
     }, {
       title: 'Note',
       dataIndex: 'note',
       key: 'note',
       width: '15%',
+      render: (value, record) => (
+        <TextEditable
+          className="table-row-height--md"
+          tagName="div"
+          html={value}
+          disabled={record.isUpdating}
+          onChange={v => this.handleUpdateAttrs(record.id, {note: v})}
+        />
+      )
     }, {
       title: 'Assigned at',
       dataIndex: 'assigned_at',
@@ -83,8 +104,8 @@ class LeadsTableBox extends React.Component {
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
       title: 'Care status',
-      dataIndex: 'care_status',
-      key: 'care_status',
+      dataIndex: 'care_status.code',
+      key: 'care_status.code',
       render: value => (
         <Badge status={BADGE_STATUS_MAPPINGS[value]} text={value} />
       )
@@ -92,10 +113,23 @@ class LeadsTableBox extends React.Component {
       title: 'Level',
       dataIndex: 'lead_level.name',
       key: 'lead_level_name',
-      render: value => {
-        if(value) {
-          return (<Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>)
-        }
+      render: (value, record) => {
+        const {sharedState} = this.props
+        const leadLevels = sharedState.get('leadLevels')
+
+        return (
+          <SelectEditable
+            onChange={v => this.handleUpdateAttrs(record.id, {lead_level_id: v})}
+            defaultValue={`${record.lead_level && record.lead_level.id}`}
+            disabled={record.isUpdating}
+            disabledContent={(<Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>)}
+            options={leadLevels.map(item => (
+              item.merge({
+                title: item.get('name'),
+              })
+            ))}
+          />
+        )
       }
     }, {
       title: 'Staff',
@@ -191,6 +225,11 @@ class LeadsTableBox extends React.Component {
     browserHistory.push(`${LEADS_URL}/assign`)
   }
 
+  handleUpdateAttrs(id, values) {
+    const {actions} = this.props
+    actions.updateLeadAttrs(id, {fields: 'lead_level{}', record: values})
+  }
+
   render() {
     const {indexState, actions} = this.props
     const leads = indexState.get('leads')
@@ -240,6 +279,7 @@ class LeadsTableBox extends React.Component {
             total: paging.get('record_total'),
             current: paging.get('page'),
           }}
+          rowClassName={rowClassName}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingLeads}

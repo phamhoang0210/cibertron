@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
@@ -12,15 +14,6 @@ const TextArea = Input.TextArea
 class LeadEditForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -52,6 +45,7 @@ class LeadEditForm extends React.Component {
     const isUpdatingLead = editState.get('isUpdatingLead')
     const isFetchingLead = editState.get('isFetchingLead')
     const leadLevels = sharedState.get('leadLevels')
+    const careStatuses = sharedState.get('careStatuses')
     const users = sharedState.get('users')
     
     return (
@@ -75,60 +69,43 @@ class LeadEditForm extends React.Component {
           <Col span={10}>
             {lead && !lead.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Email" {...this.formItemLayout}>
+                <FormItem label="Email" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   <Input value={lead.get('email')} disabled/>
                 </FormItem>
-                <FormItem label="Mobile" {...this.formItemLayout}>
+                <FormItem label="Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   <Input value={lead.get('mobile')} disabled/>
                 </FormItem>
-                <FormItem label="Name" {...this.formItemLayout}>
+                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('name', {
                     initialValue: lead.get('name'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Address" {...this.formItemLayout}>
+                <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('address', {
                     initialValue: lead.get('address'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Interest" {...this.formItemLayout}>
+                <FormItem label="Interest" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('interest', {
                     initialValue: lead.get('interest'),
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Note" {...this.formItemLayout}>
+                <FormItem label="Note" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('note', {
                     initialValue: lead.get('note'),
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Imported at" {...this.formItemLayout}>
+                <FormItem label="Imported at" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('imported_at', {
                     initialValue: lead.get('imported_at') && moment(lead.get('imported_at')),
                   })(<DatePicker />)}
                 </FormItem>
-                <FormItem label="Assigned at" {...this.formItemLayout}>
+                <FormItem label="Assigned at" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('assigned_at', {
                     initialValue: lead.get('assigned_at') && moment(lead.get('assigned_at')),
                   })(<DatePicker />)}
                 </FormItem>
-                <FormItem label="Care status" {...this.formItemLayout}>
-                  {getFieldDecorator('care_status', {
-                    rules: [{ required: true, message: 'Care status is required!' }],
-                    initialValue: `${lead.get('care_status')}`,
-                  })(
-                    <Select
-                      showSearch
-                      placeholder="Please select a level"
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                    >
-                      <Option value="default">default</Option>
-                      <Option value="processing">processing</Option>
-                      <Option value="done">done</Option>
-                      <Option value="cancelled">cancelled</Option>
-                    </Select>
-                  )}
-                </FormItem>
-                <FormItem label="Level" {...this.formItemLayout}>
+                <FormItem label="Level" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('lead_level_id', {
                     rules: [{ required: true, message: 'Lead level is required!' }],
                     initialValue: `${lead.get('lead_level_id')}`,
@@ -136,7 +113,7 @@ class LeadEditForm extends React.Component {
                     <Select
                       showSearch
                       placeholder="Please select a level"
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                     >
                       {leadLevels.map(leadLevel => (
                         <Option value={`${leadLevel.get('id')}`} key={leadLevel.get('id')}>
@@ -146,14 +123,32 @@ class LeadEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Staff" {...this.formItemLayout}>
+                <FormItem label="Care status" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('care_status_id', {
+                    rules: [{ required: true, message: 'Care status is required!' }],
+                    initialValue: `${lead.get('care_status_id')}`,
+                  })(
+                    <Select
+                      showSearch
+                      placeholder="Please select a status"
+                      filterOption={selectFilterOption}
+                    >
+                      {careStatuses.map(careStatus => (
+                        <Option value={`${careStatus.get('id')}`} key={careStatus.get('id')}>
+                          {careStatus.get('code')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label="Staff" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('staff_id', {
                     initialValue: `${lead.get('staff_id')}`,
                   })(
                     <Select
                       showSearch
                       placeholder="Please select a staff"
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                     >
                       {users.map(user => (
                         <Option value={`${user.get('id')}`} key={user.get('id')}>
@@ -163,7 +158,7 @@ class LeadEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button
                     type="primary"
                     htmlType="submit"

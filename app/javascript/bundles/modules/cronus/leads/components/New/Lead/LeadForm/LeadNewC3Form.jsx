@@ -1,27 +1,19 @@
 import React from 'react'
 import _ from 'lodash'
 import { Map } from 'immutable'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { CODE_DELIMITER } from 'app/constants/cascader'
 import { browserHistory } from 'react-router'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
 const FormItem = Form.Item
-const CODE_DELIMITER = '|.|'
 
 class LeadNewC3Form extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
-
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
@@ -98,30 +90,30 @@ class LeadNewC3Form extends React.Component {
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
               {/* Name input field */}
-              <FormItem label="Name" {...this.formItemLayout}>
+              <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: 'Name is required!' }],
                 })(<Input />)}
               </FormItem>
               {/* Mobile input field */}
-              <FormItem label="Mobile" {...this.formItemLayout}>
+              <FormItem label="Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('mobile', {
                   rules: [{ required: true, message: 'Mobile is required!' }],
                 })(<Input />)}
               </FormItem>
               {/* Email input field */}
-              <FormItem label="Email" {...this.formItemLayout}>
+              <FormItem label="Email" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('email', {
                   rules: [{ required: true, message: 'Email is required!' }],
                 })(<Input />)}
               </FormItem>
               {/* Address input field */}
-              <FormItem label="Address" {...this.formItemLayout}>
+              <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('address')
                 (<Input />)}
               </FormItem>
               {/* Course select field */}
-              <FormItem label="Course" {...this.formItemLayout}>
+              <FormItem label="Course" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('course', {
                   rules: [{ required: true, message: 'Course is required!' }],
                 })
@@ -130,19 +122,19 @@ class LeadNewC3Form extends React.Component {
                     options={courseCascaderOptions}
                     placeholder="Please select course"
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                   />
                 )}
               </FormItem>
               {/* Sourse input field */}
-              <FormItem label="Source" {...this.formItemLayout}>
+              <FormItem label="Source" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('source', {
                   rules: [{ required: true, message: 'Source is required!' }],
                 })
                 (
                   <Select
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                     placeholder="Please select a source"
                   >
                     {sources.map(source => (
@@ -154,17 +146,17 @@ class LeadNewC3Form extends React.Component {
                 )}
               </FormItem>
               {/* Source url input field */}
-              <FormItem label="Source url" {...this.formItemLayout}>
+              <FormItem label="Source url" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('source_url')
                 (<Input />)}
               </FormItem>
               {/* Type input field */}
-              <FormItem label="Type" {...this.formItemLayout}>
+              <FormItem label="Type" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('type')
                 (
                   <Select
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                     placeholder="Please select a source"
                   >
                     {types.map(type => (
@@ -176,12 +168,12 @@ class LeadNewC3Form extends React.Component {
                 )}
               </FormItem>
               {/* Strategy input field */}
-              <FormItem label="Strategy url" {...this.formItemLayout}>
+              <FormItem label="Strategy url" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('strategy')
                 (
                   <Select
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                     placeholder="Please select a strategy"
                   >
                     {strategies.map(strategy => (
@@ -193,12 +185,12 @@ class LeadNewC3Form extends React.Component {
                 )}
               </FormItem>
               {/* Priority input field */}
-              <FormItem label="Priority url" {...this.formItemLayout}>
+              <FormItem label="Priority url" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('priority')
                 (
                   <Select
                     showSearch
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterOption={selectFilterOption}
                     placeholder="Please select a priority"
                   >
                     {priorities.map(priority => (
@@ -209,11 +201,11 @@ class LeadNewC3Form extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem  {...this.buttonItemLayout}>
+              <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingLead}>
                   Create
                 </Button>
-                <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                   Back
                 </Button>
               </FormItem>

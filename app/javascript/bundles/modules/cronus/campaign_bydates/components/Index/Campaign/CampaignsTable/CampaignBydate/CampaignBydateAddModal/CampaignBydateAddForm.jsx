@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Modal, Button, Input, Col, Select, DatePicker} from 'antd'
 import moment from 'moment'
+import { selectFilterOption } from 'helpers/antdHelper'
 
 const FormItem = Form.Item
 const { Option } = Select
@@ -25,7 +26,7 @@ class CampaignBydateAddForm extends React.Component {
             <Select
                style={{ width: '25%' }}
               showSearch
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              filterOption={selectFilterOption}
               placeholder="Please select a campaign"
             >
               {listCampaign.map(campaign => (

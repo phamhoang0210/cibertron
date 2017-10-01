@@ -1,9 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
+import { selectFilterOption } from 'helpers/antdHelper'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 const { TextArea } = Input
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -11,15 +13,6 @@ const FormItem = Form.Item
 class DepartmentEditForm extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 20 }
-    }
-
-    this.buttonItemLayout = {
-      wrapperCol: { span: 20, offset: 4 },
-    }
 
     _.bindAll(this, [
       'handleBack',
@@ -74,29 +67,29 @@ class DepartmentEditForm extends React.Component {
           <Col span={10}>
             {department && !department.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Name" {...this.formItemLayout}>
+                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: 'Name is required!' }],
                     initialValue: department.get('name'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Priority" {...this.formItemLayout}>
+                <FormItem label="Priority" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('priority', {
                     initialValue: department.get('priority'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Description" {...this.formItemLayout}>
+                <FormItem label="Description" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('description', {
                     initialValue: department.get('description')
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Company" {...this.formItemLayout}>
+                <FormItem label="Company" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('company_id', {
                     initialValue: `${department.getIn(['company', 'id'])}`
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a company"
                     >
                       {companies.map(company => (
@@ -107,13 +100,13 @@ class DepartmentEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Department" {...this.formItemLayout}>
+                <FormItem label="Department" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('sup_department_id', {
                     initialValue: `${department.getIn(['sup_department', 'id'])}`
                   })(
                     <Select
                       showSearch
-                      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                      filterOption={selectFilterOption}
                       placeholder="Please select a super department"
                     >
                       {supDepartments.map(department => (
@@ -124,11 +117,11 @@ class DepartmentEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...this.buttonItemLayout}>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingDepartment}>
                     Update
                   </Button>
-                  <Button type="default" style={{marginLeft: '4px'}} onClick={this.handleBack}>
+                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     Back
                   </Button>
                 </FormItem>

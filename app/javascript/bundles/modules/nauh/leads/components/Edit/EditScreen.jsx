@@ -10,6 +10,7 @@ class EditScreen extends React.Component {
     const {actions, params} = this.props
     actions.fetchLead(params.id, {fields: 'leadLevel{}'})
     actions.fetchLeadLevels({per_page: 'infinite'})
+    actions.fetchCareStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
   }
 

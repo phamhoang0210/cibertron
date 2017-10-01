@@ -69,3 +69,11 @@ export function mergeDeep(objs = []) {
   
   return merge(objs)
 }
+
+export function rowClassName(record, index) {
+  if(record.isUpdating) {
+    return 'table-row-status--updating'
+  } else if (record.isDeleting) {
+    return 'table-row-status--deleting'
+  }
+}
