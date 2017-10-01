@@ -131,7 +131,6 @@ class LeadsTableBox extends React.Component {
       render: (value, record) => {
         const {sharedState} = this.props
         const leadLevels = sharedState.get('leadLevels')
-
         return (
           <SelectEditable
             onChange={v => this.handleUpdateAttrs(record.id, {lead_level_id: v})}
@@ -159,7 +158,7 @@ class LeadsTableBox extends React.Component {
             onChange={v => this.handleUpdateAttrs(record.id, {staff_id: v})}
             defaultValue={`${value}`}
             disabled={record.isUpdating}
-            disabledContent={user ? <b>{user.get('username')}</b> : <i>-- Assign --</i>}
+            disabledContent={user ? <b>{user.get('username')}</b> : <i className="text--link">Assign</i>}
             options={users.map(item => (
               item.merge({
                 title: item.get('username'),
