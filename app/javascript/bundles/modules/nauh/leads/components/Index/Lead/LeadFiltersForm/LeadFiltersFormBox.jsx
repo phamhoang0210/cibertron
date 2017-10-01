@@ -8,6 +8,7 @@ import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import moment from 'moment'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
+import { selectFilterOption } from 'helpers/antdHelper'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -117,6 +118,8 @@ class LeadFiltersFormBox extends React.Component {
                 rules: [{ type: 'array' }]
               })(
                 <Select
+                  showSearch
+                  filterOption={selectFilterOption}
                   mode="multiple"
                   placeholder="-- All --"
                   allowClear={true}
@@ -136,6 +139,8 @@ class LeadFiltersFormBox extends React.Component {
                 rules: [{ type: 'array' }]
               })(
                 <Select
+                  showSearch
+                  filterOption={selectFilterOption}
                   mode="multiple"
                   placeholder="-- All --"
                   allowClear={true}
@@ -155,6 +160,8 @@ class LeadFiltersFormBox extends React.Component {
                 rules: [{ type: 'array' }]
               })(
                 <Select
+                  showSearch
+                  filterOption={selectFilterOption}
                   mode="multiple"
                   placeholder="-- All --"
                   allowClear={true}

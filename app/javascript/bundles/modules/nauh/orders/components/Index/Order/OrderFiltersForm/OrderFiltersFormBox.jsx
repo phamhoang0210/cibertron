@@ -100,11 +100,11 @@ class OrderFiltersFormBox extends React.Component {
                 rules: [{ type: 'array' }]
               })(
                 <Select
+                  showSearch
+                  filterOption={selectFilterOption}
                   mode="multiple"
                   placeholder="-- All --"
                   allowClear={true}
-                  showSearch
-                  filterOption={selectFilterOption}
                 >
                   {campaigns.toJS().map(campaign => (
                     <Option value={`${campaign.id}`} key={campaign.id}>
@@ -121,6 +121,8 @@ class OrderFiltersFormBox extends React.Component {
                 rules: [{ type: 'array' }]
               })(
                 <Select
+                  showSearch
+                  filterOption={selectFilterOption}
                   mode="multiple"
                   placeholder="-- All --"
                   allowClear={true}
