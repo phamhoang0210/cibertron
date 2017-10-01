@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import { List } from 'immutable'
+import { selectFilterOption } from 'helpers/antdHelper'
 
 const Option = Select.Option
 
@@ -35,6 +36,9 @@ class SelectEditable extends React.Component {
     if(editMode) {
       content = (
         <Select
+          showSearch
+          filterOption={selectFilterOption}
+          onBlur={this.onBlur}
           style={{width: '100%'}}
           {...props}
         >
@@ -52,7 +56,6 @@ class SelectEditable extends React.Component {
     return (
       <div
         onClick={this.onClick}
-        onBlur={this.onBlur}
       >
         {content}
       </div>

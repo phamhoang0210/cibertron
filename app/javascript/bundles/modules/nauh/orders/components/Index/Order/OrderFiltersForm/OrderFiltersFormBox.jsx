@@ -2,8 +2,9 @@ import React from 'react'
 import _ from 'lodash'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
-import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT } from 'app/constants/config'
+import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import moment from 'moment'
 
 const FormItem = Form.Item
@@ -13,11 +14,6 @@ const RangePicker = DatePicker.RangePicker
 class OrderFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
-
-    this.formItemLayout = {
-      labelCol: { span: 5 },
-      wrapperCol: { span: 19 },
-    }
 
     _.bindAll(this, [
       'handleFilter',
@@ -77,35 +73,29 @@ class OrderFiltersFormBox extends React.Component {
       >
         <Row gutter={40}>
           <Col span={8}>
-            <FormItem label="Created in" {...this.formItemLayout}>
+            <FormItem label="Created in" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('created_at')(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
-                  showTime={{
-                    hideDisabledOptions: true,
-                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                  }}
+                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Updated in" {...this.formItemLayout}>
+            <FormItem label="Updated in" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('updated_at')(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
-                  showTime={{
-                    hideDisabledOptions: true,
-                    defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                  }}
+                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Campaign" {...this.formItemLayout}>
+            <FormItem label="Campaign" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('campaign_id', {
                 rules: [{ type: 'array' }]
               })(
@@ -126,7 +116,7 @@ class OrderFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Staff" {...this.formItemLayout}>
+            <FormItem label="Staff" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('staff_id', {
                 rules: [{ type: 'array' }]
               })(

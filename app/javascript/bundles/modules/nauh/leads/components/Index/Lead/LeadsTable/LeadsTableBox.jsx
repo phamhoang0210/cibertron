@@ -11,7 +11,7 @@ import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
 import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
 import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
-import { SHORT_DATETIME_FORMAT } from 'app/constants/config'
+import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import moment from 'moment'
 import TextEditable from 'partials/components/ContentEditable/Text/TextEditable'
 import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
@@ -106,9 +106,24 @@ class LeadsTableBox extends React.Component {
       title: 'Care status',
       dataIndex: 'care_status.code',
       key: 'care_status.code',
-      render: value => (
-        <Badge status={BADGE_STATUS_MAPPINGS[value]} text={value} />
-      )
+      render: (value, record) => {
+        const {sharedState} = this.props
+        const careStatuses = sharedState.get('careStatuses')
+
+        return (
+          <SelectEditable
+            onChange={v => this.handleUpdateAttrs(record.id, {care_status_id: v})}
+            defaultValue={`${record.care_status && record.care_status.id}`}
+            disabled={record.isUpdating}
+            disabledContent={(<Badge status={BADGE_STATUS_MAPPINGS[value]} text={value} />)}
+            options={careStatuses.map(item => (
+              item.merge({
+                title: item.get('code'),
+              })
+            ))}
+          />
+        )
+      }
     }, {
       title: 'Level',
       dataIndex: 'lead_level.name',
@@ -135,11 +150,23 @@ class LeadsTableBox extends React.Component {
       title: 'Staff',
       dataIndex: 'staff_id',
       key: 'staff_id',
-      render: value => {
+      render: (value, record) => {
         const {sharedState} = this.props
         const users = sharedState.get('users')
         const user = users.find(u => u.get('id') == value)
-        return user ? user.get('username') : ''
+        return (
+          <SelectEditable
+            onChange={v => this.handleUpdateAttrs(record.id, {staff_id: v})}
+            defaultValue={`${value}`}
+            disabled={record.isUpdating}
+            disabledContent={user ? <b>{user.get('username')}</b> : <i>-- Assign --</i>}
+            options={users.map(item => (
+              item.merge({
+                title: item.get('username'),
+              })
+            ))}
+          />
+        )
       }
     }, {
       title: '',
@@ -157,8 +184,7 @@ class LeadsTableBox extends React.Component {
             </Button>
             <br/>
             <Button
-              className="button-margin--top--default"
-              style={{width: '100%'}}
+              className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
               Edit
@@ -227,7 +253,7 @@ class LeadsTableBox extends React.Component {
 
   handleUpdateAttrs(id, values) {
     const {actions} = this.props
-    actions.updateLeadAttrs(id, {fields: 'lead_level{}', record: values})
+    actions.updateLeadAttrs(id, {fields: 'lead_level{},care_status{}', record: values})
   }
 
   render() {

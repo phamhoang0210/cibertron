@@ -41,6 +41,7 @@ class LeadNewForm extends React.Component {
     const alert = newState.get('alert')
     const isCreatingLead = newState.get('isCreatingLead')
     const leadLevels = sharedState.get('leadLevels')
+    const careStatuses = sharedState.get('careStatuses')
     const users = sharedState.get('users')
     
     return (
@@ -95,6 +96,23 @@ class LeadNewForm extends React.Component {
                     {leadLevels.map(leadLevel => (
                       <Option value={`${leadLevel.get('id')}`} key={leadLevel.get('id')}>
                         {leadLevel.get('name')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem label="Care status" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('care_status_id', {
+                  rules: [{ required: true, message: 'Care status is required!' }],
+                })(
+                  <Select
+                    showSearch
+                    placeholder="Please select a status"
+                    filterOption={selectFilterOption}
+                  >
+                    {careStatuses.map(careStatus => (
+                      <Option value={`${careStatus.get('id')}`} key={careStatus.get('id')}>
+                        {careStatus.get('code')}
                       </Option>
                     ))}
                   </Select>
