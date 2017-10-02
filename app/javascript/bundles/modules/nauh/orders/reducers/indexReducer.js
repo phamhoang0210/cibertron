@@ -10,7 +10,7 @@ export const initialState = Immutable.fromJS({
     ...defaultFilters,
     fields: 'lead{}'
   },
-  isFetchingOrders: false,
+  isFetchingOrders: false
 })
 
 export default function indexReducer($$state = initialState, action = null) {
