@@ -34,19 +34,20 @@ class OrderNewForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const {actions, newState} = this.props
-    const lead = newState.get('lead')
+    const {actions} = this.props
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let params = this.formatFormData(values)
-        params.lead_id = lead.get('id')
         actions.createOrder({record: params})
       }
     })
   }
 
   formatFormData(values) {
+    const {newState} = this.props
+    const lead = newState.get('lead')
+
     let params = values
     const product = params.product
 
@@ -54,6 +55,9 @@ class OrderNewForm extends React.Component {
       params.target = product[0]
       params.course_id = product[1]
     }
+
+    params.lead_id = lead.get('id')
+    params = {...params, ...params[params['method_payment']]}
 
     return params
   }
@@ -102,7 +106,7 @@ class OrderNewForm extends React.Component {
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
           <Row className="main-content-form-box-alert-box">
-            <Col span={10}>
+            <Col span={12}>
               <AlertBox
                 messages={alert.get('messages')}
                 type={alert.get('type')}
@@ -116,9 +120,9 @@ class OrderNewForm extends React.Component {
           </div>
         )}
           {lead && !lead.isEmpty() && (
-            <Row>
+            <Row gutter={16}>
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <Col span={10}>
+                <Col span={12}>
                   <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                     {getFieldDecorator('name', {
                       rules: [{ required: true, message: 'Name is required!' }],
@@ -196,7 +200,7 @@ class OrderNewForm extends React.Component {
                     </Button>*/}
                   </FormItem>
                 </Col>
-                <Col span={10}>
+                <Col span={12}>
                   <FormItem label="Payment method" {...DEFAULT_FORM_ITEM_LAYOUT}>
                     {getFieldDecorator('method_payment', {
                       rules: [{ required: true, message: 'Payment method is required!' }],
@@ -226,29 +230,68 @@ class OrderNewForm extends React.Component {
     const lead = newState.get('lead')
     const transferBanks = newState.get('transferBanks')
     const officeAddress = newState.get('officeAddress')
+    const provinces = sharedState.get('provinces')
+    const selectedProvince = provinces.find(p => p.get('code') == getFieldValue('COD.province'))
+    const districts = selectedProvince && selectedProvince.get('districts')
     const method = getFieldValue('method_payment')
 
     if(method == 'COD') {
       return (
         <div>
           <FormItem label="Province" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('province', {
+            {getFieldDecorator('COD.province', {
               rules: [{ required: true, message: 'Province is required!' }],
-            })(<Input/>)}
+            })(
+              <Select
+                showSearch
+                filterOption={selectFilterOption}
+                placeholder="Please select province"
+              >
+                {provinces.map(province => (
+                  <Option value={`${province.get('code')}`} key={province.get('id')}>
+                    {`${province.get('code')} - ${province.get('name')}`}
+                  </Option>
+                ))}
+              </Select>
+            )}
           </FormItem>
           <FormItem label="District" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('district', {
-              rules: [{ required: true, message: 'District is required!' }],
-            })(<Input/>)}
+            {getFieldDecorator('COD.district', {
+              rules: [
+                { required: true, message: 'District is required!' },
+                {
+                  message: 'You need to agree to our terms to sign up.',
+                  validator: (rule, value, cb) => {
+                    if(districts && districts.find(d => d.get('name') == value)) {
+                      cb()
+                    } else {
+                      cb(true)
+                    }
+                  },
+                },
+              ],
+            })(
+              <Select
+                showSearch
+                filterOption={selectFilterOption}
+                placeholder="Please select district"
+              >
+                {districts && districts.map(district => (
+                  <Option value={`${district.get('name')}`} key={district.get('code')}>
+                    {`${district.get('code')} - ${district.get('name')}`}
+                  </Option>
+                ))}
+              </Select>
+            )}
           </FormItem>
           <FormItem label="Receiver name" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_name', {
+            {getFieldDecorator('COD.receive_name', {
               rules: [{ required: true, message: 'Receiver name is required!' }],
               initialValue: lead.get('name'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Receiver mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_mobile', {
+            {getFieldDecorator('COD.receive_mobile', {
               rules: [{ required: true, message: 'Receiver mobile is required!' }],
               initialValue: lead.get('mobile'),
             })(<Input/>)}
@@ -279,12 +322,12 @@ class OrderNewForm extends React.Component {
             )}
           </FormItem>
           <FormItem label="Account number" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('account_id', {
+            {getFieldDecorator('TRANSFER.account_id', {
               rules: [{ required: true, message: 'Account number is required!' }],
             })(<Input/>)}
           </FormItem>
           <FormItem label="Booking date" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('booking_transfer_date', {
+            {getFieldDecorator('TRANSFER.booking_transfer_date', {
               rules: [{ required: true, message: 'Booking date is required!' }],
               initialValue: moment(),
             })(
@@ -292,19 +335,19 @@ class OrderNewForm extends React.Component {
             )}
           </FormItem>
           <FormItem label="Receiver name" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_name', {
+            {getFieldDecorator('TRANSFER.receive_name', {
               rules: [{ required: true, message: 'Receiver name is required!' }],
               initialValue: lead.get('name'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Receiver mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_mobile', {
+            {getFieldDecorator('TRANSFER.receive_mobile', {
               rules: [{ required: true, message: 'Receiver mobile is required!' }],
               initialValue: lead.get('mobile'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Note" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('other_note')(<TextArea/>)}
+            {getFieldDecorator('TRANSFER.other_note')(<TextArea/>)}
           </FormItem>
         </div>
       )
@@ -312,7 +355,7 @@ class OrderNewForm extends React.Component {
       return (
         <div>
           <FormItem label="Office" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('office_address', {
+            {getFieldDecorator('OFFICE.office_address', {
               rules: [{ required: true, message: 'Office is required!' }],
             })(
               <Select
@@ -329,7 +372,7 @@ class OrderNewForm extends React.Component {
             )}
           </FormItem>
           <FormItem label="Booking date" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('booking_office_date', {
+            {getFieldDecorator('OFFICE.booking_office_date', {
               rules: [{ required: true, message: 'Booking date is required!' }],
               initialValue: moment(),
             })(
@@ -337,19 +380,19 @@ class OrderNewForm extends React.Component {
             )}
           </FormItem>
           <FormItem label="Receiver name" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_name', {
+            {getFieldDecorator('OFFICE.receive_name', {
               rules: [{ required: true, message: 'Receiver name is required!' }],
               initialValue: lead.get('name'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Receiver mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_mobile', {
+            {getFieldDecorator('OFFICE.receive_mobile', {
               rules: [{ required: true, message: 'Receiver mobile is required!' }],
               initialValue: lead.get('mobile'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Note" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('other_note')(<TextArea/>)}
+            {getFieldDecorator('OFFICE.other_note')(<TextArea/>)}
           </FormItem>
         </div>
       )
@@ -357,7 +400,7 @@ class OrderNewForm extends React.Component {
       return (
         <div>
           <FormItem label="Booking date" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('booking_onepay_date', {
+            {getFieldDecorator('ONE_PAY.booking_onepay_date', {
               rules: [{ required: true, message: 'Booking date is required!' }],
               initialValue: moment(),
             })(
@@ -365,19 +408,19 @@ class OrderNewForm extends React.Component {
             )}
           </FormItem>
           <FormItem label="Receiver name" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_name', {
+            {getFieldDecorator('ONE_PAY.receive_name', {
               rules: [{ required: true, message: 'Receiver name is required!' }],
               initialValue: lead.get('name'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Receiver mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('receive_mobile', {
+            {getFieldDecorator('ONE_PAY.receive_mobile', {
               rules: [{ required: true, message: 'Receiver mobile is required!' }],
               initialValue: lead.get('mobile'),
             })(<Input/>)}
           </FormItem>
           <FormItem label="Note" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('other_note')(<TextArea/>)}
+            {getFieldDecorator('ONE_PAY.other_note')(<TextArea/>)}
           </FormItem>
         </div>
       )

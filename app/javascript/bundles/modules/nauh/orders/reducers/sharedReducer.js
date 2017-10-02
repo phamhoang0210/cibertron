@@ -6,11 +6,13 @@ export const initialState = Immutable.fromJS({
   courses: [], 
   combos: [],
   campaigns: [],
+  provinces: [],
   campaignIdCodeMappings: {},
   isFetchingUsers: false,
   isFetchingCourses: false,
   isFetchingCombos: false,
   isFetchingCampaigns: false,
+  isFetchingProvinces: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -90,6 +92,25 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_CAMPAIGNS_FAILURE: {
       return $$state.merge({
         isFetchingCampaigns: false,
+      })
+    }
+    
+    case actionTypes.SET_IS_FETCHING_PROVINCES: {
+      return $$state.merge({
+        isFetchingProvinces: true,
+      })
+    }
+    
+    case actionTypes.FETCH_PROVINCES_SUCCESS: {
+      return $$state.merge({
+        isFetchingProvinces: false,
+        provinces: records,
+      })
+    }
+    
+    case actionTypes.FETCH_PROVINCES_FAILURE: {
+      return $$state.merge({
+        isFetchingProvinces: false,
       })
     }
 

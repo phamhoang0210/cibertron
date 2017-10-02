@@ -15,6 +15,7 @@ class NewScreen extends React.Component {
     actions.fetchCampaigns({per_page: 'infinite'})
     actions.fetchCourses({per_page: 'infinite'})
     actions.fetchCombos({per_page: 'infinite'})
+    actions.fetchProvinces({per_page: 'infinite'})
   }
 
   render() {

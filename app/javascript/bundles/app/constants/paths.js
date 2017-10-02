@@ -7,4 +7,5 @@ export const USERSERVICE_BASE_URL = process.env.NODE_ENV == 'production' ? 'http
 export const CRONUS_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://cronus.edumall.io' : 'http://localhost:9002'
 export const SOL_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://sol.edumall.io' : 'http://localhost:9003'
 export const NAUH_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://nauh.edumall.io' : 'http://localhost:9004'
-export const EROS_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://eros.edumall.vn' : 'https://eros.edumall.vn'
+export const EROS_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://eros.edumall.vn' : 'http://localhost:9005'
+export const GAMBIT_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://psmo.edumall.vn' : 'http://localhost:9006'

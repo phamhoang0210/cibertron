@@ -14,7 +14,12 @@ class AlertBox extends React.Component {
     return (
       <div>
         {messages.map((message, index) => (
-          <Alert message={message} type={type} key={`${type}${message}`}/>
+          <Alert
+            style={{marginTop: '2px', marginButton: '2px'}}
+            key={`${type}${message}`}
+            message={message}
+            type={type}
+          />
         ))}
       </div>
     )
