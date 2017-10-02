@@ -4,7 +4,7 @@ import {
   NAUH_BASE_URL, NODES_API_PATH, CATEGORIES_API_PATH, 
   USERSERVICE_BASE_URL, USERS_API_PATH, COURSES_API_PATH,
   COMBOS_API_PATH, SOL_BASE_URL, CAMPAIGNS_API_PATH,
-  CRONUS_BASE_URL,
+  CRONUS_BASE_URL, GAMBIT_BASE_URL, PROVINCES_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -130,5 +130,37 @@ export function fetchCampaigns(params = {}) {
       .fetchEntities(`${CRONUS_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
+  }
+}
+
+
+function setIsFetchingProvinces() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PROVINCES,
+  }
+}
+
+function fetchProvincesSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_PROVINCES_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchProvincesFailure(error) {
+  return {
+    type: actionTypes.FETCH_PROVINCES_FAILURE,
+    error,
+  }
+}
+
+export function fetchProvinces(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingProvinces())
+    authRequest
+      .fetchEntities(`${GAMBIT_BASE_URL}${PROVINCES_API_PATH}`, params)
+      .then(res => dispatch(fetchProvincesSuccess(res.data)))
+      .catch(error => dispatch(fetchProvincesFailure(error)))
   }
 }

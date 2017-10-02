@@ -75,9 +75,6 @@ class LeadNewForm extends React.Component {
               <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('address')(<Input />)}
               </FormItem>
-              <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('address')(<Input />)}
-              </FormItem>
               <FormItem label="Interest" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('interest')(<TextArea />)}
               </FormItem>
