@@ -198,7 +198,7 @@ class OrderNewForm extends React.Component {
                 </Col>
                 <Col span={10}>
                   <FormItem label="Payment method" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                    {getFieldDecorator('payment_method', {
+                    {getFieldDecorator('method_payment', {
                       rules: [{ required: true, message: 'Payment method is required!' }],
                       initialValue: "COD",
                     })(
