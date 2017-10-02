@@ -161,6 +161,11 @@ class OrderNewForm extends React.Component {
                       <Input/>
                     )}
                   </FormItem>
+                  <FormItem label="Promotion code" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                    {getFieldDecorator('coupon_code')(
+                      <Input/>
+                    )}
+                  </FormItem>
                   <FormItem label="Campaign" {...DEFAULT_FORM_ITEM_LAYOUT}>
                     {getFieldDecorator('campaign_id', {
                       rules: [{ required: true, message: 'Campaign is required!' }],
@@ -249,7 +254,7 @@ class OrderNewForm extends React.Component {
             })(<Input/>)}
           </FormItem>
           <FormItem label="Note" {...DEFAULT_FORM_ITEM_LAYOUT}>
-            {getFieldDecorator('other_note')(<TextArea/>)}
+            {getFieldDecorator('note')(<TextArea/>)}
           </FormItem>
         </div>
       )
