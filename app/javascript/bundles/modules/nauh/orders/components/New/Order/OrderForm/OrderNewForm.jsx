@@ -226,7 +226,7 @@ class OrderNewForm extends React.Component {
     const lead = newState.get('lead')
     const transferBanks = newState.get('transferBanks')
     const officeAddress = newState.get('officeAddress')
-    const method = getFieldValue('payment_method')
+    const method = getFieldValue('method_payment')
 
     if(method == 'COD') {
       return (
