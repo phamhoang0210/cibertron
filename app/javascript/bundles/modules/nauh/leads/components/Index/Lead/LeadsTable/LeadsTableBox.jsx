@@ -12,6 +12,7 @@ import OrdersTableBox from './OrdersTable/OrdersTableBox'
 import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
 import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
 import moment from 'moment'
 import TextEditable from 'partials/components/ContentEditable/Text/TextEditable'
 import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
@@ -96,11 +97,13 @@ class LeadsTableBox extends React.Component {
       title: 'Assigned at',
       dataIndex: 'assigned_at',
       key: 'assigned_at',
+      sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
       title: 'Imported at',
       dataIndex: 'imported_at',
       key: 'imported_at',
+      sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
       title: 'Care status',
@@ -235,6 +238,10 @@ class LeadsTableBox extends React.Component {
 
     if(current != leadParams.page) {
       leadParams.page = current
+    }
+
+    if(sorter.field) {
+      leadParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
     actions.fetchLeads(leadParams)
