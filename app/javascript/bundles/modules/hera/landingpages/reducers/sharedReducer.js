@@ -2,55 +2,53 @@ import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
-  providers: [],
-  categories: [],
-  isFetchingProviders: false,
-  isFetchingCategories: false,
+  courses: [],
+  combos: [],
+  isFetchingCourses: false,
+  isFetchingCombos: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
   const { type, record, records, filters, error } = action
   
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_PROVIDERS: {
+    case actionTypes.SET_IS_FETCHING_COURSES: {
       return $$state.merge({
-        isFetchingProviders: true,
+        isFetchingCourses: true,
       })
     }
 
-    case actionTypes.FETCH_PROVIDERS_SUCCESS: {
+    case actionTypes.FETCH_COURSES_SUCCESS: {
       return $$state.merge({
-        isFetchingProviders: false,
-        providers: records,
+        isFetchingCourses: false,
+        courses: records,
       })
     }
 
-    case actionTypes.FETCH_PROVIDERS_FAILURE: {
+    case actionTypes.FETCH_COURSES_FAILURE: {
       return $$state.merge({
-        isFetchingProviders: false,
+        isFetchingCourses: false,
       })
     }
 
-    case actionTypes.SET_IS_FETCHING_CATEGORIES: {
+    case actionTypes.SET_IS_FETCHING_COMBOS: {
       return $$state.merge({
-        isFetchingCategories: true,
+        isFetchingCombos: true,
       })
     }
 
-    case actionTypes.FETCH_CATEGORIES_SUCCESS: {
+    case actionTypes.FETCH_COMBOS_SUCCESS: {
       return $$state.merge({
-        isFetchingCategories: false,
-        categories: records,
+        isFetchingCombos: false,
+        combos: records,
       })
     }
 
-    case actionTypes.FETCH_CATEGORIES_FAILURE: {
+    case actionTypes.FETCH_COMBOS_FAILURE: {
       return $$state.merge({
-        isFetchingCategories: false,
+        isFetchingCombos: false,
       })
     }
-
-
     default: {
       return $$state
     }

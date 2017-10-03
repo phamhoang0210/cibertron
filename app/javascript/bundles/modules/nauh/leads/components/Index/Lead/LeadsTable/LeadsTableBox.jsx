@@ -69,7 +69,7 @@ class LeadsTableBox extends React.Component {
       title: 'Interest',
       dataIndex: 'interest',
       key: 'interest',
-      width: '10%',
+      width: '12%',
       render: (value, record) => (
         <TextEditable
           className="table-row-height--md"
@@ -83,7 +83,7 @@ class LeadsTableBox extends React.Component {
       title: 'Note',
       dataIndex: 'note',
       key: 'note',
-      width: '15%',
+      width: '12%',
       render: (value, record) => (
         <TextEditable
           className="table-row-height--md"
