@@ -54,6 +54,13 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :hera do
+    root to: 'dashboard#index'
+    with_options only: [:index, :new, :edit] do |option|
+      option.resources :landingpages
+    end
+  end
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       with_options only: [:index, :show, :create, :update, :destroy] do |option|

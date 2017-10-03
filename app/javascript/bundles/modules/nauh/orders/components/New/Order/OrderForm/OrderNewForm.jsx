@@ -284,6 +284,14 @@ class OrderNewForm extends React.Component {
               </Select>
             )}
           </FormItem>
+          <FormItem label="Expected date" {...DEFAULT_FORM_ITEM_LAYOUT}>
+            {getFieldDecorator('COD.expected_date', {
+              rules: [{ required: true, message: 'Expected date is required!' }],
+              initialValue: moment(),
+            })(
+              <DatePicker/>
+            )}
+          </FormItem>
           <FormItem label="Receiver name" {...DEFAULT_FORM_ITEM_LAYOUT}>
             {getFieldDecorator('COD.receive_name', {
               rules: [{ required: true, message: 'Receiver name is required!' }],
