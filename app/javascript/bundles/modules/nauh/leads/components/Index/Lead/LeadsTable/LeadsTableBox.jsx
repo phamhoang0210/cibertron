@@ -75,7 +75,7 @@ class LeadsTableBox extends React.Component {
           className="table-row-height--md"
           tagName="div"
           html={value}
-          disabled={record.isUpdating}
+          disabled={true}
           onChange={v => this.handleUpdateAttrs(record.id, {interest: v})}
         />
       )
@@ -89,7 +89,7 @@ class LeadsTableBox extends React.Component {
           className="table-row-height--md"
           tagName="div"
           html={value}
-          disabled={record.isUpdating}
+          disabled={true}
           onChange={v => this.handleUpdateAttrs(record.id, {note: v})}
         />
       )

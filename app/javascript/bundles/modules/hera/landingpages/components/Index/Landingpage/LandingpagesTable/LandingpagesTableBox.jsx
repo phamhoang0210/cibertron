@@ -4,6 +4,8 @@ import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LANDINGPAGES_URL } from '../../../../constants/paths'
+import moment from 'moment'
+import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 
 const { Search } = Input
 
@@ -21,33 +23,51 @@ class LandingpagesTableBox extends React.Component {
 
     this.columns = [{
       title: 'Domain',
-      dataIndex: 'domain',
-      key: 'domain',
+      dataIndex: 'full_domain',
+      key: 'full_domain',
       render: (value, record) => (
         <div>
-          <b>{value}</b>
+          <a target="_blank" href={`http://${value}`}>{value}</a><br/>
         </div>
       ) 
     }, {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Created at',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: 'Code',
+      title: 'Creator name',
       dataIndex: 'code',
       key: 'code',
     }, {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
+      title: 'Course',
+      dataIndex: 'coursesname',
+      key: 'coursesname',
+      render: (value, record) => (
+        <div>
+          <b>{value}</b>
+          <br/>
+          Id: <i>{record.coursesid}</i>
+        </div>
+      )
     }, {
-      title: 'Provider',
-      dataIndex: 'provider.name',
-      key: 'provider_name',
+      title: 'Strategy',
+      dataIndex: 'strategy',
+      key: 'strategy',
     }, {
-      title: 'Category',
-      dataIndex: 'category.name',
-      key: 'category_name',
+      title: 'Price',
+      dataIndex: 'old_price',
+      key: 'old_price',
+    }, {
+      title: 'Promotion price',
+      dataIndex: 'new_price',
+      key: 'new_price',
+      render: (value, record) => (
+        <span>
+          {value}
+          <i> ({record.percent})</i>
+        </span>
+      )
     }, {
       title: '',
       key: 'action',
