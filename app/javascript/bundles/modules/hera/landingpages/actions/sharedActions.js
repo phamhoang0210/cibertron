@@ -1,68 +1,70 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  HERA_BASE_URL, PROVIDERS_API_PATH, CATEGORIES_API_PATH
+  HERA_BASE_URL, PROVIDERS_API_PATH, CATEGORIES_API_PATH, COURSES_API_PATH,
+  COMBOS_API_PATH, SOL_BASE_URL,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
-function setIsFetchingProviders() {
+
+function setIsFetchingCourses() {
   return {
-    type: actionTypes.SET_IS_FETCHING_PROVIDERS,
+    type: actionTypes.SET_IS_FETCHING_COURSES,
   }
 }
 
-function fetchProvidersSuccess({records, filters}) {
+function fetchCoursesSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_PROVIDERS_SUCCESS,
+    type: actionTypes.FETCH_COURSES_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchProvidersFailure(error) {
+function fetchCoursesFailure(error) {
   return {
-    type: actionTypes.FETCH_PROVIDERS_FAILURE,
+    type: actionTypes.FETCH_COURSES_FAILURE,
     error,
   }
 }
 
-export function fetchProviders(params = {}) {
+export function fetchCourses(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingProviders())
+    dispatch(setIsFetchingCourses())
     authRequest
-      .fetchEntities(`${HERA_BASE_URL}${PROVIDERS_API_PATH}`, params)
-      .then(res => dispatch(fetchProvidersSuccess(res.data)))
-      .catch(error => dispatch(fetchProvidersFailure(error)))
+      .fetchEntities(`${SOL_BASE_URL}${COURSES_API_PATH}`, params)
+      .then(res => dispatch(fetchCoursesSuccess(res.data)))
+      .catch(error => dispatch(fetchCoursesFailure(error)))
   }
 }
 
-function setIsFetchingCategories() {
+function setIsFetchingCombos() {
   return {
-    type: actionTypes.SET_IS_FETCHING_CATEGORIES,
+    type: actionTypes.SET_IS_FETCHING_COMBOS,
   }
 }
 
-function fetchCategoriesSuccess({records, filters}) {
+function fetchCombosSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_CATEGORIES_SUCCESS,
+    type: actionTypes.FETCH_COMBOS_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchCategoriesFailure(error) {
+function fetchCombosFailure(error) {
   return {
-    type: actionTypes.FETCH_CATEGORIES_FAILURE,
+    type: actionTypes.FETCH_COMBOS_FAILURE,
     error,
   }
 }
 
-export function fetchCategories(params = {}) {
+export function fetchCombos(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingCategories())
+    dispatch(setIsFetchingCombos())
     authRequest
-      .fetchEntities(`${HERA_BASE_URL}${CATEGORIES_API_PATH}`, params)
-      .then(res => dispatch(fetchCategoriesSuccess(res.data)))
-      .catch(error => dispatch(fetchCategoriesFailure(error)))
+      .fetchEntities(`${SOL_BASE_URL}${COMBOS_API_PATH}`, params)
+      .then(res => dispatch(fetchCombosSuccess(res.data)))
+      .catch(error => dispatch(fetchCombosFailure(error)))
   }
 }

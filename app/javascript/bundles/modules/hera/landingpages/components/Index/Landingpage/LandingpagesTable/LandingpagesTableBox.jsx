@@ -28,6 +28,7 @@ class LandingpagesTableBox extends React.Component {
       render: (value, record) => (
         <div>
           <a target="_blank" href={`http://${value}`}>{value}</a><br/>
+          type: {record.type}
         </div>
       ) 
     }, {
@@ -125,7 +126,7 @@ class LandingpagesTableBox extends React.Component {
   handleSearch(keyword) {
     const {actions, indexState} = this.props
     let landingpageParams = getFilterParams(indexState.get('landingpageFilters'))
-    actions.fetchLandingpages(mergeDeep([landingpageParams, {compconds: {'code.like': `%${keyword}%`}}]))
+    actions.fetchLandingpages(mergeDeep([landingpageParams, {full_search: keyword}]))
   }
 
   render() {
@@ -146,7 +147,7 @@ class LandingpagesTableBox extends React.Component {
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by code.."
+              placeholder="Search by domain.."
               onSearch={this.handleSearch}
             />
           </Col>

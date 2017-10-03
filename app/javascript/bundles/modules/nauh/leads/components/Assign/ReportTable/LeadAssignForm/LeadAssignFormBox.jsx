@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Form, Input, Select, Button } from 'antd'
+import { selectFilterOption } from 'helpers/antdHelper'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -45,7 +46,11 @@ class LeadAssignFormBox extends React.Component {
           {getFieldDecorator('staff_id', {
             rules: [{ required: true, message: 'Staff is required!' }],
           })(
-            <Select style={{ width: '200px' }} placeholder="Select staff..">
+            <Select
+              showSearch
+              filterOption={selectFilterOption}
+              style={{ width: '200px' }} placeholder="Select staff.."
+            >
               {users.map(user => (
                 <Option value={`${user.get('id')}`} key={user.get('id')}>
                   {user.get('username')}
