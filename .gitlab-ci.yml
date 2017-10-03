@@ -5,6 +5,7 @@ stages:
 build_image:
   stage: build
   script:
+    - rm -rf /home/gitlab-runner/Git/config-files
     - git clone git@git.edumall.io:backend/config-files.git /home/gitlab-runner/Git/config-files
     - pwd
     - DIR=$(pwd)
