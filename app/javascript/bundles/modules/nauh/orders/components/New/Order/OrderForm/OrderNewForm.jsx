@@ -141,12 +141,6 @@ class OrderNewForm extends React.Component {
                       initialValue: lead.get('mobile'),
                     })(<Input/>)}
                   </FormItem>
-                  <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                    {getFieldDecorator('address', {
-                      rules: [{ required: true, message: 'Address is required!' }],
-                      initialValue: lead.get('address'),
-                    })(<Input/>)}
-                  </FormItem>
                   <FormItem label="Course" {...DEFAULT_FORM_ITEM_LAYOUT}>
                     {getFieldDecorator('product', {
                       rules: [{ required: true, message: 'Node is required!' }],
@@ -238,6 +232,12 @@ class OrderNewForm extends React.Component {
     if(method == 'COD') {
       return (
         <div>
+          <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
+            {getFieldDecorator('COD.address', {
+              rules: [{ required: true, message: 'Address is required!' }],
+              initialValue: lead.get('address'),
+            })(<Input/>)}
+          </FormItem>
           <FormItem label="Province" {...DEFAULT_FORM_ITEM_LAYOUT}>
             {getFieldDecorator('COD.province', {
               rules: [{ required: true, message: 'Province is required!' }],
