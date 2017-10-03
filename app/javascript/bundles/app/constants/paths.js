@@ -9,3 +9,4 @@ export const SOL_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://sol.
 export const NAUH_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://nauh.edumall.io' : 'http://localhost:9004'
 export const EROS_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://eros.edumall.vn' : 'http://localhost:9005'
 export const GAMBIT_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://psmo.edumall.vn' : 'http://localhost:9006'
+export const HERA_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://hera.edumall.vn' : 'http://localhost:9007'
