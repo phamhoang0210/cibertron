@@ -4,6 +4,7 @@ import { Modal, Button, Input, Col, Select, DatePicker, Table, Tag  } from 'antd
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const { Option } = Select
+const EXAMPLE_FILE_URL = 'https://docs.google.com/a/topica.edu.vn/spreadsheets/d/10VUJAbNsYV1IZ_XTLp_9VDP6OWuMsE8_xcavsK7ma6I/edit?usp=sharing'
 
 class LeadImportModalBox extends React.Component {
   constructor(props) {
@@ -76,7 +77,7 @@ class LeadImportModalBox extends React.Component {
           required
         />
         <p className="help-block">
-          Please upload format correct file (.csv, .xlsx). <a href="#">Sample file</a>
+          Please upload format correct file (.csv, .xlsx). <a target="_blank" href={EXAMPLE_FILE_URL}>Sample file</a>
         </p>
         <Table
           size="middle"
