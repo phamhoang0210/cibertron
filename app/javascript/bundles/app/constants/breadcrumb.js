@@ -144,6 +144,18 @@ export const breadcrumbData = Immutable.fromJS({
       sources: {
         title: 'Sources',
       }
+    },
+    // Home > Hera
+    hera: {
+      title: 'Hera',
+      // Home > Hera > Landingpages
+      Landingpages: {
+        title: 'Landingpages',
+        // Home > Hera > Landingpages > Create
+        new: {
+          title: 'Create'
+        }
+      }
     }
   }
 })

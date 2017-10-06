@@ -58,7 +58,12 @@ Rails.application.routes.draw do
   namespace :hera do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
-      option.resources :landingpages
+      option.resources :landing_pages do
+        member do
+          get 'get_code', to: 'landing_pages#get_code'
+        end
+      end
+      option.resources :domains
     end
   end
 
