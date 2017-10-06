@@ -1,5 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
+import qs from 'qs'
+import {getCredentials} from 'helpers/auth/authHelper'
+import { AMUN_BASE_URL, SOURCES_EXPORT_API_PATH } from '../../../../constants/paths'
 import { Table, Icon, Button, Popconfirm, Row, Col, Input} from 'antd'
 import { getFilterParams, mergeDeep, rowClassName } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
@@ -13,6 +16,7 @@ class SourcesTableBox extends React.Component {
     _.bindAll(this, [
       'handleTableChange',
       'handleSearch',
+      'handleExport',
     ])
   }
 
@@ -21,6 +25,14 @@ class SourcesTableBox extends React.Component {
     let sourceParams = getFilterParams(indexState.get('sourceFilters'))
     actions.fetchSources(mergeDeep([sourceParams, {compconds: {'source_url.like': `%${keyword}%`}}]))
   }
+
+  handleExport() {
+    const {actions, indexState} = this.props
+    let sourceParams = getFilterParams(indexState.get('sourceFilters'))
+    const query = qs.stringify({...sourceParams, ...getCredentials()}, { arrayFormat: 'brackets' })
+    window.open(`${AMUN_BASE_URL}${SOURCES_EXPORT_API_PATH}?=${query}`, '_blank')
+  }
+
 
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState} = this.props
@@ -61,12 +73,15 @@ class SourcesTableBox extends React.Component {
               onSearch={this.handleSearch}
             />
           </Col>
+          <Col span={18} className="main-content-table-box-tools-search-box">
+            <Button type="primary" icon="download" size='default' onClick={this.handleExport}>Export</Button>
+          </Col>
         </Row>
         <Table  columns={columns} dataSource={data} size="big" 
                 pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
                 onChange={this.handleTableChange}
                 loading={isFetchingSources}
-                rowKey="mobile"
+                rowKey="id"
         />
       </div>
     );
