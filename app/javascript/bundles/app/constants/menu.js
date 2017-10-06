@@ -100,5 +100,20 @@ export const menuData = [
         title: 'Orders',
       }
     ]
+  }, {
+    type: 'subMenu',
+    path: '/hera',
+    title: 'HERA',
+    items: [
+      {
+        type: 'link', 
+        path: '/hera/landing_pages',
+        title: 'Landing pages',
+      }, {
+        type: 'link', 
+        path: '/hera/domains',
+        title: 'Domains',
+      }
+    ]
   }
 ]
