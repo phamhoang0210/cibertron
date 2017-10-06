@@ -98,6 +98,10 @@ export const menuData = [
         type: 'link', 
         path: '/nauh/orders',
         title: 'Orders',
+      } , {
+        type: 'link', 
+        path: '/nauh/sources',
+        title: 'Sources',
       }
     ]
   }, {
