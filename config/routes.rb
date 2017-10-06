@@ -51,6 +51,7 @@ Rails.application.routes.draw do
         end
       end
       option.resources :orders
+      option.resources :sources
     end
   end
 
