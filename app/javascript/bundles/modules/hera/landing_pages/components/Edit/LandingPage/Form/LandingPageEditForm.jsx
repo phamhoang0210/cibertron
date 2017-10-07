@@ -54,6 +54,7 @@ class LandingPageEditForm extends React.Component {
     const discounts = sharedState.get('discounts')
     const domains = sharedState.get('domains')
     const facebookApps = sharedState.get('facebookApps')
+    const facebookPixelCodes = sharedState.get('facebookPixelCodes')
     const contactTypes = sharedState.get('contactTypes')
     const strategies = sharedState.get('strategies')
     const selectedDiscount = discounts.find(discount => (
@@ -82,113 +83,129 @@ class LandingPageEditForm extends React.Component {
             {landingPage && !landingPage.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
                 <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Name is required!' }],
-                  initialValue: landingPage.get('name'),
-                })(
-                  <Input/>
-                )}
-              </FormItem>
-              <FormItem label="Domain" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('domain_id', {
-                  initialValue: `${landingPage.get('domain_id') || ''}`,
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {domains.map(domain => (
-                      <Option value={`${domain.get('id')}`} key={domain.get('id')}>
-                        {domain.get('name')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </FormItem>
-              <FormItem label="Discount" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('discount_id', {
-                  rules: [{ required: true, message: 'Discount is required!' }],
-                  initialValue: `${landingPage.get('discount_id')}`,
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {discounts.map(discount => (
-                      <Option value={`${discount.get('id')}`} key={discount.get('id')}>
-                        {discount.get('name')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-                {selectedDiscount && (
-                  <div>
-                    <b>{`${selectedDiscount.getIn(['product_json', 'code'])} - ${selectedDiscount.getIn(['product_json', 'name'])}`}</b><br/>
-                    Price: {selectedDiscount.get('old_price')}<br/>
-                    Promotion price: {selectedDiscount.get('new_price')}
-                  </div>
-                )}
-              </FormItem>
-              <FormItem label="Strategy" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('strategy', {
-                  rules: [{ required: true, message: 'Strategy is required!' }],
-                  initialValue: `${landingPage.get('strategy')}`,
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {strategies.map(strategy => (
-                      <Option value={`${strategy.get('id')}`} key={strategy.get('id')}>
-                        {strategy.get('title')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </FormItem>
-              <FormItem label="Ga code" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('ga_code', {
-                  initialValue: landingPage.get('ga_code'),
-                })(<Input />)}
-              </FormItem>
-              <FormItem label="Thankyou page" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('thankyou_page_url', {
-                  initialValue: landingPage.get('thankyou_page_url'),
-                })(<Input />)}
-              </FormItem>
-              <FormItem label="Landing page type" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('landing_page_type', {
-                  rules: [{ required: true, message: 'Landing type is required!' }],
-                  initialValue: `${landingPage.get('landing_page_type')}`,
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {contactTypes.map(type => (
-                      <Option value={`${type.get('id')}`} key={type.get('id')}>
-                        {type.get('title')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </FormItem>
-              <FormItem label="Facebook app" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('facebook_app_id', {
-                  initialValue: `${landingPage.get('facebook_app_id')}`,
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {facebookApps.map(facebookApp => (
-                      <Option value={`${facebookApp.get('id')}`} key={facebookApp.get('id')}>
-                        {`${facebookApp.get('name')} - ${facebookApp.get('source_id')}`}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </FormItem>
+                  {getFieldDecorator('name', {
+                    rules: [{ required: true, message: 'Name is required!' }],
+                    initialValue: landingPage.get('name'),
+                  })(
+                    <Input/>
+                  )}
+                </FormItem>
+                <FormItem label="Domain" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('domain_id', {
+                    initialValue: `${landingPage.get('domain_id') || ''}`,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {domains.map(domain => (
+                        <Option value={`${domain.get('id')}`} key={domain.get('id')}>
+                          {domain.get('name')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label="Discount" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('discount_id', {
+                    rules: [{ required: true, message: 'Discount is required!' }],
+                    initialValue: `${landingPage.get('discount_id')}`,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {discounts.map(discount => (
+                        <Option value={`${discount.get('id')}`} key={discount.get('id')}>
+                          {discount.get('name')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                  {selectedDiscount && (
+                    <div>
+                      <b>{`${selectedDiscount.getIn(['product_json', 'code'])} - ${selectedDiscount.getIn(['product_json', 'name'])}`}</b><br/>
+                      Price: {selectedDiscount.get('old_price')}<br/>
+                      Promotion price: {selectedDiscount.get('new_price')}
+                    </div>
+                  )}
+                </FormItem>
+                <FormItem label="Strategy" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('strategy', {
+                    rules: [{ required: true, message: 'Strategy is required!' }],
+                    initialValue: `${landingPage.get('strategy')}`,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {strategies.map(strategy => (
+                        <Option value={`${strategy.get('id')}`} key={strategy.get('id')}>
+                          {strategy.get('title')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label="Ga code" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('ga_code', {
+                    initialValue: landingPage.get('ga_code'),
+                  })(<Input />)}
+                </FormItem>
+                <FormItem label="Thankyou page" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('thankyou_page_url', {
+                    initialValue: landingPage.get('thankyou_page_url'),
+                  })(<Input />)}
+                </FormItem>
+                <FormItem label="Landing page type" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('landing_page_type', {
+                    rules: [{ required: true, message: 'Landing type is required!' }],
+                    initialValue: `${landingPage.get('landing_page_type')}`,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {contactTypes.map(type => (
+                        <Option value={`${type.get('id')}`} key={type.get('id')}>
+                          {type.get('title')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label="Facebook app" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('facebook_app_id', {
+                    initialValue: `${landingPage.get('facebook_app_id')}`,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {facebookApps.map(facebookApp => (
+                        <Option value={`${facebookApp.get('id')}`} key={facebookApp.get('id')}>
+                          {`${facebookApp.get('name')} - ${facebookApp.get('source_id')}`}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label="Facebook pixel" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('facebook_pixel_code_id', {
+                    initialValue: `${landingPage.get('facebook_pixel_code_id')}`,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {facebookPixelCodes.map(facebookPixelCode => (
+                        <Option value={`${facebookPixelCode.get('id')}`} key={facebookPixelCode.get('id')}>
+                          {`${facebookPixelCode.get('name')} - ${facebookPixelCode.get('code')}`}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingLandingPage}>
                     Update

@@ -53,6 +53,7 @@ class LandingPageNewForm extends React.Component {
     const discounts = sharedState.get('discounts')
     const domains = sharedState.get('domains')
     const facebookApps = sharedState.get('facebookApps')
+    const facebookPixelCodes = sharedState.get('facebookPixelCodes')
     const contactTypes = sharedState.get('contactTypes')
     const landingPageTypes = sharedState.get('landingPageTypes')
     const strategies = sharedState.get('strategies')
@@ -170,6 +171,20 @@ class LandingPageNewForm extends React.Component {
                     {facebookApps.map(facebookApp => (
                       <Option value={`${facebookApp.get('id')}`} key={facebookApp.get('id')}>
                         {`${facebookApp.get('name')} - ${facebookApp.get('source_id')}`}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem label="Facebook pixel" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('facebook_pixel_code_id')(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {facebookPixelCodes.map(facebookPixelCode => (
+                      <Option value={`${facebookPixelCode.get('id')}`} key={facebookPixelCode.get('id')}>
+                        {`${facebookPixelCode.get('name')} - ${facebookPixelCode.get('code')}`}
                       </Option>
                     ))}
                   </Select>

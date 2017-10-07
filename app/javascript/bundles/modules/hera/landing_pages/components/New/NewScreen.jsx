@@ -11,6 +11,7 @@ class NewScreen extends React.Component {
     actions.fetchDiscounts({per_page: 'infinite', fields: 'product_json'})
     actions.fetchDomains({per_page: 'infinite'})
     actions.fetchFacebookApps({per_page: 'infinite'})
+    actions.fetchFacebookPixelCodes({per_page: 'infinite'})
   }
 
   render() {
