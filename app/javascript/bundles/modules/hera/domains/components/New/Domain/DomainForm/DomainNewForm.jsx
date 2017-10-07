@@ -37,6 +37,7 @@ class DomainNewForm extends React.Component {
 
   render() {
     const {newState, sharedState} = this.props
+    const domainDnsServers = sharedState.get('domainDnsServers')
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingDomain = newState.get('isCreatingDomain')
@@ -60,6 +61,22 @@ class DomainNewForm extends React.Component {
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: 'Domain is required!' }],
                 })(<Input />)}
+              </FormItem>
+              <FormItem label="Type" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('dns_server', {
+                  rules: [{ required: true, message: 'Domain type is required!' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {domainDnsServers.map(server => (
+                      <Option value={`${server.get('id')}`} key={server.get('id')}>
+                        {server.get('title')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingDomain}>

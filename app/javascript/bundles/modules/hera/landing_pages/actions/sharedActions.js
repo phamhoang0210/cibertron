@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import {
   HERA_BASE_URL, PROVIDERS_API_PATH, CATEGORIES_API_PATH, DISCOUNT_API_PATH,
   COMBOS_API_PATH, SOL_BASE_URL, USERS_API_PATH, DOMAINS_API_PATH, USERSERVICE_BASE_URL,
-  FACEBOOK_APPS_API_PATH,
+  FACEBOOK_APPS_API_PATH, FACEBOOK_PIXEL_CODES_API_PATH, 
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -101,7 +101,6 @@ export function fetchDomains(params = {}) {
   }
 }
 
-
 function setIsFetchingFacebookApps() {
   return {
     type: actionTypes.SET_IS_FETCHING_FACEBOOK_APPS,
@@ -130,5 +129,36 @@ export function fetchFacebookApps(params = {}) {
       .fetchEntities(`${HERA_BASE_URL}${FACEBOOK_APPS_API_PATH}`, params)
       .then(res => dispatch(fetchFacebookAppsSuccess(res.data)))
       .catch(error => dispatch(fetchFacebookAppsFailure(error)))
+  }
+}
+
+function setIsFetchingFacebookPixelCodes() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_FACEBOOK_PIXEL_CODES,
+  }
+}
+
+function fetchFacebookPixelCodesSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_FACEBOOK_PIXEL_CODES_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchFacebookPixelCodesFailure(error) {
+  return {
+    type: actionTypes.FETCH_FACEBOOK_PIXEL_CODES_FAILURE,
+    error,
+  }
+}
+
+export function fetchFacebookPixelCodes(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingFacebookPixelCodes())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${FACEBOOK_PIXEL_CODES_API_PATH}`, params)
+      .then(res => dispatch(fetchFacebookPixelCodesSuccess(res.data)))
+      .catch(error => dispatch(fetchFacebookPixelCodesFailure(error)))
   }
 }
