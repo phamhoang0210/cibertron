@@ -204,3 +204,44 @@ export function updateLeadAttrs(leadId, params = {}) {
       .catch(error => dispatch(updateLeadAttrsFailure(error, leadId)))
   }
 }
+
+export function updateSelectedLeadKeys(leadKeys) {
+  return {
+    type: actionTypes.UPDATE_SELECTED_LEAD_KEYS,
+    leadKeys,
+  }
+}
+
+function setIsUpdatingLeads() {
+  return {
+    type: actionTypes.SET_IS_UPDATING_LEADS,
+  }
+}
+
+function updateLeadsSuccess(updateMultipleResults) {
+  return {
+    type: actionTypes.UPDATE_LEADS_SUCCESS,
+    updateMultipleResults,
+  }
+}
+
+function updateLeadsFailure(error) {
+  return {
+    type: actionTypes.UPDATE_LEADS_FAILURE,
+    error,
+  }
+}
+
+export function updateLeads(params) {
+  return (dispatch, getStore) => {
+    dispatch(setIsUpdatingLeads())
+    authRequest
+      .submitEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}/update_multiple`, params)
+      .then(res => {
+        const filterParams = getFilterParams(getStore().indexState.get('leadFilters'))
+        dispatch(updateLeadsSuccess(res.data))
+        dispatch(fetchLeads(filterParams))
+      })
+      .catch(error => dispatch(updateLeadsFailure(error)))
+  }
+}

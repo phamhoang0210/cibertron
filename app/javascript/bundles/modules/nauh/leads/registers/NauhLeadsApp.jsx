@@ -17,7 +17,7 @@ export default (props, railsContext) => {
   return (
     <LocaleProvider locale={enUS}>
       <Provider store={appStore}>
-        <Router history={history} children={routes} />
+        <Router history={history} children={routes} test={railsContext}/>
       </Provider>
     </LocaleProvider>
   )

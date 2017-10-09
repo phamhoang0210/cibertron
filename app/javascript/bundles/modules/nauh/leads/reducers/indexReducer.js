@@ -7,18 +7,20 @@ export const initialState = Immutable.fromJS({
   alert: null,
   leads: [],
   importLeadsResults: [],
+  selectedLeadKeys: [],
   leadFilters: {
     ...defaultFilters,
     fields: 'lead_level{},care_status{}'
   },
   isFetchingLeads: false,
   isImportingLeads: false,
+  isUpdatingLeads: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, leadId,
-    lead, importResult,
+    lead, importResult, leadKeys,
   } = action
   
   switch (type) {
@@ -251,6 +253,30 @@ export default function indexReducer($$state = initialState, action = null) {
           alert: parseError(error),
         })
       ))
+    }
+
+    case actionTypes.UPDATE_SELECTED_LEAD_KEYS: {
+      return $$state.merge({
+        selectedLeadKeys: leadKeys,
+      })
+    }
+
+    case actionTypes.SET_IS_UPDATING_LEADS: {
+      return $$state.merge({
+        isUpdatingLeads: true,
+      })
+    }
+
+    case actionTypes.UPDATE_LEADS_SUCCESS: {
+      return $$state.merge({
+        isUpdatingLeads: false,
+      })
+    }
+
+    case actionTypes.UPDATE_LEADS_FAILURE: {
+      return $$state.merge({
+        isUpdatingLeads: false,
+      })
     }
 
     default: {

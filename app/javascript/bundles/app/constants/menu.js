@@ -93,7 +93,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/nauh',
-    title: 'NAUH',
+    title: 'AFTERSALES',
     items: [
       {
         type: 'link', 

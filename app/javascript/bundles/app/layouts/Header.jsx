@@ -12,7 +12,7 @@ class Header extends React.Component {
               <SubMenu
                 title={<span>
                   <Icon type="user" />
-                  User
+                  {localStorage.getItem('uid') || 'User'}
                 </span>}
               >
                 <Menu.Item key="sign_out">
