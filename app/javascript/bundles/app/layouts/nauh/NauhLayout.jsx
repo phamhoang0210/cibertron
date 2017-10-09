@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import { connect } from 'react-redux'
 import { Layout } from 'antd'
 import Footer from '../Footer'
 import Header from '../Header'
@@ -32,7 +33,6 @@ class NauhLayout extends React.Component {
           <Footer/>
         </Layout>
       </Layout>
-  
     );
   }
 }

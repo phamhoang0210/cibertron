@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col,
-  Tag, Tabs, Badge,
+  Tag, Tabs, Badge, Select
 } from 'antd'
 import { getFilterParams, mergeDeep, rowClassName } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
@@ -16,6 +16,7 @@ import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
 import moment from 'moment'
 import TextEditable from 'partials/components/ContentEditable/Text/TextEditable'
 import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
+import LeadUpdateMultipleBox from './LeadUpdateMultiple/LeadUpdateMultipleBox'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
@@ -50,7 +51,8 @@ class LeadsTableBox extends React.Component {
       'handleSearch',
       'handleCreateOrder',
       'handleAssign',
-      'handleUpdateAttrs'
+      'handleUpdateAttrs',
+      'handleSelectionChange',
     ])
 
     this.columns = [{
@@ -247,6 +249,11 @@ class LeadsTableBox extends React.Component {
     actions.fetchLeads(leadParams)
   }
 
+  handleSelectionChange(selectedRowKeys, selectedRows) {
+    const {actions, indexState} = this.props
+    actions.updateSelectedLeadKeys(selectedRowKeys)
+  }
+
   handleSearch(keyword) {
     const {actions, indexState} = this.props
     let leadParams = getFilterParams(indexState.get('leadFilters'))
@@ -262,8 +269,10 @@ class LeadsTableBox extends React.Component {
     actions.updateLeadAttrs(id, {fields: 'lead_level{},care_status{}', record: values})
   }
 
+
   render() {
     const {indexState, actions} = this.props
+    const selectedLeadKeys = indexState.get('selectedLeadKeys')
     const leads = indexState.get('leads')
     const paging = indexState.getIn(['leadFilters', 'paging'])
     const isFetchingLeads = indexState.get('isFetchingLeads')
@@ -302,6 +311,7 @@ class LeadsTableBox extends React.Component {
             />
           </Col>
         </Row>
+        {selectedLeadKeys.count() > 0 && (<LeadUpdateMultipleBox {...this.props}/>)}
         <Table
           bordered
           size="middle"
@@ -312,6 +322,10 @@ class LeadsTableBox extends React.Component {
             current: paging.get('page'),
           }}
           rowClassName={rowClassName}
+          rowSelection={{
+            selectedRowKeys: selectedLeadKeys.toJS(),
+            onChange: this.handleSelectionChange
+          }}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingLeads}
