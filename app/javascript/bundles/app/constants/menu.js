@@ -50,6 +50,11 @@ export const menuData = [
     items: [
       {
         type: 'link', 
+        path: '/sol/discounts',
+        title: 'Discounts',
+      },
+      {
+        type: 'link', 
         path: '/sol/promos',
         title: 'Promos',
       }, {
