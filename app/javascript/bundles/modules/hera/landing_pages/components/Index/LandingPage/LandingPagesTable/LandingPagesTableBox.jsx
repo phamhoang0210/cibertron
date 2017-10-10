@@ -63,6 +63,7 @@ class LandingPagesTableBox extends React.Component {
       title: 'Discount',
       dataIndex: 'discount_id',
       key: 'discount',
+      width: '20%',
       render: (value, record) => {
         const {sharedState} = this.props
         const discountIdMappings = sharedState.get('discountIdMappings')
@@ -81,6 +82,7 @@ class LandingPagesTableBox extends React.Component {
       title: 'Product',
       dataIndex: 'discount_id',
       key: 'discount_product',
+      width: '20%',
       render: (value, record) => {
         const {sharedState} = this.props
         const discountIdMappings = sharedState.get('discountIdMappings')
@@ -104,9 +106,26 @@ class LandingPagesTableBox extends React.Component {
     }, {
       title: '',
       key: 'action',
+      width: 100,
       render: (cell, row) => {
         return (
           <div className="text-align--right">
+            <Button
+              icon="code-o"
+              className="width--full"
+              size="small"
+              onClick={(e) => this.handleGetCode(row.id)}
+            >
+              Get code
+            </Button>
+            <Button
+              icon="edit"
+              size="small"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
+              Edit
+            </Button>
             <Popconfirm
               placement="topLeft"
               title="Are you sure delete this landingPage?"
@@ -114,22 +133,16 @@ class LandingPagesTableBox extends React.Component {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger" loading={row.isDeleting}>
+              <Button
+                className="button-margin--top--default width--full"
+                icon="delete"
+                type="danger"
+                size="small"
+                loading={row.isDeleting}
+              >
                 Delete
               </Button>
             </Popconfirm>
-            <Button
-              className="button-margin--left--default" 
-              onClick={(e) => this.handleEdit(row.id)}
-            >
-              Edit
-            </Button>
-            <Button
-              className="button-margin--left--default" 
-              onClick={(e) => this.handleGetCode(row.id)}
-            >
-              Get code
-            </Button>
           </div>
         )
       },
