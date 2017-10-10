@@ -34,9 +34,18 @@ class DomainsTableBox extends React.Component {
     }, {
       title: '',
       key: 'action',
+      width: 100,
       render: (cell, row) => {
         return (
           <div className="text-align--right">
+            <Button
+              icon="edit"
+              size="small"
+              className="width--full"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
+              Edit
+            </Button>
             <Popconfirm
               placement="topLeft"
               title="Are you sure delete this domain?"
@@ -44,16 +53,16 @@ class DomainsTableBox extends React.Component {
               okText="Yes"
               cancelText="No"
             >
-              <Button type="danger" loading={row.isDeleting}>
+              <Button
+                icon="delete"
+                size="small"
+                className="button-margin--top--default width--full"
+                type="danger"
+                loading={row.isDeleting}
+              >
                 Delete
               </Button>
             </Popconfirm>
-            <Button
-              className="button-margin--left--default" 
-              onClick={(e) => this.handleEdit(row.id)}
-            >
-              Edit
-            </Button>
           </div>
         )
       },
