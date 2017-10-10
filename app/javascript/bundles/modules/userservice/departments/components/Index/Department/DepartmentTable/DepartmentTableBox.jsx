@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Table, Icon, Button, Popconfirm, Row, Col } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { DEPARTMENTS_URL } from '../../../../constants/paths'
 
@@ -112,10 +112,7 @@ class DepartmentTableBox extends React.Component {
           size="middle"
           columns={this.columns}
           dataSource={departments.toJS()}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingDepartments}

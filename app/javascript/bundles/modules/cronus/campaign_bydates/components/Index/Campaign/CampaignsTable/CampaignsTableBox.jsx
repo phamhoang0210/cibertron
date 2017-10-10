@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import { Table, Icon, Button, Col, Row, Input } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { CAMPAIGN_BYDATES_URL } from '../../../../constants/paths'
 import CampaignBydatesTableBox from './CampaignBydate/CampaignBydatesTable/CampaignBydatesTableBox'
@@ -98,10 +98,7 @@ class CampaignsTableBox extends React.Component {
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingCampaigns}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           expandedRowRender={record => (
             <CampaignBydatesTableBox
               campaign={Immutable.fromJS(record)}

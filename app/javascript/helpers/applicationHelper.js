@@ -77,3 +77,21 @@ export function rowClassName(record, index) {
     return 'table-row-status--deleting'
   }
 }
+
+export function getDefaultTablePagination(currentPage, totalPage){
+  return {
+    showQuickJumper: true,
+    total: totalPage,
+    current: currentPage,
+    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+  }
+}
+
+export function getDefaultTableTitlePagination(currentPage, totalPage){
+  return {
+    showQuickJumper: false,
+    total: totalPage,
+    current: currentPage,
+    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total}`,
+  }
+}

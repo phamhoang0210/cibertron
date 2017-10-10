@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { CHANNELS_URL } from '../../../../constants/paths'
 
@@ -131,10 +131,7 @@ class ChannelsTableBox extends React.Component {
           size="middle"
           columns={this.columns}
           dataSource={channels.toJS()}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingChannels}

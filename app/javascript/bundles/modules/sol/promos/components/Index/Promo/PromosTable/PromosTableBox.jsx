@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Table, Icon, Button, Popconfirm } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { PROMOS_URL } from '../../../../constants/paths'
 import { Badge, Menu, Dropdown } from 'antd';
@@ -50,7 +50,7 @@ class PromosTableBox extends React.Component {
           columns={columns}
           expandedRowRender={expandedRowRender}
           dataSource={data}
-          pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           onChange={this.handleTableChange}
           loading={isFetchingPromos}
           rowKey="id"
