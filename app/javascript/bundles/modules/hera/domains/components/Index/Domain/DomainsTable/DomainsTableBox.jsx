@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { DOMAINS_URL } from '../../../../constants/paths'
 
@@ -88,7 +88,7 @@ class DomainsTableBox extends React.Component {
   handleSearch(keyword) {
     const {actions, indexState} = this.props
     let domainParams = getFilterParams(indexState.get('domainFilters'))
-    actions.fetchDomains(mergeDeep([domainParams, {compconds: {'code.like': `%${keyword}%`}}]))
+    actions.fetchDomains(mergeDeep([domainParams, {compconds: {'name.like': `%${keyword}%`}}]))
   }
 
   render() {
@@ -119,10 +119,7 @@ class DomainsTableBox extends React.Component {
           size="middle"
           columns={this.columns}
           dataSource={domains.toJS()}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingDomains}

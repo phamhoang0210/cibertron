@@ -2,10 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import {
-  Table, Button, Popconfirm, Input, Row, Col,
+  Table, Button, Popconfirm, Input, Row, Col, Pagination,
   Tag, Tabs, Badge, Select
 } from 'antd'
-import { getFilterParams, mergeDeep, rowClassName } from 'helpers/applicationHelper'
+import {
+  getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination, getDefaultTableTitlePagination
+} from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
@@ -53,6 +55,7 @@ class LeadsTableBox extends React.Component {
       'handleAssign',
       'handleUpdateAttrs',
       'handleSelectionChange',
+      'renderTableTitle',
     ])
 
     this.columns = [{
@@ -180,14 +183,16 @@ class LeadsTableBox extends React.Component {
         return (
           <div className="text-align--right">
             <Button
+              icon="plus"
               type="primary"
               style={{ width: '100%'}}
               onClick={(e) => this.handleCreateOrder(row.id)}
             >
-              Create order
+              Order
             </Button>
             <br/>
             <Button
+              icon="edit"
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
@@ -202,6 +207,7 @@ class LeadsTableBox extends React.Component {
               cancelText="No"
             >
               <Button
+                icon="delete"
                 className="button-margin--top--default"
                 type="danger"
                 loading={row.isDeleting}
@@ -311,16 +317,13 @@ class LeadsTableBox extends React.Component {
             />
           </Col>
         </Row>
-        {selectedLeadKeys.count() > 0 && (<LeadUpdateMultipleBox {...this.props}/>)}
         <Table
           bordered
+          title={this.renderTableTitle}
           size="middle"
           columns={this.columns}
           dataSource={leads.toJS()}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowClassName={rowClassName}
           rowSelection={{
             selectedRowKeys: selectedLeadKeys.toJS(),
@@ -352,6 +355,27 @@ class LeadsTableBox extends React.Component {
           }}
         />
       </div>
+    )
+  }
+
+  renderTableTitle() {
+    const {indexState, actions} = this.props
+    const selectedLeadKeys = indexState.get('selectedLeadKeys')
+    const paging = indexState.getIn(['leadFilters', 'paging'])
+
+    return (
+      <Row className="main-content-table-tools">
+        <Col span={16}>
+          {selectedLeadKeys.count() > 0 && (<LeadUpdateMultipleBox {...this.props}/>)}
+        </Col>
+        <Col span={8} className="main-content-table-tools-pagination-box">
+          <Pagination
+            size="small"
+            onChange={(page, pageSize) => this.handleTableChange({current: page}, {}, {})}
+            {...getDefaultTableTitlePagination(paging.get('page'), paging.get('record_total'))}
+          />
+        </Col>
+      </Row>
     )
   }
 }

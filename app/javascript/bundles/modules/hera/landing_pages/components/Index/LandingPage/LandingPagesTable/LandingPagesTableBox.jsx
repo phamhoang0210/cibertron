@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import {
   Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs
 } from 'antd'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LANDING_PAGES_URL } from '../../../../constants/paths'
 import moment from 'moment'
@@ -199,10 +199,7 @@ class LandingPagesTableBox extends React.Component {
           size="middle"
           columns={this.columns}
           dataSource={landingPages.toJS()}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingLandingPages}

@@ -4,7 +4,7 @@ import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
 import { Table, Icon, Button, Popconfirm, Row, Col, Input} from 'antd'
 import { DISCOUNTS_URL} from '../../../../constants/paths'
-import { getFilterParams, mergeDeep, rowClassName } from 'helpers/applicationHelper'
+import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 
 const { Search } = Input
@@ -123,11 +123,12 @@ class DiscountsTableBox extends React.Component {
             <Button type="primary" icon="plus" size='default' onClick={this.handleAdd}>Create</Button>
           </Col>
         </Row>
-        <Table  columns={columns} dataSource={data} size="big" 
-                pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
-                onChange={this.handleTableChange}
-                loading={isFetchingDiscounts}
-                rowKey="id"
+        <Table 
+          columns={columns} dataSource={data} size="big" 
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+          onChange={this.handleTableChange}
+          loading={isFetchingDiscounts}
+          rowKey="id"
         />
       </div>
     );

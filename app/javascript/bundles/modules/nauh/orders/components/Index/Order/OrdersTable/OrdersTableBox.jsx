@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Table, Icon, Button, Row, Col, Input } from 'antd'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
 import moment from 'moment'
@@ -127,10 +127,7 @@ class OrdersTableBox extends React.Component {
           size="middle"
           columns={this.columns}
           dataSource={orders.toJS()}
-          pagination={{
-            total: paging.get('record_total'),
-            current: paging.get('page'),
-          }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingOrders}

@@ -7,6 +7,10 @@ import { menuData } from 'app/constants/menu'
 const { ItemGroup, SubMenu } = Menu
 
 class Sider extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     const {location} = this.props
     const pathname = location.pathname || ''
