@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import AssignScreen from '../components/Assign/AssignScreen'
 import * as actions from '../actions/assignActions'
 
-const AssignContainer = ({ actions, assignState, sharedState }) => {
+const AssignContainer = ({ actions, assignState, sharedState, location }) => {
   return (
-    <AssignScreen {...{actions, assignState, sharedState }} />
+    <AssignScreen {...{actions, assignState, sharedState, location }} />
   );
 }
 

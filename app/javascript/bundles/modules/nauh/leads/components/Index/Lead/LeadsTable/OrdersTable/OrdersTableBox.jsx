@@ -45,7 +45,7 @@ class OrdersTableBox extends React.Component {
   }
 
   handleTableChange(pagination, filters, sorter) {
-    const {actions, lead} = this.props
+    const {actions, lead, location} = this.props
     let leadOrderParams = getFilterParams(lead.get('orderFilters'))
     const {current, pageSize, total} = pagination
 

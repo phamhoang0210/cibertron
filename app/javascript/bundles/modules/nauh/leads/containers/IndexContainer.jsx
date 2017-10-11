@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import IndexScreen from '../components/Index/IndexScreen'
 import * as actions from '../actions/indexActions'
 
-const IndexContainer = ({ actions, indexState, sharedState, railsContextState }) => {
+const IndexContainer = ({ actions, indexState, sharedState, railsContextState, location }) => {
   return (
-    <IndexScreen {...{actions, indexState, sharedState, railsContextState }} />
+    <IndexScreen {...{actions, indexState, sharedState, railsContextState, location }} />
   );
 }
 

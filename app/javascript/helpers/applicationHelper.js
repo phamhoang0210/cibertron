@@ -1,5 +1,8 @@
 import { Map} from 'immutable'
 import DeepMerge from 'deep-merge/multiple'
+import { browserHistory } from 'react-router'
+import qs from 'qs'
+import moment from 'moment'
 
 export function parseError(error) {
   const response = error.response
@@ -31,8 +34,8 @@ export function createSuccessAlert(message) {
   }
 }
 
-export function getFilterParams(filters) {
-  let params = {}
+export function getFilterParams(filters, location = null) {
+  let filterParams = {}
   const page = filters.getIn(['paging', 'page'])
   const orders = filters.get('orders')
   const searches = filters.get('searches')
@@ -41,25 +44,77 @@ export function getFilterParams(filters) {
 
   // fetch page params
   if (page) {
-    params.page = page
+    filterParams.page = page
   }
 
   // fetch orders filters params
   if (orders.size > 0) {
-    params.orders = orders.toArray()
+    filterParams.orders = orders.toArray()
   }
 
   // fetch fields params
   if (fields) {
-    params.fields = fields
+    filterParams.fields = fields
   }
 
   // fetch compconds
   if (compconds) {
-    params.compconds = compconds.toJS()
+    filterParams.compconds = compconds.toJS()
   }
 
-  return Object.assign({}, params, searches.toJS())
+  const queryParams = getUrlQuery(location)
+  const latestParams = mergeDeep([filterParams, searches.toJS(), queryParams])
+
+  return latestParams
+}
+
+export function getFilterParamsAndSyncUrl(filters, location, params = {}) {
+  let filterParams = {}
+  const page = filters.getIn(['paging', 'page'])
+  const orders = filters.get('orders')
+  const searches = filters.get('searches')
+  const fields = filters.get('fields')
+  const compconds = filters.get('compconds')
+
+  // fetch page filterParams
+  if (page) {
+    filterParams.page = page
+  }
+
+  // fetch orders filters filterParams
+  if (orders.size > 0) {
+    filterParams.orders = orders.toArray()
+  }
+
+  // fetch fields filterParams
+  if (fields) {
+    filterParams.fields = fields
+  }
+
+  // fetch compconds
+  if (compconds) {
+    filterParams.compconds = compconds.toJS()
+  }
+
+  const queryParams = getUrlQuery(location)
+  const latestParams = mergeDeep([filterParams, searches.toJS(), queryParams, params])
+
+  syncUrlQuery(location, latestParams)
+
+  return latestParams
+}
+
+export function syncUrlQuery(location, params) {
+  const searchString = qs.stringify(params, {arrayFormat: 'bracket', encode: true})
+  browserHistory.push({pathname: location.pathname, search: `?${searchString}`})
+}
+
+export function getUrlQuery(location) {
+  if(location && location.search) {
+    return qs.parse(location.search.replace(/^\?/, ""))
+  } else {
+    return {}
+  }
 }
 
 export function mergeDeep(objs = []) {
@@ -94,4 +149,35 @@ export function getDefaultTableTitlePagination(currentPage, totalPage){
     current: currentPage,
     showTotal: (total, range) => `${range[0]}-${range[1]} of ${total}`,
   }
+}
+
+
+export function initialValueForRangePicker(options, filters, fieldName) {
+  const startDateStr = filters.getIn(['compconds', `${fieldName}.gte`])
+  const endDateStr = filters.getIn(['compconds', `${fieldName}.lt`])
+  const startDate = startDateStr && moment(startDateStr)
+  const endDate = endDateStr && moment(endDateStr)
+
+  if(startDate && endDate) {
+    options.initialValue = [startDate, endDate]
+  }
+
+  return options
+}
+
+export function initialValueForSelectMultiple(options, filters, fieldName) {
+  const initialValue = filters.getIn(['compconds', `${fieldName}.in`])
+  if(initialValue) {
+    options.initialValue = initialValue.toJS()
+  }
+  return options
+}
+
+
+export function initialValueForSearch(options, filters, fieldName) {
+  const initialValue = filters.getIn(['compconds', `${fieldName}.like`])
+  if(initialValue) {
+    options.initialValue = initialValue.replace(/^\%/, '').replace(/\%$/, '')
+  }
+  return options
 }

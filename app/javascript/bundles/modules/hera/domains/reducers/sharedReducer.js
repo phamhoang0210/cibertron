@@ -4,7 +4,7 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   domainDnsServers: [
     { id: 'pageserver.instapage.com', title: 'Instapage' },
-    { id: 'landing_pages.pedia.vn', title: 'Custom' },
+    { id: 'landingpages.pedia.vn', title: 'Custom' },
   ],
 })
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper'
 import LeadsTableBox from './Lead/LeadsTable/LeadsTableBox'
 import LeadFiltersFormBox from './Lead/LeadFiltersForm/LeadFiltersFormBox'
 import { notification } from 'antd'
@@ -10,8 +10,9 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState, railsContextState} = this.props
-    const leadParams = getFilterParams(indexState.get('leadFilters'))
+    const {actions, indexState, railsContextState, location} = this.props
+    const leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location)
+    
     actions.fetchLeads(leadParams)
     actions.fetchLeadLevels({per_page: 'infinite'})
     actions.fetchCareStatuses({per_page: 'infinite'})
