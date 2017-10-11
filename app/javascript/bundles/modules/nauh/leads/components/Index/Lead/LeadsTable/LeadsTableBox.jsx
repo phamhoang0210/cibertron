@@ -6,7 +6,8 @@ import {
   Tag, Tabs, Badge, Select
 } from 'antd'
 import {
-  getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination, getDefaultTableTitlePagination
+  getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
+  getDefaultTableTitlePagination, getFilterParams, initialValueForSearch,
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
@@ -44,6 +45,8 @@ class LeadsTableBox extends React.Component {
     this.state = {
       showImportModal: false,
     }
+
+    this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
       'handleTableChange',
@@ -222,6 +225,14 @@ class LeadsTableBox extends React.Component {
     }];
   }
 
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
+    return {
+      search: initialValueForSearch({}, currentLeadFilters, 'email'),
+    }
+  }
+
   handleDelete(leadId) {
     const {actions, indexState} = this.props
     actions.deleteLead(leadId)
@@ -240,10 +251,10 @@ class LeadsTableBox extends React.Component {
   }
 
   handleTableChange(pagination, filters, sorter) {
-    const {actions, indexState} = this.props
-    let leadParams = getFilterParams(indexState.get('leadFilters'))
+    const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
 
+    let leadParams = {}
     if(current != leadParams.page) {
       leadParams.page = current
     }
@@ -251,6 +262,9 @@ class LeadsTableBox extends React.Component {
     if(sorter.field) {
       leadParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
+
+
+    leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location, leadParams)
 
     actions.fetchLeads(leadParams)
   }
@@ -261,9 +275,9 @@ class LeadsTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
-    const {actions, indexState} = this.props
-    let leadParams = getFilterParams(indexState.get('leadFilters'))
-    actions.fetchLeads(mergeDeep([leadParams, {compconds: {'email.like': `%${keyword}%`}}]))
+    const {actions, indexState, location} = this.props
+    let leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location, {compconds: {'email.like': `%${keyword}%`}})
+    actions.fetchLeads(leadParams)
   }
 
   handleAssign() {
@@ -312,6 +326,7 @@ class LeadsTableBox extends React.Component {
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
+              defaultValue={this.initialValues.search.initialValue}
               placeholder="Search by email.."
               onSearch={this.handleSearch}
             />

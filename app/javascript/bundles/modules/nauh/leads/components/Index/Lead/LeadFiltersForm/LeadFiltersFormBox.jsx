@@ -1,10 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
+import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { NAUH_BASE_URL, LEAD_EXPORT_API_PATH } from '../../../../constants/paths'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import {
+  getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, initialValueForRangePicker,
+  initialValueForSelectMultiple,
+} from 'helpers/applicationHelper'
 import moment from 'moment'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
@@ -22,18 +26,38 @@ class LeadFiltersFormBox extends React.Component {
       'handleFilter',
       'formatFormData',
       'handleExport',
+      'handleReset',
     ])
+
+    this.initialValues = this.getInitialValues()
+  }
+
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
+    return {
+      created_at: initialValueForRangePicker({}, currentLeadFilters, 'created_at'),
+      imported_at: initialValueForRangePicker({}, currentLeadFilters, 'imported_at'),
+      assigned_at: initialValueForRangePicker({}, currentLeadFilters, 'assigned_at'),
+      lead_level_id: initialValueForSelectMultiple({}, currentLeadFilters, 'lead_level_id'),
+      staff_id: initialValueForSelectMultiple({}, currentLeadFilters, 'staff_id'),
+      care_status_id: initialValueForSelectMultiple({}, currentLeadFilters, 'care_status_id'),
+    }
   }
 
   handleFilter(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const {actions, indexState} = this.props
-        let leadParams = getFilterParams(indexState.get('leadFilters'))
-        actions.fetchLeads(mergeDeep([leadParams, this.formatFormData(values)]))
+        const {actions, indexState, location} = this.props
+        let leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location, this.formatFormData(values))
+        actions.fetchLeads(leadParams)
       }
     })
+  }
+
+  handleReset() {
+    this.props.form.resetFields()
   }
 
   formatFormData(values) {
@@ -58,14 +82,14 @@ class LeadFiltersFormBox extends React.Component {
   }
 
   handleExport() {
-    const {actions, indexState} = this.props
-    let leadParams = getFilterParams(indexState.get('leadFilters'))
+    const {actions, indexState, location} = this.props
+    let leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location)
     const query = qs.stringify({...leadParams, ...getCredentials()}, { arrayFormat: 'brackets' })
     window.open(`${NAUH_BASE_URL}${LEAD_EXPORT_API_PATH}?=${query}`, '_blank')
   }
 
   render() {
-    const {indexState, form, sharedState} = this.props
+    const {indexState, form, sharedState, location} = this.props
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
     const careStatuses = sharedState.get('careStatuses')
@@ -81,7 +105,9 @@ class LeadFiltersFormBox extends React.Component {
         <Row gutter={40}>
           <Col span={8}>
             <FormItem label="Created in" {...FILTER_FORM_ITEM_LAYOUT}>
-              {getFieldDecorator('created_at')(
+              {getFieldDecorator('created_at', {
+                ...this.initialValues.created_at,
+              })(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
@@ -92,7 +118,9 @@ class LeadFiltersFormBox extends React.Component {
           </Col>
           <Col span={8}>
             <FormItem label="Imported in" {...FILTER_FORM_ITEM_LAYOUT}>
-              {getFieldDecorator('imported_at')(
+              {getFieldDecorator('imported_at', {
+                ...this.initialValues.imported_at,
+              })(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
@@ -103,7 +131,9 @@ class LeadFiltersFormBox extends React.Component {
           </Col>
           <Col span={8}>
             <FormItem label="Assigned in" {...FILTER_FORM_ITEM_LAYOUT}>
-              {getFieldDecorator('assigned_at')(
+              {getFieldDecorator('assigned_at', {
+                ...this.initialValues.assigned_at,
+              })(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
@@ -115,7 +145,8 @@ class LeadFiltersFormBox extends React.Component {
           <Col span={8}>
             <FormItem label="Level" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('lead_level_id', {
-                rules: [{ type: 'array' }]
+                rules: [{ type: 'array' }],
+                ...this.initialValues.lead_level_id,
               })(
                 <Select
                   showSearch
@@ -136,7 +167,8 @@ class LeadFiltersFormBox extends React.Component {
           <Col span={8}>
             <FormItem label="Staff" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('staff_id', {
-                rules: [{ type: 'array' }]
+                rules: [{ type: 'array' }],
+                ...this.initialValues.staff_id,
               })(
                 <Select
                   showSearch
@@ -157,7 +189,8 @@ class LeadFiltersFormBox extends React.Component {
           <Col span={8}>
             <FormItem label="Status" {...FILTER_FORM_ITEM_LAYOUT}>
               {getFieldDecorator('care_status_id', {
-                rules: [{ type: 'array' }]
+                rules: [{ type: 'array' }],
+                ...this.initialValues.care_status_id,
               })(
                 <Select
                   showSearch
@@ -178,8 +211,18 @@ class LeadFiltersFormBox extends React.Component {
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
-            <Button style={{marginRight: 4}} onClick={this.handleExport} disabled={isFetchingLeads}>
+            <Button
+              className="button-margin--right--default"
+              onClick={this.handleExport}
+              disabled={isFetchingLeads}
+            >
               {`Export (${totalPage || '..'})`}
+            </Button>
+            <Button
+              className="button-margin--right--default"
+              onClick={this.handleReset}
+            >
+              Clear
             </Button>
             <Button type="primary" htmlType="submit" loading={isFetchingLeads}>
               Filter

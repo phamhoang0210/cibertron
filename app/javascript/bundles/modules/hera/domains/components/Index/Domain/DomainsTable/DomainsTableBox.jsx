@@ -27,6 +27,11 @@ class DomainsTableBox extends React.Component {
       title: 'Domain',
       dataIndex: 'name',
       key: 'name',
+      render: value => (<a href={`http://${value}`} target="_blank">{value}</a>),
+    }, {
+      title: 'Target server',
+      dataIndex: 'dns_server',
+      key: 'dns_server',
     }, {
       title: 'Landing page name',
       dataIndex: 'landing_page.name',
