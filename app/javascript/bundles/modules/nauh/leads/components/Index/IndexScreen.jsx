@@ -3,6 +3,7 @@ import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper'
 import LeadsTableBox from './Lead/LeadsTable/LeadsTableBox'
 import LeadFiltersFormBox from './Lead/LeadFiltersForm/LeadFiltersFormBox'
 import { notification } from 'antd'
+import { injectIntl } from 'react-intl'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -32,10 +33,12 @@ class IndexScreen extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     return (
       <div className="main-content nauh-leads">
-        <h1 className="main-content-title">Leads</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'index.title'})}
+        </h1>
         <LeadFiltersFormBox {...this.props}/>
         <LeadsTableBox {...this.props}/>
       </div>
@@ -43,4 +46,4 @@ class IndexScreen extends React.Component {
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)

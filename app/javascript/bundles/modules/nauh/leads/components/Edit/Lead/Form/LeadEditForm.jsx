@@ -6,6 +6,7 @@ import { selectFilterOption } from 'helpers/antdHelper'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -38,7 +39,7 @@ class LeadEditForm extends React.Component {
   }
 
   render() {
-    const {editState, sharedState} = this.props
+    const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const lead = editState.get('lead')
@@ -69,50 +70,79 @@ class LeadEditForm extends React.Component {
           <Col span={10}>
             {lead && !lead.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Email" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.email.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   <Input value={lead.get('email')} disabled/>
                 </FormItem>
-                <FormItem label="Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.mobile.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   <Input value={lead.get('mobile')} disabled/>
                 </FormItem>
-                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.name.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('name', {
                     initialValue: lead.get('name'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Address" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.address.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('address', {
                     initialValue: lead.get('address'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Interest" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.interest.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('interest', {
                     initialValue: lead.get('interest'),
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Note" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.note.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('note', {
                     initialValue: lead.get('note'),
                   })(<TextArea />)}
                 </FormItem>
-                <FormItem label="Imported at" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.imported_at.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('imported_at', {
                     initialValue: lead.get('imported_at') && moment(lead.get('imported_at')),
                   })(<DatePicker />)}
                 </FormItem>
-                <FormItem label="Assigned at" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.assigned_at.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('assigned_at', {
                     initialValue: lead.get('assigned_at') && moment(lead.get('assigned_at')),
                   })(<DatePicker />)}
                 </FormItem>
-                <FormItem label="Level" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.lead_level_id.errors.required'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('lead_level_id', {
-                    rules: [{ required: true, message: 'Lead level is required!' }],
+                    rules: [
+                      { required: true, message: intl.formatMessage({id: 'form.form_item.lead_level_id.errors.required'}) }
+                    ],
                     initialValue: `${lead.get('lead_level_id')}`,
                   })(
                     <Select
                       showSearch
-                      placeholder="Please select a level"
+                      placeholder={intl.formatMessage({id: 'form.form_item.lead_level_id.label'})}
                       filterOption={selectFilterOption}
                     >
                       {leadLevels.map(leadLevel => (
@@ -123,14 +153,19 @@ class LeadEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Care status" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.care_status_id.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('care_status_id', {
-                    rules: [{ required: true, message: 'Care status is required!' }],
+                    rules: [
+                      { required: true, message: intl.formatMessage({id: 'form.form_item.lead_level_id.errors.required'}) }
+                    ],
                     initialValue: `${lead.get('care_status_id')}`,
                   })(
                     <Select
                       showSearch
-                      placeholder="Please select a status"
+                      placeholder={intl.formatMessage({id: 'form.form_item.lead_level_id.placeholder'})}
                       filterOption={selectFilterOption}
                     >
                       {careStatuses.map(careStatus => (
@@ -141,13 +176,16 @@ class LeadEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem label="Staff" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'form.form_item.staff_id.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('staff_id', {
                     initialValue: `${lead.get('staff_id')}`,
                   })(
                     <Select
                       showSearch
-                      placeholder="Please select a staff"
+                      placeholder={intl.formatMessage({id: 'form.form_item.staff_id.placeholder'})}
                       filterOption={selectFilterOption}
                     >
                       {users.map(user => (
@@ -164,14 +202,14 @@ class LeadEditForm extends React.Component {
                     htmlType="submit"
                     loading={isUpdatingLead}
                   >
-                    Update
+                    {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                   </Button>
                   <Button
                     className="button-margin--left--default"
                     type="default"
                     onClick={this.handleBack}
                   >
-                    Back
+                    {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                   </Button>
                 </FormItem>
               </Form>
@@ -183,4 +221,4 @@ class LeadEditForm extends React.Component {
   }
 }
 
-export default Form.create()(LeadEditForm)
+export default Form.create()(injectIntl(LeadEditForm))

@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import EditScreen from '../components/Edit/EditScreen'
 import * as actions from '../actions/editActions'
 
-const EditContainer = ({ actions, editState, params, sharedState }) => {
+const EditContainer = ({ actions, editState, params, sharedState, location }) => {
   return (
-    <EditScreen {...{actions, editState, params, sharedState }} />
+    <EditScreen {...{actions, editState, params, sharedState, location }} />
   );
 }
 

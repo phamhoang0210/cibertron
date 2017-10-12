@@ -6,13 +6,14 @@ import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_T
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { NAUH_BASE_URL, LEAD_EXPORT_API_PATH } from '../../../../constants/paths'
 import {
-  getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, initialValueForRangePicker,
-  initialValueForSelectMultiple,
+  getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
+  getInitialValue,
 } from 'helpers/applicationHelper'
 import moment from 'moment'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
 import { selectFilterOption } from 'helpers/antdHelper'
+import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -36,12 +37,12 @@ class LeadFiltersFormBox extends React.Component {
     const {indexState, location} = this.props
     const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
     return {
-      created_at: initialValueForRangePicker({}, currentLeadFilters, 'created_at'),
-      imported_at: initialValueForRangePicker({}, currentLeadFilters, 'imported_at'),
-      assigned_at: initialValueForRangePicker({}, currentLeadFilters, 'assigned_at'),
-      lead_level_id: initialValueForSelectMultiple({}, currentLeadFilters, 'lead_level_id'),
-      staff_id: initialValueForSelectMultiple({}, currentLeadFilters, 'staff_id'),
-      care_status_id: initialValueForSelectMultiple({}, currentLeadFilters, 'care_status_id'),
+      created_at: getInitialValueForRangePicker({}, currentLeadFilters, ['created_at.gte'], ['created_at.lt']),
+      imported_at: getInitialValueForRangePicker({}, currentLeadFilters, ['imported_at.gte'], ['imported_at.lt']),
+      assigned_at: getInitialValueForRangePicker({}, currentLeadFilters, ['assigned_at.gte'], ['assigned_at.lt']),
+      lead_level_id: getInitialValue({}, currentLeadFilters, ['lead_level_id.in']),
+      staff_id: getInitialValue({}, currentLeadFilters, ['staff_id.in']),
+      care_status_id: getInitialValue({}, currentLeadFilters, ['care_status_id.in']),
     }
   }
 
@@ -89,7 +90,7 @@ class LeadFiltersFormBox extends React.Component {
   }
 
   render() {
-    const {indexState, form, sharedState, location} = this.props
+    const {indexState, form, sharedState, location, intl} = this.props
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
     const careStatuses = sharedState.get('careStatuses')
@@ -104,7 +105,10 @@ class LeadFiltersFormBox extends React.Component {
       >
         <Row gutter={40}>
           <Col span={8}>
-            <FormItem label="Created in" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'index.filters.form_item.created_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('created_at', {
                 ...this.initialValues.created_at,
               })(
@@ -117,7 +121,10 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Imported in" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem 
+              label={intl.formatMessage({id: 'index.filters.form_item.imported_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('imported_at', {
                 ...this.initialValues.imported_at,
               })(
@@ -130,7 +137,10 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Assigned in" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem 
+              label={intl.formatMessage({id: 'index.filters.form_item.assigned_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('assigned_at', {
                 ...this.initialValues.assigned_at,
               })(
@@ -143,7 +153,10 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Level" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'index.filters.form_item.lead_level_id.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('lead_level_id', {
                 rules: [{ type: 'array' }],
                 ...this.initialValues.lead_level_id,
@@ -165,7 +178,10 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Staff" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem 
+              label={intl.formatMessage({id: 'index.filters.form_item.staff_id.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('staff_id', {
                 rules: [{ type: 'array' }],
                 ...this.initialValues.staff_id,
@@ -187,7 +203,10 @@ class LeadFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Status" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'index.filters.form_item.care_status_id.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('care_status_id', {
                 rules: [{ type: 'array' }],
                 ...this.initialValues.care_status_id,
@@ -216,16 +235,19 @@ class LeadFiltersFormBox extends React.Component {
               onClick={this.handleExport}
               disabled={isFetchingLeads}
             >
-              {`Export (${totalPage || '..'})`}
+              {intl.formatMessage(
+                {id: 'index.filters.form_item.button.export.text'},
+                {numOfItem: totalPage || ''}
+              )}
             </Button>
             <Button
               className="button-margin--right--default"
               onClick={this.handleReset}
             >
-              Clear
+              {intl.formatMessage({id: 'index.filters.form_item.button.clear.text'})}
             </Button>
             <Button type="primary" htmlType="submit" loading={isFetchingLeads}>
-              Filter
+              {intl.formatMessage({id: 'index.filters.form_item.button.filter.text'})}
             </Button>
           </Col>
         </Row>
@@ -234,4 +256,4 @@ class LeadFiltersFormBox extends React.Component {
   }
 }
 
-export default Form.create()(LeadFiltersFormBox)
+export default Form.create()(injectIntl(LeadFiltersFormBox))

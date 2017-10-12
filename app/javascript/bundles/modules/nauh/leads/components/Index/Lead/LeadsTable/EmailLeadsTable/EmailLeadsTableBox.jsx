@@ -5,30 +5,33 @@ import { Table, Badge } from 'antd'
 import { getFilterParams } from 'helpers/applicationHelper'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
+import {injectIntl} from 'react-intl'
 
 class EmailLeadsTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange'
     ])
 
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.id.title'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Created at',
+      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.created_at.title'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: 'Campaign name',
+      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.campaign_name.title'}),
       dataIndex: 'campaign_name',
       key: 'campaign_name',
     }, {
-      title: 'Read at',
+      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.read_at.title'}),
       dataIndex: 'read_at',
       key: 'read_at',
       render: value => {
@@ -84,4 +87,4 @@ class EmailLeadsTableBox extends React.Component {
   }
 }
 
-export default EmailLeadsTableBox
+export default injectIntl(EmailLeadsTableBox)

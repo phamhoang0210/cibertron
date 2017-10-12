@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Row, Col, Select, Button } from 'antd'
 import { selectFilterOption } from 'helpers/antdHelper'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 
@@ -30,7 +31,7 @@ class LeadUpdateMultipleBox extends React.Component {
   }
 
   render() {
-    const {indexState, sharedState, actions} = this.props
+    const {indexState, sharedState, actions, intl} = this.props
     const selectedLeadKeys = indexState.get('selectedLeadKeys')
     const isUpdatingLeads = indexState.get('isUpdatingLeads')
     const careStatuses = sharedState.get('careStatuses')
@@ -38,7 +39,12 @@ class LeadUpdateMultipleBox extends React.Component {
 
     return (
       <Col span={18}>
-        <b>Update <i style={{color: 'red'}}>{selectedLeadKeys.count()}</i> selected leads: </b>
+        <b>
+          {intl.formatMessage(
+            {id: 'index.leads_table.update_multiple.title'},
+            {selectedLeadKeyCount: selectedLeadKeys.count()}
+          )}
+        </b>
         <Select
           showSearch
           filterOption={selectFilterOption}
@@ -68,7 +74,7 @@ class LeadUpdateMultipleBox extends React.Component {
           className="button-margin--left--default"
           onClick={this.handleClearSelection}
         >
-          Clear
+          {intl.formatMessage({id: 'index.leads_table.update_multiple.button.clear.text'})}
         </Button>
         <Button
           type="primary"
@@ -77,11 +83,11 @@ class LeadUpdateMultipleBox extends React.Component {
           loading={isUpdatingLeads}
           disabled={isUpdatingLeads}
         >
-          Update
+          {intl.formatMessage({id: 'index.leads_table.update_multiple.button.update.text'})}
         </Button>
       </Col>
     )
   }
 }
 
-export default LeadUpdateMultipleBox
+export default injectIntl(LeadUpdateMultipleBox)

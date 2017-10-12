@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Modal, Button, Input, Col, Select, DatePicker, Table, Tag  } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { injectIntl } from 'react-intl'
 
 const { Option } = Select
 const EXAMPLE_FILE_URL = 'https://docs.google.com/a/topica.edu.vn/spreadsheets/d/10VUJAbNsYV1IZ_XTLp_9VDP6OWuMsE8_xcavsK7ma6I/edit?usp=sharing'
@@ -10,17 +11,19 @@ class LeadImportModalBox extends React.Component {
   constructor(props) {
     super(props)
 
+    const {intl} = this.props
+
     _.bindAll(this, [
       'handleImport',
     ])
 
     this.resultTableColumns = [
       {
-        title: 'Email',
+        title: intl.formatMessage({id: 'index.leads_table.import_modal.results_table.columns.email.title'}),
         dataIndex: 'email',
         key: 'email',
       }, {
-        title: 'Status',
+        title: intl.formatMessage({id: 'index.leads_table.import_modal.results_table.columns.status.title'}),
         dataIndex: 'status',
         key: 'status',
         render: (text, record) => (
@@ -29,7 +32,7 @@ class LeadImportModalBox extends React.Component {
           </Tag>
         ),
       }, {
-        title: 'Message',
+        title: intl.formatMessage({id: 'index.leads_table.import_modal.results_table.columns.message.title'}),
         dataIndex: 'message',
         key: 'message',
       }
@@ -46,14 +49,14 @@ class LeadImportModalBox extends React.Component {
   }
 
   render() {
-    const {visible, handleCancel, indexState} = this.props
+    const {visible, handleCancel, indexState, intl} = this.props
     const alert = indexState.get('importLeadAlert')
     const importResults = indexState.get('importLeadsResults')
     const isImportingLeads = indexState.get('isImportingLeads')
 
     return (
       <Modal
-        title="Import leads"
+        title={intl.formatMessage({id: 'index.leads_table.import_modal.results_table.title'})}
         visible={visible}
         onOk={this.handleImport}
         onCancel={handleCancel}
@@ -77,7 +80,10 @@ class LeadImportModalBox extends React.Component {
           required
         />
         <p className="help-block">
-          Please upload format correct file (.csv, .xlsx). <a target="_blank" href={EXAMPLE_FILE_URL}>Sample file</a>
+          {intl.formatMessage({id: 'index.leads_table.import_modal.results_table.help.text'})}
+          <a target="_blank" href={EXAMPLE_FILE_URL}>
+            {intl.formatMessage({id: 'index.leads_table.import_modal.results_table.help.sample_file'})}
+          </a>
         </p>
         <Table
           size="middle"
@@ -93,4 +99,4 @@ class LeadImportModalBox extends React.Component {
   }
 }
 
-export default LeadImportModalBox
+export default injectIntl(LeadImportModalBox)
