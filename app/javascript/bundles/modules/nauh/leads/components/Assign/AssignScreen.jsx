@@ -1,6 +1,7 @@
 import React from 'react'
 import ReportTableBox from './ReportTable/ReportTableBox'
 import { notification } from 'antd'
+import { injectIntl } from 'react-intl'
 
 class AssignScreen extends React.Component {
   constructor(props) {
@@ -26,13 +27,17 @@ class AssignScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
+
     return (
       <div className="main-content nauh-leads-assign">
-        <h1 className="main-content-title">Assign</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'assign.title'})}
+        </h1>
         <ReportTableBox {...this.props}/>
       </div>
     )
   }
 }
 
-export default AssignScreen
+export default injectIntl(AssignScreen)

@@ -1,18 +1,25 @@
 import React from 'react'
 import _ from 'lodash'
+import Immutable from 'immutable'
 import { Table, Icon, Button, Row, Col, Input } from 'antd'
-import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
+import {
+  getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getDefaultTablePagination,
+  getInitialValueForSearch,
+} from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { EROS_BASE_URL } from 'app/constants/paths'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
 class OrdersTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange',
@@ -22,12 +29,14 @@ class OrdersTableBox extends React.Component {
       'handleSearch',
     ])
 
+    this.initialValues = this.getInitialValues()
+
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'index.orders_table.columns.id.title'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Lead',
+      title: intl.formatMessage({id: 'index.orders_table.columns.lead.title'}),
       dataIndex: 'lead',
       key: 'lead',
       render: value => {
@@ -42,7 +51,7 @@ class OrdersTableBox extends React.Component {
         }
       }
     },{
-      title: 'Campaign code',
+      title: intl.formatMessage({id: 'index.orders_table.columns.campaign_id.title'}),
       dataIndex: 'campaign_id',
       key: 'campaign_id',
       render: value => {
@@ -52,12 +61,12 @@ class OrdersTableBox extends React.Component {
         return campaign ? campaign.get('code') : ''
       }
     }, {
-      title: 'Created at',
+      title: intl.formatMessage({id: 'index.orders_table.columns.created_at.title'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: 'Actions',
+      title: intl.formatMessage({id: 'index.orders_table.columns.actions.title'}),
       dataIndex: 'actions',
       key: 'actions',
       render: (value, record) => (
@@ -66,6 +75,15 @@ class OrdersTableBox extends React.Component {
         </span>
       )
     }];
+  }
+
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentOrderParams = Immutable.fromJS(getFilterParams(indexState.get('orderFilters'), location))
+
+    return {
+      search: getInitialValueForSearch({}, currentOrderParams, ['lead', 'email.like']),
+    }
   }
 
   handleDelete(orderId) {
@@ -82,25 +100,31 @@ class OrdersTableBox extends React.Component {
   }
 
   handleTableChange(pagination, filters, sorter) {
-    const {actions, indexState} = this.props
-    let orderParams = getFilterParams(indexState.get('orderFilters'))
+    const {actions, indexState, location} = this.props
+    let orderParams = {}
     const {current, pageSize, total} = pagination
 
     if(current != orderParams.page) {
       orderParams.page = current
     }
 
+    orderParams = getFilterParamsAndSyncUrl(indexState.get('orderFilters'), location, orderParams)
+
     actions.fetchOrders(orderParams)
   }
 
   handleSearch(keyword) {
     const {actions, indexState} = this.props
-    let orderParams = getFilterParams(indexState.get('orderFilters'))
-    actions.fetchOrders(mergeDeep([orderParams, {compconds: {lead: {'email.like': `%${keyword}%`}}}]))
+    let orderParams = getFilterParamsAndSyncUrl(
+      indexState.get('orderFilters'),
+      location,
+      {compconds: {lead: {'email.like': `%${keyword}%`}}}
+    )
+    actions.fetchOrders(orderParams)
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     const orders = indexState.get('orders')
     const paging = indexState.getIn(['orderFilters', 'paging'])
     const isFetchingOrders = indexState.get('isFetchingOrders')
@@ -109,16 +133,11 @@ class OrdersTableBox extends React.Component {
       <div style={{marginTop: '8px'}}>
         <Row style={{marginBottom: '8px'}}>
           <Col span={18}>
-            {/*<Button
-              style={{marginBottom: '8px'}}
-              onClick={this.handleAdd}
-            >
-              Add
-            </Button>*/}
           </Col>
           <Col span={6} style={{ textAlign: 'right' }}>
             <Search
-              placeholder="Search by lead email.."
+              defaultValue={this.initialValues.search.initialValue}
+              placeholder={intl.formatMessage({id: 'index.orders_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
@@ -137,4 +156,4 @@ class OrdersTableBox extends React.Component {
   }
 }
 
-export default OrdersTableBox
+export default injectIntl(OrdersTableBox)

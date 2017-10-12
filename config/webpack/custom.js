@@ -7,6 +7,7 @@ module.exports = {
       libs: 'libs',
       helpers: 'helpers',
       styles: 'src/styles',
+      locales: 'locales',
     }
   }
 }

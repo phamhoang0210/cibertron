@@ -1,7 +1,8 @@
 import React from 'react'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper'
 import OrdersTableBox from './Order/OrdersTable/OrdersTableBox'
 import OrderFiltersFormBox from './Order/OrderFiltersForm/OrderFiltersFormBox'
+import { injectIntl } from 'react-intl'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -9,18 +10,21 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState, railsContextState} = this.props
-    const orderParams = getFilterParams(indexState.get('orderFilters'))
+    const {actions, indexState, railsContextState, location} = this.props
+    const orderParams = getFilterParamsAndSyncUrl(indexState.get('orderFilters'), location)
     actions.fetchOrders(orderParams)
     actions.fetchCampaigns({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
+
     return (
-      <div>
-        <h1>Orders</h1>
+      <div className="main-content nauh-orders-index">
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'index.title'})}
+        </h1>
         <OrderFiltersFormBox {...this.props}/>
         <OrdersTableBox {...this.props}/>
       </div>
@@ -28,4 +32,4 @@ class IndexScreen extends React.Component {
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)

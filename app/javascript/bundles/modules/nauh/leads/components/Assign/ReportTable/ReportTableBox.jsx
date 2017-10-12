@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import { Form, Table, Icon, Button, Input, Row, Col, Select } from 'antd'
 import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
 import LeadAssignFormBox from './LeadAssignForm/LeadAssignFormBox'
+import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item
 
@@ -11,8 +12,10 @@ class ReportTableBox extends React.Component {
   constructor(props) {
     super(props)
 
+    const {intl} = this.props
+
     this.columns = [, {
-      title: 'Staff',
+      title: intl.formatMessage({id: 'assign.report_table.columns.staff_id.title'}),
       dataIndex: 'staff_id',
       key: 'staff_id',
       render: value => {
@@ -22,23 +25,23 @@ class ReportTableBox extends React.Component {
         return user ? user.get('username') : value
       }
     }, {
-      title: 'A0',
+      title: intl.formatMessage({id: 'assign.report_table.columns.a0.title'}),
       dataIndex: 'A0',
       key: 'A0',
     }, {
-      title: 'A1',
+      title: intl.formatMessage({id: 'assign.report_table.columns.a1.title'}),
       dataIndex: 'A1',
       key: 'A1',
     }, {
-      title: 'A2',
+      title: intl.formatMessage({id: 'assign.report_table.columns.a1.title'}),
       dataIndex: 'A2',
       key: 'A2',
     }, {
-      title: 'A3',
+      title: intl.formatMessage({id: 'assign.report_table.columns.a3.title'}),
       dataIndex: 'A3',
       key: 'A3',
     }, {
-      title: 'A3X',
+      title: intl.formatMessage({id: 'assign.report_table.columns.a3x.title'}),
       dataIndex: 'A3X',
       key: 'A3X',
     }];
@@ -76,4 +79,4 @@ class ReportTableBox extends React.Component {
   }
 }
 
-export default ReportTableBox
+export default injectIntl(ReportTableBox)

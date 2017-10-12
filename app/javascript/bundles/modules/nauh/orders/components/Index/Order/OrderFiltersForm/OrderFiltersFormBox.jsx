@@ -1,11 +1,16 @@
 import React from 'react'
 import _ from 'lodash'
+import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
-import { getFilterParams, mergeDeep } from 'helpers/applicationHelper'
+import {
+  getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getInitialValueForRangePicker,
+  getInitialValue,
+} from 'helpers/applicationHelper'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import moment from 'moment'
+import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -18,17 +23,36 @@ class OrderFiltersFormBox extends React.Component {
     _.bindAll(this, [
       'handleFilter',
       'formatFormData',
+      'handleReset',
     ])
+
+    this.initialValues = this.getInitialValues()
+  }
+
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentOrderParams = Immutable.fromJS(getFilterParams(indexState.get('orderFilters'), location))
+
+    return {
+      created_at: getInitialValueForRangePicker({}, currentOrderParams, ['created_at.gte'], ['created_at.lt']),
+      updated_at: getInitialValueForRangePicker({}, currentOrderParams, ['updated_at.gte'], ['updated_at.lt']),
+      campaign_id: getInitialValue({}, currentOrderParams, 'campaign_id'),
+      staff_id: getInitialValue({}, currentOrderParams, 'staff_id'),
+    }
+  }
+
+  handleReset() {
+    this.props.form.resetFields()
   }
 
   handleFilter(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const {actions, indexState} = this.props
-        let orderParams = getFilterParams(indexState.get('orderFilters'))
+        const {actions, indexState, location} = this.props
+        let orderParams = getFilterParamsAndSyncUrl(indexState.get('orderFilters'), location, this.formatFormData(values))
 
-        actions.fetchOrders(mergeDeep([orderParams, this.formatFormData(values)]))
+        actions.fetchOrders(orderParams)
       }
     })
   }
@@ -60,7 +84,7 @@ class OrderFiltersFormBox extends React.Component {
   }
 
   render() {
-    const {indexState, form, sharedState} = this.props
+    const {indexState, form, sharedState, intl} = this.props
     const isFetchingOrders = indexState.get('isFetchingOrders')
     const campaigns = sharedState.get('campaigns')
     const users = sharedState.get('users')
@@ -73,8 +97,13 @@ class OrderFiltersFormBox extends React.Component {
       >
         <Row gutter={40}>
           <Col span={8}>
-            <FormItem label="Created in" {...FILTER_FORM_ITEM_LAYOUT}>
-              {getFieldDecorator('created_at')(
+            <FormItem
+              label={intl.formatMessage({id: 'form.form_item.created_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('created_at', {
+                ...this.initialValues.created_at,
+              })(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
@@ -84,8 +113,13 @@ class OrderFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Updated in" {...FILTER_FORM_ITEM_LAYOUT}>
-              {getFieldDecorator('updated_at')(
+            <FormItem
+              label={intl.formatMessage({id: 'form.form_item.updated_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('updated_at', {
+                ...this.initialValues.updated_at,
+              })(
                 <RangePicker
                   style={{width: '100%'}}
                   format={LONG_DATETIME_FORMAT}
@@ -95,15 +129,19 @@ class OrderFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Campaign" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'form.form_item.campaign_id.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('campaign_id', {
-                rules: [{ type: 'array' }]
+                rules: [{ type: 'array' }],
+                ...this.initialValues.campaign_id,
               })(
                 <Select
                   showSearch
                   filterOption={selectFilterOption}
                   mode="multiple"
-                  placeholder="-- All --"
+                  placeholder={intl.formatMessage({id: 'form.form_item.campaign_id.placeholder'})}
                   allowClear={true}
                 >
                   {campaigns.toJS().map(campaign => (
@@ -116,15 +154,19 @@ class OrderFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Staff" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'form.form_item.staff_id.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('staff_id', {
-                rules: [{ type: 'array' }]
+                rules: [{ type: 'array' }],
+                ...this.initialValues.staff_id,
               })(
                 <Select
                   showSearch
                   filterOption={selectFilterOption}
                   mode="multiple"
-                  placeholder="-- All --"
+                  placeholder={intl.formatMessage({id: 'form.form_item.staff_id.placeholder'})}
                   allowClear={true}
                 >
                   {users.toJS().map(user => (
@@ -139,8 +181,11 @@ class OrderFiltersFormBox extends React.Component {
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
+            <Button className="button-margin--right--default" onClick={this.handleReset}>
+              {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
+            </Button>
             <Button type="primary" htmlType="submit" loading={isFetchingOrders}>
-              Filter
+              {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
             </Button>
           </Col>
         </Row>
@@ -149,4 +194,4 @@ class OrderFiltersFormBox extends React.Component {
   }
 }
 
-export default Form.create()(OrderFiltersFormBox)
+export default Form.create()(injectIntl(OrderFiltersFormBox))

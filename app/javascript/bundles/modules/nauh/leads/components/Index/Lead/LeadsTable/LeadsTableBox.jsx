@@ -7,7 +7,7 @@ import {
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
-  getDefaultTableTitlePagination, getFilterParams, initialValueForSearch,
+  getDefaultTableTitlePagination, getFilterParams, getInitialValueForSearch,
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
@@ -20,6 +20,7 @@ import moment from 'moment'
 import TextEditable from 'partials/components/ContentEditable/Text/TextEditable'
 import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
 import LeadUpdateMultipleBox from './LeadUpdateMultiple/LeadUpdateMultipleBox'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
@@ -42,6 +43,8 @@ class LeadsTableBox extends React.Component {
   constructor(props) {
     super(props)
 
+    const {intl} = this.props
+
     this.state = {
       showImportModal: false,
     }
@@ -62,7 +65,7 @@ class LeadsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: 'Info',
+      title: intl.formatMessage({id: 'index.leads_table.columns.info.tilte'}),
       dataIndex: 'name',
       key: 'info',
       width: '15%',
@@ -74,7 +77,7 @@ class LeadsTableBox extends React.Component {
         </div>
       )
     }, {
-      title: 'Interest',
+      title: intl.formatMessage({id: 'index.leads_table.columns.interest.tilte'}),
       dataIndex: 'interest',
       key: 'interest',
       width: '12%',
@@ -88,7 +91,7 @@ class LeadsTableBox extends React.Component {
         />
       )
     }, {
-      title: 'Note',
+      title: intl.formatMessage({id: 'index.leads_table.columns.note.tilte'}),
       dataIndex: 'note',
       key: 'note',
       width: '12%',
@@ -102,21 +105,21 @@ class LeadsTableBox extends React.Component {
         />
       )
     }, {
-      title: 'Assigned at',
+      title: intl.formatMessage({id: 'index.leads_table.columns.assigned_at.tilte'}),
       dataIndex: 'assigned_at',
       key: 'assigned_at',
       sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
-      title: 'Imported at',
+      title: intl.formatMessage({id: 'index.leads_table.columns.imported_at.tilte'}),
       dataIndex: 'imported_at',
       key: 'imported_at',
       sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
-      title: 'Care status',
+      title: intl.formatMessage({id: 'index.leads_table.columns.care_status_code.tilte'}),
       dataIndex: 'care_status.code',
-      key: 'care_status.code',
+      key: 'care_status_code',
       render: (value, record) => {
         const {sharedState} = this.props
         const careStatuses = sharedState.get('careStatuses')
@@ -136,7 +139,7 @@ class LeadsTableBox extends React.Component {
         )
       }
     }, {
-      title: 'Level',
+      title: intl.formatMessage({id: 'index.leads_table.columns.lead_level_name.tilte'}),
       dataIndex: 'lead_level.name',
       key: 'lead_level_name',
       render: (value, record) => {
@@ -157,7 +160,7 @@ class LeadsTableBox extends React.Component {
         )
       }
     }, {
-      title: 'Staff',
+      title: intl.formatMessage({id: 'index.leads_table.columns.staff_id.tilte'}),
       dataIndex: 'staff_id',
       key: 'staff_id',
       render: (value, record) => {
@@ -179,7 +182,7 @@ class LeadsTableBox extends React.Component {
         )
       }
     }, {
-      title: '',
+      title: intl.formatMessage({id: 'index.leads_table.columns.action.tilte'}),
       key: 'action',
       width: 100,
       render: (cell, row) => {
@@ -191,7 +194,7 @@ class LeadsTableBox extends React.Component {
               style={{ width: '100%'}}
               onClick={(e) => this.handleCreateOrder(row.id)}
             >
-              Order
+              {intl.formatMessage({id: 'index.leads_table.columns.action.button.order.text'})}
             </Button>
             <br/>
             <Button
@@ -199,7 +202,7 @@ class LeadsTableBox extends React.Component {
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              Edit
+              {intl.formatMessage({id: 'index.leads_table.columns.action.button.edit.text'})}
             </Button>
             <br/>
             <Popconfirm
@@ -216,7 +219,7 @@ class LeadsTableBox extends React.Component {
                 loading={row.isDeleting}
                 style={{ width: '100%' }}
               >
-                Delete
+                {intl.formatMessage({id: 'index.leads_table.columns.action.button.delete.text'})}
               </Button>
             </Popconfirm>
           </div>
@@ -229,7 +232,7 @@ class LeadsTableBox extends React.Component {
     const {indexState, location} = this.props
     const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
     return {
-      search: initialValueForSearch({}, currentLeadFilters, 'email'),
+      search: getInitialValueForSearch({}, currentLeadFilters, ['email.like']),
     }
   }
 
@@ -291,7 +294,7 @@ class LeadsTableBox extends React.Component {
 
 
   render() {
-    const {indexState, actions} = this.props
+    const {indexState, actions, intl} = this.props
     const selectedLeadKeys = indexState.get('selectedLeadKeys')
     const leads = indexState.get('leads')
     const paging = indexState.getIn(['leadFilters', 'paging'])
@@ -304,13 +307,13 @@ class LeadsTableBox extends React.Component {
             <Button
               onClick={this.handleAdd}
             >
-              Add
+              {intl.formatMessage({id: 'index.leads_table.tools.button.add.text'})}
             </Button>
             <Button
               className="button-margin--left--default"
               onClick={(e) => this.setState({showImportModal: true})}
             >
-              Import
+              {intl.formatMessage({id: 'index.leads_table.tools.button.import.text'})}
             </Button>
             <LeadImportModalBox
               {...this.props}
@@ -321,13 +324,13 @@ class LeadsTableBox extends React.Component {
               className="button-margin--left--default"
               onClick={this.handleAssign}
             >
-              Assign
+              {intl.formatMessage({id: 'index.leads_table.tools.button.assign.text'})}
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
               defaultValue={this.initialValues.search.initialValue}
-              placeholder="Search by email.."
+              placeholder={intl.formatMessage({id: 'index.leads_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
@@ -353,13 +356,26 @@ class LeadsTableBox extends React.Component {
             const emailLeadCount = lead.getIn(['emailLeadFilters', 'paging', 'record_total'])
             return (
               <Tabs defaultActiveKey="email_leads" style={{background: '#fff'}}>
-                <TabPane tab={`Email Logs (${typeof emailLeadCount != "undefined" ? emailLeadCount : '..'})`} key="email_leads">
+                <TabPane
+                  tab={intl.formatMessage(
+                    {id: 'index.leads_table.expanded_row.tabs.email_leads.title'},
+                    {emailLeadCount: typeof emailLeadCount != "undefined" ? emailLeadCount : '..'}
+                  )}
+                  key="email_leads"
+                >
                   <EmailLeadsTableBox
                     lead={lead}
                     actions={actions}
                   />
                 </TabPane>
-                <TabPane tab={`Order (${typeof orderCount != "undefined" ? orderCount : '..'})`} key="orders">
+                <TabPane
+                  tab={`Order (${typeof orderCount != "undefined" ? orderCount : '..'})`}
+                  tab={intl.formatMessage(
+                    {id: 'index.leads_table.expanded_row.tabs.orders.title'},
+                    {orderCount: typeof orderCount != "undefined" ? orderCount : '..'}
+                  )}
+                  key="orders"
+                >
                   <OrdersTableBox
                     lead={lead}
                     actions={actions}
@@ -395,4 +411,4 @@ class LeadsTableBox extends React.Component {
   }
 }
 
-export default LeadsTableBox
+export default injectIntl(LeadsTableBox)

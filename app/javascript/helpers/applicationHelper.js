@@ -152,9 +152,9 @@ export function getDefaultTableTitlePagination(currentPage, totalPage){
 }
 
 
-export function initialValueForRangePicker(options, filters, fieldName) {
-  const startDateStr = filters.getIn(['compconds', `${fieldName}.gte`])
-  const endDateStr = filters.getIn(['compconds', `${fieldName}.lt`])
+export function getInitialValueForRangePicker(options, filters, fieldFrom, fieldTo) {
+  const startDateStr = filters.getIn(['compconds', ...fieldFrom])
+  const endDateStr = filters.getIn(['compconds', ...fieldTo])
   const startDate = startDateStr && moment(startDateStr)
   const endDate = endDateStr && moment(endDateStr)
 
@@ -165,17 +165,16 @@ export function initialValueForRangePicker(options, filters, fieldName) {
   return options
 }
 
-export function initialValueForSelectMultiple(options, filters, fieldName) {
-  const initialValue = filters.getIn(['compconds', `${fieldName}.in`])
+export function getInitialValue(options, filters, field) {
+  const initialValue = filters.getIn(['compconds', ...field])
   if(initialValue) {
     options.initialValue = initialValue.toJS()
   }
   return options
 }
 
-
-export function initialValueForSearch(options, filters, fieldName) {
-  const initialValue = filters.getIn(['compconds', `${fieldName}.like`])
+export function getInitialValueForSearch(options, filters, field) {
+  const initialValue = filters.getIn(['compconds', ...field])
   if(initialValue) {
     options.initialValue = initialValue.replace(/^\%/, '').replace(/\%$/, '')
   }

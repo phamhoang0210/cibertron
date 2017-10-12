@@ -6,28 +6,31 @@ import { getFilterParams } from 'helpers/applicationHelper'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { EROS_BASE_URL } from 'app/constants/paths'
+import { injectIntl } from 'react-intl'
 
 class OrdersTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange'
     ])
 
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'index.leads_table.orders_table.columns.id.title'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Created at',
+      title: intl.formatMessage({id: 'index.leads_table.orders_table.columns.created_at.title'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: 'Actions',
+      title: intl.formatMessage({id: 'index.leads_table.orders_table.columns.actions.title'}),
       dataIndex: 'source_id',
-      key: 'source_id',
+      key: 'actions',
       render: (value, record) => (
         <span>
           <a href={`${EROS_BASE_URL}/order/${record.source_id}/misa`} target="_blank">View on Eros</a>
@@ -78,4 +81,4 @@ class OrdersTableBox extends React.Component {
   }
 }
 
-export default OrdersTableBox
+export default injectIntl(OrdersTableBox)

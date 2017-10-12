@@ -1,5 +1,6 @@
 import React from 'react'
 import LeadNewForm from './Lead/LeadForm/LeadNewForm'
+import {injectIntl} from 'react-intl'
 
 class NewScreen extends React.Component {
   constructor(props) {
@@ -14,13 +15,16 @@ class NewScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
     return (
       <div className="main-content nauh-leads-new">
-        <h1 className="main-content-title">Create new lead</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'new.title'})}
+        </h1>
         <LeadNewForm {...this.props}/>
       </div>
     )
   }
 }
 
-export default NewScreen
+export default injectIntl(NewScreen)
