@@ -55,6 +55,11 @@ export const menuData = [
       },
       {
         type: 'link', 
+        path: '/sol/catalogs',
+        title: 'Catalogs',
+      },
+      {
+        type: 'link', 
         path: '/sol/promos',
         title: 'Promos',
       }, {
