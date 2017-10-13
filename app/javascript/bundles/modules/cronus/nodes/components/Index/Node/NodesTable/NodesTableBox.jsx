@@ -4,12 +4,15 @@ import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { NODES_URL } from '../../../../constants/paths'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
 class NodesTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange',
@@ -20,15 +23,15 @@ class NodesTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Code',
+      title: intl.formatMessage({id: 'attrs.code.label'}),
       dataIndex: 'code',
       key: 'code',
     }, {
-      title: 'Worker',
+      title: intl.formatMessage({id: 'attrs.worker.label'}),
       dataIndex: 'worker_id',
       key: 'worker',
       render: (text, record) => {
@@ -41,7 +44,7 @@ class NodesTableBox extends React.Component {
         }
       },
     }, {
-      title: 'Product',
+      title: intl.formatMessage({id: 'attrs.product.label'}),
       dataIndex: 'product_id',
       key: 'product',
       render: (text, record) => {
@@ -54,31 +57,31 @@ class NodesTableBox extends React.Component {
         }
       },
     }, {
-      title: 'Channel code',
+      title: intl.formatMessage({id: 'attrs.channel_code.label'}),
       dataIndex: 'channel.code',
       key: 'channel_code',
     }, {
-      title: '',
+      title: intl.formatMessage({id: 'attrs.actions.label'}),
       key: 'action',
       render: (cell, row) => {
         return (
           <div className="text-align--right">
             <Popconfirm
               placement="topLeft"
-              title="Are you sure delete this node?"
+              title={intl.formatMessage({id: 'popconfirm.delete.title'})}
               onConfirm={() => this.handleDelete(row.id)}
-              okText="Yes"
-              cancelText="No"
+              okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+              cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button type="danger" loading={row.isDeleting}>
-                Delete
+                {intl.formatMessage({id: 'form.form_item.button.delete.text'})},
               </Button>
             </Popconfirm>
             <Button
               className="button-margin--left--default"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              Edit
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
           </div>
         )
@@ -118,7 +121,7 @@ class NodesTableBox extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     const nodes = indexState.get('nodes')
     const paging = indexState.getIn(['nodeFilters', 'paging'])
     const isFetchingNodes = indexState.get('isFetchingNodes')
@@ -135,7 +138,7 @@ class NodesTableBox extends React.Component {
           </Col>
           <Col span={6} className="main-content-table-box-tools-box-search-box">
             <Search
-              placeholder="Search by code.."
+              placeholder={intl.formatMessage({id: 'index.nodes_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
@@ -155,4 +158,4 @@ class NodesTableBox extends React.Component {
   }
 }
 
-export default NodesTableBox
+export default injectIntl(NodesTableBox)

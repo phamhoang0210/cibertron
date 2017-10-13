@@ -49,7 +49,7 @@ class LeadUpdateMultipleBox extends React.Component {
           showSearch
           filterOption={selectFilterOption}
           style={{ width: '120px' }}
-          placeholder="Staff"
+          placeholder={intl.formatMessage({id: 'attrs.staff.placeholder.select.single'})}
           onChange={(v) => this.setState({staff_id: v})}
         >
           {users.map(user => (
@@ -61,7 +61,8 @@ class LeadUpdateMultipleBox extends React.Component {
         <Select
           showSearch
           filterOption={selectFilterOption}
-          style={{ width: '120px', marginLeft: '4px' }} placeholder="Care status"
+          style={{ width: '120px', marginLeft: '4px' }}
+          placeholder={intl.formatMessage({id: 'attrs.care_status.placeholder.select.single'})}
           onChange={(v) => this.setState({care_status_id: v})}
         >
           {careStatuses.map(status => (
@@ -74,7 +75,7 @@ class LeadUpdateMultipleBox extends React.Component {
           className="button-margin--left--default"
           onClick={this.handleClearSelection}
         >
-          {intl.formatMessage({id: 'index.leads_table.update_multiple.button.clear.text'})}
+          {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
         </Button>
         <Button
           type="primary"
@@ -83,7 +84,7 @@ class LeadUpdateMultipleBox extends React.Component {
           loading={isUpdatingLeads}
           disabled={isUpdatingLeads}
         >
-          {intl.formatMessage({id: 'index.leads_table.update_multiple.button.update.text'})}
+          {intl.formatMessage({id: 'form.form_item.button.update.text'})}
         </Button>
       </Col>
     )

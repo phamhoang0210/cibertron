@@ -15,7 +15,7 @@ class ReportTableBox extends React.Component {
     const {intl} = this.props
 
     this.columns = [, {
-      title: intl.formatMessage({id: 'assign.report_table.columns.staff_id.title'}),
+      title: intl.formatMessage({id: 'attrs.lead_level.attrs.staff_id.label'}),
       dataIndex: 'staff_id',
       key: 'staff_id',
       render: value => {
@@ -25,23 +25,23 @@ class ReportTableBox extends React.Component {
         return user ? user.get('username') : value
       }
     }, {
-      title: intl.formatMessage({id: 'assign.report_table.columns.a0.title'}),
+      title: intl.formatMessage({id: 'attrs.lead_level.attrs.a0.label'}),
       dataIndex: 'A0',
       key: 'A0',
     }, {
-      title: intl.formatMessage({id: 'assign.report_table.columns.a1.title'}),
+      title: intl.formatMessage({id: 'attrs.lead_level.attrs.a1.label'}),
       dataIndex: 'A1',
       key: 'A1',
     }, {
-      title: intl.formatMessage({id: 'assign.report_table.columns.a1.title'}),
+      title: intl.formatMessage({id: 'attrs.lead_level.attrs.a2.label'}),
       dataIndex: 'A2',
       key: 'A2',
     }, {
-      title: intl.formatMessage({id: 'assign.report_table.columns.a3.title'}),
+      title: intl.formatMessage({id: 'attrs.lead_level.attrs.a3.label'}),
       dataIndex: 'A3',
       key: 'A3',
     }, {
-      title: intl.formatMessage({id: 'assign.report_table.columns.a3x.title'}),
+      title: intl.formatMessage({id: 'attrs.lead_level.attrs.a3.label'}),
       dataIndex: 'A3X',
       key: 'A3X',
     }];

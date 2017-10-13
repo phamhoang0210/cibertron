@@ -7,6 +7,7 @@ import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL
 import { CODE_DELIMITER } from 'app/constants/cascader'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -58,7 +59,7 @@ class NodeNewForm extends React.Component {
   }
 
   getWorkerCascaderOptions() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const users = sharedState.get('users').map(user => (
       Map({
         value: `${user.get('id')}${CODE_DELIMITER}${user.get('username')}`,
@@ -75,19 +76,19 @@ class NodeNewForm extends React.Component {
     return [
       {
         value: 'User',
-        label: 'User',
+        label: intl.formatMessage({id: 'attrs.worker.cascader.user.label'}),
         children: users.toJS(),
       },
       {
         value: 'Department',
-        label: 'Department',
+        label: intl.formatMessage({id: 'attrs.worker.cascader.department.label'}),
         children: departments.toJS(),
       }
     ]
   }
 
   getProductCascaderOptions() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const courses = sharedState.get('courses').map(course => (
       Map({
         value: `${course.get('id')}${CODE_DELIMITER}${course.get('code')}`,
@@ -110,24 +111,24 @@ class NodeNewForm extends React.Component {
     return [
       {
         value: 'Course',
-        label: 'Course',
+        label: intl.formatMessage({id: 'attrs.product.cascader.course.label'}),
         children: courses.toJS(),
       },
       {
         value: 'Combo',
-        label: 'Combo',
+        label: intl.formatMessage({id: 'attrs.product.cascader.combo.label'}),
         children: combos.toJS(),
       },
       {
         value: 'Target',
-        label: 'List',
+        label: intl.formatMessage({id: 'attrs.product.cascader.target.label'}),
         children: targets.toJS(),
       }
     ]
   }
 
   render() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const {getFieldDecorator, getFieldValue} = this.props.form
     const alert = newState.get('alert')
     const isCreatingNode = newState.get('isCreatingNode')
@@ -150,14 +151,22 @@ class NodeNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Channel" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.channel_id.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('channel_id', {
-                  rules: [{ required: true, message: 'Channel is required!' }],
+                  rules: [
+                    {
+                      required: true,
+                      message: intl.formatMessage({id: 'attrs.channel_id.errors.required'})
+                    }
+                  ],
                 })(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
-                    placeholder="Please select a channel"
+                    placeholder={intl.formatMessage({id: 'attrs.channel_id.placeholder.select.single'})}
                   >
                     {channels.map(channel => (
                       <Option value={`${channel.get('id')}`} key={channel.get('id')}>
@@ -167,20 +176,26 @@ class NodeNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Worker" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.worker.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('worker')(
                   <Cascader
                     options={workerCascaderOptions}
-                    placeholder="Please select worker"
+                    placeholder={intl.formatMessage({id: 'attrs.worker.placeholder.select.select'})}
                     showSearch
                   />
                 )}
               </FormItem>
-              <FormItem label="Product" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.product.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('product')(
                   <Cascader
                     options={productCascaderOptions}
-                    placeholder="Please select product"
+                    placeholder={intl.formatMessage({id: 'attrs.product.placeholder.select.single'})}
                     showSearch
                   />
                 )}
@@ -190,22 +205,37 @@ class NodeNewForm extends React.Component {
                   valuePropName: 'checked',
                   initialValue: true,
                 })(
-                  <Checkbox>Auto generate code</Checkbox>
+                  <Checkbox>
+                    {intl.formatMessage({id: 'attrs.auto_generate_code.checkbox.text'})}
+                  </Checkbox>
                 )}
               </FormItem>
               {!getFieldValue('auto_generate_code') && (
-                <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.code.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('code', {
-                    rules: [{ required: true, message: 'Code is required!' }],
+                    rules: [
+                      { required: true, message: intl.formatMessage({id: 'attrs.code.errors.required'}) }
+                    ],
                   })(<Input />)}
                 </FormItem>
               )}
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
-                <Button type="primary" htmlType="submit" loading={isCreatingNode}>
-                  Create
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isCreatingNode}
+                >
+                  {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                 </Button>
-                <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                  Back
+                <Button
+                  type="default"
+                  className="button-margin--left--default"
+                  onClick={this.handleBack}
+                >
+                  {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                 </Button>
               </FormItem>
             </Form>
@@ -216,4 +246,4 @@ class NodeNewForm extends React.Component {
   }
 }
 
-export default Form.create()(NodeNewForm)
+export default Form.create()(injectIntl(NodeNewForm))

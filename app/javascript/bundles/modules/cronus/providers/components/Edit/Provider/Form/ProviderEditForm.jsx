@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -35,7 +36,7 @@ class ProviderEditForm extends React.Component {
   }
 
   render() {
-    const {editState, sharedState} = this.props
+    const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const provider = editState.get('provider')
@@ -63,24 +64,38 @@ class ProviderEditForm extends React.Component {
           <Col span={10}>
             {provider && !provider.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.name.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('name', {
-                    rules: [{ required: true, message: 'Name is required!' }],
+                    rules: [
+                      { required: true, message: intl.formatMessage({id: 'attrs.name.errors.required'}) }
+                    ],
                     initialValue: provider.get('name'),
                   })(<Input />)}
                 </FormItem>
-                <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.code.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('code', {
-                    rules: [{ required: true, message: 'Code is required!' }],
+                    rules: [
+                      { required: true, message: intl.formatMessage({id: 'attrs.code.errors.required'}) }
+                    ],
                     initialValue: provider.get('code'),
                   })(<Input />)}
                 </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingProvider}>
-                    Update
+                    {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                   </Button>
-                  <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                    Back
+                  <Button
+                    type="default"
+                    className="button-margin--left--default"
+                    onClick={this.handleBack}
+                  >
+                    {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                   </Button>
                 </FormItem>
               </Form>
@@ -92,4 +107,4 @@ class ProviderEditForm extends React.Component {
   }
 }
 
-export default Form.create()(ProviderEditForm)
+export default Form.create()(injectIntl(ProviderEditForm))

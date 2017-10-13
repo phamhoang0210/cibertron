@@ -32,11 +32,11 @@ class OrdersTableBox extends React.Component {
     this.initialValues = this.getInitialValues()
 
     this.columns = [{
-      title: intl.formatMessage({id: 'index.orders_table.columns.id.title'}),
+      title: intl.formatMessage({id: 'attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: intl.formatMessage({id: 'index.orders_table.columns.lead.title'}),
+      title: intl.formatMessage({id: 'attrs.lead.label'}),
       dataIndex: 'lead',
       key: 'lead',
       render: value => {
@@ -51,7 +51,7 @@ class OrdersTableBox extends React.Component {
         }
       }
     },{
-      title: intl.formatMessage({id: 'index.orders_table.columns.campaign_id.title'}),
+      title: intl.formatMessage({id: 'attrs.campaign.label'}),
       dataIndex: 'campaign_id',
       key: 'campaign_id',
       render: value => {
@@ -61,17 +61,19 @@ class OrdersTableBox extends React.Component {
         return campaign ? campaign.get('code') : ''
       }
     }, {
-      title: intl.formatMessage({id: 'index.orders_table.columns.created_at.title'}),
+      title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: intl.formatMessage({id: 'index.orders_table.columns.actions.title'}),
+      title: intl.formatMessage({id: 'attrs.actions.label'}),
       dataIndex: 'actions',
       key: 'actions',
       render: (value, record) => (
         <span>
-          <a href={`${EROS_BASE_URL}/order/${record.source_id}/misa`} target="_blank">View on Eros</a>
+          <a href={`${EROS_BASE_URL}/order/${record.source_id}/misa`} target="_blank">
+            {intl.formatMessage({id: 'index.orders_table.actions.button.view_on_eros'})}
+          </a>
         </span>
       )
     }];

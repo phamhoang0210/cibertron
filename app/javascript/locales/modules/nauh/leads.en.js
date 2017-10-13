@@ -1,106 +1,313 @@
+
+import { flattenMessages } from 'helpers/localeHelper'
+import antdEn from 'antd/lib/locale-provider/en_US'
+import commontAntdEn from 'locales/common/antd.en'
+
 // NauhLeads language file used for internationalization
-
-export default {
-  // Nauh > Leads > Form
-  "form.form_item.email.label": "Email",
-  "form.form_item.email.errors.required": "Email is required!",
-  "form.form_item.mobile.label": "Mobile",
-  "form.form_item.mobile.errors.required": "Mobile is required!",
-  "form.form_item.name.label": "Name",
-  "form.form_item.address.label": "Address",
-  "form.form_item.interest.label": "Interest",
-  "form.form_item.note.label": "Note",
-  "form.form_item.imported_at.label": "Imported at",
-  "form.form_item.assigned_at.label": "Assigned at",
-  "form.form_item.lead_level_id.label": "Level",
-  "form.form_item.lead_level_id.placeholder": "Please select a level",
-  "form.form_item.lead_level_id.errors.required": "Level is required!",
-  "form.form_item.care_status_id.label": "Care status",
-  "form.form_item.care_status_id.placeholder": "Please select a status",
-  "form.form_item.care_status_id.errors.required": "Care status is required!",
-  "form.form_item.staff_id.label": "Staff",
-  "form.form_item.staff_id.placeholder": "Please select a staff",
-  "form.form_item.staff_id.errors.required": "Staff is required!",
-  "form.form_item.button.create.text": "Create",
-  "form.form_item.button.update.text": "Update",
-  "form.form_item.button.back.text": "Back",
-
-  // Nauh > Leads > Index
-  "index.title": "Leads",
-
-  // Nauh > Leads > Index > Leads Table > Filters Form Item
-  "index.filters.form_item.created_in.label": "Created in",
-  "index.filters.form_item.imported_in.label": "Imported in",
-  "index.filters.form_item.assigned_in.label": "Assigned in",
-  "index.filters.form_item.lead_level_id.label": "Lead level",
-  "index.filters.form_item.staff_id.label": "Staff",
-  "index.filters.form_item.care_status_id.label": "Care status",
-  "index.filters.form_item.button.filter.text": "Filter",
-  "index.filters.form_item.button.clear.text": "Clear",
-  "index.filters.form_item.button.export.text": "Export ({numOfItem})",
-
-  // Nauh > Leads > Index > Leads Table > Columns
-  "index.leads_table.columns.info.tilte": "Info",
-  "index.leads_table.columns.interest.tilte": "Interest",
-  "index.leads_table.columns.note.tilte": "Note",
-  "index.leads_table.columns.assigned_at.tilte": "Assigned at",
-  "index.leads_table.columns.imported_at.tilte": "Imported at",
-  "index.leads_table.columns.care_status_code.tilte": "Care status",
-  "index.leads_table.columns.lead_level_name.tilte": "Level",
-  "index.leads_table.columns.staff_id.tilte": "Staff",
-  "index.leads_table.columns.action.tilte": " ",
-  "index.leads_table.columns.action.button.order.text": "Order",
-  "index.leads_table.columns.action.button.edit.text": "Edit",
-  "index.leads_table.columns.action.button.delete.text": "Delete",
-
-  // Nauh > Leads > Index > Leads Table > Tools
-  "index.leads_table.tools.button.add.text": "Add",
-  "index.leads_table.tools.button.import.text": "Import",
-  "index.leads_table.tools.button.assign.text": "Assign",
-  "index.leads_table.tools.search.placeholder": "Search by email..",
-
-  // Nauh > Leads > Index > Leads Table > Expand Row
-  "index.leads_table.expanded_row.tabs.email_leads.title": "Email logs ({emailLeadCount})",
-  "index.leads_table.expanded_row.tabs.orders.title": "Order ({orderCount})",
-
-  // Nauh > Leads > Index > Leads Table > Orders Table > Columns
-  "index.leads_table.orders_table.columns.id.title": "Id",
-  "index.leads_table.orders_table.columns.created_at.title": "Created at",
-  "index.leads_table.orders_table.columns.actions.title": " ",
-
-  // Nauh > Leads > Index > Leads Table > Update Multiple
-  "index.leads_table.update_multiple.title": "Update {selectedLeadKeyCount} selected leads: ",
-  "index.leads_table.update_multiple.button.clear.text": "Clear",
-  "index.leads_table.update_multiple.button.update.text": "Update",
-
-  // Nauh > Leads > Index > Leads Table > Lead Import Modal
-  "index.leads_table.import_modal.results_table.title": "Import leads",
-  "index.leads_table.import_modal.results_table.columns.email.title": "Email",
-  "index.leads_table.import_modal.results_table.columns.status.title": "Status",
-  "index.leads_table.import_modal.results_table.columns.message.title": "Message",
-  "index.leads_table.import_modal.results_table.help.text": "Please upload format correct file (.csv, .xlsx). ",
-  "index.leads_table.import_modal.results_table.help.sample_file": "Sample file",
-
-  // Nauh > Leads > Index > Leads Table > Email Leads Table > Columns
-  "index.leads_table.email_leads_table.columns.id.title": "Id",
-  "index.leads_table.email_leads_table.columns.created_at.title": "Created at",
-  "index.leads_table.email_leads_table.columns.campaign_name.title": "Campaign name",
-  "index.leads_table.email_leads_table.columns.read_at.title": "Read at",
-
-  // Nauh > Leads > New
-  "new.title": "Create new lead",
-  
-  // Nauh > Leads > Update
-  "edit.title": "Update lead",
-  
-  // Nauh > Leads > Assign
-  "assign.title": "Assign",
-
-  // Nauh > Leads > Assign > Report Table
-  "assign.report_table.columns.staff_id.title": "Staff",
-  "assign.report_table.columns.a0.title": "A0",
-  "assign.report_table.columns.a1.title": "A1",
-  "assign.report_table.columns.a2.title": "A2",
-  "assign.report_table.columns.a3.title": "A3",
-  "assign.report_table.columns.a3x.title": "A3X",
+export const appLocale = {
+  messages: flattenMessages({
+    ...commontAntdEn,
+    attrs: {
+      created_in: {
+        // attrs.created_in.label
+        label: 'Created in',
+      },
+      imported_in: {
+        // attrs.imported_in.label
+        label: 'Imported in',
+      },
+      assigned_in: {
+        // attrs.assigned_in.label
+        label: 'Assigned in',
+      },
+      status: {
+        // attrs.status.label
+        label: 'Status',
+      },
+      message: {
+        // attrs.message.label
+        label: 'Message',
+      },
+      email: {
+        // attrs.email.label
+        label: 'Email',
+        errors: {
+        // attrs.email.errors.required
+          required: 'Email is required!'
+        }
+      },
+      mobile: {
+        // attrs.mobile.label
+        label: 'Mobile',
+        errors: {
+          // attrs.mobile.errors.required
+          required: 'Mobile is required!'
+        }
+      },
+      lead_level_id: {
+        // attrs.lead_level_id.label
+        label: 'Lead level',
+        errors: {
+          // attrs.lead_level_id.errors.required
+          required: 'Lead level is required!',
+        },
+        placeholder: {
+          select: {
+            // attrs.lead_level_id.placeholder.select.single
+            single: 'Select lead level',
+            // attrs.lead_level_id..placeholder.select.multiple
+            multiple: 'Select lead levels',
+            // attrs.lead_level_id.placeholder.select.all
+            all: '--  All --'
+          },
+        },
+      },
+      lead_level_name: {
+        // attrs.lead_level_name.label
+        label: 'Lead level name',
+      },
+      care_status_id: {
+        // attrs.care_status_id.label
+        label: 'Care status',
+        errors: {
+          // attrs.care_status_id.errors.required
+          required: 'Care status is required!'
+        },
+        placeholder: {
+          select: {
+            // attrs.care_status_id.placeholder.select.single
+            single: 'Select care status',
+            // attrs.care_status_id.placeholder.select.multiple
+            multiple: 'Select statuses',
+            // attrs.care_status_id.placeholder.select.all
+            all: '--  All --'
+          },
+        },
+      },
+      care_status_code: {
+        // attrs.care_status_code.label
+        label: 'Care status code',
+      },
+      staff_id: {
+        // attrs.staff_id.label
+        label: 'Staff',
+        placeholder: {
+          select: {
+            // attrs.staff_id.placeholder.select.single
+            single: 'Select staff',
+            // attrs.staff_id.placeholder.select.multiple
+            multiple: 'Select staffs',
+            // attrs.staff_id.placeholder.select.all
+            all: '--  All --'
+          },
+        },
+      },
+      name: {
+        // attrs.name.label
+        label: 'Name',
+      },
+      address: {
+        // attrs.address.label
+        label: 'Address',
+      },
+      interest: {
+        // attrs.interest.label
+        label: 'Interest',
+      },
+      note: {
+        // attrs.note.label
+        label: 'Note',
+      },
+      assigned_at: {
+        // attrs.assigned_at.label
+        label: 'Assigned at',
+      },
+      imported_at: {
+        // attrs.imported_at.label
+        label: 'Imported at',
+      },
+      actions: {
+        // attrs.actions.label
+        label: ' ',
+      },
+      email_lead: {
+        attrs: {
+          id: {
+            // attrs.email_lead.attrs.id.label
+            label: 'Id',
+          },
+          created_at: {
+            // attrs..email_lead.attrs.created_at.label
+            label: 'Created at',
+          },
+          campaign_name: {
+            // attrs.email_lead.attrs.campaign_name.label
+            label: 'Campaign name',
+          },
+          read_at: {
+            // attrs.email_lead.attrs.read_at.label
+            label: 'Read at',
+            badge: {
+              pending: {
+                // nnauh.entities.lead.attrs.email_lead.attrs.read_at.badge.pending.text
+                text: 'Pending',
+              },
+              success: {
+                // attrs.email_lead.attrs.read_at.badge.success.text
+                text: '{readAt}',
+              },
+            },
+          },
+        },
+      },
+      lead_level: {
+        attrs: {
+          staff_id: {
+            // attrs.lead_level.attrs.staff_id.label
+            label: 'Staff',
+          },
+          a0: {
+            // attrs.lead_level.attrs.a0.label
+            label: 'A0',
+          },
+          a1: {
+            // attrs.lead_level.attrs.a1.label
+            label: 'A1',
+          },
+          a2: {
+            // attrs.lead_level.attrs.a2.label
+            label: 'A2',
+          },
+          a3: {
+            // attrs.lead_level.attrs.a3.label
+            label: 'A3',
+          },
+          a3: {
+            // attrs.lead_level.attrs.a3.label
+            label: 'A3X',
+          }
+        }
+      },
+      order: {
+        attrs: {
+          id: {
+            // attrs.order.attrs.id.label
+            label: 'Id',
+          },
+          created_at: {
+            // attrs.order.attrs.created_at.label
+            label: 'Created at',
+          },
+          actions: {
+            // attrs.order.attrs.actions.label
+            label: ' ',
+          },
+        },
+      },
+    },
+    popconfirm: {
+      delete: {
+        // popconfirm.delete.title
+        title: 'Are you sure delete this lead?',
+        // popconfirm.delete.ok_text
+        ok_text: 'Ok',
+        // popconfirm.delete.cancel_text
+        cancel_text: 'Cancel',
+      }
+    },
+    index: {
+      // index.title
+      title: 'Leads',
+      filters_form: {
+        form_item: {
+          button: {
+            export: {
+              // index.filters_form.form_item.button.export.text
+              text: 'Export ({numOfItem})',
+            },
+          },
+        },
+      },
+      leads_table: {
+        expanded_row: {
+          tabs: {
+            tab: {
+              email_leads: {
+                // index.leads_table.expanded_row.tabs.tab.email_leads.title
+                title: 'Email logs ({emailLeadCount})',
+              },
+              orders: {
+                // index.leads_table.expanded_row.tabs.tab.orders.title
+                title: 'Order ({orderCount})',
+              },
+            },
+          },
+        },
+        tools: {
+          search: {
+            // index.leads_table.tools.search.placeholder
+            placeholder: 'Search by email..'
+          },
+        },
+        update_multiple: {
+          // index.leads_table.update_multiple.title
+          title: 'Update {selectedLeadKeyCount} selected leads: ',
+        },
+        import_modal: {
+          results_table: {
+            // index.leads_table.import_modal.results_table.title
+            title: 'Import results: '
+          },
+          help: {
+            upload_file: {
+              // index.leads_table.import_modal.help.upload_file.text
+              text: 'Please upload format correct file (.csv, .xlsx). ',
+              // index.leads_table.import_modal.help.upload_file.sample_file
+              sample_file: 'Sample file',
+            }
+          }
+        },
+      },
+    },
+    new: {
+      // new.title
+      title: 'Create new lead',
+    },
+    edit: {
+      // edit.title
+      title: 'Update lead',
+    },
+    assign: {
+      // assign.assign
+      title: 'Assign',
+      leads_form: {
+        form_item: {
+          numbers: {
+            // assign.leads_form.form_item.numbers.label
+            label: 'Number',
+            placeholder: {
+              // assign.leads_form.form_item.numbers.placeholder.input
+              input: 'Number of lead',
+            }
+          },
+          staff: {
+            // assign.leads_form.form_item.staff.label
+            label: 'Staff',
+            errors: {
+              // assign.leads_form.form_item.staff.errors.required
+              required: 'Staff is required!',
+            },
+            placeholder: {
+              select: {
+                // assign.leads_form.form_item.staff.placeholder.select.single
+                single: 'Select staff..'
+              }
+            }
+          },
+        },
+      },
+    },
+  }),
+  antd: antdEn,
+  locale: 'en-US',
 }

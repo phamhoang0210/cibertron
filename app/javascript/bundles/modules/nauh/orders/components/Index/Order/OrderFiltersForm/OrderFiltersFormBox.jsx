@@ -98,7 +98,7 @@ class OrderFiltersFormBox extends React.Component {
         <Row gutter={40}>
           <Col span={8}>
             <FormItem
-              label={intl.formatMessage({id: 'form.form_item.created_in.label'})}
+              label={intl.formatMessage({id: 'attrs.created_in.label'})}
               {...FILTER_FORM_ITEM_LAYOUT}
             >
               {getFieldDecorator('created_at', {
@@ -114,7 +114,7 @@ class OrderFiltersFormBox extends React.Component {
           </Col>
           <Col span={8}>
             <FormItem
-              label={intl.formatMessage({id: 'form.form_item.updated_in.label'})}
+              label={intl.formatMessage({id: 'attrs.updated_in.label'})}
               {...FILTER_FORM_ITEM_LAYOUT}
             >
               {getFieldDecorator('updated_at', {
@@ -130,7 +130,7 @@ class OrderFiltersFormBox extends React.Component {
           </Col>
           <Col span={8}>
             <FormItem
-              label={intl.formatMessage({id: 'form.form_item.campaign_id.label'})}
+              label={intl.formatMessage({id: 'attrs.campaign.label'})}
               {...FILTER_FORM_ITEM_LAYOUT}
             >
               {getFieldDecorator('campaign_id', {
@@ -141,7 +141,9 @@ class OrderFiltersFormBox extends React.Component {
                   showSearch
                   filterOption={selectFilterOption}
                   mode="multiple"
-                  placeholder={intl.formatMessage({id: 'form.form_item.campaign_id.placeholder'})}
+                  placeholder={intl.formatMessage(
+                    {id: 'attrs.campaign.placeholder.select.single'}
+                  )}
                   allowClear={true}
                 >
                   {campaigns.toJS().map(campaign => (
@@ -155,7 +157,7 @@ class OrderFiltersFormBox extends React.Component {
           </Col>
           <Col span={8}>
             <FormItem
-              label={intl.formatMessage({id: 'form.form_item.staff_id.label'})}
+              label={intl.formatMessage({id: 'attrs.staff.label'})}
               {...FILTER_FORM_ITEM_LAYOUT}
             >
               {getFieldDecorator('staff_id', {
@@ -166,7 +168,7 @@ class OrderFiltersFormBox extends React.Component {
                   showSearch
                   filterOption={selectFilterOption}
                   mode="multiple"
-                  placeholder={intl.formatMessage({id: 'form.form_item.staff_id.placeholder'})}
+                  placeholder={intl.formatMessage({id: 'attrs.staff.placeholder.select.all'})}
                   allowClear={true}
                 >
                   {users.toJS().map(user => (

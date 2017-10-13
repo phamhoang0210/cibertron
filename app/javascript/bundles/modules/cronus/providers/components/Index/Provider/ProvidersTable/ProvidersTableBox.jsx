@@ -4,12 +4,15 @@ import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { PROVIDERS_URL } from '../../../../constants/paths'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
 class ProvidersTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange',
@@ -20,43 +23,43 @@ class ProvidersTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Name',
+      title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'name',
       key: 'name',
     }, {
-      title: 'Code',
+      title: intl.formatMessage({id: 'attrs.code.label'}),
       dataIndex: 'code',
       key: 'code',
     }, {
-      title: 'About',
+      title: intl.formatMessage({id: 'attrs.about.label'}),
       dataIndex: 'about',
       key: 'about',
     }, {
-      title: 'Action',
-      key: 'action',
+      title: intl.formatMessage({id: 'attrs.actions.label'}),
+      key: 'actions',
       render: (cell, row) => {
         return (
           <div className="text-align--right">
             <Popconfirm
               placement="topLeft"
-              title="Are you sure delete this provider?"
+              title={intl.formatMessage({id: 'popconfirm.delete.title'})}
               onConfirm={() => this.handleDelete(row.id)}
-              okText="Yes"
-              cancelText="No"
+              okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+              cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button type="danger" loading={row.isDeleting}>
-                Delete
+                {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
               </Button>
             </Popconfirm>
             <Button 
               className="button-margin--left--default"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              Edit
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
           </div>
         )
@@ -96,7 +99,7 @@ class ProvidersTableBox extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     const providers = indexState.get('providers')
     const paging = indexState.getIn(['providerFilters', 'paging'])
     const isFetchingProviders = indexState.get('isFetchingProviders')
@@ -113,7 +116,7 @@ class ProvidersTableBox extends React.Component {
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by code.."
+              placeholder={intl.formatMessage({id: 'index.providers_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
@@ -133,4 +136,4 @@ class ProvidersTableBox extends React.Component {
   }
 }
 
-export default ProvidersTableBox
+export default injectIntl(ProvidersTableBox)

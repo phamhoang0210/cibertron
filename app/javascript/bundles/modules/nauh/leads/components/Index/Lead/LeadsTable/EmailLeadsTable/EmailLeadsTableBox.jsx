@@ -18,28 +18,43 @@ class EmailLeadsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.id.title'}),
+      title: intl.formatMessage({id: 'attrs.created_in.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.created_at.title'}),
+      title: intl.formatMessage({id: 'attrs.email_lead.attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.campaign_name.title'}),
+      title: intl.formatMessage({id: 'attrs.email_lead.attrs.campaign_name.label'}),
       dataIndex: 'campaign_name',
       key: 'campaign_name',
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.email_leads_table.columns.read_at.title'}),
+      title: intl.formatMessage({id: 'attrs.email_lead.attrs.read_at.label'}),
       dataIndex: 'read_at',
       key: 'read_at',
       render: value => {
         const readAt = moment(value).format(LONG_DATETIME_FORMAT)
         if(value) {
-          return (<Badge status="success" text={readAt} />)
+          return (
+            <Badge
+              status="success"
+              text={intl.formatMessage(
+                {id: 'attrs.email_lead.attrs.read_at.badge.success.text'},
+                {readAt: readAt}
+              )}
+            />
+          )
         } else {
-          return (<Badge status="warning" text="Pending" />)
+          return (
+            <Badge
+              status="warning"
+              text={intl.formatMessage(
+                {id: 'attrs.email_lead.attrs.read_at.badge.pending.text'}
+              )}
+            />
+          )
         }
       }
     }]

@@ -65,7 +65,7 @@ class LeadsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: intl.formatMessage({id: 'index.leads_table.columns.info.tilte'}),
+      title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'name',
       key: 'info',
       width: '15%',
@@ -77,7 +77,7 @@ class LeadsTableBox extends React.Component {
         </div>
       )
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.interest.tilte'}),
+      title: intl.formatMessage({id: 'attrs.interest.label'}),
       dataIndex: 'interest',
       key: 'interest',
       width: '12%',
@@ -91,7 +91,7 @@ class LeadsTableBox extends React.Component {
         />
       )
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.note.tilte'}),
+      title: intl.formatMessage({id: 'attrs.note.label'}),
       dataIndex: 'note',
       key: 'note',
       width: '12%',
@@ -105,19 +105,19 @@ class LeadsTableBox extends React.Component {
         />
       )
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.assigned_at.tilte'}),
+      title: intl.formatMessage({id: 'attrs.assigned_at.label'}),
       dataIndex: 'assigned_at',
       key: 'assigned_at',
       sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.imported_at.tilte'}),
+      title: intl.formatMessage({id: 'attrs.imported_at.label'}),
       dataIndex: 'imported_at',
       key: 'imported_at',
       sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.care_status_code.tilte'}),
+      title: intl.formatMessage({id: 'attrs.care_status_id.label'}),
       dataIndex: 'care_status.code',
       key: 'care_status_code',
       render: (value, record) => {
@@ -139,7 +139,7 @@ class LeadsTableBox extends React.Component {
         )
       }
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.lead_level_name.tilte'}),
+      title: intl.formatMessage({id: 'attrs.lead_level_id.label'}),
       dataIndex: 'lead_level.name',
       key: 'lead_level_name',
       render: (value, record) => {
@@ -160,7 +160,7 @@ class LeadsTableBox extends React.Component {
         )
       }
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.staff_id.tilte'}),
+      title: intl.formatMessage({id: 'attrs.staff_id.label'}),
       dataIndex: 'staff_id',
       key: 'staff_id',
       render: (value, record) => {
@@ -182,7 +182,7 @@ class LeadsTableBox extends React.Component {
         )
       }
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.columns.action.tilte'}),
+      title: intl.formatMessage({id: 'attrs.actions.label'}),
       key: 'action',
       width: 100,
       render: (cell, row) => {
@@ -194,7 +194,7 @@ class LeadsTableBox extends React.Component {
               style={{ width: '100%'}}
               onClick={(e) => this.handleCreateOrder(row.id)}
             >
-              {intl.formatMessage({id: 'index.leads_table.columns.action.button.order.text'})}
+              {intl.formatMessage({id: 'form.form_item.button.order.text'})}
             </Button>
             <br/>
             <Button
@@ -202,15 +202,15 @@ class LeadsTableBox extends React.Component {
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              {intl.formatMessage({id: 'index.leads_table.columns.action.button.edit.text'})}
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
             <br/>
             <Popconfirm
               placement="topLeft"
-              title="Are you sure delete this lead?"
+              title={intl.formatMessage({id: 'popconfirm.delete.title'})}
               onConfirm={() => this.handleDelete(row.id)}
-              okText="Yes"
-              cancelText="No"
+              okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+              cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button
                 icon="delete"
@@ -219,7 +219,7 @@ class LeadsTableBox extends React.Component {
                 loading={row.isDeleting}
                 style={{ width: '100%' }}
               >
-                {intl.formatMessage({id: 'index.leads_table.columns.action.button.delete.text'})}
+                {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
               </Button>
             </Popconfirm>
           </div>
@@ -307,13 +307,13 @@ class LeadsTableBox extends React.Component {
             <Button
               onClick={this.handleAdd}
             >
-              {intl.formatMessage({id: 'index.leads_table.tools.button.add.text'})}
+              {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
             <Button
               className="button-margin--left--default"
               onClick={(e) => this.setState({showImportModal: true})}
             >
-              {intl.formatMessage({id: 'index.leads_table.tools.button.import.text'})}
+              {intl.formatMessage({id: 'form.form_item.button.import.text'})}
             </Button>
             <LeadImportModalBox
               {...this.props}
@@ -324,7 +324,7 @@ class LeadsTableBox extends React.Component {
               className="button-margin--left--default"
               onClick={this.handleAssign}
             >
-              {intl.formatMessage({id: 'index.leads_table.tools.button.assign.text'})}
+              {intl.formatMessage({id: 'form.form_item.button.assign.text'})}
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
@@ -358,7 +358,7 @@ class LeadsTableBox extends React.Component {
               <Tabs defaultActiveKey="email_leads" style={{background: '#fff'}}>
                 <TabPane
                   tab={intl.formatMessage(
-                    {id: 'index.leads_table.expanded_row.tabs.email_leads.title'},
+                    {id: 'index.leads_table.expanded_row.tabs.tab.email_leads.title'},
                     {emailLeadCount: typeof emailLeadCount != "undefined" ? emailLeadCount : '..'}
                   )}
                   key="email_leads"
@@ -369,9 +369,8 @@ class LeadsTableBox extends React.Component {
                   />
                 </TabPane>
                 <TabPane
-                  tab={`Order (${typeof orderCount != "undefined" ? orderCount : '..'})`}
                   tab={intl.formatMessage(
-                    {id: 'index.leads_table.expanded_row.tabs.orders.title'},
+                    {id: 'index.leads_table.expanded_row.tabs.tab.orders.title'},
                     {orderCount: typeof orderCount != "undefined" ? orderCount : '..'}
                   )}
                   key="orders"

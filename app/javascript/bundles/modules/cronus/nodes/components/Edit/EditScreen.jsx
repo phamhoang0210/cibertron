@@ -1,5 +1,6 @@
 import React from 'react'
 import NodeEditForm from './Node/Form/NodeEditForm'
+import { injectIntl } from 'react-intl'
 
 class EditScreen extends React.Component {
   constructor(props) {
@@ -18,13 +19,16 @@ class EditScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
     return (
       <div className="main-content cronus-nodes-edit">
-        <h1 className="main-content-title">Update node</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'edit.title'})}
+        </h1>
         <NodeEditForm {...this.props}/>
       </div>
     )
   }
 }
 
-export default EditScreen
+export default injectIntl(EditScreen)
