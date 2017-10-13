@@ -16,6 +16,9 @@ class DiscountsTableBox extends React.Component {
     _.bindAll(this, [
       'handleTableChange',
       'handleSearch',
+      'handleAdd',
+      'handleEdit',
+      'handleDelete',
     ])
   }
 
