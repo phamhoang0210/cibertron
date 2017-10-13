@@ -1,5 +1,5 @@
 import React from 'react'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper'
 import CatalogsTableBox from './Catalog/CatalogsTable/CatalogsTableBox'
 import { notification } from 'antd'
 
@@ -9,8 +9,8 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState, railsContextState} = this.props
-    const catalogParams = getFilterParams(indexState.get('catalogFilters'))
+    const {actions, indexState, railsContextState, location} = this.props
+    const catalogParams = getFilterParamsAndSyncUrl(indexState.get('catalogFilters'),location )
     actions.fetchCatalogs(catalogParams)
   }
 

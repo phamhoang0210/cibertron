@@ -1,10 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
 import qs from 'qs'
+import Immutable from 'immutable'
 import {getCredentials} from 'helpers/auth/authHelper'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox, Icon, Table, Popconfirm } from 'antd'
 import { CATALOGS_URL} from '../../../../constants/paths'
-import { getFilterParams, mergeDeep, rowClassName } from 'helpers/applicationHelper'
+import { getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
+        getDefaultTableTitlePagination, getFilterParams, getInitialValueForSearch} from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 
 const { Search } = Input
@@ -16,19 +18,30 @@ let uuid = 0;
 class CatalogsTableBox extends React.Component {
   constructor(props) {
     super(props)
-
+    this.initialValues = this.getInitialValues()
     _.bindAll(this, [
       'handleTableChange',
       'handleAdd',
+      'handleSearch',
       'handleEdit',
       'handleDelete',
     ])
   }
 
+  getInitialValues() {
+    const {indexState, location} = this.props
+    
+    const currentCatalogFilters = Immutable.fromJS(getFilterParams(indexState.get('catalogFilters'), location))
+    return {
+      search: getInitialValueForSearch({}, currentCatalogFilters, ['code.like']),
+    }
+  }
+
   handleSearch(keyword) {
-    const {actions, indexState} = this.props
-    let catalogParams = getFilterParams(indexState.get('catalogFilters'))
-    actions.fetchCatalogs(mergeDeep([catalogParams, {compconds: {'code.like': `%${keyword}%`}}]))
+    const {actions, indexState, location} = this.props
+    let catalogParams = getFilterParamsAndSyncUrl(indexState.get('catalogFilters'), location, {compconds: {'code.like': `%${keyword}%`}})
+
+    actions.fetchCatalogs(catalogParams)
   }
   handleAdd(e) {
     browserHistory.push(`${CATALOGS_URL}/new`)
@@ -44,18 +57,19 @@ class CatalogsTableBox extends React.Component {
 
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState} = this.props
-    let catalogParams = getFilterParams(indexState.get('catalogFilters'))
     const {current, pageSize, total} = pagination
 
+    let catalogParams = {}
     if(current != catalogParams.page) {
       catalogParams.page = current
     }
+    catalogParams = getFilterParamsAndSyncUrl(indexState.get('catalogFilters'), location, catalogParams)
 
     actions.fetchCatalogs(catalogParams)
   }
 
   render() {
-    const {indexState} = this.props
+    const {actions, indexState, location} = this.props
     const catalogs = indexState.get('catalogs')
     const paging = indexState.getIn(['catalogFilters', 'paging'])
     const isFetchingCatalogs = indexState.get('isFetchingCatalogs')
@@ -127,6 +141,7 @@ class CatalogsTableBox extends React.Component {
           </Col>
           <Col span={6}>
             <Search
+              defaultValue={this.initialValues.search.initialValue}
               placeholder="Search by code.."
               onSearch={this.handleSearch}
             />
