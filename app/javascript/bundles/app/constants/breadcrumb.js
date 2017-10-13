@@ -75,6 +75,14 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         }
       },
+      // Home > SOL > Catalog
+      catalogs: {
+        title: 'Catalogs',
+        // Home > SOL > Catalog > Create
+        new: {
+          title: 'Create',
+        }
+      },
       // Home > SOL > Promos
       promos: {
         title: 'Promos',
