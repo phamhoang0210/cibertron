@@ -19,16 +19,16 @@ class OrdersTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: intl.formatMessage({id: 'index.leads_table.orders_table.columns.id.title'}),
+      title: intl.formatMessage({id: 'attrs.order.attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.orders_table.columns.created_at.title'}),
+      title: intl.formatMessage({id: 'attrs.order.attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
-      title: intl.formatMessage({id: 'index.leads_table.orders_table.columns.actions.title'}),
+      title: intl.formatMessage({id: 'attrs.order.attrs.actions.label'}),
       dataIndex: 'source_id',
       key: 'actions',
       render: (value, record) => (

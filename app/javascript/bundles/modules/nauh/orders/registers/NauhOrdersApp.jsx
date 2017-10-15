@@ -6,7 +6,7 @@ import store from '../store/store'
 import routes from '../routes/routes'
 import { LocaleProvider } from 'antd'
 import { IntlProvider } from 'react-intl'
-import { appLocale } from 'locales/en_US.js'
+import { appLocale } from 'locales/modules/nauh/orders.en'
 
 export default (props, railsContext) => {
   const appStore = store(props, railsContext)
@@ -17,9 +17,9 @@ export default (props, railsContext) => {
 
   return (
     <LocaleProvider locale={appLocale.antd}>
-      <IntlProvider locale={appLocale.locale} messages={appLocale.messages.nauh.orders}>
+      <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
         <Provider store={appStore}>
-          <Router history={history} children={routes} />
+          <Router history={history} children={routes} test={railsContext}/>
         </Provider>
       </IntlProvider>
     </LocaleProvider>

@@ -2,6 +2,7 @@ import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import ProvidersTableBox from './Provider/ProvidersTable/ProvidersTableBox'
 import { notification } from 'antd'
+import { injectIntl } from 'react-intl'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -27,14 +28,16 @@ class IndexScreen extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     return (
       <div className="main-content cronus-providers">
-        <h1 className="main-content-title">Providers</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'index.title'})}
+        </h1>
         <ProvidersTableBox {...this.props}/>
       </div>
     )
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)

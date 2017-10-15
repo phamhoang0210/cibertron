@@ -19,11 +19,11 @@ class LeadImportModalBox extends React.Component {
 
     this.resultTableColumns = [
       {
-        title: intl.formatMessage({id: 'index.leads_table.import_modal.results_table.columns.email.title'}),
+        title: intl.formatMessage({id: 'attrs.email.label'}),
         dataIndex: 'email',
         key: 'email',
       }, {
-        title: intl.formatMessage({id: 'index.leads_table.import_modal.results_table.columns.status.title'}),
+        title: intl.formatMessage({id: 'attrs.status.label'}),
         dataIndex: 'status',
         key: 'status',
         render: (text, record) => (
@@ -32,7 +32,7 @@ class LeadImportModalBox extends React.Component {
           </Tag>
         ),
       }, {
-        title: intl.formatMessage({id: 'index.leads_table.import_modal.results_table.columns.message.title'}),
+        title: intl.formatMessage({id: 'attrs.message.label'}),
         dataIndex: 'message',
         key: 'message',
       }
@@ -80,9 +80,9 @@ class LeadImportModalBox extends React.Component {
           required
         />
         <p className="help-block">
-          {intl.formatMessage({id: 'index.leads_table.import_modal.results_table.help.text'})}
+          {intl.formatMessage({id: 'index.leads_table.import_modal.help.upload_file.text'})}
           <a target="_blank" href={EXAMPLE_FILE_URL}>
-            {intl.formatMessage({id: 'index.leads_table.import_modal.results_table.help.sample_file'})}
+            {intl.formatMessage({id: 'index.leads_table.import_modal.help.upload_file.sample_file'})}
           </a>
         </p>
         <Table

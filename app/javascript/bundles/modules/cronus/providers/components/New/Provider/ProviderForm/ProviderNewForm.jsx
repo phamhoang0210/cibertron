@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -34,7 +35,7 @@ class ProviderNewForm extends React.Component {
   }
 
   render() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingProvider = newState.get('isCreatingProvider')
@@ -54,22 +55,40 @@ class ProviderNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.name.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Name is required!' }],
+                  rules: [
+                    { required: true, message: intl.formatMessage({id: 'attrs.name.errors.required'}) }
+                  ],
                 })(<Input />)}
               </FormItem>
-              <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.code.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('code', {
-                  rules: [{ required: true, message: 'Code is required!' }],
+                  rules: [
+                    { required: true, message: intl.formatMessage({id: 'attrs.code.errors.required'}) }
+                  ],
                 })(<Input />)}
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
-                <Button type="primary" htmlType="submit" loading={isCreatingProvider}>
-                  Create
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isCreatingProvider}
+                >
+                  {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                 </Button>
-                <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                  Back
+                <Button
+                  type="default"
+                  className="button-margin--left--default"
+                  onClick={this.handleBack}
+                >
+                  {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                 </Button>
               </FormItem>
             </Form>
@@ -80,4 +99,4 @@ class ProviderNewForm extends React.Component {
   }
 }
 
-export default Form.create()(ProviderNewForm)
+export default Form.create()(injectIntl(ProviderNewForm))

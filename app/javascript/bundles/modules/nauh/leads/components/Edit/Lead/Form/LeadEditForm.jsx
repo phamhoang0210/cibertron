@@ -71,19 +71,19 @@ class LeadEditForm extends React.Component {
             {lead && !lead.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.email.label'})}
+                  label={intl.formatMessage({id: 'attrs.email.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   <Input value={lead.get('email')} disabled/>
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.mobile.label'})}
+                  label={intl.formatMessage({id: 'attrs.mobile.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   <Input value={lead.get('mobile')} disabled/>
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.name.label'})}
+                  label={intl.formatMessage({id: 'attrs.name.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('name', {
@@ -91,7 +91,7 @@ class LeadEditForm extends React.Component {
                   })(<Input />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.address.label'})}
+                  label={intl.formatMessage({id: 'attrs.address.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('address', {
@@ -99,7 +99,7 @@ class LeadEditForm extends React.Component {
                   })(<Input />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.interest.label'})}
+                  label={intl.formatMessage({id: 'attrs.interest.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('interest', {
@@ -107,7 +107,7 @@ class LeadEditForm extends React.Component {
                   })(<TextArea />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.note.label'})}
+                  label={intl.formatMessage({id: 'attrs.note.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('note', {
@@ -115,7 +115,7 @@ class LeadEditForm extends React.Component {
                   })(<TextArea />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.imported_at.label'})}
+                  label={intl.formatMessage({id: 'attrs.imported_at.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('imported_at', {
@@ -123,7 +123,7 @@ class LeadEditForm extends React.Component {
                   })(<DatePicker />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.assigned_at.label'})}
+                  label={intl.formatMessage({id: 'attrs.assigned_at.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('assigned_at', {
@@ -131,18 +131,18 @@ class LeadEditForm extends React.Component {
                   })(<DatePicker />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.lead_level_id.errors.required'})}
+                  label={intl.formatMessage({id: 'attrs.lead_level_id.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('lead_level_id', {
                     rules: [
-                      { required: true, message: intl.formatMessage({id: 'form.form_item.lead_level_id.errors.required'}) }
+                      { required: true, message: intl.formatMessage({id: 'attrs.lead_level_id.errors.required'}) }
                     ],
                     initialValue: `${lead.get('lead_level_id')}`,
                   })(
                     <Select
                       showSearch
-                      placeholder={intl.formatMessage({id: 'form.form_item.lead_level_id.label'})}
+                      placeholder={intl.formatMessage({id: 'attrs.lead_level_id.placeholder.select.single'})}
                       filterOption={selectFilterOption}
                     >
                       {leadLevels.map(leadLevel => (
@@ -154,18 +154,18 @@ class LeadEditForm extends React.Component {
                   )}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.care_status_id.label'})}
+                  label={intl.formatMessage({id: 'attrs.care_status_id.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('care_status_id', {
                     rules: [
-                      { required: true, message: intl.formatMessage({id: 'form.form_item.lead_level_id.errors.required'}) }
+                      { required: true, message: intl.formatMessage({id: 'attrs.care_status_id.errors.required'}) }
                     ],
                     initialValue: `${lead.get('care_status_id')}`,
                   })(
                     <Select
                       showSearch
-                      placeholder={intl.formatMessage({id: 'form.form_item.lead_level_id.placeholder'})}
+                      placeholder={intl.formatMessage({id: 'attrs.care_status_id.placeholder.select.single'})}
                       filterOption={selectFilterOption}
                     >
                       {careStatuses.map(careStatus => (
@@ -177,7 +177,7 @@ class LeadEditForm extends React.Component {
                   )}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'form.form_item.staff_id.label'})}
+                  label={intl.formatMessage({id: 'attrs.staff_id.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('staff_id', {
@@ -185,7 +185,7 @@ class LeadEditForm extends React.Component {
                   })(
                     <Select
                       showSearch
-                      placeholder={intl.formatMessage({id: 'form.form_item.staff_id.placeholder'})}
+                      placeholder={intl.formatMessage({id: 'attrs.staff_id.placeholder.select.single'})}
                       filterOption={selectFilterOption}
                     >
                       {users.map(user => (
