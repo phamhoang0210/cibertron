@@ -32,9 +32,9 @@ class SignInForm extends React.Component {
 
     const {location} = this.props
     const redirectUrl = location.query.redirect_url
-
+    
     setTimeout(() => {
-      if(redirectUrl && !RegExp(redirectUrl).test('sign_out')) {
+      if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
         window.location.href = redirectUrl
       } else {
         window.location.href = '/'
