@@ -232,7 +232,7 @@ class LeadsTableBox extends React.Component {
     const {indexState, location} = this.props
     const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
     return {
-      search: getInitialValueForSearch({}, currentLeadFilters, ['email.like']),
+      search: currentLeadFilters.get('full_search'),
     }
   }
 
@@ -279,7 +279,7 @@ class LeadsTableBox extends React.Component {
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
-    let leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location, {compconds: {'email.like': `%${keyword}%`}})
+    let leadParams = getFilterParamsAndSyncUrl(indexState.get('leadFilters'), location, {full_search: keyword})
     actions.fetchLeads(leadParams)
   }
 
@@ -329,7 +329,7 @@ class LeadsTableBox extends React.Component {
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
-              defaultValue={this.initialValues.search.initialValue}
+              defaultValue={this.initialValues.search}
               placeholder={intl.formatMessage({id: 'index.leads_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />

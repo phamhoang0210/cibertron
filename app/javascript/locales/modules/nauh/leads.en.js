@@ -245,7 +245,7 @@ export const appLocale = {
         tools: {
           search: {
             // index.leads_table.tools.search.placeholder
-            placeholder: 'Search by email..'
+            placeholder: 'Search by email, name, mobile, note, interest'
           },
         },
         update_multiple: {
