@@ -11,6 +11,7 @@ export const initialState = Immutable.fromJS({
     fields: ''
   },
   isFetchingSources: false,
+  isHandingOver: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
@@ -35,6 +36,24 @@ export default function indexReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_SOURCES_FAILURE: {
       return $$state.merge({
         isFetchingSources: false,
+      })
+    }
+
+    case actionTypes.SET_IS_HANDING_OVER: {
+      return $$state.merge({
+        isHandingOver: true,
+      })
+    }
+
+    case actionTypes.HAND_OVER_SUCCESS: {
+      return $$state.merge({
+        isHandingOver: false,
+      })
+    }
+
+    case actionTypes.HAND_OVER_FAILURE: {
+      return $$state.merge({
+        isHandingOver: false,
       })
     }
 

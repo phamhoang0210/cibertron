@@ -5,22 +5,25 @@ import { Table, Badge } from 'antd'
 import { getFilterParams } from 'helpers/applicationHelper'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT, SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import { injectIntl } from 'react-intl'
 
 class LandingPageLogsTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange'
     ])
 
     this.columns = [{
-      title: 'Created at',
+      title: intl.formatMessage({id: 'attrs.landing_page_log.attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
-      title: 'Executed by',
+      title: intl.formatMessage({id: 'attrs.landing_page_log.attrs.user_id.label'}),
       dataIndex: 'user_id',
       key: 'user_id',
       render: value => {
@@ -32,11 +35,11 @@ class LandingPageLogsTableBox extends React.Component {
         }
       }
     }, {
-      title: 'Action',
-      dataIndex: 'action',
-      key: 'action'
+      title: intl.formatMessage({id: 'attrs.landing_page_log.attrs.actions.label'}),
+      dataIndex: 'actions',
+      key: 'actions'
     }, {
-      title: 'Domain changes',
+      title: intl.formatMessage({id: 'attrs.landing_page_log.attrs.domain_id_changes.label'}),
       dataIndex: 'change_values.domain_id',
       key: 'domain_id_changes',
       render: value => {
@@ -51,7 +54,7 @@ class LandingPageLogsTableBox extends React.Component {
         }
       }
     }, {
-      title: 'Discount changes',
+      title: intl.formatMessage({id: 'attrs.landing_page_log.attrs.discount_id_changes.label'}),
       dataIndex: 'change_values.discount_id',
       key: 'discount_id_changes',
       render: value => {
@@ -113,4 +116,4 @@ class LandingPageLogsTableBox extends React.Component {
   }
 }
 
-export default LandingPageLogsTableBox
+export default injectIntl(LandingPageLogsTableBox)

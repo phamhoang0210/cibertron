@@ -2,6 +2,7 @@ import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { notification } from 'antd'
 import CodeTabsBox from './CodeTabs/CodeTabsBox'
+import { injectIntl } from 'react-intl'
 
 class GetCodeScreen extends React.Component {
   constructor(props) {
@@ -28,15 +29,17 @@ class GetCodeScreen extends React.Component {
   }
 
   render() {
-    const {getCodeState} = this.props
+    const {getCodeState, intl} = this.props
     const landingPageCodes = getCodeState.get('landingPageCodes')
     return (
       <div className="main-content hera-landingPages-get-code">
-        <h1 className="main-content-title">LandingPage codes</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'get_codes.title'})}
+        </h1>
         <CodeTabsBox {...this.props}/>
       </div>
     )
   }
 }
 
-export default GetCodeScreen
+export default injectIntl(GetCodeScreen)

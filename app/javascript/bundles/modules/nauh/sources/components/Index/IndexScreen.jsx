@@ -1,6 +1,7 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import SourcesTableBox from './Source/SourcesTable/SourcesTableBox'
+import SourceFiltersFormBox from './Source/SourceFiltersForm/SourceFiltersFormBox'
 import { notification } from 'antd'
 
 class IndexScreen extends React.Component {
@@ -31,6 +32,7 @@ class IndexScreen extends React.Component {
     return (
       <div className="main-content nauh-sources">
         <h1 className="main-content-title">Sources</h1>
+        <SourceFiltersFormBox {...this.props}/>
         <SourcesTableBox {...this.props}/>
       </div>
     )

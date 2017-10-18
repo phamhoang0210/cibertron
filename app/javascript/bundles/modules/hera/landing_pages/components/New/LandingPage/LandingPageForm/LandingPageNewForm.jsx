@@ -46,7 +46,7 @@ class LandingPageNewForm extends React.Component {
   }
 
   render() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
     const alert = newState.get('alert')
     const isCreatingLandingPage = newState.get('isCreatingLandingPage')
@@ -76,14 +76,23 @@ class LandingPageNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.name.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Name is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                  }],
                 })(
                   <Input/>
                 )}
               </FormItem>
-              <FormItem label="Domain" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.domain_id.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('domain_id')(
                   <Select
                     showSearch
@@ -98,9 +107,15 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Discount" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.discount_id.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('discount_id', {
-                  rules: [{ required: true, message: 'Discount is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.discount_id.errors.required'}),
+                  }],
                 })(
                   <Select
                     showSearch
@@ -121,9 +136,15 @@ class LandingPageNewForm extends React.Component {
                   </div>
                 )}
               </FormItem>
-              <FormItem label="Strategy" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.strategy.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('strategy', {
-                  rules: [{ required: true, message: 'Strategy is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.strategy.errors.required'}),
+                  }],
                 })(
                   <Select
                     showSearch
@@ -137,18 +158,30 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Ga code" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.ga_code.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('ga_code', {
                 })(<Input />)}
               </FormItem>
-              <FormItem label="Thankyou page" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.thankyou_page_url.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('thankyou_page_url', {
                   initialValue: '/thankyou'
                 })(<Input />)}
               </FormItem>
-              <FormItem label="Landing page type" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.landing_page_type.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('landing_page_type', {
-                  rules: [{ required: true, message: 'Landing type is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.landing_page_type.errors.required'}),
+                  }],
                 })(
                   <Select
                     showSearch
@@ -162,7 +195,10 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Facebook app" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.facebook_app_id.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('facebook_app_id')(
                   <Select
                     showSearch
@@ -176,7 +212,10 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Facebook pixel" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.facebook_pixel_code_id.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('facebook_pixel_code_id')(
                   <Select
                     showSearch
@@ -191,11 +230,19 @@ class LandingPageNewForm extends React.Component {
                 )}
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
-                <Button type="primary" htmlType="submit" loading={isCreatingLandingPage}>
-                  Create
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isCreatingLandingPage}
+                >
+                  {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                 </Button>
-                <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                  Back
+                <Button
+                  type="default"
+                  className="button-margin--left--default"
+                  onClick={this.handleBack}
+                >
+                  {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                 </Button>
               </FormItem>
             </Form>

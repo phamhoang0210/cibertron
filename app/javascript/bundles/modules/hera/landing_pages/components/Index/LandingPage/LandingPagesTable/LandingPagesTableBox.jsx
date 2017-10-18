@@ -11,6 +11,7 @@ import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import LandingPageLogsTableBox from './LandingPageLogsTable/LandingPageLogsTableBox'
 import { numberToCurrency } from 'helpers/numberHelper'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
@@ -18,6 +19,8 @@ const TabPane = Tabs.TabPane
 class LandingPagesTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange',
@@ -29,7 +32,7 @@ class LandingPagesTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: 'Name',
+      title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'name',
       key: 'name',
       render: (value, record) => (
@@ -39,7 +42,7 @@ class LandingPagesTableBox extends React.Component {
         </div>
       )
     }, {
-      title: 'Domain',
+      title: intl.formatMessage({id: 'attrs.domain_id.label'}),
       dataIndex: 'domain.name',
       key: 'domain_name',
       render: value => {
@@ -48,7 +51,7 @@ class LandingPagesTableBox extends React.Component {
         }
       }
     }, {
-      title: 'Creator name',
+      title: intl.formatMessage({id: 'attrs.user_id.label'}),
       dataIndex: 'user_id',
       key: 'user_id',
       render: value => {
@@ -60,7 +63,7 @@ class LandingPagesTableBox extends React.Component {
         }
       }
     }, {
-      title: 'Discount',
+      title: intl.formatMessage({id: 'attrs.discount_id.label'}),
       dataIndex: 'discount_id',
       key: 'discount',
       width: '20%',
@@ -79,7 +82,7 @@ class LandingPagesTableBox extends React.Component {
 
       }
     }, {
-      title: 'Product',
+      title: intl.formatMessage({id: 'attrs.discount_id.label'}),
       dataIndex: 'discount_id',
       key: 'discount_product',
       width: '20%',
@@ -99,7 +102,7 @@ class LandingPagesTableBox extends React.Component {
 
       }
     }, {
-      title: 'Created at',
+      title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
@@ -116,7 +119,7 @@ class LandingPagesTableBox extends React.Component {
               size="small"
               onClick={(e) => this.handleGetCode(row.id)}
             >
-              Get code
+              {intl.formatMessage({id: 'form.form_item.button.get_code.text'})}
             </Button>
             <Button
               icon="edit"
@@ -124,14 +127,14 @@ class LandingPagesTableBox extends React.Component {
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              Edit
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
             <Popconfirm
               placement="topLeft"
-              title="Are you sure delete this landingPage?"
+              title={intl.formatMessage({id: 'popconfirm.delete.title'})}
               onConfirm={() => this.handleDelete(row.id)}
-              okText="Yes"
-              cancelText="No"
+              okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+              cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button
                 className="button-margin--top--default width--full"
@@ -140,7 +143,7 @@ class LandingPagesTableBox extends React.Component {
                 size="small"
                 loading={row.isDeleting}
               >
-                Delete
+                {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
               </Button>
             </Popconfirm>
           </div>
@@ -185,7 +188,7 @@ class LandingPagesTableBox extends React.Component {
   }
 
   render() {
-    const {indexState, actions, sharedState} = this.props
+    const {indexState, actions, sharedState, intl} = this.props
     const landingPages = indexState.get('landingPages')
     const paging = indexState.getIn(['landingPageFilters', 'paging'])
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
@@ -197,12 +200,12 @@ class LandingPagesTableBox extends React.Component {
             <Button
               onClick={this.handleAdd}
             >
-              Add
+              {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by name.."
+              placeholder={intl.formatMessage({id: 'index.landing_pages_table.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
@@ -218,8 +221,11 @@ class LandingPagesTableBox extends React.Component {
           loading={isFetchingLandingPages}
           expandedRowRender={record => {
             return (
-              <Tabs defaultActiveKey="landingPage_logs" style={{background: '#fff'}}>
-                <TabPane tab="LandingPage logs" key="landingPage_logs">
+              <Tabs defaultActiveKey="landing_page_logs" style={{background: '#fff'}}>
+                <TabPane
+                  tab={intl.formatMessage({id: 'index.landing_pages_table.expanded_row.tabs.tab.landing_page_logs.title'})}
+                  key="landing_page_logs"
+                >
                   <LandingPageLogsTableBox
                     landingPage={Immutable.fromJS(record)}
                     actions={actions}
@@ -235,4 +241,4 @@ class LandingPagesTableBox extends React.Component {
   }
 }
 
-export default LandingPagesTableBox
+export default injectIntl(LandingPagesTableBox)

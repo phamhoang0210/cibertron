@@ -9,6 +9,7 @@ import moment from 'moment'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
 import { selectFilterOption } from 'helpers/antdHelper'
+import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -58,7 +59,7 @@ class LandingPageFiltersFormBox extends React.Component {
   }
 
   render() {
-    const {indexState, form, sharedState} = this.props
+    const {indexState, form, sharedState, intl} = this.props
     const discounts = sharedState.get('discounts')
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
     const totalPage = indexState.getIn(['landingPageFilters', 'paging', 'record_total'])
@@ -71,7 +72,10 @@ class LandingPageFiltersFormBox extends React.Component {
       >
         <Row gutter={40}>
           <Col span={8}>
-            <FormItem label="Created in" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.created_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('created_at')(
                 <RangePicker
                   style={{width: '100%'}}
@@ -82,7 +86,10 @@ class LandingPageFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Updated in" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.updated_in.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('updated_at')(
                 <RangePicker
                   style={{width: '100%'}}
@@ -93,13 +100,16 @@ class LandingPageFiltersFormBox extends React.Component {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Discount" {...FILTER_FORM_ITEM_LAYOUT}>
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.discount_id.label'})}
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
               {getFieldDecorator('discount_id')(
                 <Select
                   allowClear
                   showSearch
                   mode="multiple"
-                  placeholder="-- All --"
+                  placeholder={intl.formatMessage({id: 'attrs.discount_id.placeholder.select.all'})}
                   filterOption={selectFilterOption}
                 >
                   {discounts.toJS().map(discount => (
@@ -114,8 +124,12 @@ class LandingPageFiltersFormBox extends React.Component {
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit" loading={isFetchingLandingPages}>
-              Filter
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isFetchingLandingPages}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
             </Button>
           </Col>
         </Row>
@@ -124,4 +138,4 @@ class LandingPageFiltersFormBox extends React.Component {
   }
 }
 
-export default Form.create()(LandingPageFiltersFormBox)
+export default Form.create()(injectIntl(LandingPageFiltersFormBox))

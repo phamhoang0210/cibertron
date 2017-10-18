@@ -7,6 +7,7 @@ import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
+import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item
 
@@ -37,7 +38,7 @@ class DomainEditForm extends React.Component {
   }
 
   render() {
-    const {editState, sharedState} = this.props
+    const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const domain = editState.get('domain')
@@ -67,18 +68,24 @@ class DomainEditForm extends React.Component {
           <Col span={10}>
             {domain && !domain.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Domain" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.name.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('name', {
-                    rules: [{ required: true, message: 'Domain is required!' }],
+                    rules: [{
+                      required: true,
+                      message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                    }],
                     initialValue: domain.get('name'),
                   })(<Input />)}
                 </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingDomain}>
-                    Update
+                    {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                   </Button>
                   <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                    Back
+                    {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                   </Button>
                 </FormItem>
               </Form>
@@ -90,4 +97,4 @@ class DomainEditForm extends React.Component {
   }
 }
 
-export default Form.create()(DomainEditForm)
+export default Form.create()(injectIntl(DomainEditForm))

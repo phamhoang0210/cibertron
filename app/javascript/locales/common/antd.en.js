@@ -1,4 +1,4 @@
-import { flattenMessages } from 'helpers/localeHelper'
+import { flattenMessages } from 'helpers/applicationHelper'
 // Antd language file used for internationalization
 
 export default flattenMessages({
@@ -48,6 +48,10 @@ export default flattenMessages({
         assign: {
           // form.form_item.button.assign.text
           text: 'Assign',
+        },
+        get_code: {
+          // form.form_item.button.get_code.text
+          text: 'Get code',
         },
       },
     },
