@@ -6,7 +6,7 @@ import store from '../store/store'
 import routes from '../routes/routes'
 import { LocaleProvider } from 'antd'
 import { IntlProvider } from 'react-intl'
-import { appLocale } from 'locales/modules/nauh/orders.en'
+import { appLocale } from 'locales/modules/nauh/orders.vi'
 
 export default (props, railsContext) => {
   const appStore = store(props, railsContext)
