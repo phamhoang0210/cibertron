@@ -3,6 +3,7 @@ import { getFilterParams } from 'helpers/applicationHelper'
 import LandingPagesTableBox from './LandingPage/LandingPagesTable/LandingPagesTableBox'
 import LandingPageFiltersFormBox from './LandingPage/LandingPageFiltersForm/LandingPageFiltersFormBox'
 import { notification } from 'antd'
+import { injectIntl } from 'react-intl'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState} = this.props
+    const {actions, indexState, intl} = this.props
     const landingPageParams = getFilterParams(indexState.get('landingPageFilters'))
     actions.fetchLandingPages(landingPageParams)
     actions.fetchDiscounts({per_page: 'infinite', fields: 'product_json'})
@@ -31,10 +32,12 @@ class IndexScreen extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     return (
       <div className="main-content hera-landingPages">
-        <h1 className="main-content-title">LandingPages</h1>
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'index.title'})}
+        </h1>
         <LandingPageFiltersFormBox {...this.props}/>
         <LandingPagesTableBox {...this.props}/>
       </div>
@@ -42,4 +45,4 @@ class IndexScreen extends React.Component {
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)

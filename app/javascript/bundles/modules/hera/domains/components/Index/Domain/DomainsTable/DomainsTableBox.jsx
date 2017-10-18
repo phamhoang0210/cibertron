@@ -4,12 +4,15 @@ import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { DOMAINS_URL } from '../../../../constants/paths'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
 class DomainsTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange',
@@ -20,20 +23,20 @@ class DomainsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Domain',
+      title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'name',
       key: 'name',
       render: value => (<a href={`http://${value}`} target="_blank">{value}</a>),
     }, {
-      title: 'Target server',
+      title: intl.formatMessage({id: 'attrs.dns_server.label'}),
       dataIndex: 'dns_server',
       key: 'dns_server',
     }, {
-      title: 'Landing page name',
+      title: intl.formatMessage({id: 'attrs.landing_page_name.label'}),
       dataIndex: 'landing_page.name',
       key: 'landing_page_name',
     }, {
@@ -49,14 +52,14 @@ class DomainsTableBox extends React.Component {
               className="width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              Edit
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
             <Popconfirm
               placement="topLeft"
-              title="Are you sure delete this domain?"
+              title={intl.formatMessage({id: 'popconfirm.delete.title'})}
               onConfirm={() => this.handleDelete(row.id)}
-              okText="Yes"
-              cancelText="No"
+              okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+              cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button
                 icon="delete"
@@ -65,7 +68,7 @@ class DomainsTableBox extends React.Component {
                 type="danger"
                 loading={row.isDeleting}
               >
-                Delete
+                {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
               </Button>
             </Popconfirm>
           </div>
@@ -106,7 +109,7 @@ class DomainsTableBox extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     const domains = indexState.get('domains')
     const paging = indexState.getIn(['domainFilters', 'paging'])
     const isFetchingDomains = indexState.get('isFetchingDomains')
@@ -118,12 +121,12 @@ class DomainsTableBox extends React.Component {
             <Button
               onClick={this.handleAdd}
             >
-              Add
+              {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by code.."
+              placeholder={intl.formatMessage({id: 'index.domains_table.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
@@ -143,4 +146,4 @@ class DomainsTableBox extends React.Component {
   }
 }
 
-export default DomainsTableBox
+export default injectIntl(DomainsTableBox)

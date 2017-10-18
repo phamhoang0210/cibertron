@@ -1,5 +1,4 @@
-
-import { flattenMessages } from 'helpers/localeHelper'
+import { flattenMessages } from 'helpers/applicationHelper'
 import antdEn from 'antd/lib/locale-provider/en_US'
 import commontAntdEn from 'locales/common/antd.en'
 

@@ -36,7 +36,7 @@ class DomainNewForm extends React.Component {
   }
 
   render() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const domainDnsServers = sharedState.get('domainDnsServers')
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
@@ -57,14 +57,26 @@ class DomainNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Domain" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.name.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Domain is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                  }],
                 })(<Input />)}
               </FormItem>
-              <FormItem label="Type" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.dns_server.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('dns_server', {
-                  rules: [{ required: true, message: 'Domain type is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.dns_server.errors.required'})
+                  }],
                 })(
                   <Select
                     showSearch
@@ -80,10 +92,10 @@ class DomainNewForm extends React.Component {
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingDomain}>
-                  Create
+                  {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                 </Button>
                 <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                  Back
+                  {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                 </Button>
               </FormItem>
             </Form>

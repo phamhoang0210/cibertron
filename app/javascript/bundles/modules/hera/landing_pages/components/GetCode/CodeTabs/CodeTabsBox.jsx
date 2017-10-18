@@ -7,6 +7,7 @@ import LogicThankyou from './Tab/LogicThankyou'
 import Forms from './Tab/Forms'
 import Countdowns from './Tab/Countdowns'
 import FacebookComment from './Tab/FacebookComment'
+import { injectIntl } from 'react-intl'
 
 const TabPane = Tabs.TabPane
 
@@ -16,7 +17,7 @@ class CodeTabsBox extends React.Component {
   }
 
   render() {
-    const {getCodeState} = this.props
+    const {getCodeState, intl} = this.props
     const alert = getCodeState.get('alert')
     const isFetchingLandingPageCodes = getCodeState.get('isFetchingLandingPageCodes')
 
@@ -38,19 +39,34 @@ class CodeTabsBox extends React.Component {
           </div>
         ) || (
           <Tabs defaultActiveKey="logic_home">
-            <TabPane tab="Logic home page" key="logic_home">
+            <TabPane
+              key="logic_home"
+              tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.logic_home.title'})}
+            >
               <LogicHome {...this.props}/>
             </TabPane>
-            <TabPane tab="Logic thankyou page" key="logic_thankyou">
+            <TabPane
+              key="logic_thankyou"
+              tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.logic_thankyou.title'})}
+            >
               <LogicThankyou {...this.props}/>
             </TabPane>
-            <TabPane tab="Form" key="form">
+            <TabPane
+              key="form"
+              tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.form.title'})}
+            >
               <Forms {...this.props}/>
             </TabPane>
-            <TabPane tab="Cowndown" key="countdown">
+            <TabPane
+              key="countdown"
+              tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.countdown.title'})}
+            >
               <Countdowns {...this.props}/>
             </TabPane>
-            <TabPane tab="Facebook comment" key="facebook_comment">
+            <TabPane
+              key="facebook_comment"
+              tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.facebook_comment.title'})}
+            >
               <FacebookComment {...this.props}/>
             </TabPane>
           </Tabs>
@@ -60,4 +76,4 @@ class CodeTabsBox extends React.Component {
   }
 }
 
-export default CodeTabsBox
+export default injectIntl(CodeTabsBox)

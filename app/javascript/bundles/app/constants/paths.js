@@ -11,3 +11,4 @@ export const EROS_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://ero
 export const GAMBIT_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://psmo.edumall.vn' : 'http://localhost:9006'
 export const HERA_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://hera.edumall.io' : 'http://localhost:9007'
 export const AMUN_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://amun.edumall.io' : 'http://localhost:9008'
+export const A3_STORAGE_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://a3-storage.edumall.io' : 'http://localhost:9009'

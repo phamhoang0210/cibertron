@@ -1,5 +1,6 @@
 import React from 'react'
 import LandingPageNewForm from './LandingPage/LandingPageForm/LandingPageNewForm'
+import { injectIntl } from 'react-intl'
 
 class NewScreen extends React.Component {
   constructor(props) {
@@ -15,13 +16,17 @@ class NewScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
+    
     return (
-      <div className="main-content cronus-landingPages-new">
-        <h1 className="main-content-title">Create new landingPage</h1>
+      <div className="main-content cronus-landing-pages-new">
+        <h1 className="main-content-title">
+          {intl.formatMessage({id: 'new.title'})}
+        </h1>
         <LandingPageNewForm {...this.props}/>
       </div>
     )
   }
 }
 
-export default NewScreen
+export default injectIntl(NewScreen)
