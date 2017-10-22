@@ -13,9 +13,15 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content cronus-categories-edit">
-        <h1 className="main-content-title">Update category</h1>
-        <CategoryEditForm {...this.props}/>
+      <div className="main-content cronus--categories--edit box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Update category
+          </h1>
+        </div>
+        <div className="box-body">
+          <CategoryEditForm {...this.props}/>
+        </div>
       </div>
     )
   }

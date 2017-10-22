@@ -15,9 +15,15 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content nauh-leads-new">
-        <h1 className="main-content-title">Edit discount</h1>
-        <DiscountEditForm {...this.props}/>
+      <div className="main-content sol--discounts--edit box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Edit discount
+          </h1>
+        </div>
+        <div className="box-body">
+          <DiscountEditForm {...this.props}/>
+        </div>
       </div>
     )
   }

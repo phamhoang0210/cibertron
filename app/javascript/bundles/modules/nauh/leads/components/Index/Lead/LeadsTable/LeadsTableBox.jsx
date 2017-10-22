@@ -13,9 +13,11 @@ import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
 import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
+import CallLogsTableBox from './CallLogsTable/CallLogsTableBox'
 import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
+import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../constants/constants'
 import moment from 'moment'
 import TextEditable from 'partials/components/ContentEditable/Text/TextEditable'
 import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
@@ -24,20 +26,6 @@ import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
-const LEVEL_COLOR_MAPPINGS = {
-  'A0': 'orange',
-  'A1': '#2db7f5',
-  'A2': '#108ee9',
-  'A3': '#87d068',
-  'A3X': '#f50',
-}
-
-const BADGE_STATUS_MAPPINGS = {
-  'default': 'warning',
-  'processing': 'processing',
-  'done': 'success',
-  'cancelled': 'default',
-}
 
 class LeadsTableBox extends React.Component {
   constructor(props) {
@@ -62,6 +50,7 @@ class LeadsTableBox extends React.Component {
       'handleUpdateAttrs',
       'handleSelectionChange',
       'renderTableTitle',
+      'renderLeadDetail',
     ])
 
     this.columns = [{
@@ -100,7 +89,7 @@ class LeadsTableBox extends React.Component {
           className="table-row-height--md"
           tagName="div"
           html={value}
-          disabled={true}
+          disabled={record.isUpdating}
           onChange={v => this.handleUpdateAttrs(record.id, {note: v})}
         />
       )
@@ -118,8 +107,8 @@ class LeadsTableBox extends React.Component {
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
       title: intl.formatMessage({id: 'attrs.care_status_id.label'}),
-      dataIndex: 'care_status.code',
-      key: 'care_status_code',
+      dataIndex: 'care_status',
+      key: 'care_status',
       render: (value, record) => {
         const {sharedState} = this.props
         const careStatuses = sharedState.get('careStatuses')
@@ -129,10 +118,10 @@ class LeadsTableBox extends React.Component {
             onChange={v => this.handleUpdateAttrs(record.id, {care_status_id: v})}
             defaultValue={`${record.care_status && record.care_status.id}`}
             disabled={record.isUpdating}
-            disabledContent={(<Badge status={BADGE_STATUS_MAPPINGS[value]} text={value} />)}
+            disabledContent={(<Badge status={BADGE_STATUS_MAPPINGS[value.code]} text={value.name} />)}
             options={careStatuses.map(item => (
               item.merge({
-                title: item.get('code'),
+                title: item.get('name'),
               })
             ))}
           />
@@ -188,15 +177,6 @@ class LeadsTableBox extends React.Component {
       render: (cell, row) => {
         return (
           <div className="text-align--right">
-            <Button
-              icon="plus"
-              type="primary"
-              style={{ width: '100%'}}
-              onClick={(e) => this.handleCreateOrder(row.id)}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.order.text'})}
-            </Button>
-            <br/>
             <Button
               icon="edit"
               className="button-margin--top--default width--full"
@@ -294,7 +274,7 @@ class LeadsTableBox extends React.Component {
 
 
   render() {
-    const {indexState, actions, intl} = this.props
+    const {indexState, sharedState, actions, intl} = this.props
     const selectedLeadKeys = indexState.get('selectedLeadKeys')
     const leads = indexState.get('leads')
     const paging = indexState.getIn(['leadFilters', 'paging'])
@@ -350,41 +330,62 @@ class LeadsTableBox extends React.Component {
           rowKey="id"
           onChange={this.handleTableChange}
           loading={isFetchingLeads}
-          expandedRowRender={record => {
-            const lead = Immutable.fromJS(record)
-            const orderCount = lead.getIn(['orderFilters', 'paging', 'record_total'])
-            const emailLeadCount = lead.getIn(['emailLeadFilters', 'paging', 'record_total'])
-            return (
-              <Tabs defaultActiveKey="email_leads" style={{background: '#fff'}}>
-                <TabPane
-                  tab={intl.formatMessage(
-                    {id: 'index.leads_table.expanded_row.tabs.tab.email_leads.title'},
-                    {emailLeadCount: typeof emailLeadCount != "undefined" ? emailLeadCount : '..'}
-                  )}
-                  key="email_leads"
-                >
-                  <EmailLeadsTableBox
-                    lead={lead}
-                    actions={actions}
-                  />
-                </TabPane>
-                <TabPane
-                  tab={intl.formatMessage(
-                    {id: 'index.leads_table.expanded_row.tabs.tab.orders.title'},
-                    {orderCount: typeof orderCount != "undefined" ? orderCount : '..'}
-                  )}
-                  key="orders"
-                >
-                  <OrdersTableBox
-                    lead={lead}
-                    actions={actions}
-                  />
-                </TabPane>
-              </Tabs>
-            )
-          }}
+          expandedRowRender={record => this.renderLeadDetail(record)}
         />
       </div>
+    )
+  }
+
+  renderLeadDetail(record) {
+    const {indexState, sharedState, actions, intl} = this.props
+    const paging = indexState.getIn(['leadFilters', 'paging'])
+
+    const lead = Immutable.fromJS(record)
+    const orderCount = lead.getIn(['orderFilters', 'paging', 'record_total'])
+    const emailLeadCount = lead.getIn(['emailLeadFilters', 'paging', 'record_total'])
+    const callLogCount = lead.getIn(['callLogFilters', 'paging', 'record_total'])
+    return (
+      <Tabs defaultActiveKey="orders" style={{background: '#fff'}}>
+        <TabPane
+          tab={intl.formatMessage(
+            {id: 'index.leads_table.expanded_row.tabs.tab.orders.title'},
+            {orderCount: typeof orderCount != "undefined" ? orderCount : '..'}
+          )}
+          key="orders"
+        >
+          <OrdersTableBox
+            lead={lead}
+            actions={actions}
+            sharedState={sharedState}
+          />
+        </TabPane>
+        <TabPane
+          tab={intl.formatMessage(
+            {id: 'index.leads_table.expanded_row.tabs.tab.call_logs.title'},
+            {callLogCount: typeof callLogCount != "undefined" ? callLogCount : '..'}
+          )}
+          key="call_logs"
+        >
+          <CallLogsTableBox
+            lead={lead}
+            actions={actions}
+            sharedState={sharedState}
+          />
+        </TabPane>
+        <TabPane
+          tab={intl.formatMessage(
+            {id: 'index.leads_table.expanded_row.tabs.tab.email_leads.title'},
+            {emailLeadCount: typeof emailLeadCount != "undefined" ? emailLeadCount : '..'}
+          )}
+          key="email_leads"
+        >
+          <EmailLeadsTableBox
+            lead={lead}
+            actions={actions}
+            sharedState={sharedState}
+          />
+        </TabPane>
+      </Tabs>
     )
   }
 

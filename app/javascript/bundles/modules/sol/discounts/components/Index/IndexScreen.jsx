@@ -29,9 +29,15 @@ class IndexScreen extends React.Component {
   render() {
     const {indexState} = this.props
     return (
-      <div className="main-content nauh-discounts">
-        <h1 className="main-content-title">Discounts</h1>
-        <DiscountsTableBox {...this.props}/>
+      <div className="main-content sol--discounts box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Discounts
+          </h1>
+        </div>
+        <div className="box-body">
+          <DiscountsTableBox {...this.props}/>
+        </div>
       </div>
     )
   }

@@ -54,6 +54,9 @@ Rails.application.routes.draw do
       end
       option.resources :orders
       option.resources :sources
+      option.namespace :settings do
+        resources :ipphones
+      end
     end
   end
 

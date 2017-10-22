@@ -14,9 +14,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content cronus-channels-new">
-        <h1 className="main-content-title">Create new channel</h1>
-        <ChannelNewForm {...this.props}/>
+      <div className="main-content cronus--channels--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new channel
+          </h1>
+        </div>
+        <div className="box-body">
+          <ChannelNewForm {...this.props}/>
+        </div>
       </div>
     )
   }

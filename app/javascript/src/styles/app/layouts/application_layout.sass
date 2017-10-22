@@ -4,8 +4,15 @@
 
 .layout-wraper
   .layout-content
-    margin-left: 230px
     min-height: 100vh
+    .trigger
+      font-size: 18px
+      line-height: 18px
+      padding: 10px 16px
+      cursor: pointer
+      transition: color .3s
+      &:hover
+        color: #108ee9
     &-header
       background: #fff
       padding: 0
@@ -20,13 +27,11 @@
       overflow: initial
       & > .content-box
         margin-top: 16px
-        padding: 4px 16px 0px 16px
-        background: #fff
+        padding: 0px
   .layout-sider
-    overflow:  auto
-    height: 100vh
-    position:  fixed
-    left: 0px
     &-logo
       padding: 16px
       border-bottom: 1px dotted #666
+      img
+        height: 28px
+        width: auto

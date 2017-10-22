@@ -4,7 +4,7 @@ export const menuData = [
   {
     type: 'subMenu',
     path: '/cronus',
-    title: 'CRONUS',
+    title: (<span><Icon type="bars" /><span>CRONUS</span></span>),
     items: [
       { 
         type: 'link',
@@ -46,7 +46,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/sol',
-    title: 'SOL',
+    title: (<span><Icon type="bars" /><span>SOL</span></span>),
     items: [
       {
         type: 'link', 
@@ -83,7 +83,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/userservice',
-    title: 'USERSERVICE',
+    title: (<span><Icon type="bars" /><span>USERSERVICE</span></span>),
     items: [
       {
         type: 'link', 
@@ -98,7 +98,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/nauh',
-    title: 'AFTERSALES',
+    title: (<span><Icon type="bars" /><span>AFTERSALES</span></span>),
     items: [
       {
         type: 'link', 
@@ -112,12 +112,23 @@ export const menuData = [
         type: 'link', 
         path: '/nauh/sources',
         title: 'Sources',
+      }, {
+        type: 'itemGroup',
+        title: 'Settings',
+        path: '/settings',
+        items: [
+          {
+            type: 'link',
+            path: '/nauh/settings/ipphones',
+            title: 'Ipphone',
+          }
+        ]
       }
     ]
   }, {
     type: 'subMenu',
     path: '/hera',
-    title: 'HERA',
+    title: (<span><Icon type="bars" /><span>HERA</span></span>),
     items: [
       {
         type: 'link', 
