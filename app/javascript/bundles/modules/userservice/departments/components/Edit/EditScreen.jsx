@@ -15,9 +15,15 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content userservice-departments-edit">
-        <h1 className="main-content-title">Update department</h1>
-        <DepartmentEditForm {...this.props}/>
+      <div className="main-content userservice--departments--edit box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Update department
+          </h1>
+        </div>
+        <div className="box-body">
+          <DepartmentEditForm {...this.props}/>
+        </div>
       </div>
     )
   }

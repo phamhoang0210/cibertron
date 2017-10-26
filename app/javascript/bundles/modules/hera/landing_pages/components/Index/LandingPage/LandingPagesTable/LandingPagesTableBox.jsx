@@ -82,7 +82,7 @@ class LandingPagesTableBox extends React.Component {
 
       }
     }, {
-      title: intl.formatMessage({id: 'attrs.discount_id.label'}),
+      title: intl.formatMessage({id: 'attrs.product.label'}),
       dataIndex: 'discount_id',
       key: 'discount_product',
       width: '20%',

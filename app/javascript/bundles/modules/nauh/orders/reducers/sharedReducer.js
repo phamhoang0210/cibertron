@@ -7,12 +7,16 @@ export const initialState = Immutable.fromJS({
   combos: [],
   campaigns: [],
   provinces: [],
+  orderLevels: [],
   campaignIdCodeMappings: {},
+  comboSourceIdMappings: {},
+  courseSourceIdMappings: {},
   isFetchingUsers: false,
   isFetchingCourses: false,
   isFetchingCombos: false,
   isFetchingCampaigns: false,
   isFetchingProvinces: false,
+  isFetchingOrderLevels: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -45,9 +49,13 @@ export default function sharedReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.FETCH_COURSES_SUCCESS: {
+      const courseSourceIdMappings = {}
+      records.forEach(record => courseSourceIdMappings[record.source_id] = record)
+
       return $$state.merge({
         isFetchingCourses: false,
         courses: records,
+        courseSourceIdMappings,
       })
     }
 
@@ -64,9 +72,13 @@ export default function sharedReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.FETCH_COMBOS_SUCCESS: {
+      const comboSourceIdMappings = {}
+      records.forEach(record => comboSourceIdMappings[record.code] = record)
+
       return $$state.merge({
         isFetchingCombos: false,
         combos: records,
+        comboSourceIdMappings,
       })
     }
 
@@ -111,6 +123,25 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_PROVINCES_FAILURE: {
       return $$state.merge({
         isFetchingProvinces: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_ORDER_LEVELS: {
+      return $$state.merge({
+        isFetchingOrderLevels: true,
+      })
+    }
+
+    case actionTypes.FETCH_ORDER_LEVELS_SUCCESS: {
+      return $$state.merge({
+        isFetchingOrderLevels: false,
+        orderLevels: records,
+      })
+    }
+
+    case actionTypes.FETCH_ORDER_LEVELS_FAILURE: {
+      return $$state.merge({
+        isFetchingOrderLevels: false,
       })
     }
 

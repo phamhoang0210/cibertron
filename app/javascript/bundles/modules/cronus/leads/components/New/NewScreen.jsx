@@ -15,9 +15,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new lead</h1>
-        <LeadNewBox {...this.props}/>
+      <div className="main-content cronus--leads--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new lead
+          </h1>
+        </div>
+        <div className="box-body">
+          <LeadNewBox {...this.props}/>
+        </div>
       </div>
     )
   }

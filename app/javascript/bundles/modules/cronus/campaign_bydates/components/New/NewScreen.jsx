@@ -14,9 +14,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new campaignBydate</h1>
-        <CampaignBydateNewForm {...this.props}/>
+      <div className="main-content cronus--campaign-bydates--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new campaignBydate
+          </h1>
+        </div>
+        <div className="box-body">
+          <CampaignBydateNewForm {...this.props}/>
+        </div>
       </div>
     )
   }

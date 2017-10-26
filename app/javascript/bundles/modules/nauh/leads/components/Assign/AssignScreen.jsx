@@ -30,11 +30,15 @@ class AssignScreen extends React.Component {
     const {intl} = this.props
 
     return (
-      <div className="main-content nauh-leads-assign">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'assign.title'})}
-        </h1>
-        <ReportTableBox {...this.props}/>
+      <div className="main-content nauh--leads-assign box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'assign.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <ReportTableBox {...this.props}/>
+        </div>
       </div>
     )
   }

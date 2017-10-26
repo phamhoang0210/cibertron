@@ -1,6 +1,12 @@
 import React from 'react'
-import LeadEditForm from './Lead/Form/LeadEditForm'
+import CustomerInfo from './Lead/Partial/CustomerInfo'
+import OrderInfo from './Lead/Partial/OrderInfo'
+import OrdersBox from './Lead/Partial/Orders/OrdersBox'
+import CallLogsBox from './Lead/Partial/CallLogs/CallLogsBox'
 import { injectIntl } from 'react-intl'
+import { Row, Col, notification, Tabs, Spin } from 'antd'
+
+const TabPane = Tabs.TabPane;
 
 class EditScreen extends React.Component {
   constructor(props) {
@@ -8,21 +14,62 @@ class EditScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, params} = this.props
-    actions.fetchLead(params.id, {fields: 'leadLevel{}'})
+    const {actions, params, editState} = this.props
+    const leadParams = editState.get('defaultLeadParams').toJS()
+    actions.fetchLead(params.id, leadParams)
     actions.fetchLeadLevels({per_page: 'infinite'})
     actions.fetchCareStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
+    actions.fetchCombos({per_page: 'infinite'})
+    actions.fetchCourses({per_page: 'infinite'})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const noti = this.props.editState.get('notification')
+    const nextNoti = nextProps.editState.get('notification')
+    if(nextNoti && nextNoti.get('messages') && !nextNoti.equals(noti)) {
+      nextNoti.get('messages').forEach(message => {
+        notification[nextNoti.get('type')]({
+          message: message,
+        })
+      })
+    }
   }
 
   render() {
-    const {intl} = this.props
+    const {editState, intl} = this.props
+    const lead = editState.get('lead')
+    const isFetchingLead = editState.get('isFetchingLead')
+
     return (
-      <div className="main-content nauh-leads-edit">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'edit.title'})}
-        </h1>
-        <LeadEditForm {...this.props}/>
+      <div className="nauh-leads-edit">
+        {isFetchingLead && (
+          <div className="text-align--center">
+            <Spin />
+          </div>
+        )}
+        {lead && (
+          <div>
+            <Row gutter={8}>
+              <Col span={8}>
+                <OrderInfo {...this.props}/>
+              </Col>
+              <Col span={16}>
+                <CustomerInfo {...this.props}/>
+              </Col>
+            </Row>
+            <Row gutter={8}>
+              <Col span={24}>
+                <CallLogsBox {...this.props}/>
+              </Col>
+            </Row>
+            <Row gutter={8}>
+              <Col span={24}>
+                <OrdersBox {...this.props}/>
+              </Col>
+            </Row>
+          </div>
+        )}
       </div>
     )
   }

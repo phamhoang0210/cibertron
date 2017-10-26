@@ -32,11 +32,15 @@ class GetCodeScreen extends React.Component {
     const {getCodeState, intl} = this.props
     const landingPageCodes = getCodeState.get('landingPageCodes')
     return (
-      <div className="main-content hera-landingPages-get-code">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'get_codes.title'})}
-        </h1>
-        <CodeTabsBox {...this.props}/>
+      <div className="main-content hera--landing-pages--get-code box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'get_codes.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <CodeTabsBox {...this.props}/>
+        </div>
       </div>
     )
   }

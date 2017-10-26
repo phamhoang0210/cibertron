@@ -59,7 +59,7 @@ class OrderFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['campaign_id']
+    const inCompFields = ['campaign_id', 'order_level_id']
     const timerangeFields = ['created_at', 'updated_at']
 
     let compconds = {}
@@ -88,110 +88,137 @@ class OrderFiltersFormBox extends React.Component {
     const isFetchingOrders = indexState.get('isFetchingOrders')
     const campaigns = sharedState.get('campaigns')
     const users = sharedState.get('users')
+    const orderLevels = sharedState.get('orderLevels')
     const { getFieldDecorator } = form
 
     return (
-      <Form
-        className="box box-with-boder"
-        onSubmit={this.handleFilter}
-      >
-        <Row gutter={40}>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.created_in.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('created_at', {
-                ...this.initialValues.created_at,
-              })(
-                <RangePicker
-                  style={{width: '100%'}}
-                  format={LONG_DATETIME_FORMAT}
-                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
-                />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.updated_in.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('updated_at', {
-                ...this.initialValues.updated_at,
-              })(
-                <RangePicker
-                  style={{width: '100%'}}
-                  format={LONG_DATETIME_FORMAT}
-                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
-                />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.campaign.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('campaign_id', {
-                rules: [{ type: 'array' }],
-                ...this.initialValues.campaign_id,
-              })(
-                <Select
-                  showSearch
-                  filterOption={selectFilterOption}
-                  mode="multiple"
-                  placeholder={intl.formatMessage(
-                    {id: 'attrs.campaign.placeholder.select.single'}
+      <div className="box box-with-border box-with-shadow">
+        <div className="box-body">
+          <Form onSubmit={this.handleFilter} >
+            <Row gutter={40}>
+              <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.created_in.label'})}
+                  {...FILTER_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('created_at', {
+                    ...this.initialValues.created_at,
+                  })(
+                    <RangePicker
+                      style={{width: '100%'}}
+                      format={LONG_DATETIME_FORMAT}
+                      showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                    />
                   )}
-                  allowClear={true}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.updated_in.label'})}
+                  {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                  {campaigns.toJS().map(campaign => (
-                    <Option value={`${campaign.id}`} key={campaign.id}>
-                      {campaign.code}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.staff.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('staff_id', {
-                rules: [{ type: 'array' }],
-                ...this.initialValues.staff_id,
-              })(
-                <Select
-                  showSearch
-                  filterOption={selectFilterOption}
-                  mode="multiple"
-                  placeholder={intl.formatMessage({id: 'attrs.staff.placeholder.select.all'})}
-                  allowClear={true}
+                  {getFieldDecorator('updated_at', {
+                    ...this.initialValues.updated_at,
+                  })(
+                    <RangePicker
+                      style={{width: '100%'}}
+                      format={LONG_DATETIME_FORMAT}
+                      showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.campaign.label'})}
+                  {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                  {users.toJS().map(user => (
-                    <Option value={`${user.id}`} key={user.id}>
-                      {user.username}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button className="button-margin--right--default" onClick={this.handleReset}>
-              {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
-            </Button>
-            <Button type="primary" htmlType="submit" loading={isFetchingOrders}>
-              {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+                  {getFieldDecorator('campaign_id', {
+                    rules: [{ type: 'array' }],
+                    ...this.initialValues.campaign_id,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                      mode="multiple"
+                      placeholder={intl.formatMessage(
+                        {id: 'attrs.campaign.placeholder.select.single'}
+                      )}
+                      allowClear={true}
+                    >
+                      {campaigns.toJS().map(campaign => (
+                        <Option value={`${campaign.id}`} key={campaign.id}>
+                          {campaign.code}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.staff.label'})}
+                  {...FILTER_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('staff_id', {
+                    rules: [{ type: 'array' }],
+                    ...this.initialValues.staff_id,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                      mode="multiple"
+                      placeholder={intl.formatMessage({id: 'attrs.staff.placeholder.select.all'})}
+                      allowClear={true}
+                    >
+                      {users.toJS().map(user => (
+                        <Option value={`${user.id}`} key={user.id}>
+                          {user.username}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.order_level_id.label'})}
+                  {...FILTER_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('order_level_id', {
+                    rules: [{ type: 'array' }],
+                    ...this.initialValues.staff_id,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                      mode="multiple"
+                      placeholder={intl.formatMessage({id: 'attrs.order_level_id.placeholder.select.all'})}
+                      allowClear={true}
+                    >
+                      {orderLevels.toJS().map(orderLevel => (
+                        <Option value={`${orderLevel.id}`} key={orderLevel.id}>
+                          {orderLevel.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} style={{ textAlign: 'right' }}>
+                <Button className="button-margin--right--default" onClick={this.handleReset}>
+                  {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
+                </Button>
+                <Button type="primary" htmlType="submit" loading={isFetchingOrders}>
+                  {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     )
   }
 }

@@ -99,159 +99,161 @@ class LeadFiltersFormBox extends React.Component {
     const { getFieldDecorator } = form
 
     return (
-      <Form
-        className="box box-with-boder"
-        onSubmit={this.handleFilter}
-      >
-        <Row gutter={40}>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.created_in.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('created_at', {
-                ...this.initialValues.created_at,
-              })(
-                <RangePicker
-                  style={{width: '100%'}}
-                  format={LONG_DATETIME_FORMAT}
-                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
-                />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem 
-              label={intl.formatMessage({id: 'attrs.imported_in.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('imported_at', {
-                ...this.initialValues.imported_at,
-              })(
-                <RangePicker
-                  style={{width: '100%'}}
-                  format={LONG_DATETIME_FORMAT}
-                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
-                />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem 
-              label={intl.formatMessage({id: 'attrs.created_in.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('assigned_at', {
-                ...this.initialValues.assigned_at,
-              })(
-                <RangePicker
-                  style={{width: '100%'}}
-                  format={LONG_DATETIME_FORMAT}
-                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
-                />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.lead_level_id.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('lead_level_id', {
-                rules: [{ type: 'array' }],
-                ...this.initialValues.lead_level_id,
-              })(
-                <Select
-                  showSearch
-                  filterOption={selectFilterOption}
-                  mode="multiple"
-                  placeholder={intl.formatMessage({id: 'attrs.lead_level_id.placeholder.select.all'})}
-                  allowClear={true}
-                >
-                  {leadLevels.toJS().map(leadLevel => (
-                    <Option value={`${leadLevel.id}`} key={leadLevel.id}>
-                      {leadLevel.name}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem 
-              label={intl.formatMessage({id: 'attrs.staff_id.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('staff_id', {
-                rules: [{ type: 'array' }],
-                ...this.initialValues.staff_id,
-              })(
-                <Select
-                  showSearch
-                  filterOption={selectFilterOption}
-                  mode="multiple"
-                  placeholder={intl.formatMessage({id: 'attrs.staff_id.placeholder.select.all'})}
-                  allowClear={true}
-                >
-                  {users.toJS().map(user => (
-                    <Option value={`${user.id}`} key={user.id}>
-                      {user.username}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              label={intl.formatMessage({id: 'attrs.care_status_id.label'})}
-              {...FILTER_FORM_ITEM_LAYOUT}
-            >
-              {getFieldDecorator('care_status_id', {
-                rules: [{ type: 'array' }],
-                ...this.initialValues.care_status_id,
-              })(
-                <Select
-                  showSearch
-                  filterOption={selectFilterOption}
-                  mode="multiple"
-                  placeholder={intl.formatMessage({id: 'attrs.care_status_id.placeholder.select.all'})}
-                  allowClear={true}
-                >
-                  {careStatuses.toJS().map(status => (
-                    <Option value={`${status.id}`} key={status.id}>
-                      {status.code}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              className="button-margin--right--default"
-              onClick={this.handleExport}
-              disabled={isFetchingLeads}
-            >
-              {intl.formatMessage(
-                {id: 'index.filters_form.form_item.button.export.text'},
-                {numOfItem: totalPage || ''}
-              )}
-            </Button>
-            <Button
-              className="button-margin--right--default"
-              onClick={this.handleReset}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
-            </Button>
-            <Button type="primary" htmlType="submit" loading={isFetchingLeads}>
-              {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+      <div className="box box-with-shadow box-with-border">
+        <Form
+          className="box-body"
+          onSubmit={this.handleFilter}
+        >
+          <Row gutter={40}>
+            <Col span={8}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.created_in.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('created_at', {
+                  ...this.initialValues.created_at,
+                })(
+                  <RangePicker
+                    style={{width: '100%'}}
+                    format={LONG_DATETIME_FORMAT}
+                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                  />
+                )}
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem 
+                label={intl.formatMessage({id: 'attrs.imported_in.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('imported_at', {
+                  ...this.initialValues.imported_at,
+                })(
+                  <RangePicker
+                    style={{width: '100%'}}
+                    format={LONG_DATETIME_FORMAT}
+                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                  />
+                )}
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem 
+                label={intl.formatMessage({id: 'attrs.created_in.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('assigned_at', {
+                  ...this.initialValues.assigned_at,
+                })(
+                  <RangePicker
+                    style={{width: '100%'}}
+                    format={LONG_DATETIME_FORMAT}
+                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                  />
+                )}
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.lead_level_id.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('lead_level_id', {
+                  rules: [{ type: 'array' }],
+                  ...this.initialValues.lead_level_id,
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder={intl.formatMessage({id: 'attrs.lead_level_id.placeholder.select.all'})}
+                    allowClear={true}
+                  >
+                    {leadLevels.toJS().map(leadLevel => (
+                      <Option value={`${leadLevel.id}`} key={leadLevel.id}>
+                        {leadLevel.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem 
+                label={intl.formatMessage({id: 'attrs.staff_id.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('staff_id', {
+                  rules: [{ type: 'array' }],
+                  ...this.initialValues.staff_id,
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder={intl.formatMessage({id: 'attrs.staff_id.placeholder.select.all'})}
+                    allowClear={true}
+                  >
+                    {users.toJS().map(user => (
+                      <Option value={`${user.id}`} key={user.id}>
+                        {user.username}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+            <Col span={8}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.care_status_id.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('care_status_id', {
+                  rules: [{ type: 'array' }],
+                  ...this.initialValues.care_status_id,
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder={intl.formatMessage({id: 'attrs.care_status_id.placeholder.select.all'})}
+                    allowClear={true}
+                  >
+                    {careStatuses.toJS().map(status => (
+                      <Option value={`${status.id}`} key={status.id}>
+                        {status.code}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} style={{ textAlign: 'right' }}>
+              <Button
+                className="button-margin--right--default"
+                onClick={this.handleExport}
+                disabled={isFetchingLeads}
+              >
+                {intl.formatMessage(
+                  {id: 'index.filters_form.form_item.button.export.text'},
+                  {numOfItem: totalPage || ''}
+                )}
+              </Button>
+              <Button
+                className="button-margin--right--default"
+                onClick={this.handleReset}
+              >
+                {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
+              </Button>
+              <Button type="primary" htmlType="submit" loading={isFetchingLeads}>
+                {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     )
   }
 }

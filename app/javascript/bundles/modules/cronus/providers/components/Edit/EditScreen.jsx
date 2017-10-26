@@ -16,11 +16,15 @@ class EditScreen extends React.Component {
     const {intl} = this.props
 
     return (
-      <div className="main-content cronus-providers-edit">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'edit.title'})}
-        </h1>
-        <ProviderEditForm {...this.props}/>
+      <div className="main-content cronus--providers--edit box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'edit.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <ProviderEditForm {...this.props}/>
+        </div>
       </div>
     )
   }

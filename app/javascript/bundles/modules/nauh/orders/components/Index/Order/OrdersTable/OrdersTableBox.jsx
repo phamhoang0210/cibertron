@@ -1,13 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Table, Icon, Button, Row, Col, Input } from 'antd'
+import { Table, Icon, Button, Row, Col, Input, Tag } from 'antd'
 import {
   getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getDefaultTablePagination,
   getInitialValueForSearch,
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
+import { LEVEL_COLOR_MAPPINGS } from '../../../../constants/constants'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { EROS_BASE_URL } from 'app/constants/paths'
@@ -32,13 +33,10 @@ class OrdersTableBox extends React.Component {
     this.initialValues = this.getInitialValues()
 
     this.columns = [{
-      title: intl.formatMessage({id: 'attrs.id.label'}),
-      dataIndex: 'id',
-      key: 'id',
-    }, {
       title: intl.formatMessage({id: 'attrs.lead.label'}),
       dataIndex: 'lead',
       key: 'lead',
+      width: '20%',
       render: value => {
         if(value) {
           return (
@@ -50,6 +48,44 @@ class OrdersTableBox extends React.Component {
           )
         }
       }
+    }, {
+      title: intl.formatMessage({id: 'attrs.order_level_code.label'}),
+      dataIndex: 'order_level.code',
+      key: 'order_level_code',
+      width: '10%',
+      render: value => (<Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>)
+    }, {
+      title: intl.formatMessage({id: 'attrs.product.label'}),
+      dataIndex: 'product_id',
+      key: 'product_id',
+      width: '30%',
+      render: (value, record) => {
+        const {sharedState} = this.props
+        let product = null
+
+        if(record.product_type == 'course') {
+          product = sharedState.getIn(['courseSourceIdMappings', `${value}`])
+        } else if (record.product_type == 'combo') {
+          product = sharedState.getIn(['comboSourceIdMappings', `${value}`])
+        }
+
+        if(product) {
+          return (
+            <div>
+              <b>{product.get('code')}</b><br/>
+              <i>{product.get('name')}</i>
+            </div>
+          )
+        }
+      }
+    }, {
+      title: intl.formatMessage({id: 'attrs.promotion_price.label'}),
+      dataIndex: 'promotion_price',
+      key: 'promotion_price',
+    }, {
+      title: intl.formatMessage({id: 'attrs.payment_method.label'}),
+      dataIndex: 'payment.payment_method.name',
+      key: 'payment_method_name',
     },{
       title: intl.formatMessage({id: 'attrs.campaign.label'}),
       dataIndex: 'campaign_id',
@@ -65,17 +101,6 @@ class OrdersTableBox extends React.Component {
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
-    }, {
-      title: intl.formatMessage({id: 'attrs.actions.label'}),
-      dataIndex: 'actions',
-      key: 'actions',
-      render: (value, record) => (
-        <span>
-          <a href={`${EROS_BASE_URL}/order/${record.source_id}/misa`} target="_blank">
-            {intl.formatMessage({id: 'index.orders_table.actions.button.view_on_eros'})}
-          </a>
-        </span>
-      )
     }];
   }
 

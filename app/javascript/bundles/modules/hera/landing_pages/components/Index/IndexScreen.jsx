@@ -34,12 +34,16 @@ class IndexScreen extends React.Component {
   render() {
     const {indexState, intl} = this.props
     return (
-      <div className="main-content hera-landingPages">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'index.title'})}
-        </h1>
-        <LandingPageFiltersFormBox {...this.props}/>
-        <LandingPagesTableBox {...this.props}/>
+      <div className="main-content hera--landing-pages box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'index.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <LandingPageFiltersFormBox {...this.props}/>
+          <LandingPagesTableBox {...this.props}/>
+        </div>
       </div>
     )
   }

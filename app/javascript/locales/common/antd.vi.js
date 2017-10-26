@@ -9,10 +9,6 @@ export default flattenMessages({
           // form.form_item.button.create.text
           text: 'Tạo',
         },
-        order: {
-          // form.form_item.button.order.text
-          text: 'Đơn hàng',
-        },
         update: {
           // form.form_item.button.update.text
           text: 'Cập nhật',
@@ -52,6 +48,10 @@ export default flattenMessages({
         get_code: {
           // form.form_item.button.get_code.text
           text: 'Lấy mã',
+        },
+        call: {
+          // form.form_item.button.call.text
+          text: 'Gọi',
         },
       },
     },

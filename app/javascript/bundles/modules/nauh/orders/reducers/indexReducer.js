@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   orders: [],
   orderFilters: {
     ...defaultFilters,
-    fields: 'lead{}'
+    fields: 'lead{},payment{payment_method{},payment_detail{}},order_level{}'
   },
   isFetchingOrders: false
 })

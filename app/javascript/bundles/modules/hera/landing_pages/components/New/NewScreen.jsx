@@ -19,11 +19,15 @@ class NewScreen extends React.Component {
     const {intl} = this.props
     
     return (
-      <div className="main-content cronus-landing-pages-new">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'new.title'})}
-        </h1>
-        <LandingPageNewForm {...this.props}/>
+      <div className="main-content hera--landing-pages--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'new.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <LandingPageNewForm {...this.props}/>
+        </div>
       </div>
     )
   }

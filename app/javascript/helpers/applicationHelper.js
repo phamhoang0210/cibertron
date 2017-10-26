@@ -34,6 +34,13 @@ export function createSuccessAlert(message) {
   }
 }
 
+export function createLoadingAlert(message) {
+  return {
+    messages: [message],
+    type: 'loading'
+  }
+}
+
 export function getFilterParams(filters, location = null) {
   let filterParams = {}
   const page = filters.getIn(['paging', 'page'])
@@ -63,6 +70,7 @@ export function getFilterParams(filters, location = null) {
   }
 
   const queryParams = getUrlQuery(location)
+
   const latestParams = mergeDeep([filterParams, searches.toJS(), queryParams])
 
   return latestParams

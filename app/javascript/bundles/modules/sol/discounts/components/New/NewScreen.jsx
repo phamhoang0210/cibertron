@@ -14,9 +14,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content nauh-leads-new">
-        <h1 className="main-content-title">Create new discount</h1>
-        <DiscountNewForm {...this.props}/>
+      <div className="main-content sol--discounts--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new discount
+          </h1>
+        </div>
+        <div className="box-body">
+          <DiscountNewForm {...this.props}/>
+        </div>
       </div>
     )
   }
