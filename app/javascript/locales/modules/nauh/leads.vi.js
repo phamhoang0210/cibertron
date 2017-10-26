@@ -175,6 +175,10 @@ export const appLocale = {
         // attrs.note.label
         label: 'Ghi chú',
       },
+      last_call_log: {
+        // attrs.last_call_log.label
+        label: 'Chăm sóc gần nhất',
+      },
       assigned_at: {
         // attrs.assigned_at.label
         label: 'Ngày phân cho tvts',
