@@ -1,10 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Table, Icon, Button, Row, Col, Input, Tag } from 'antd'
+import { Table, Icon, Button, Row, Col, Input, Tag, Pagination } from 'antd'
 import {
   getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getDefaultTablePagination,
-  getInitialValueForSearch,
+  getInitialValueForSearch, getDefaultTableTitlePagination
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
@@ -28,6 +28,7 @@ class OrdersTableBox extends React.Component {
       'handleEdit',
       'handleAdd',
       'handleSearch',
+      'renderTableTitle',
     ])
 
     this.initialValues = this.getInitialValues()
@@ -170,6 +171,8 @@ class OrdersTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+          bordered
+          title={this.renderTableTitle}
           size="middle"
           columns={this.columns}
           dataSource={orders.toJS()}
@@ -179,6 +182,25 @@ class OrdersTableBox extends React.Component {
           loading={isFetchingOrders}
         />
       </div>
+    )
+  }
+
+  renderTableTitle() {
+    const {indexState, actions} = this.props
+    const paging = indexState.getIn(['orderFilters', 'paging'])
+
+    return (
+      <Row className="main-content-table-tools">
+        <Col span={16}>
+        </Col>
+        <Col span={8} className="main-content-table-tools-pagination-box">
+          <Pagination
+            size="small"
+            onChange={(page, pageSize) => this.handleTableChange({current: page}, {}, {})}
+            {...getDefaultTableTitlePagination(paging.get('page'), paging.get('record_total'))}
+          />
+        </Col>
+      </Row>
     )
   }
 }
