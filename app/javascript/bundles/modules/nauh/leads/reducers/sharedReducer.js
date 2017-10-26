@@ -12,6 +12,7 @@ export const initialState = Immutable.fromJS({
   provinces: [],
   callStatuses: [],
   userIdMappings: {},
+  callStatusIdMappings: {},
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
   transferBanks: [
@@ -216,6 +217,7 @@ export default function sharedReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingCallStatuses: false,
         callStatuses: records,
+        callStatusIdMappings: recordIdMappings,
       })
     }
 

@@ -79,7 +79,7 @@ class LeadsTableBox extends React.Component {
           onChange={v => this.handleUpdateAttrs(record.id, {interest: v})}
         />
       )
-    }, {
+    }, /*{
       title: intl.formatMessage({id: 'attrs.note.label'}),
       dataIndex: 'note',
       key: 'note',
@@ -93,6 +93,26 @@ class LeadsTableBox extends React.Component {
           onChange={v => this.handleUpdateAttrs(record.id, {note: v})}
         />
       )
+    }, */
+    {
+      title: intl.formatMessage({id: 'attrs.last_call_log.label'}),
+      dataIndex: 'last_call_log',
+      key: 'last_call_log',
+      width: '12%',
+      render: value => {
+        if(value) {
+          const {sharedState} = this.props
+          return (
+            <div>
+              <b>{sharedState.getIn(['callStatusIdMappings', `${value.call_status_id}`, 'name'])}</b>
+              <br/>
+              {moment(value.created_at).format(SHORT_DATETIME_FORMAT)}
+              {': '}
+              <i>{value.result_note}</i>
+            </div>
+          )
+        }
+      }
     }, {
       title: intl.formatMessage({id: 'attrs.assigned_at.label'}),
       dataIndex: 'assigned_at',
