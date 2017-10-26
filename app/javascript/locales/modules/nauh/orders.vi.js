@@ -34,6 +34,24 @@ export const appLocale = {
           }
         }
       },
+      order_level_code: {
+        // attrs.order_level_code.label
+        label: 'Level',
+      },
+      order_level_id: {
+        // attrs.order_level_id.label
+        label: 'Level',
+        placeholder: {
+          select: {
+            // attrs.order_level_id.placeholder.select.all
+            all: '-- Tất cả --',
+          }
+        }
+      },
+      payment_method: {
+        // attrs.payment_method.label
+        label: 'Phương thức thanh toán'
+      },
       staff: {
         // attrs.staff.label
         label: 'Nhân viên',
@@ -46,7 +64,7 @@ export const appLocale = {
       },
       created_at: {
         // attrs.created_at.label
-        label: 'THời gian tạo'
+        label: 'Thời gian tạo'
       },
       actions: {
         // attrs.actions.label
@@ -58,7 +76,7 @@ export const appLocale = {
       },
       updated_in: {
         // attrs.updated_in.label
-        label: 'Thời gian update',
+        label: 'Thời gian cập nhật',
       },
       name: {
         // attrs.name.label
@@ -100,10 +118,10 @@ export const appLocale = {
       },
       promotion_price: {
         // attrs.promotion_price.label
-        label: 'Gía khuyến  mại',
+        label: 'Gía bán',
         errors: {
           // attrs.promotion_price.errors.required
-          required: 'Gía khuyến  mại là trường bắt buộc!'
+          required: 'Gía khuyến mại là trường bắt buộc!'
         }
       },
       coupon_code: {
@@ -112,7 +130,7 @@ export const appLocale = {
       },
       method_payment: {
         // attrs.method_payment.label
-        label: 'Phương thức thanh toán',
+        label: 'Payment method',
         errors: {
           // attrs.method_payment.errors.required
           required: 'Phương thức thanh toán là trường bắt buộc!',

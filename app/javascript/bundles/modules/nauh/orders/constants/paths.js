@@ -2,6 +2,7 @@ export * from 'app/constants/paths'
 
 export const ORDERS_URL = '/nauh/orders'
 export const ORDERS_API_PATH = '/api/v1/orders'
+export const ORDER_LEVELS_API_PATH = '/api/v1/order_levels'
 export const NODES_API_PATH = '/api/v1/nodes'
 export const LEADS_API_PATH = '/api/v1/leads'
 export const USERS_API_PATH = '/api/v01/users'

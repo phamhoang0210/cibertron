@@ -21,11 +21,15 @@ class NewScreen extends React.Component {
     const {intl} = this.props
 
     return (
-      <div className="main-content cronus-nodes-new">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'new.title'})}
-        </h1>
-        <NodeNewForm {...this.props}/>
+      <div className="main-content cronus--nodes--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'new.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <NodeNewForm {...this.props}/>
+        </div>
       </div>
     )
   }

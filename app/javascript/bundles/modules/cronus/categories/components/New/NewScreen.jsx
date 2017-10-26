@@ -12,9 +12,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content cronus-categories-new">
-        <h1 className="main-content-title">Create new category</h1>
-        <CategoryNewForm {...this.props}/>
+      <div className="main-content cronus--categories--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new category
+          </h1>
+        </div>
+        <div className="box-body">
+          <CategoryNewForm {...this.props}/>
+        </div>
       </div>
     )
   }

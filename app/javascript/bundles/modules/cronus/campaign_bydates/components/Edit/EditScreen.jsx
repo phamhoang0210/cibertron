@@ -15,9 +15,15 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content cronus-campaign-bydates-edit">
-        <h1 className="main-content-title">Update campaignBydate</h1>
-        <CampaignBydateEditForm {...this.props}/>
+      <div className="main-content cronus--campaign-bydates--edit box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Update campaignBydate
+          </h1>
+        </div>
+        <div className="box-body">
+          <CampaignBydateEditForm {...this.props}/>
+        </div>
       </div>
     )
   }

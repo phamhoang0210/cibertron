@@ -5,6 +5,7 @@ import {
   USERSERVICE_BASE_URL, USERS_API_PATH, COURSES_API_PATH,
   COMBOS_API_PATH, SOL_BASE_URL, CAMPAIGNS_API_PATH,
   CRONUS_BASE_URL, GAMBIT_BASE_URL, PROVINCES_API_PATH,
+  ORDER_LEVELS_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -162,5 +163,36 @@ export function fetchProvinces(params = {}) {
       .fetchEntities(`${GAMBIT_BASE_URL}${PROVINCES_API_PATH}`, params)
       .then(res => dispatch(fetchProvincesSuccess(res.data)))
       .catch(error => dispatch(fetchProvincesFailure(error)))
+  }
+}
+
+function setIsFetchingOrderLevels() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_ORDER_LEVELS,
+  }
+}
+
+function fetchOrderLevelsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_ORDER_LEVELS_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchOrderLevelsFailure(error) {
+  return {
+    type: actionTypes.FETCH_ORDER_LEVELS_FAILURE,
+    error,
+  }
+}
+
+export function fetchOrderLevels(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingOrderLevels())
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${ORDER_LEVELS_API_PATH}`, params)
+      .then(res => dispatch(fetchOrderLevelsSuccess(res.data)))
+      .catch(error => dispatch(fetchOrderLevelsFailure(error)))
   }
 }

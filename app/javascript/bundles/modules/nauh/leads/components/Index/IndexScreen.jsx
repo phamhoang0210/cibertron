@@ -18,6 +18,8 @@ class IndexScreen extends React.Component {
     actions.fetchLeadLevels({per_page: 'infinite'})
     actions.fetchCareStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
+    actions.fetchCourses({per_page: 'infinite'})
+    actions.fetchCombos({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,12 +37,16 @@ class IndexScreen extends React.Component {
   render() {
     const {indexState, intl} = this.props
     return (
-      <div className="main-content nauh-leads">
-        <h1 className="main-content-title">
-          {intl.formatMessage({id: 'index.title'})}
-        </h1>
-        <LeadFiltersFormBox {...this.props}/>
-        <LeadsTableBox {...this.props}/>
+      <div className="main-content nauh--leads box">
+        <div className="box-header">
+          <h1 className="box-title">
+            {intl.formatMessage({id: 'index.title'})}
+          </h1>
+        </div>
+        <div className="box-body">
+          <LeadFiltersFormBox {...this.props}/>
+          <LeadsTableBox {...this.props}/>
+        </div>
       </div>
     )
   }

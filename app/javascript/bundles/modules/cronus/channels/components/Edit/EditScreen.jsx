@@ -15,9 +15,15 @@ class EditScreen extends React.Component {
 
   render() {
     return (
-      <div className="main-content cronus-channels-edit">
-        <h1 className="main-content-title">Update channel</h1>
-        <ChannelEditForm {...this.props}/>
+      <div className="main-content cronus--channels--edit box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Update channel
+          </h1>
+        </div>
+        <div className="box-body">
+          <ChannelEditForm {...this.props}/>
+        </div>
       </div>
     )
   }

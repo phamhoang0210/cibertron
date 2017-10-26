@@ -2,7 +2,7 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH,
-  EMAIL_LEADS_API_PATH,
+  EMAIL_LEADS_API_PATH, CALL_LOGS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -173,38 +173,6 @@ export function importLeads(params = {}) {
   }
 }
 
-function setIsUpdatingLeadAttrs(leadId) {
-  return {
-    type: actionTypes.SET_IS_UPDATING_LEAD_ATTRS,
-    leadId,
-  }
-}
-
-function updateLeadAttrsSuccess(record) {
-  return {
-    type: actionTypes.UPDATE_LEAD_ATTRS_SUCCESS,
-    record,
-  }
-}
-
-function updateLeadAttrsFailure(error, leadId) {
-  return {
-    type: actionTypes.UPDATE_LEAD_ATTRS_FAILURE,
-    error,
-    leadId,
-  }
-}
-
-export function updateLeadAttrs(leadId, params = {}) {
-  return dispatch => {
-    dispatch(setIsUpdatingLeadAttrs(leadId))
-    authRequest
-      .putEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}/${leadId}`, params)
-      .then(res => dispatch(updateLeadAttrsSuccess(res.data)))
-      .catch(error => dispatch(updateLeadAttrsFailure(error, leadId)))
-  }
-}
-
 export function updateSelectedLeadKeys(leadKeys) {
   return {
     type: actionTypes.UPDATE_SELECTED_LEAD_KEYS,
@@ -243,5 +211,72 @@ export function updateLeads(params) {
         dispatch(fetchLeads(filterParams))
       })
       .catch(error => dispatch(updateLeadsFailure(error)))
+  }
+}
+
+function setIsUpdatingLeadAttrs(leadId) {
+  return {
+    type: actionTypes.SET_IS_UPDATING_LEAD_ATTRS,
+    leadId,
+  }
+}
+
+function updateLeadAttrsSuccess(record) {
+  return {
+    type: actionTypes.UPDATE_LEAD_ATTRS_SUCCESS,
+    record,
+  }
+}
+
+function updateLeadAttrsFailure(error, leadId) {
+  return {
+    type: actionTypes.UPDATE_LEAD_ATTRS_FAILURE,
+    error,
+    leadId,
+  }
+}
+
+export function updateLeadAttrs(leadId, params = {}) {
+  return dispatch => {
+    dispatch(setIsUpdatingLeadAttrs(leadId))
+    authRequest
+      .putEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}/${leadId}`, params)
+      .then(res => dispatch(updateLeadAttrsSuccess(res.data)))
+      .catch(error => dispatch(updateLeadAttrsFailure(error, leadId)))
+  }
+}
+
+
+function setIsFetchingLeadCallLogs(lead) {
+  return {
+    type: actionTypes.SET_IS_FETCHING_LEAD_CALL_LOGS,
+    lead,
+  }
+}
+
+function fetchLeadCallLogsSuccess(lead, {records, filters}) {
+  return {
+    type: actionTypes.FETCH_LEAD_CALL_LOGS_SUCCESS,
+    lead,
+    records,
+    filters,
+  }
+}
+
+function fetchLeadCallLogsFailure(lead, error) {
+  return {
+    type: actionTypes.FETCH_LEAD_CALL_LOGS_FAILURE,
+    lead,
+    error,
+  }
+}
+
+export function fetchLeadCallLogs(lead, params) {
+  return dispatch => {
+    dispatch(setIsFetchingLeadCallLogs(lead))
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${CALL_LOGS_API_PATH}`, params)
+      .then(res => dispatch(fetchLeadCallLogsSuccess(lead, res.data)))
+      .catch(error => dispatch(fetchLeadCallLogsFailure(lead, error)))
   }
 }

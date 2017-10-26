@@ -6,7 +6,7 @@ import store from '../store/store'
 import routes from '../routes/routes'
 import { LocaleProvider } from 'antd'
 import { IntlProvider } from 'react-intl'
-import { appLocale } from 'locales/modules/hera/landing_pages.en'
+import { appLocale } from 'locales/modules/hera/landing_pages.vi'
 
 export default (props, railsContext) => {
   const appStore = store(props, railsContext)

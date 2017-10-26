@@ -279,6 +279,53 @@ export default function indexReducer($$state = initialState, action = null) {
       })
     }
 
+    case actionTypes.SET_IS_FETCHING_LEAD_CALL_LOGS: {
+      return $$state.withMutations(state => (
+        state.update('leads', leads => (
+          leads.update(
+            leads.findIndex(leadItem => leadItem.get('id') == lead.get('id')),
+            leadItem => (
+              leadItem.merge({
+                isFetchingCallLogs: true,
+              })
+            )
+          )
+        ))
+      ))
+    }
+
+    case actionTypes.FETCH_LEAD_CALL_LOGS_SUCCESS: {
+      return $$state.withMutations(state => (
+        state.update('leads', leads => (
+          leads.update(
+            leads.findIndex(leadItem => leadItem.get('id') == lead.get('id')),
+            leadItem => (
+              leadItem.merge({
+                isFetchingCallLogs: false,
+                callLogs: records,
+                callLogFilters: filters,
+              })
+            )
+          )
+        ))
+      ))
+    }
+
+    case actionTypes.FETCH_LEAD_CALL_LOGS_FAILURE: {
+      return $$state.withMutations(state => (
+        state.update('leads', leads => (
+          leads.update(
+            leads.findIndex(leadItem => leadItem.get('id') == lead.get('id')),
+            leadItem => (
+              leadItem.merge({
+                isFetchingCallLogs: false,
+              })
+            )
+          )
+        ))
+      ))
+    }
+
     default: {
       return $$state
     }

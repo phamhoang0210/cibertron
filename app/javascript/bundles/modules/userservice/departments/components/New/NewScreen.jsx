@@ -14,9 +14,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new department</h1>
-        <DepartmentNewForm {...this.props}/>
+      <div className="main-content userservice--departments--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new department
+          </h1>
+        </div>
+        <div className="box-body">
+          <DepartmentNewForm {...this.props}/>
+        </div>
       </div>
     )
   }

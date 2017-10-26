@@ -12,9 +12,15 @@ class NewScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Create new Target</h1>
-        <TargetNewForm {...this.props}/>
+      <div className="main-content sol--targets--new box">
+        <div className="box-header">
+          <h1 className="box-title">
+            Create new Target
+          </h1>
+        </div>
+        <div className="box-body">
+          <TargetNewForm {...this.props}/>
+        </div>
       </div>
     )
   }
