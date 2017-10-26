@@ -68,7 +68,15 @@ class OrdersTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.order.attrs.order_level_code.label'}),
       dataIndex: 'order_level.code',
       key: 'order_level_code',
-      render: value => (<Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>)
+      render: (value, record) => (
+        <div>
+          <Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>
+          <br/>
+          <p style={{padding: "4px 0px"}}>
+            <i>{record.payment && record.payment.status}</i>
+          </p>
+        </div>
+      )
     }]
   }
 
