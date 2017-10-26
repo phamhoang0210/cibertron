@@ -208,7 +208,7 @@ class OrderCreateFormBox extends React.Component {
     const transferBanks = sharedState.get('transferBanks')
     const officeAddress = sharedState.get('officeAddress')
     const provinces = sharedState.get('provinces')
-    const selectedProvince = provinces.find(p => p.get('code') == getFieldValue('COD.province'))
+    const selectedProvince = provinces.find(p => p.get('code') == getFieldValue('payment_detail.COD.province'))
     const districts = selectedProvince && selectedProvince.get('districts')
     const method = getFieldValue('payment_method')
 
