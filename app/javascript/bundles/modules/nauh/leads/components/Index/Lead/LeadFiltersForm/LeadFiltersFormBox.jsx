@@ -221,7 +221,7 @@ class LeadFiltersFormBox extends React.Component {
                   >
                     {careStatuses.toJS().map(status => (
                       <Option value={`${status.id}`} key={status.id}>
-                        {status.code}
+                        {status.name}
                       </Option>
                     ))}
                   </Select>
