@@ -199,6 +199,7 @@ class LeadsTableBox extends React.Component {
           <div className="text-align--right">
             <Button
               icon="edit"
+              type="primary"
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >

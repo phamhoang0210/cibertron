@@ -1,13 +1,15 @@
 import React from 'react'
 import _ from 'lodash'
 import { List } from 'immutable'
-import { Table, Tag } from 'antd'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { Table, Tag, Button } from 'antd'
+import { getFilterParams, generateErosOrderLink } from 'helpers/applicationHelper'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { EROS_BASE_URL } from 'app/constants/paths'
 import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../../constants/constants'
 import { injectIntl } from 'react-intl'
+import { browserHistory } from 'react-router'
+import { ORDERS_URL } from '../../../../../constants/paths'
 
 class OrdersTableBox extends React.Component {
   constructor(props) {
@@ -16,13 +18,16 @@ class OrdersTableBox extends React.Component {
     const {intl} = this.props
 
     _.bindAll(this, [
-      'handleTableChange'
+      'handleTableChange',
+      'handleEdit',
+      'handleOpenOnEros'
     ])
 
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.order.attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
+      width: 50,
     }, {
       title: intl.formatMessage({id: 'attrs.order.attrs.created_at.label'}),
       dataIndex: 'created_at',
@@ -40,7 +45,7 @@ class OrdersTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.order.attrs.product.label'}),
       dataIndex: 'product_id',
       key: 'product_id',
-      width: '40%',
+      width: '35%',
       render: (value, record) => {
         const {sharedState} = this.props
         let product = null
@@ -68,6 +73,7 @@ class OrdersTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.order.attrs.order_level_code.label'}),
       dataIndex: 'order_level.code',
       key: 'order_level_code',
+      width: '25%',
       render: (value, record) => (
         <div>
           <Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>
@@ -77,7 +83,42 @@ class OrdersTableBox extends React.Component {
           </p>
         </div>
       )
+    }, {
+      title: intl.formatMessage({id: 'attrs.order.attrs.actions.label'}),
+      key: 'actions',
+      width: 100,
+      render: (cell, row) => {
+        return (
+          <div className="text-align--right">
+            <Button
+              icon="edit"
+              type="primary"
+              size="small"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
+            </Button>
+            <Button
+              icon="export"
+              size="small"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleOpenOnEros(row.source_id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.eros.text'})}
+            </Button>
+          </div>
+        )
+      },
     }]
+  }
+
+  handleEdit(orderId) {
+    window.open(`${ORDERS_URL}/${orderId}/edit`,'_blank')
+  }
+
+  handleOpenOnEros(sourceId) {
+    window.open(generateErosOrderLink(sourceId),'_blank')
   }
 
   componentDidMount() {

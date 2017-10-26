@@ -23,23 +23,28 @@ class CallLogsTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.call_log.attrs.id.label'}),
         dataIndex: 'id',
         key: 'id',
+        width: 50,
       }, {
         title: intl.formatMessage({id: 'attrs.call_log.attrs.created_at.label'}),
         dataIndex: 'created_at',
         key: 'created_at',
+        width: '10%',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
       }, {
         title: intl.formatMessage({id: 'attrs.call_log.attrs.call_status_care_status_name.label'}),
         dataIndex: 'call_status.care_status.name',
         key: 'call_status_care_status_name',
+        width: '20%',
       }, {
         title: intl.formatMessage({id: 'attrs.call_log.attrs.call_status_name.label'}),
         dataIndex: 'call_status.name',
         key: 'call_status_name',
+        width: '20%',
       }, {
         title: intl.formatMessage({id: 'attrs.call_log.attrs.result_note.label'}),
         dataIndex: 'result_note',
         key: 'result_note',
+        width: '30%',
       }, {
         title: intl.formatMessage({id: 'attrs.call_log.attrs.user_id.label'}),
         dataIndex: 'user_id',

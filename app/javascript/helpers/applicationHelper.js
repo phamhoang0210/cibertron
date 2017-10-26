@@ -3,6 +3,7 @@ import DeepMerge from 'deep-merge/multiple'
 import { browserHistory } from 'react-router'
 import qs from 'qs'
 import moment from 'moment'
+import { EROS_BASE_URL } from 'app/constants/paths'
 
 export function parseError(error) {
   const response = error.response
@@ -202,4 +203,9 @@ export function flattenMessages(nestedMessages, prefix = '') {
 
     return messages;
   }, {});
+}
+
+
+export function generateErosOrderLink(id) {
+  return `${EROS_BASE_URL}/order/${id}/misa`
 }

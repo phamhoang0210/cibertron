@@ -53,6 +53,10 @@ export default flattenMessages({
           // form.form_item.button.call.text
           text: 'Gọi',
         },
+        eros: {
+          // form.form_item.button.eros.text
+          text: 'Eros',
+        },
       },
     },
   },

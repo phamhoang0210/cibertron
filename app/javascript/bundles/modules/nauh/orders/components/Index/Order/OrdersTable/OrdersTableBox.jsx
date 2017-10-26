@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import { Table, Icon, Button, Row, Col, Input, Tag, Pagination } from 'antd'
 import {
   getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getDefaultTablePagination,
-  getInitialValueForSearch, getDefaultTableTitlePagination
+  getInitialValueForSearch, getDefaultTableTitlePagination, generateErosOrderLink
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
@@ -29,6 +29,7 @@ class OrdersTableBox extends React.Component {
       'handleAdd',
       'handleSearch',
       'renderTableTitle',
+      'handleOpenOnEros',
     ])
 
     this.initialValues = this.getInitialValues()
@@ -110,6 +111,31 @@ class OrdersTableBox extends React.Component {
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
+    }, {
+      title: intl.formatMessage({id: 'attrs.actions.label'}),
+      key: 'actions',
+      width: 100,
+      render: (cell, row) => {
+        return (
+          <div className="text-align--right">
+            <Button
+              icon="edit"
+              type="primary"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
+            </Button>
+            <Button
+              icon="export"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleOpenOnEros(row.source_id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.eros.text'})}
+            </Button>
+          </div>
+        )
+      },
     }];
   }
 
@@ -129,6 +155,10 @@ class OrdersTableBox extends React.Component {
 
   handleEdit(orderId) {
     browserHistory.push(`${ORDERS_URL}/${orderId}/edit`)
+  }
+
+  handleOpenOnEros(sourceId) {
+    window.open(generateErosOrderLink(sourceId),'_blank')
   }
 
   handleAdd(e) {
