@@ -62,6 +62,14 @@ class CustomerInfo extends React.Component {
       title: intl.formatMessage({id: 'attrs.eros_staff.label'}),
       dataIndex: 'staff',
       key: 'staff',
+      render: value => {
+        if(typeof value == 'string') {
+          var nameMatch = value.match(/^([^@]*)@/)
+          var name = nameMatch ? nameMatch[1] : ''
+
+          return name
+        }
+      }
     }, {
       title: intl.formatMessage({id: 'attrs.eros_level.label'}),
       dataIndex: 'level',
@@ -72,7 +80,7 @@ class CustomerInfo extends React.Component {
       render: (text, record) => (
         <span>
           <a href={generateErosOrderLink(record.id)} target="_blank">
-            Xem trên Eros
+            {intl.formatMessage({id: 'attrs.eros_actions.view_on_eros.text'})}
           </a>
         </span>
       ),
@@ -190,6 +198,14 @@ class CustomerInfo extends React.Component {
                 initialValue: lead.get('name'),
               })(<Input />)}
             </FormItem>
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.interest.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('interest', {
+                initialValue: lead.get('interest'),
+              })(<TextArea/>)}
+            </FormItem>
           </Col>
           <Col span={12}>
             <FormItem
@@ -240,6 +256,7 @@ class CustomerInfo extends React.Component {
 
   renderHistoriesTab() {
     const {editState} = this.props
+    const isFetchingErosOrders = editState.get('isFetchingErosOrders')
     const erosOrders = editState.get('erosOrders')
 
     return (
@@ -249,6 +266,7 @@ class CustomerInfo extends React.Component {
         columns={this.erosOrderColumns}
         dataSource={erosOrders.toJS()}
         pagination={{pageSize: 5}}
+        loading={isFetchingErosOrders}
       />
     )
   }

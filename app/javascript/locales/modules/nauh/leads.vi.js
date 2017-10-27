@@ -30,6 +30,10 @@ export const appLocale = {
       eros_actions: {
         // attrs.eros_actions.label
         label: ' ',
+        view_on_eros: {
+          // attrs.eros_actions.view_on_eros.text
+          text: 'Xem trên Eros',
+        }
       },
       call_log: {
         attrs: {
@@ -764,7 +768,7 @@ export const appLocale = {
           },
           order_info: {
             // edit.lead.partial.order_info.title
-            title: 'Thông tin đơn hàng',
+            title: 'Trạng thái contact',
           },
           orders_table: {
             tabs: {
