@@ -1,7 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, CALL_LOGS_API_PATH
+  NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, CALL_LOGS_API_PATH,
+  ORDERS_PURCHASE_HISTORY_API_PATH, EROS_BASE_URL,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -263,5 +264,35 @@ export function updateCallLog(callLogId, params = {}) {
         dispatch(fetchCallLogs(filterParams))
       })
       .catch(error => dispatch(updateCallLogFailure(error, callLogId)))
+  }
+}
+
+function setIsFetchingErosOrders() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_EROS_ORDERS,
+  }
+}
+
+function fetchErosOrdersSuccess({records}) {
+  return {
+    type: actionTypes.FETCH_EROS_ORDERS_SUCCESS,
+    records,
+  }
+}
+
+function fetchErosOrdersFailure(error) {
+  return {
+    type: actionTypes.FETCH_EROS_ORDERS_FAILURE,
+    error,
+  }
+}
+
+export function fetchErosOrders(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingErosOrders())
+    authRequest
+      .fetchEntities(`${EROS_BASE_URL}${ORDERS_PURCHASE_HISTORY_API_PATH}`, params)
+      .then(res => dispatch(fetchErosOrdersSuccess(res.data)))
+      .catch(error => dispatch(fetchErosOrdersFailure(error)))
   }
 }

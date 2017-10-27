@@ -7,6 +7,30 @@ export const appLocale = {
   messages: flattenMessages({
     ...commontAntdVi,
     attrs: {
+      eros_created_at: {
+        // attrs.eros_created_at.label
+        label: 'Timestamp',
+      },
+      eros_customer: {
+        // attrs.eros_customer.label
+        label: 'Học viên',
+      },
+      eros_course: {
+        // attrs.eros_course.label
+        label: 'Khóa học',
+      },
+      eros_staff: {
+        // attrs.eros_staff.label
+        label: 'Nhân viên',
+      },
+      eros_level: {
+        // attrs.eros_level.label
+        label: 'Level',
+      },
+      eros_actions: {
+        // attrs.eros_actions.label
+        label: ' ',
+      },
       call_log: {
         attrs: {
           id: {
