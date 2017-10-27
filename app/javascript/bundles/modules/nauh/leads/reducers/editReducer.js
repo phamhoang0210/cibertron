@@ -19,6 +19,7 @@ export const initialState = Immutable.fromJS({
     ...defaultFilters,
     fields: 'call_status{care_status{}}'
   },
+  erosOrders: [],
   isFetchingOrders: false,
   isFetchingLead: false,
   isUpdatingLead: false,
@@ -27,6 +28,7 @@ export const initialState = Immutable.fromJS({
   isCalling: false,
   isFetchingCallLogs: false,
   isUpdatingCallLog: false,
+  isFetchingErosOrders: false,
 })
 
 export default function editReducer($$state = initialState, action = null) {
@@ -207,6 +209,25 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CALL_LOG_FAILURE: {
       return $$state.merge({
         isUpdatingCallLog: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_EROS_ORDERS: {
+      return $$state.merge({
+        isFetchingErosOrders: true,
+      })
+    }
+
+    case actionTypes.FETCH_EROS_ORDERS_SUCCESS: {
+      return $$state.merge({
+        isFetchingErosOrders: false,
+        erosOrders: records,
+      })
+    }
+
+    case actionTypes.FETCH_EROS_ORDERS_FAILURE: {
+      return $$state.merge({
+        isFetchingErosOrders: false,
       })
     }
 
