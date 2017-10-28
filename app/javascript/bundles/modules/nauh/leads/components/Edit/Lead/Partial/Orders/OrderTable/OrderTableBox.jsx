@@ -129,7 +129,7 @@ class OrderTableBox extends React.Component {
       leadOrderParams.page = current
     }
 
-    actions.fetchOrders({...leadOrderParams, lead_id: lead.get('id')})
+    actions.fetchOrders({fields: leadOrderParams.fields, lead_id: lead.get('id')})
   }
 
 
