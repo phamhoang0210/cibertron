@@ -2,7 +2,8 @@ import React from 'react'
 import CustomerInfo from './Lead/Partial/CustomerInfo'
 import OrderInfo from './Lead/Partial/OrderInfo'
 import OrdersBox from './Lead/Partial/Orders/OrdersBox'
-import CallLogsBox from './Lead/Partial/CallLogs/CallLogsBox'
+import LeadCareHistoriesTableBox from './Lead/Partial/LeadCareHistory/LeadCareHistoriesTable/LeadCareHistoriesTableBox'
+import LeadCareHistoryUpdateFormBox from './Lead/Partial/LeadCareHistory/LeadCareHistoryUpdateForm/LeadCareHistoryUpdateFormBox'
 import { injectIntl } from 'react-intl'
 import { Row, Col, notification, Tabs, Spin } from 'antd'
 
@@ -18,7 +19,7 @@ class EditScreen extends React.Component {
     const leadParams = editState.get('defaultLeadParams').toJS()
     actions.fetchLead(params.id, leadParams)
     actions.fetchLeadLevels({per_page: 'infinite'})
-    actions.fetchCareStatuses({per_page: 'infinite'})
+    actions.fetchLeadStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
     actions.fetchCombos({per_page: 'infinite'})
     actions.fetchCourses({per_page: 'infinite'})
@@ -60,7 +61,8 @@ class EditScreen extends React.Component {
             </Row>
             <Row gutter={8}>
               <Col span={24}>
-                <CallLogsBox {...this.props}/>
+                <LeadCareHistoryUpdateFormBox {...this.props}/>
+                <LeadCareHistoriesTableBox {...this.props}/>
               </Col>
             </Row>
             <Row gutter={8}>

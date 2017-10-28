@@ -42,7 +42,7 @@ class LeadNewForm extends React.Component {
     const alert = newState.get('alert')
     const isCreatingLead = newState.get('isCreatingLead')
     const leadLevels = sharedState.get('leadLevels')
-    const careStatuses = sharedState.get('careStatuses')
+    const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
     
     return (
@@ -142,15 +142,15 @@ class LeadNewForm extends React.Component {
                 )}
               </FormItem>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.care_status_id.label'})}
+                label={intl.formatMessage({id: 'attrs.lead_status_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('care_status_id', {
+                {getFieldDecorator('lead_status_id', {
                   rules: [
                     {
                       required: true,
                       message: intl.formatMessage(
-                        {id: 'attrs.care_status_id.errors.required'},
+                        {id: 'attrs.lead_status_id.errors.required'},
                       )
                     }
                   ],
@@ -158,13 +158,13 @@ class LeadNewForm extends React.Component {
                   <Select
                     showSearch
                     placeholder={intl.formatMessage(
-                      {id: 'attrs.care_status_id.placeholder.select.single'},
+                      {id: 'attrs.lead_status_id.placeholder.select.single'},
                     )}
                     filterOption={selectFilterOption}
                   >
-                    {careStatuses.map(careStatus => (
-                      <Option value={`${careStatus.get('id')}`} key={careStatus.get('id')}>
-                        {careStatus.get('code')}
+                    {leadStatuses.map(leadStatus => (
+                      <Option value={`${leadStatus.get('id')}`} key={leadStatus.get('id')}>
+                        {leadStatus.get('code')}
                       </Option>
                     ))}
                   </Select>

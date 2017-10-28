@@ -2,7 +2,7 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH,
-  EMAIL_LEADS_API_PATH, CALL_LOGS_API_PATH
+  EMAIL_LEADS_API_PATH, LEAD_CARE_HISTORIES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -247,36 +247,36 @@ export function updateLeadAttrs(leadId, params = {}) {
 }
 
 
-function setIsFetchingLeadCallLogs(lead) {
+function setIsFetchingLeadLeadCareHistories(lead) {
   return {
-    type: actionTypes.SET_IS_FETCHING_LEAD_CALL_LOGS,
+    type: actionTypes.SET_IS_FETCHING_LEAD_LEAD_CARE_HISTORIES,
     lead,
   }
 }
 
-function fetchLeadCallLogsSuccess(lead, {records, filters}) {
+function fetchLeadLeadCareHistoriesSuccess(lead, {records, filters}) {
   return {
-    type: actionTypes.FETCH_LEAD_CALL_LOGS_SUCCESS,
+    type: actionTypes.FETCH_LEAD_LEAD_CARE_HISTORIES_SUCCESS,
     lead,
     records,
     filters,
   }
 }
 
-function fetchLeadCallLogsFailure(lead, error) {
+function fetchLeadLeadCareHistoriesFailure(lead, error) {
   return {
-    type: actionTypes.FETCH_LEAD_CALL_LOGS_FAILURE,
+    type: actionTypes.FETCH_LEAD_LEAD_CARE_HISTORIES_FAILURE,
     lead,
     error,
   }
 }
 
-export function fetchLeadCallLogs(lead, params) {
+export function fetchLeadLeadCareHistories(lead, params) {
   return dispatch => {
-    dispatch(setIsFetchingLeadCallLogs(lead))
+    dispatch(setIsFetchingLeadLeadCareHistories(lead))
     authRequest
-      .fetchEntities(`${NAUH_BASE_URL}${CALL_LOGS_API_PATH}`, params)
-      .then(res => dispatch(fetchLeadCallLogsSuccess(lead, res.data)))
-      .catch(error => dispatch(fetchLeadCallLogsFailure(lead, error)))
+      .fetchEntities(`${NAUH_BASE_URL}${LEAD_CARE_HISTORIES_API_PATH}`, params)
+      .then(res => dispatch(fetchLeadLeadCareHistoriesSuccess(lead, res.data)))
+      .catch(error => dispatch(fetchLeadLeadCareHistoriesFailure(lead, error)))
   }
 }

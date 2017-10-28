@@ -5,19 +5,19 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   notification: null,
   lead: null,
-  callLog: null,
+  leadCareHistory: {},
   defaultLeadParams: {
-    fields: 'lead_level{},care_status{}',
+    fields: 'lead_level{},lead_status{}',
   },
   orders: [],
   orderFilters: {
     ...defaultFilters,
     fields: 'payment{payment_method{},payment_detail{}},order_level{}'
   },
-  callLogs: [],
-  callLogFilters: {
+  leadCareHistories: [],
+  leadCareHistoryFilters: {
     ...defaultFilters,
-    fields: 'call_status{care_status{}}'
+    fields: 'lead_care_status{lead_status{}}'
   },
   erosOrders: [],
   isFetchingOrders: false,
@@ -26,8 +26,8 @@ export const initialState = Immutable.fromJS({
   isUpdatingLeadAttr: false,
   isCreatingOrder: false,
   isCalling: false,
-  isFetchingCallLogs: false,
-  isUpdatingCallLog: false,
+  isFetchingLeadCareHistories: false,
+  isUpdatingLeadCareHistory: false,
   isFetchingErosOrders: false,
 })
 
@@ -39,7 +39,6 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingLead: true,
         notification: null,
-        lead: null,
       })
     }
 
@@ -150,16 +149,16 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCalling: true,
         notification: null,
-        callLog: null,
       })
     }
 
     case actionTypes.CALL_SUCCESS: {
       return $$state.merge({
         isCalling: false,
-        callLog: record,
         notification: createSuccessAlert('Kết nối cuộc gọi thành công!'),
-      })
+      }).update('leadCareHistory', leadCareHistory => (
+        leadCareHistory.merge(record)
+      ))
     }
 
     case actionTypes.CALL_FAILURE: {
@@ -169,46 +168,46 @@ export default function editReducer($$state = initialState, action = null) {
       })
     }
 
-    case actionTypes.SET_IS_FETCHING_CALL_LOGS: {
+    case actionTypes.SET_IS_FETCHING_LEAD_CARE_HISTORIES: {
       return $$state.merge({
-        isFetchingCallLogs: true,
+        isFetchingLeadCareHistories: true,
         notification: null,
       })
     }
 
-    case actionTypes.FETCH_CALL_LOGS_SUCCESS: {
+    case actionTypes.FETCH_LEAD_CARE_HISTORIES_SUCCESS: {
       return $$state.merge({
-       isFetchingCallLogs: false, 
-       callLogs: records,
-       callLogFilters: filters,
+       isFetchingLeadCareHistories: false, 
+       leadCareHistories: records,
+       leadCareHistoryFilters: filters,
       })
     }
 
-    case actionTypes.FETCH_CALL_LOGS_FAILURE: {
+    case actionTypes.FETCH_LEAD_CARE_HISTORIES_FAILURE: {
       return $$state.merge({
-        isFetchingCallLogs: false,
+        isFetchingLeadCareHistories: false,
         notification: parseError(error),
       })
     }
 
-    case actionTypes.SET_IS_UPDATING_CALL_LOG: {
+    case actionTypes.SET_IS_UPDATING_LEAD_CARE_HISTORY: {
       return $$state.merge({
-        isUpdatingCallLog: true,
+        isUpdatingLeadCareHistory: true,
         notification: null,
       })
     }
 
-    case actionTypes.UPDATE_CALL_LOG_SUCCESS: {
+    case actionTypes.UPDATE_LEAD_CARE_HISTORY_SUCCESS: {
       return $$state.merge({
-        isUpdatingCallLog: false,
-        callLog: record,
+        isUpdatingLeadCareHistory: false,
+        leadCareHistory: {},
         notification: createSuccessAlert('Cập nhật thành công'),
       })
     }
 
-    case actionTypes.UPDATE_CALL_LOG_FAILURE: {
+    case actionTypes.UPDATE_LEAD_CARE_HISTORY_FAILURE: {
       return $$state.merge({
-        isUpdatingCallLog: false,
+        isUpdatingLeadCareHistory: false,
       })
     }
 

@@ -9,7 +9,7 @@ import { EROS_BASE_URL } from 'app/constants/paths'
 import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../../constants/constants'
 import { injectIntl } from 'react-intl'
 
-class CallLogsTableBox extends React.Component {
+class LeadCareHistoriesTableBox extends React.Component {
   constructor(props) {
     super(props)
 
@@ -20,55 +20,55 @@ class CallLogsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: intl.formatMessage({id: 'attrs.call_log.attrs.id.label'}),
+      title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: intl.formatMessage({id: 'attrs.call_log.attrs.result_note.label'}),
+      title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'}),
       dataIndex: 'result_note',
       key: 'result_note',
       width: '40%',
     }, {
-      title: intl.formatMessage({id: 'attrs.call_log.attrs.call_status_id.label'}),
-      dataIndex: 'call_status.name',
-      key: 'call_status_name',
+      title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_id.label'}),
+      dataIndex: 'lead_care_status.name',
+      key: 'lead_care_status_name',
       width: '20%',
     }]
   }
 
   componentDidMount() {
     const {lead, actions} = this.props
-    const callLogs = lead.get('callLogs')
-    if(!callLogs) {
-      actions.fetchLeadCallLogs(lead, { lead_id: lead.get('id'), fields: 'call_status{care_status{}}' })
+    const leadCareHistories = lead.get('leadCareHistories')
+    if(!leadCareHistories) {
+      actions.fetchLeadLeadCareHistories(lead, { lead_id: lead.get('id'), fields: 'lead_care_status{lead_status{}}' })
     }
   }
 
   handleTableChange(pagination, filters, sorter) {
     const {actions, lead, location} = this.props
-    let leadCallLogParams = getFilterParams(lead.get('callLogFilters'))
+    let leadLeadCareHistoryParams = getFilterParams(lead.get('leadCareHistoryFilters'))
     const {current, pageSize, total} = pagination
 
-    if(current != leadCallLogParams.page) {
-      leadCallLogParams.page = current
+    if(current != leadLeadCareHistoryParams.page) {
+      leadLeadCareHistoryParams.page = current
     }
 
-    actions.fetchLeadCallLogs(lead, leadCallLogParams)
+    actions.fetchLeadLeadCareHistories(lead, leadLeadCareHistoryParams)
   }
 
   render() {
     const {lead, actions} = this.props
-    const leadCallLogs = lead.get('callLogs') || List([])
-    const paging = lead.getIn(['callLogFilters', 'paging'])
-    const isFetchingCallLogs = lead.get('isFetchingCallLogs')
+    const leadLeadCareHistories = lead.get('leadCareHistories') || List([])
+    const paging = lead.getIn(['leadCareHistoryFilters', 'paging'])
+    const isFetchingLeadCareHistories = lead.get('isFetchingLeadCareHistories')
     return (
       <Table
         size="middle"
         columns={this.columns}
-        dataSource={leadCallLogs.toJS()}
+        dataSource={leadLeadCareHistories.toJS()}
         rowKey="id"
         onChange={this.handleTableChange}
-        loading={isFetchingCallLogs}
+        loading={isFetchingLeadCareHistories}
         pagination={paging ? {
           total: paging.get('record_total'),
           current: paging.get('page'),
@@ -78,4 +78,4 @@ class CallLogsTableBox extends React.Component {
   }
 }
 
-export default injectIntl(CallLogsTableBox)
+export default injectIntl(LeadCareHistoriesTableBox)

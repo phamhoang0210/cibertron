@@ -2,9 +2,9 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   NAUH_BASE_URL, LEAD_LEVELS_API_PATH, CATEGORIES_API_PATH, SOL_BASE_URL, COURSES_API_PATH,
-  USERSERVICE_BASE_URL, USERS_API_PATH, CARE_STATUSES_API_PATH, COMBOS_API_PATH,
+  USERSERVICE_BASE_URL, USERS_API_PATH, LEAD_STATUSES_API_PATH, COMBOS_API_PATH,
   LEADS_API_PATH, CRONUS_BASE_URL, CAMPAIGNS_API_PATH, PAYMENT_METHODS_API_PATH,
-  GAMBIT_BASE_URL, PROVINCES_API_PATH, CALL_STATUSES_API_PATH
+  GAMBIT_BASE_URL, PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -71,34 +71,34 @@ export function fetchUsers(params = {}) {
   }
 }
 
-function setIsFetchingCareStatuses() {
+function setIsFetchingLeadStatuses() {
   return {
-    type: actionTypes.SET_IS_FETCHING_CARE_STATUSES,
+    type: actionTypes.SET_IS_FETCHING_LEAD_STATUSES,
   }
 }
 
-function fetchCareStatusesSuccess({records, filters}) {
+function fetchLeadStatusesSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_CARE_STATUSES_SUCCESS,
+    type: actionTypes.FETCH_LEAD_STATUSES_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchCareStatusesFailure(error) {
+function fetchLeadStatusesFailure(error) {
   return {
-    type: actionTypes.FETCH_CARE_STATUSES_FAILURE,
+    type: actionTypes.FETCH_LEAD_STATUSES_FAILURE,
     error,
   }
 }
 
-export function fetchCareStatuses(params = {}) {
+export function fetchLeadStatuses(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingCareStatuses())
+    dispatch(setIsFetchingLeadStatuses())
     authRequest
-      .fetchEntities(`${NAUH_BASE_URL}${CARE_STATUSES_API_PATH}`, params)
-      .then(res => dispatch(fetchCareStatusesSuccess(res.data)))
-      .catch(error => dispatch(fetchCareStatusesFailure(error)))
+      .fetchEntities(`${NAUH_BASE_URL}${LEAD_STATUSES_API_PATH}`, params)
+      .then(res => dispatch(fetchLeadStatusesSuccess(res.data)))
+      .catch(error => dispatch(fetchLeadStatusesFailure(error)))
   }
 }
 
@@ -257,33 +257,33 @@ export function fetchProvinces(params = {}) {
   }
 }
 
-function setIsFetchingCallStatuses() {
+function setIsFetchingLeadCareStatuses() {
   return {
-    type: actionTypes.SET_IS_FETCHING_CALL_STATUSES,
+    type: actionTypes.SET_IS_FETCHING_LEAD_CARE_STATUSES,
   }
 }
 
-function fetchCallStatusesSuccess({records, filters}) {
+function fetchLeadCareStatusesSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_CALL_STATUSES_SUCCESS,
+    type: actionTypes.FETCH_LEAD_CARE_STATUSES_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchCallStatusesFailure(error) {
+function fetchLeadCareStatusesFailure(error) {
   return {
-    type: actionTypes.FETCH_CALL_STATUSES_FAILURE,
+    type: actionTypes.FETCH_LEAD_CARE_STATUSES_FAILURE,
     error,
   }
 }
 
-export function fetchCallStatuses(params = {}) {
+export function fetchLeadCareStatuses(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingCallStatuses())
+    dispatch(setIsFetchingLeadCareStatuses())
     authRequest
-      .fetchEntities(`${NAUH_BASE_URL}${CALL_STATUSES_API_PATH}`, params)
-      .then(res => dispatch(fetchCallStatusesSuccess(res.data)))
-      .catch(error => dispatch(fetchCallStatusesFailure(error)))
+      .fetchEntities(`${NAUH_BASE_URL}${LEAD_CARE_STATUSES_API_PATH}`, params)
+      .then(res => dispatch(fetchLeadCareStatusesSuccess(res.data)))
+      .catch(error => dispatch(fetchLeadCareStatusesFailure(error)))
   }
 }

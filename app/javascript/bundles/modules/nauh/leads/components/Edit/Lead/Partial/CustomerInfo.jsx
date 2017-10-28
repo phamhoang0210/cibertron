@@ -149,7 +149,7 @@ class CustomerInfo extends React.Component {
     const isUpdatingLead = editState.get('isUpdatingLead')
     const isFetchingLead = editState.get('isFetchingLead')
     const leadLevels = sharedState.get('leadLevels')
-    const careStatuses = sharedState.get('careStatuses')
+    const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
 
     return (
