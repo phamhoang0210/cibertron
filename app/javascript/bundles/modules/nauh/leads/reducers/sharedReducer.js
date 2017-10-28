@@ -3,16 +3,16 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   leadLevels: [],
-  careStatuses: [],
+  leadStatuses: [],
   users: [],
   paymentMethods: [],
   campaigns: [],
   combos: [],
   courses: [],
   provinces: [],
-  callStatuses: [],
+  leadCareStatuses: [],
   userIdMappings: {},
-  callStatusIdMappings: {},
+  leadCareStatusIdMappings: {},
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
   transferBanks: [
@@ -28,13 +28,13 @@ export const initialState = Immutable.fromJS({
   ],
   isFetchingLeadLevels: false,
   isFetchingUsers: false,
-  isFetchingCareStatuses: false,
+  isFetchingLeadStatuses: false,
   isFetchingCampaigns: false,
   isFetchingPaymentMethods: false,
   isFetchingCombos: false,
   isFetchingCourses: false,
   isFetchingProvinces: false,
-  isFetchingCallStatuses: false,
+  isFetchingLeadCareStatuses: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -85,22 +85,22 @@ export default function sharedReducer($$state = initialState, action = null) {
       })
     }
 
-    case actionTypes.SET_IS_FETCHING_CARE_STATUSES: {
+    case actionTypes.SET_IS_FETCHING_LEAD_STATUSES: {
       return $$state.merge({
-        isFetchingCareStatuses: true,
+        isFetchingLeadStatuses: true,
       })
     }
 
-    case actionTypes.FETCH_CARE_STATUSES_SUCCESS: {
+    case actionTypes.FETCH_LEAD_STATUSES_SUCCESS: {
       return $$state.merge({
-        isFetchingCareStatuses: false,
-        careStatuses: records,
+        isFetchingLeadStatuses: false,
+        leadStatuses: records,
       })
     }
 
-    case actionTypes.FETCH_CARE_STATUSES_FAILURE: {
+    case actionTypes.FETCH_LEAD_STATUSES_FAILURE: {
       return $$state.merge({
-        isFetchingCareStatuses: false,
+        isFetchingLeadStatuses: false,
       })
     }
 
@@ -207,23 +207,23 @@ export default function sharedReducer($$state = initialState, action = null) {
       })
     }
 
-    case actionTypes.SET_IS_FETCHING_CALL_STATUSES: {
+    case actionTypes.SET_IS_FETCHING_LEAD_CARE_STATUSES: {
       return $$state.merge({
-        isFetchingCallStatuses: true,
+        isFetchingLeadCareStatuses: true,
       })
     }
 
-    case actionTypes.FETCH_CALL_STATUSES_SUCCESS: {
+    case actionTypes.FETCH_LEAD_CARE_STATUSES_SUCCESS: {
       return $$state.merge({
-        isFetchingCallStatuses: false,
-        callStatuses: records,
-        callStatusIdMappings: recordIdMappings,
+        isFetchingLeadCareStatuses: false,
+        leadCareStatuses: records,
+        leadCareStatusIdMappings: recordIdMappings,
       })
     }
 
-    case actionTypes.FETCH_CALL_STATUSES_FAILURE: {
+    case actionTypes.FETCH_LEAD_CARE_STATUSES_FAILURE: {
       return $$state.merge({
-        isFetchingCallStatuses: false,
+        isFetchingLeadCareStatuses: false,
       })
     }
     

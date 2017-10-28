@@ -13,7 +13,7 @@ import { browserHistory } from 'react-router'
 import { LEADS_URL, ORDERS_URL } from '../../../../constants/paths'
 import OrdersTableBox from './OrdersTable/OrdersTableBox'
 import EmailLeadsTableBox from './EmailLeadsTable/EmailLeadsTableBox'
-import CallLogsTableBox from './CallLogsTable/CallLogsTableBox'
+import LeadCareHistoriesTableBox from './LeadCareHistoriesTable/LeadCareHistoriesTableBox'
 import LeadImportModalBox from './LeadImportModal/LeadImportModalBox'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
@@ -95,16 +95,16 @@ class LeadsTableBox extends React.Component {
       )
     }, */
     {
-      title: intl.formatMessage({id: 'attrs.last_call_log.label'}),
-      dataIndex: 'last_call_log',
-      key: 'last_call_log',
+      title: intl.formatMessage({id: 'attrs.last_lead_care_history.label'}),
+      dataIndex: 'last_lead_care_history',
+      key: 'last_lead_care_history',
       width: '12%',
       render: value => {
         if(value) {
           const {sharedState} = this.props
           return (
             <div>
-              <b>{sharedState.getIn(['callStatusIdMappings', `${value.call_status_id}`, 'name'])}</b>
+              <b>{sharedState.getIn(['leadCareStatusIdMappings', `${value.lead_care_status_id}`, 'name'])}</b>
               <br/>
               {moment(value.created_at).format(SHORT_DATETIME_FORMAT)}
               {': '}
@@ -126,20 +126,20 @@ class LeadsTableBox extends React.Component {
       sorter: true,
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
     }, {
-      title: intl.formatMessage({id: 'attrs.care_status_id.label'}),
-      dataIndex: 'care_status',
-      key: 'care_status',
+      title: intl.formatMessage({id: 'attrs.lead_status_id.label'}),
+      dataIndex: 'lead_status',
+      key: 'lead_status',
       render: (value, record) => {
         const {sharedState} = this.props
-        const careStatuses = sharedState.get('careStatuses')
+        const leadStatuses = sharedState.get('leadStatuses')
 
         return (
           <SelectEditable
-            onChange={v => this.handleUpdateAttrs(record.id, {care_status_id: v})}
-            defaultValue={`${record.care_status && record.care_status.id}`}
+            onChange={v => this.handleUpdateAttrs(record.id, {lead_status_id: v})}
+            defaultValue={`${record.lead_status && record.lead_status.id}`}
             disabled={record.isUpdating}
             disabledContent={(<Badge status={BADGE_STATUS_MAPPINGS[value.code]} text={value.name} />)}
-            options={careStatuses.map(item => (
+            options={leadStatuses.map(item => (
               item.merge({
                 title: item.get('name'),
               })
@@ -290,7 +290,7 @@ class LeadsTableBox extends React.Component {
 
   handleUpdateAttrs(id, values) {
     const {actions} = this.props
-    actions.updateLeadAttrs(id, {fields: 'lead_level{},care_status{}', record: values})
+    actions.updateLeadAttrs(id, {fields: 'lead_level{},lead_status{}', record: values})
   }
 
 
@@ -364,7 +364,7 @@ class LeadsTableBox extends React.Component {
     const lead = Immutable.fromJS(record)
     const orderCount = lead.getIn(['orderFilters', 'paging', 'record_total'])
     const emailLeadCount = lead.getIn(['emailLeadFilters', 'paging', 'record_total'])
-    const callLogCount = lead.getIn(['callLogFilters', 'paging', 'record_total'])
+    const leadCareHistoryCount = lead.getIn(['leadCareHistoryFilters', 'paging', 'record_total'])
     return (
       <Tabs defaultActiveKey="orders" style={{background: '#fff'}}>
         <TabPane
@@ -382,12 +382,12 @@ class LeadsTableBox extends React.Component {
         </TabPane>
         <TabPane
           tab={intl.formatMessage(
-            {id: 'index.leads_table.expanded_row.tabs.tab.call_logs.title'},
-            {callLogCount: typeof callLogCount != "undefined" ? callLogCount : '..'}
+            {id: 'index.leads_table.expanded_row.tabs.tab.lead_care_histories.title'},
+            {leadCareHistoryCount: typeof leadCareHistoryCount != "undefined" ? leadCareHistoryCount : '..'}
           )}
-          key="call_logs"
+          key="lead_care_histories"
         >
-          <CallLogsTableBox
+          <LeadCareHistoriesTableBox
             lead={lead}
             actions={actions}
             sharedState={sharedState}

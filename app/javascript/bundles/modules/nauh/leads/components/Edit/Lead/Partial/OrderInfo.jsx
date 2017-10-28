@@ -35,7 +35,7 @@ class OrderInfo extends React.Component {
     const isUpdatingLeadAttr = editState.get('isUpdatingLeadAttr')
     const isFetchingLead = editState.get('isFetchingLead')
     const leadLevels = sharedState.get('leadLevels')
-    const careStatuses = sharedState.get('careStatuses')
+    const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
     const user = users.find(u => u.get('id') == lead.get('staff_id'))
     
@@ -78,24 +78,24 @@ class OrderInfo extends React.Component {
             </Row>
             <Row gutter={8} className="order-info-update-form-item">
               <Col span={6}>
-                {intl.formatMessage({id: 'attrs.care_status_id.label'})}
+                {intl.formatMessage({id: 'attrs.lead_status_id.label'})}
               </Col>
               <Col span={18}>
                 <SelectEditable
-                  onChange={v => this.handleUpdateAttr({care_status_id: v})}
-                  defaultValue={`${lead.getIn(['care_status', 'id'])}`}
+                  onChange={v => this.handleUpdateAttr({lead_status_id: v})}
+                  defaultValue={`${lead.getIn(['lead_status', 'id'])}`}
                   disabled={isUpdatingLeadAttr}
-                  disabledContent={lead.getIn(['care_status', 'code']) && (
+                  disabledContent={lead.getIn(['lead_status', 'code']) && (
                     <Badge
-                      status={BADGE_STATUS_MAPPINGS[lead.getIn(['care_status', 'code'])]}
-                      text={lead.getIn(['care_status', 'name'])}
+                      status={BADGE_STATUS_MAPPINGS[lead.getIn(['lead_status', 'code'])]}
+                      text={lead.getIn(['lead_status', 'name'])}
                     />
                   ) || (
                     <i className="text--link">
                       {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                     </i>
                   )}
-                  options={careStatuses.map(item => (
+                  options={leadStatuses.map(item => (
                     item.merge({
                       title: item.get('name'),
                     })

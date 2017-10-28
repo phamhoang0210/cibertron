@@ -13,7 +13,7 @@ const TextArea = Input.TextArea
 const TabPane = Tabs.TabPane
 const InputGroup = Input.Group
 
-class CallLogUpdateFormBox extends React.Component {
+class LeadCareHistoryUpdateFormBox extends React.Component {
   constructor(props) {
     super(props)
 
@@ -25,64 +25,61 @@ class CallLogUpdateFormBox extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
-    const callLog = editState.get('callLog')
+    const leadCareHistory = editState.get('leadCareHistory')
+    const lead = editState.get('lead')
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        actions.updateCallLog(callLog.get('id'), {record: values})
+        actions.updateLeadCareHistory({record: {...values, lead_id: lead.get('id')}})
       }
     })
   }
 
   componentDidMount(){
     const {actions} = this.props
-    actions.fetchCallStatuses({per_page: 'infinite'})
+    actions.fetchLeadCareStatuses({per_page: 'infinite'})
   }
 
   render() {
     const {editState, sharedState, intl, form} = this.props
     const {getFieldDecorator} = form
     const lead = editState.get('lead')
-    const callStatuses = sharedState.get('callStatuses')
-    const callLog = editState.get('callLog')
-    const isUpdatingCallLog = editState.get('isUpdatingCallLog')
+    const leadCareStatuses = sharedState.get('leadCareStatuses')
+    const leadCareHistory = editState.get('leadCareHistory')
+    const callLog = leadCareHistory.get('call_log')
+    const isUpdatingLeadCareHistory = editState.get('isUpdatingLeadCareHistory')
     
     return (
       <div className="box box-with-shadow box-with-border">
         <div className="box-header">
-          <h3 className="box-title">Cập nhật trạng thái cuộc gọi</h3>
+          <h3 className="box-title">
+            {intl.formatMessage({id: 'edit.lead.partial.lead_care_histories_table.lead_care_history_update_form.title'})}
+          </h3>
         </div>
         <div className="box-body">
           <Form onSubmit={this.handleSubmit} layout="horizontal">
             <Row gutter={8}>
               <Col span={8}>
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.call_log.attrs.agen_code.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  <Input disabled value={callLog.get('agen_code')}/>
-                </FormItem>
                 <FormItem 
-                  label={intl.formatMessage({id: 'attrs.call_log.attrs.call_status_id.label'})}
+                  label={intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_id.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
-                  {getFieldDecorator('call_status_id', {
-                    initialValue: (callLog.get('call_status_id') || ''),
+                  {getFieldDecorator('lead_care_status_id', {
                     rules: [{
-                        required: true,
-                        message: intl.formatMessage({id: 'attrs.call_log.attrs.call_status_id.errors.required'})
+                      required: true,
+                      message: intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_id.errors.required'})
                     }],
                   })(
                     <Select
                       showSearch
                       placeholder={intl.formatMessage(
-                        {id: 'attrs.call_log.attrs.call_status_id.placeholder.select.single'},
+                        {id: 'attrs.lead_care_history.attrs.lead_care_status_id.placeholder.select.single'},
                       )}
                       filterOption={selectFilterOption}
                     >
-                      {callStatuses.map(callStatus => (
-                        <Option key={callStatus.get('id')} value={`${callStatus.get('id')}`}>
-                          {callStatus.get('name')}
+                      {leadCareStatuses.map(leadCareStatus => (
+                        <Option key={leadCareStatus.get('id')} value={`${leadCareStatus.get('id')}`}>
+                          {leadCareStatus.get('name')}
                         </Option>
                       ))}
                     </Select>
@@ -91,30 +88,18 @@ class CallLogUpdateFormBox extends React.Component {
               </Col>
               <Col span={8}>
                 <FormItem
-                  label={intl.formatMessage({id: 'attrs.call_log.attrs.station_id.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  <Input disabled value={callLog.get('station_id')}/>
-                </FormItem>
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.call_log.attrs.result_note.label'})}
+                  label={intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
                   {getFieldDecorator('result_note', {
-                    initialValue: callLog.get('result_note'),
+                    initialValue: leadCareHistory.get('result_note'),
                     rules: [{
-                      required: true, message: intl.formatMessage({id: 'attrs.call_log.attrs.result_note.errors.required'}),
+                      required: true, message: intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.errors.required'}),
                     }]
-                  })(<TextArea />)}
+                  })(<TextArea placeholder={intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.placeholder.textarea'})}/>)}
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.call_log.attrs.mobile.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  <Input disabled value={callLog.get('mobile')}/>
-                </FormItem>
               </Col>
             </Row>
             <Row>
@@ -124,9 +109,12 @@ class CallLogUpdateFormBox extends React.Component {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={isUpdatingCallLog}
+                  loading={isUpdatingLeadCareHistory}
                 >
-                  {intl.formatMessage({id: 'form.form_item.button.update.text'})}
+                  {intl.formatMessage({
+                    id: leadCareHistory.isEmpty() ? 'form.form_item.button.create.text' : 'form.form_item.button.update.text'
+                  })}
+                  {callLog ? (<i> (Call Id: {callLog.get('id')})</i>) : ''}
                 </Button>
               </Col>
             </Row>
@@ -137,4 +125,4 @@ class CallLogUpdateFormBox extends React.Component {
   }
 }
 
-export default Form.create()(injectIntl(CallLogUpdateFormBox))
+export default Form.create()(injectIntl(LeadCareHistoryUpdateFormBox))

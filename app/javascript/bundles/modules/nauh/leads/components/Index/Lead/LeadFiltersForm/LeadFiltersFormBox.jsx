@@ -42,7 +42,7 @@ class LeadFiltersFormBox extends React.Component {
       assigned_at: getInitialValueForRangePicker({}, currentLeadFilters, ['assigned_at.gte'], ['assigned_at.lt']),
       lead_level_id: getInitialValue({}, currentLeadFilters, ['lead_level_id.in']),
       staff_id: getInitialValue({}, currentLeadFilters, ['staff_id.in']),
-      care_status_id: getInitialValue({}, currentLeadFilters, ['care_status_id.in']),
+      lead_status_id: getInitialValue({}, currentLeadFilters, ['lead_status_id.in']),
     }
   }
 
@@ -63,7 +63,7 @@ class LeadFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['lead_level_id', 'staff_id', 'care_status_id']
+    const inCompFields = ['lead_level_id', 'staff_id', 'lead_status_id']
     const timerangeFields = ['created_at', 'imported_at', 'assigned_at']
     
     let compconds = {}
@@ -93,7 +93,7 @@ class LeadFiltersFormBox extends React.Component {
     const {indexState, form, sharedState, location, intl} = this.props
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
-    const careStatuses = sharedState.get('careStatuses')
+    const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
     const totalPage = indexState.getIn(['leadFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
@@ -205,21 +205,21 @@ class LeadFiltersFormBox extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.care_status_id.label'})}
+                label={intl.formatMessage({id: 'attrs.lead_status_id.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('care_status_id', {
+                {getFieldDecorator('lead_status_id', {
                   rules: [{ type: 'array' }],
-                  ...this.initialValues.care_status_id,
+                  ...this.initialValues.lead_status_id,
                 })(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
                     mode="multiple"
-                    placeholder={intl.formatMessage({id: 'attrs.care_status_id.placeholder.select.all'})}
+                    placeholder={intl.formatMessage({id: 'attrs.lead_status_id.placeholder.select.all'})}
                     allowClear={true}
                   >
-                    {careStatuses.toJS().map(status => (
+                    {leadStatuses.toJS().map(status => (
                       <Option value={`${status.id}`} key={status.id}>
                         {status.name}
                       </Option>

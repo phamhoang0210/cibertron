@@ -10,7 +10,7 @@ export const initialState = Immutable.fromJS({
   selectedLeadKeys: [],
   leadFilters: {
     ...defaultFilters,
-    fields: 'lead_level{},care_status{},last_call_log'
+    fields: 'lead_level{},lead_status{},last_lead_care_history'
   },
   isFetchingLeads: false,
   isImportingLeads: false,
@@ -279,14 +279,14 @@ export default function indexReducer($$state = initialState, action = null) {
       })
     }
 
-    case actionTypes.SET_IS_FETCHING_LEAD_CALL_LOGS: {
+    case actionTypes.SET_IS_FETCHING_LEAD_LEAD_CARE_HISTORIES: {
       return $$state.withMutations(state => (
         state.update('leads', leads => (
           leads.update(
             leads.findIndex(leadItem => leadItem.get('id') == lead.get('id')),
             leadItem => (
               leadItem.merge({
-                isFetchingCallLogs: true,
+                isFetchingLeadCareHistories: true,
               })
             )
           )
@@ -294,16 +294,16 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
-    case actionTypes.FETCH_LEAD_CALL_LOGS_SUCCESS: {
+    case actionTypes.FETCH_LEAD_LEAD_CARE_HISTORIES_SUCCESS: {
       return $$state.withMutations(state => (
         state.update('leads', leads => (
           leads.update(
             leads.findIndex(leadItem => leadItem.get('id') == lead.get('id')),
             leadItem => (
               leadItem.merge({
-                isFetchingCallLogs: false,
-                callLogs: records,
-                callLogFilters: filters,
+                isFetchingLeadCareHistories: false,
+                leadCareHistories: records,
+                leadCareHistoryFilters: filters,
               })
             )
           )
@@ -311,14 +311,14 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
-    case actionTypes.FETCH_LEAD_CALL_LOGS_FAILURE: {
+    case actionTypes.FETCH_LEAD_LEAD_CARE_HISTORIES_FAILURE: {
       return $$state.withMutations(state => (
         state.update('leads', leads => (
           leads.update(
             leads.findIndex(leadItem => leadItem.get('id') == lead.get('id')),
             leadItem => (
               leadItem.merge({
-                isFetchingCallLogs: false,
+                isFetchingLeadCareHistories: false,
               })
             )
           )
