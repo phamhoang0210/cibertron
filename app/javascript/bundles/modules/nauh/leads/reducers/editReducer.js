@@ -39,6 +39,7 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingLead: true,
         notification: null,
+        lead: null,
       })
     }
 
@@ -171,6 +172,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.SET_IS_FETCHING_LEAD_CARE_HISTORIES: {
       return $$state.merge({
         isFetchingLeadCareHistories: true,
+        leadCareHistories: [],
         notification: null,
       })
     }

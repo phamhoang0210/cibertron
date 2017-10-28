@@ -70,7 +70,7 @@ class LeadCareHistoriesTableBox extends React.Component {
     const {actions, editState} = this.props
     const lead = editState.get('lead')
     const leadCareHistoriesParams = getFilterParams(editState.get('leadCareHistoryFilters'))
-    actions.fetchLeadCareHistories({...leadCareHistoriesParams, lead_id: lead.get('id')})
+    actions.fetchLeadCareHistories({fields: leadCareHistoriesParams.fields, lead_id: lead.get('id')})
   }
 
   render() {
