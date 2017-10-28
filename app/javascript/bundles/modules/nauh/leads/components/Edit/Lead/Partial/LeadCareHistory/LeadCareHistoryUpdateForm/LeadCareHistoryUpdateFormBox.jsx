@@ -30,7 +30,10 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        actions.updateLeadCareHistory({record: {...values, lead_id: lead.get('id')}})
+        actions.updateLeadCareHistory({
+          record: {...values, lead_id: lead.get('id')},
+          id: leadCareHistory.get('id'),
+        })
       }
     })
   }
