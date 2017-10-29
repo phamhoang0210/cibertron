@@ -53,6 +53,14 @@ export default flattenMessages({
           // form.form_item.button.get_code.text
           text: 'Get code',
         },
+        email_wrong_phone_number: {
+          // form.form_item.button.email_wrong_phone_number.text
+          text: 'Wrong phone number',
+        },
+        email_no_answer: {
+          // form.form_item.button.email_no_answer.text
+          text: 'No answer',
+        },
       },
     },
   },

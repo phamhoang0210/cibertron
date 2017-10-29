@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
-import { Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker, Tabs } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker, Tabs, Modal } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
@@ -22,7 +22,39 @@ class CustomerInfo extends React.Component {
       'renderUpdateInfoTab',
       'renderHistoriesTab',
       'handleCall',
+      'showEmailNoAnswerModal',
+      'showWrongPhoneNumberModal',
+      'handleSendEmail',
+      'handleCancel',
     ])
+  }
+
+  state = { wrongPhone: false, noAnswer: false }
+
+  // Handle show modal
+  showEmailNoAnswerModal = () => {
+    this.setState({
+      noAnswer: true
+    });
+  }
+
+  showWrongPhoneNumberModal = () => {
+    this.setState({
+      wrongPhone: true
+    });
+  }
+
+  // Handle send email
+  handleSendEmail = (e) => {
+    this.setState({
+      wrongPhone: false, noAnswer: false
+    });
+  }
+
+  handleCancel = (e) => {
+    this.setState({
+      online_payment: false, counseling: false
+    });
   }
 
   handleSubmit(e) {
@@ -41,6 +73,11 @@ class CustomerInfo extends React.Component {
     const {actions, editState} = this.props
     const lead = editState.get('lead')
     actions.call(lead.get('id'))
+  }
+  unescapeHTML(html) {
+    var escapeEl = document.createElement('textarea');
+    escapeEl.innerHTML = html;
+    return escapeEl.textContent;
   }
 
   render() {
@@ -80,6 +117,14 @@ class CustomerInfo extends React.Component {
     const leadLevels = sharedState.get('leadLevels')
     const careStatuses = sharedState.get('careStatuses')
     const users = sharedState.get('users')
+
+    const emailTemplate = editState.get('emailTemplate')
+    var noAnswerTemplate = ''
+    var wrongPhoneTemplate = ''
+    if(emailTemplate) {
+      noAnswerTemplate = emailTemplate.get('noAnswer')
+      wrongPhoneTemplate = emailTemplate.get('wrongPhone')
+    }
 
     return (
       <Form onSubmit={this.handleSubmit} layout="horizontal">
@@ -158,9 +203,45 @@ class CustomerInfo extends React.Component {
             </FormItem>
           </Col>
         </Row>
+
         <Row>
           <Col span={16}>
+            <Button
+              className="button-margin--right--default"
+              type="primary"
+              onClick={this.showWrongPhoneNumberModal}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.email_wrong_phone_number.text'})}
+            </Button>
+            <Modal
+              className = 'modalCustom'
+              title="Wrong Phone Number"
+              visible={this.state.wrongPhone}
+              onOk={this.handleSendEmail}
+              onCancel={this.handleCancel}
+            >
+              <p dangerouslySetInnerHTML={{__html: noAnswerTemplate}} />
+            </Modal>
+            <Button
+              type="primary"
+              onClick={this.showEmail}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.email_no_answer.text'})}
+            </Button>
+            <Modal
+              className = 'modalCustom'
+              title="No Answer"
+              visible={this.state.noAnswer}
+              onOk={this.handleSendEmailNoAnswer}
+              onCancel={this.handleCancel}
+            >
+              <p dangerouslySetInnerHTML={{__html: wrongPhoneTemplate}} />
+            </Modal>
           </Col>
+
+
+
+
           <Col span={8} className="text-align--right">
             <Button
               type="primary"

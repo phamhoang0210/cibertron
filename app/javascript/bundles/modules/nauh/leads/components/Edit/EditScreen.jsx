@@ -17,6 +17,7 @@ class EditScreen extends React.Component {
     const {actions, params, editState} = this.props
     const leadParams = editState.get('defaultLeadParams').toJS()
     actions.fetchLead(params.id, leadParams)
+    actions.fetchEmailLead({leadId: params.id})
     actions.fetchLeadLevels({per_page: 'infinite'})
     actions.fetchCareStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
@@ -39,6 +40,7 @@ class EditScreen extends React.Component {
   render() {
     const {editState, intl} = this.props
     const lead = editState.get('lead')
+    
     const isFetchingLead = editState.get('isFetchingLead')
 
     return (

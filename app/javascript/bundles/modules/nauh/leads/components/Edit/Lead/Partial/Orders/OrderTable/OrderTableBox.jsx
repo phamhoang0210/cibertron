@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Row, Col, Table, Tag } from 'antd'
+import { Row, Col, Table, Tag, Button } from 'antd'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'

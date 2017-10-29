@@ -5,6 +5,7 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   notification: null,
   lead: null,
+  emailTemplate: null,
   callLog: null,
   defaultLeadParams: {
     fields: 'lead_level{},care_status{}',
@@ -51,6 +52,28 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_LEAD_FAILURE: {
       return $$state.merge({
         isFetchingLead: false,
+        notification: parseError(error)
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_EMAIL_LEAD: {
+      return $$state.merge({
+        isFetchingEmailLead: true,
+        notification: null,
+        emailTemplate: null,
+      })
+    }
+
+    case actionTypes.FETCH_EMAIL_LEAD_SUCCESS: {
+      return $$state.merge({
+        isFetchingEmailLead: false,
+        emailTemplate: record,
+      })
+    }
+
+    case actionTypes.FETCH_EMAIL_LEAD_FAILURE: {
+      return $$state.merge({
+        isFetchingMailLead: false,
         notification: parseError(error)
       })
     }

@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
-import { Input, Row, Col, Button, Select, Badge, Spin, DatePicker, Tag } from 'antd'
+import { Input, Row, Col, Button, Select, Badge, Spin, DatePicker, Tag, Modal } from 'antd'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../constants/constants'
@@ -19,7 +19,42 @@ class OrderInfo extends React.Component {
 
     _.bindAll(this, [
       'handleUpdateAttr',
+      'showOnlinePaymentModal',
+      'showCounselingModal',
+      'showScheduleModal',
+      'handleSendEmai',
+      'handleCancel'
     ])
+  }
+
+  state = { online_payment: false, counseling: false , schedule: false}
+
+  showOnlinePaymentModal = () => {
+    this.setState({
+      online_payment: true
+    });
+  }
+  showCounselingModal = () => {
+    this.setState({
+      counseling: true
+    });
+  }
+  showScheduleModal = () => {
+    this.setState({
+      schedule: true
+    });
+  }
+
+  handleSendEmai = (e) => {
+    this.setState({
+      online_payment: false, counseling: false , schedule: false
+    });
+  }
+
+  handleCancel = (e) => {
+    this.setState({
+      online_payment: false, counseling: false , schedule: false
+    });
   }
 
   handleUpdateAttr(values) {
@@ -38,6 +73,23 @@ class OrderInfo extends React.Component {
     const careStatuses = sharedState.get('careStatuses')
     const users = sharedState.get('users')
     const user = users.find(u => u.get('id') == lead.get('staff_id'))
+
+    const orders = editState.get('orders')
+
+    _.forEach(orders, function(value) {
+        console.log(value);
+      });
+
+
+    const emailTemplate = editState.get('emailTemplate')
+    var onlinePaymentTemplate = ''
+    var counselingTemplate = ''
+    var scheduleTemplate = ''
+    if(emailTemplate) {
+      onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
+      counselingTemplate = emailTemplate.get('counselingTemplate')
+      scheduleTemplate = emailTemplate.get('scheduleTemplate')
+    }
     
     return (
       <div className="box">
@@ -127,6 +179,65 @@ class OrderInfo extends React.Component {
                 />
               </Col>
             </Row>
+
+
+            <Row>
+              <Button
+                className="button-margin--bottom--default"
+                //disabled
+                type="primary"
+                onClick={this.showScheduleModal}>
+                {intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
+              </Button>
+              <Modal
+                className = 'modalCustom'
+                title={intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
+                visible={this.state.schedule}
+                onOk={this.handleSendEmail}
+                onCancel={this.handleCancel}
+              >
+                <p dangerouslySetInnerHTML={{__html: scheduleTemplate}} />
+              </Modal>
+            </Row>
+
+
+            <Row>
+              <Button
+                className="button-margin--bottom--default"
+                disabled = {true}
+                type="primary"
+                onClick={this.showOnlinePaymentModal}>
+                {intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
+              </Button>
+              <Modal
+                className = 'modalCustom'
+                title={intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
+                visible={this.state.online_payment}
+                onOk={this.handleSendEmail}
+                onCancel={this.handleCancel}
+              >
+                <p dangerouslySetInnerHTML={{__html: onlinePaymentTemplate}} />
+              </Modal>
+            </Row>
+            <Row>
+              <Button
+                className="button-margin--bottom--default"
+                //disabled
+                type="primary"
+                onClick={this.showCounselingModal}>
+                {intl.formatMessage({id: 'form.form_item.button.email_counseling_course.text'})}
+              </Button>
+              <Modal
+                className = 'modalCustom'
+                title={intl.formatMessage({id: 'form.form_item.button.email_counseling_course.text'})}
+                visible={this.state.counseling}
+                onOk={this.handleSendEmail}
+                onCancel={this.handleCancel}
+              >
+                <p dangerouslySetInnerHTML={{__html: counselingTemplate}} />
+              </Modal>
+            </Row>
+
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, CALL_LOGS_API_PATH
+  NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, CALL_LOGS_API_PATH, LEAD_EMAIL_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -33,6 +33,37 @@ export function fetchLead(leadId, params = {}) {
       .fetchEntities(`${NAUH_BASE_URL}${LEADS_API_PATH}/${leadId}`, params)
       .then(res => dispatch(fetchLeadSuccess(res.data)))
       .catch(error => dispatch(fetchLeadFailure(error)))
+  }
+}
+
+function setIsFetchingEmailLead() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_EMAIL_LEAD,
+  }
+}
+
+
+function fetchEmailLeadSuccess(record) {
+  return {
+    type: actionTypes.FETCH_EMAIL_LEAD_SUCCESS,
+    record,
+  }
+}
+
+function fetchEmailLeadFailure(error) {
+  return {
+    type: actionTypes.FETCH_EMAIL_LEAD_FAILURE,
+    error,
+  }
+}
+
+export function fetchEmailLead(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingEmailLead())
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${LEAD_EMAIL_API_PATH}`, params)
+      .then(res => dispatch(fetchEmailLeadSuccess(res.data)))
+      .catch(error => dispatch(fetchEmailLeadFailure(error)))
   }
 }
 
