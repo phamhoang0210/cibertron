@@ -1,10 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Table, Icon, Button, Row, Col, Input, Tag } from 'antd'
+import { Table, Icon, Button, Row, Col, Input, Tag, Pagination } from 'antd'
 import {
   getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getDefaultTablePagination,
-  getInitialValueForSearch,
+  getInitialValueForSearch, getDefaultTableTitlePagination, generateErosOrderLink
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { ORDERS_URL } from '../../../../constants/paths'
@@ -28,6 +28,8 @@ class OrdersTableBox extends React.Component {
       'handleEdit',
       'handleAdd',
       'handleSearch',
+      'renderTableTitle',
+      'handleOpenOnEros',
     ])
 
     this.initialValues = this.getInitialValues()
@@ -52,13 +54,21 @@ class OrdersTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.order_level_code.label'}),
       dataIndex: 'order_level.code',
       key: 'order_level_code',
-      width: '10%',
-      render: value => (<Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>)
+      width: '15%',
+      render: (value, record) => (
+        <div>
+          <Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>
+          <br/>
+          <p style={{padding: "4px 0px"}}>
+            <i>{record.payment && record.payment.status}</i>
+          </p>
+        </div>
+      )
     }, {
       title: intl.formatMessage({id: 'attrs.product.label'}),
       dataIndex: 'product_id',
       key: 'product_id',
-      width: '30%',
+      width: '20%',
       render: (value, record) => {
         const {sharedState} = this.props
         let product = null
@@ -101,6 +111,31 @@ class OrdersTableBox extends React.Component {
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
+    }, {
+      title: intl.formatMessage({id: 'attrs.actions.label'}),
+      key: 'actions',
+      width: 100,
+      render: (cell, row) => {
+        return (
+          <div className="text-align--right">
+            <Button
+              icon="edit"
+              type="primary"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
+            </Button>
+            <Button
+              icon="export"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleOpenOnEros(row.source_id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.eros.text'})}
+            </Button>
+          </div>
+        )
+      },
     }];
   }
 
@@ -120,6 +155,10 @@ class OrdersTableBox extends React.Component {
 
   handleEdit(orderId) {
     browserHistory.push(`${ORDERS_URL}/${orderId}/edit`)
+  }
+
+  handleOpenOnEros(sourceId) {
+    window.open(generateErosOrderLink(sourceId),'_blank')
   }
 
   handleAdd(e) {
@@ -170,6 +209,8 @@ class OrdersTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+          bordered
+          title={this.renderTableTitle}
           size="middle"
           columns={this.columns}
           dataSource={orders.toJS()}
@@ -179,6 +220,25 @@ class OrdersTableBox extends React.Component {
           loading={isFetchingOrders}
         />
       </div>
+    )
+  }
+
+  renderTableTitle() {
+    const {indexState, actions} = this.props
+    const paging = indexState.getIn(['orderFilters', 'paging'])
+
+    return (
+      <Row className="main-content-table-tools">
+        <Col span={16}>
+        </Col>
+        <Col span={8} className="main-content-table-tools-pagination-box">
+          <Pagination
+            size="small"
+            onChange={(page, pageSize) => this.handleTableChange({current: page}, {}, {})}
+            {...getDefaultTableTitlePagination(paging.get('page'), paging.get('record_total'))}
+          />
+        </Col>
+      </Row>
     )
   }
 }

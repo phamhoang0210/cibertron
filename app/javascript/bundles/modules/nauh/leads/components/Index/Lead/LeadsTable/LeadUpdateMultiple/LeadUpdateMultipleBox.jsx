@@ -34,7 +34,7 @@ class LeadUpdateMultipleBox extends React.Component {
     const {indexState, sharedState, actions, intl} = this.props
     const selectedLeadKeys = indexState.get('selectedLeadKeys')
     const isUpdatingLeads = indexState.get('isUpdatingLeads')
-    const careStatuses = sharedState.get('careStatuses')
+    const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
 
     return (
@@ -62,10 +62,10 @@ class LeadUpdateMultipleBox extends React.Component {
           showSearch
           filterOption={selectFilterOption}
           style={{ width: '120px', marginLeft: '4px' }}
-          placeholder={intl.formatMessage({id: 'attrs.care_status.placeholder.select.single'})}
-          onChange={(v) => this.setState({care_status_id: v})}
+          placeholder={intl.formatMessage({id: 'attrs.lead_status.placeholder.select.single'})}
+          onChange={(v) => this.setState({lead_status_id: v})}
         >
-          {careStatuses.map(status => (
+          {leadStatuses.map(status => (
             <Option value={`${status.get('id')}`} key={status.get('id')}>
               {status.get('code')}
             </Option>

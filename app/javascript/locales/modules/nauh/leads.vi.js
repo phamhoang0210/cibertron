@@ -7,60 +7,80 @@ export const appLocale = {
   messages: flattenMessages({
     ...commontAntdVi,
     attrs: {
-      call_log: {
+      eros_created_at: {
+        // attrs.eros_created_at.label
+        label: 'Timestamp',
+      },
+      eros_customer: {
+        // attrs.eros_customer.label
+        label: 'Học viên',
+      },
+      eros_course: {
+        // attrs.eros_course.label
+        label: 'Khóa học',
+      },
+      eros_staff: {
+        // attrs.eros_staff.label
+        label: 'Nhân viên',
+      },
+      eros_level: {
+        // attrs.eros_level.label
+        label: 'Level',
+      },
+      eros_actions: {
+        // attrs.eros_actions.label
+        label: ' ',
+        view_on_eros: {
+          // attrs.eros_actions.view_on_eros.text
+          text: 'Xem trên Eros',
+        }
+      },
+      lead_care_history: {
         attrs: {
           id: {
-            // attrs.call_log.attrs.id.label
+            // attrs.lead_care_history.attrs.id.label
             label: 'Id',
           },
           created_at: {
-            // attrs.call_log.attrs.created_at.label
+            // attrs.lead_care_history.attrs.created_at.label
             label: 'Thời gian',
           },
-          mobile: {
-            // attrs.call_log.attrs.mobile.label
-            label: 'Số điện thoại',
+          lead_care_status_lead_status_name: {
+            // attrs.lead_care_history.attrs.call_status_lead_status_name.label
+            label: 'Trạng thái đơn',
           },
-          station_id: {
-            // attrs.call_log.attrs.station_id.label
-            label: 'Số ipphone',
-          },
-          agen_code: {
-            // attrs.call_log.attrs.agen_code.label
-            label: 'Người gọi',
-          },
-          call_status_care_status_name: {
-            // attrs.call_log.attrs.call_status_care_status_name.label
+          lead_care_status_name: {
+            // attrs.lead_care_history.attrs.call_status_name.label
             label: 'Trạng thái chăm sóc',
           },
-          call_status_name: {
-            // attrs.call_log.attrs.call_status_name.label
-            label: 'Trạng thái gọi',
-          },
           result_note: {
-            // attrs.call_log.attrs.result_note.label
+            // attrs.lead_care_history.attrs.result_note.label
             label: 'Nội dung chăm sóc',
             errors: {
-              // attrs.call_log.attrs.result_note.errors.required
+              // attrs.lead_care_history.attrs.result_note.errors.required
               required: 'Nội dung chăm sóc là trường bắt buộc'
+            },
+            placeholder: {
+              // attrs.lead_care_history.attrs.result_note.placeholder.textarea
+              textarea: 'Nhập nội dung chăm sóc..',
             }
           },
-          call_status_id: {
-            // attrs.call_log.attrs.call_status_id.label
-            label: 'Trạng thái cuộc gọi',
+          lead_care_status_id: {
+            // attrs.lead_care_history.attrs.call_status_id.label
+            label: 'Trạng thái chăm sóc',
             errors: {
-              // attrs.call_log.attrs.call_status_id.errors.required
-              required: 'Trạng thái cuộc gọi là trường bắt buộc'
+              // attrs.lead_care_history.attrs.call_status_id.errors.required
+              required: 'Trạng thái chăm sóc là trường bắt buộc'
             },
             placeholder: {
               select: {
-                // attrs.call_log.attrs.call_status_id.placeholder.select.single
+                // attrs.lead_care_history.attrs.call_status_id.placeholder.select.single
                 single: 'Chọn trạng thái',
               }
             }
           },
           user_id: {
-            // attrs.call_log.attrs.user_id.label
+            // attrs.lead_care_history.attrs.user_id.label
             label: 'Người thực hiện',
           }
         }
@@ -123,26 +143,26 @@ export const appLocale = {
         // attrs.lead_level_name.label
         label: 'Contact level name',
       },
-      care_status_id: {
-        // attrs.care_status_id.label
+      lead_status_id: {
+        // attrs.lead_status_id.label
         label: 'Trạng thái',
         errors: {
-          // attrs.care_status_id.errors.required
+          // attrs.lead_status_id.errors.required
           required: 'Trạng thái là trường bắt buộc!'
         },
         placeholder: {
           select: {
-            // attrs.care_status_id.placeholder.select.single
+            // attrs.lead_status_id.placeholder.select.single
             single: 'Chọn trạng thái',
-            // attrs.care_status_id.placeholder.select.multiple
+            // attrs.lead_status_id.placeholder.select.multiple
             multiple: 'Chọn các trạng thái',
-            // attrs.care_status_id.placeholder.select.all
+            // attrs.lead_status_id.placeholder.select.all
             all: '--  Tất cả --'
           },
         },
       },
-      care_status_code: {
-        // attrs.care_status_code.label
+      lead_status_code: {
+        // attrs.lead_status_code.label
         label: 'Mã trạng thái chăm sóc',
       },
       staff_id: {
@@ -174,6 +194,10 @@ export const appLocale = {
       note: {
         // attrs.note.label
         label: 'Ghi chú',
+      },
+      last_lead_care_history: {
+        // attrs.last_lead_care_history.label
+        label: 'Chăm sóc gần nhất',
       },
       assigned_at: {
         // attrs.assigned_at.label
@@ -677,9 +701,9 @@ export const appLocale = {
                 // index.leads_table.expanded_row.tabs.tab.orders.title
                 title: 'Đơn hàng ({orderCount})',
               },
-              call_logs: {
-                // index.leads_table.expanded_row.tabs.tab.call_logs.title
-                title: 'Lịch sử chăm sóc ({callLogCount})',
+              lead_care_histories: {
+                // index.leads_table.expanded_row.tabs.tab.lead_care_histories.title
+                title: 'Lịch sử chăm sóc ({leadCareHistoryCount})',
               },
             },
           },
@@ -736,7 +760,7 @@ export const appLocale = {
           },
           order_info: {
             // edit.lead.partial.order_info.title
-            title: 'Thông tin đơn hàng',
+            title: 'Trạng thái contact',
           },
           orders_table: {
             tabs: {
@@ -762,9 +786,13 @@ export const appLocale = {
               }
             }
           },
-          call_logs_table: {
-            // edit.lead.partial.call_logs_table.title
+          lead_care_histories_table: {
+            // edit.lead.partial.lead_care_histories_table.title
             title: 'Lịch sử chăm sóc',
+            lead_care_history_update_form: {
+              // edit.lead.partial.lead_care_histories_table.lead_care_history_update_form.title
+              title: 'Trạng thái & Nội dung chăm sóc'
+            }
           },
         }
       }

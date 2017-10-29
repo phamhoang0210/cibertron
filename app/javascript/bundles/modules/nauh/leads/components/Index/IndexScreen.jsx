@@ -16,10 +16,11 @@ class IndexScreen extends React.Component {
     
     actions.fetchLeads(leadParams)
     actions.fetchLeadLevels({per_page: 'infinite'})
-    actions.fetchCareStatuses({per_page: 'infinite'})
+    actions.fetchLeadStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
     actions.fetchCourses({per_page: 'infinite'})
     actions.fetchCombos({per_page: 'infinite'})
+    actions.fetchLeadCareStatuses({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {

@@ -50,7 +50,15 @@ export const appLocale = {
     },
     index: {
       // index.title
-      title: 'Ipphones'
+      title: 'Ipphones',
+      ipphones_table: {
+        tools: {
+          search: {
+            // index.ipphones_table.tools.search.placeholder
+            placeholder: 'Search by ipphone number..',
+          }
+        }
+      }
     },
     edit: {
       // edit.title

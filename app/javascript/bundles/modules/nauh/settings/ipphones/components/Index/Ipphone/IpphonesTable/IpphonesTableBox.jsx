@@ -92,7 +92,7 @@ class IpphonesTableBox extends React.Component {
   handleSearch(keyword) {
     const {actions, indexState} = this.props
     let ipphoneParams = getFilterParams(indexState.get('ipphoneFilters'))
-    actions.fetchIpphones(mergeDeep([ipphoneParams, {compconds: {'code.like': `%${keyword}%`}}]))
+    actions.fetchIpphones(mergeDeep([ipphoneParams, {compconds: {'station_id.like': `%${keyword}%`}}]))
   }
 
   render() {
@@ -113,7 +113,7 @@ class IpphonesTableBox extends React.Component {
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by code.."
+              placeholder={intl.formatMessage({id: 'index.ipphones_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
