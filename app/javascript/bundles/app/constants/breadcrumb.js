@@ -128,6 +128,9 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         },
       },
+      users: {
+        title: 'Users'
+      },
       // Home > Userservice > Departments
       departments: {
         title: 'Departments',

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     with_options only: [:index, :new, :edit] do |option|
       option.resources :departments
       option.resources :accounts
+      option.resources :users
     end
   end
 

@@ -27,7 +27,10 @@ class OrderInfo extends React.Component {
     ])
   }
 
-  state = { online_payment: false, counseling: false , schedule: false}
+  state = { online_payment: false, 
+            counseling: false,
+            schedule: false,
+          }
 
   showOnlinePaymentModal = () => {
     this.setState({
@@ -74,10 +77,18 @@ class OrderInfo extends React.Component {
     const users = sharedState.get('users')
     const user = users.find(u => u.get('id') == lead.get('staff_id'))
 
-    const orders = editState.get('orders')
+    var has_online_payment = false
+    var has_schedule = false
+    const orders = editState.get('orders').toJS()
 
     _.forEach(orders, function(value) {
-        console.log(value);
+        var method = value.payment.payment_method.code
+        if (method == "OFFICE"){
+          has_schedule = true
+        }
+        if (method == "ONLINE_PAYMENT"){
+          has_online_payment = true
+        }
       });
 
 
@@ -184,7 +195,7 @@ class OrderInfo extends React.Component {
             <Row>
               <Button
                 className="button-margin--bottom--default"
-                //disabled
+                disabled={!has_schedule}
                 type="primary"
                 onClick={this.showScheduleModal}>
                 {intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
@@ -204,7 +215,7 @@ class OrderInfo extends React.Component {
             <Row>
               <Button
                 className="button-margin--bottom--default"
-                disabled = {true}
+                disabled = {!has_online_payment}
                 type="primary"
                 onClick={this.showOnlinePaymentModal}>
                 {intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
@@ -222,7 +233,6 @@ class OrderInfo extends React.Component {
             <Row>
               <Button
                 className="button-margin--bottom--default"
-                //disabled
                 type="primary"
                 onClick={this.showCounselingModal}>
                 {intl.formatMessage({id: 'form.form_item.button.email_counseling_course.text'})}

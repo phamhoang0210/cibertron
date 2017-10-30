@@ -72,7 +72,7 @@ export default flattenMessages({
         email_counseling_course: {
           // form.form_item.button.email_counseling_course.text
           text: 'Gửi email tư vấn khóa học',
-        }
+        },
         eros: {
           // form.form_item.button.eros.text
           text: 'Eros',

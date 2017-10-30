@@ -115,7 +115,7 @@ class CustomerInfo extends React.Component {
 
   handleCancel = (e) => {
     this.setState({
-      online_payment: false, counseling: false
+      wrongPhone: false, noAnswer: false
     });
   }
 
@@ -299,11 +299,11 @@ class CustomerInfo extends React.Component {
               onOk={this.handleSendEmail}
               onCancel={this.handleCancel}
             >
-              <p dangerouslySetInnerHTML={{__html: noAnswerTemplate}} />
+              <p dangerouslySetInnerHTML={{__html: wrongPhoneTemplate}} />
             </Modal>
             <Button
               type="primary"
-              onClick={this.showEmail}
+              onClick={this.showEmailNoAnswerModal}
             >
               {intl.formatMessage({id: 'form.form_item.button.email_no_answer.text'})}
             </Button>
@@ -311,10 +311,10 @@ class CustomerInfo extends React.Component {
               className = 'modalCustom'
               title="No Answer"
               visible={this.state.noAnswer}
-              onOk={this.handleSendEmailNoAnswer}
+              onOk={this.handleSendEmail}
               onCancel={this.handleCancel}
             >
-              <p dangerouslySetInnerHTML={{__html: wrongPhoneTemplate}} />
+              <p dangerouslySetInnerHTML={{__html: noAnswerTemplate}} />
             </Modal>
           </Col>
 

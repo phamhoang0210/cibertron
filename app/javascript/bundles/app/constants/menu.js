@@ -89,7 +89,13 @@ export const menuData = [
         type: 'link', 
         path: '/userservice/accounts',
         title: 'Accounts',
-      }, {
+      }, 
+      {
+        type: 'link', 
+        path: '/userservice/users',
+        title: 'Users',
+      },
+      {
         type: 'link', 
         path: '/userservice/departments',
         title: 'Departments',

@@ -3,7 +3,7 @@ export const SIGN_UP_PATH = '/auth/sign_up'
 export const SIGN_OUT_PATH = '/auth/sign_out'
 
 export const AUTHSERVICE_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://authservice.edumall.io' : 'http://localhost:9000'
-export const USERSERVICE_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://userservice.edumall.io' : 'https://userservice.edumall.io'
+export const USERSERVICE_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://userservice.edumall.io' : 'http://localhost:9001'
 export const CRONUS_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://cronus.edumall.io' : 'https://cronus.edumall.io'
 export const SOL_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://sol.edumall.io' : 'https://sol.edumall.io'
 export const NAUH_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://nauh.edumall.io' : 'http://localhost:9004'
