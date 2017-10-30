@@ -35,13 +35,6 @@ export function createSuccessAlert(message) {
   }
 }
 
-export function createLoadingAlert(message) {
-  return {
-    messages: [message],
-    type: 'loading'
-  }
-}
-
 export function getFilterParams(filters, location = null) {
   let filterParams = {}
   const page = filters.getIn(['paging', 'page'])
@@ -208,4 +201,14 @@ export function flattenMessages(nestedMessages, prefix = '') {
 
 export function generateErosOrderLink(id) {
   return `${EROS_BASE_URL}/order/${id}/misa`
+}
+
+export function notify(noti, nextNoti, andNotification) {
+  if(nextNoti && !nextNoti.equals(noti)) {
+    nextNoti.get('messages').forEach(message => {
+      notification[nextNoti.get('type')]({
+        message: message,
+      })
+    })
+  }
 }
