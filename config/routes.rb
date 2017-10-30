@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :userservice do
+  namespace :authservice do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
       option.resources :departments
