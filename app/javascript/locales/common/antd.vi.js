@@ -53,6 +53,26 @@ export default flattenMessages({
           // form.form_item.button.call.text
           text: 'Gọi',
         },
+        email_wrong_phone_number: {
+          // form.form_item.button.email_wrong_phone_number.text
+          text: 'Gửi email sai số',
+        },
+        email_no_answer: {
+          // form.form_item.button.email_no_answer.text
+          text: 'Gửi email không nghe máy',
+        },
+        email_schedule: {
+          // form.form_item.button.email_schedule.text
+          text: 'Gửi email hẹn đến office',
+        },
+        email_online_payment_guide: {
+          // form.form_item.button.email_online_payment_guide.text
+          text: 'Gửi email hướng dẫn thanh toán trực tuyến',
+        },
+        email_counseling_course: {
+          // form.form_item.button.email_counseling_course.text
+          text: 'Gửi email tư vấn khóa học',
+        },
         eros: {
           // form.form_item.button.eros.text
           text: 'Eros',

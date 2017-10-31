@@ -10,7 +10,7 @@ import 'styles/app/layouts/userservice/userservice_layout'
 
 const { Sider, Content } = Layout
 const { ItemGroup, SubMenu } = Menu
-const SIDER_COLLAPSED_KEY = 'userservice_layout_sider_collapsed'
+const SIDER_COLLAPSED_KEY = 'authservice_layout_sider_collapsed'
 
 class UserserviceLayout extends React.Component {
   constructor(props, context) {
@@ -93,7 +93,7 @@ class UserserviceLayout extends React.Component {
     ))
     
     return (
-      <Layout className="layout-wraper userservice-layout">
+      <Layout className="layout-wraper authservice-layout">
         <Sider
           className="layout-sider"
           trigger={null}

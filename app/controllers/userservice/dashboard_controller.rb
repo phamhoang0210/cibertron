@@ -1,8 +1,8 @@
 module Userservice
   class DashboardController < UserserviceController
-    # GET /userservice
+    # GET /users
     def index
-      redirect_to '/userservice/accounts'
+      redirect_to '/userservice/users'
     end
   end
 end
