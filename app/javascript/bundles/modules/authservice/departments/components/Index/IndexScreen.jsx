@@ -2,7 +2,6 @@ import React from 'react'
 import { getFilterParams, notify } from 'helpers/applicationHelper'
 import DepartmentTableBox from './Department/DepartmentTable/DepartmentTableBox'
 import { injectIntl } from 'react-intl'
-import { notification } from 'antd'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -18,6 +17,7 @@ class IndexScreen extends React.Component {
   componentWillReceiveProps(nextProps) {
     const noti = this.props.indexState.get('notification')
     const nextNoti = nextProps.indexState.get('notification')
+    notify(noti, nextNoti)
   }
 
   render() {

@@ -49,7 +49,7 @@ class DepartmentTableBox extends React.Component {
       key: 'action',
       render: (cell, row) => {
         return (
-          <span>
+          <div className="text-align--right">
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -57,14 +57,19 @@ class DepartmentTableBox extends React.Component {
               okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
               cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
-              <Button type="danger" loading={row.isDeleting}>
+              <Button icon="delete" type="danger" loading={row.isDeleting}>
                 {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
               </Button>
             </Popconfirm>
-            <Button className="button-margin--left--default" onClick={(e) => this.handleEdit(row.id)}>
+            <Button
+              type="primary"
+              icon="edit"
+              className="button-margin--left--default"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
               {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
-          </span>
+          </div>
         )
       },
     }];
@@ -124,7 +129,7 @@ class DepartmentTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
               defaultValue={this.initialValues.search}
-              placeholder={intl.formatMessage({id: 'index.dpeartments_table.tools.search.placeholder'})}
+              placeholder={intl.formatMessage({id: 'index.departments_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>

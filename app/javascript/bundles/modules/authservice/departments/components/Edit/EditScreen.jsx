@@ -1,4 +1,5 @@
 import React from 'react'
+import { notify } from 'helpers/applicationHelper'
 import DepartmentEditForm from './Department/Form/DepartmentEditForm'
 import {injectIntl} from 'react-intl'
 
@@ -12,6 +13,12 @@ class EditScreen extends React.Component {
     actions.fetchDepartment(params.id, {fields: 'company{},sup_department{}'})
     actions.fetchCompanies({per_page: 'infinite'})
     actions.fetchSupDepartments({per_page: 'infinite'})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const noti = this.props.editState.get('notification')
+    const nextNoti = nextProps.editState.get('notification')
+    notify(noti, nextNoti)
   }
 
   render() {

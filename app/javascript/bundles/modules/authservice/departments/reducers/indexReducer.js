@@ -5,6 +5,7 @@ import { defaultFilters } from 'app/constants/initialState'
 
 export const initialState = Immutable.fromJS({
   alert: null,
+  notification: null,
   departments: [],
   departmentFilters: {
     ...defaultFilters,
@@ -20,6 +21,7 @@ export default function indexReducer($$state = initialState, action = null) {
     case actionTypes.SET_IS_FETCHING_DEPARTMENTS: {
       return $$state.merge({
         isFetchingDepartments: true,
+        notification: null,
       })
     }
 
@@ -34,6 +36,7 @@ export default function indexReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_DEPARTMENTS_FAILURE: {
       return $$state.merge({
         isFetchingDepartments: false,
+        notification: parseError(error),
       })
     }
 

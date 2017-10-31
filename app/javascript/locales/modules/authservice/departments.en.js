@@ -81,10 +81,10 @@ export const appLocale = {
     index: {
       // index.title
       title: 'Department',
-      dpeartments_table: {
+      departments_table: {
         tools: {
           search: {
-            // index.dpeartments_table.tools.search.placeholder
+            // index.departments_table.tools.search.placeholder
             placeholder: 'Search by name..'
           }
         }

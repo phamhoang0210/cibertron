@@ -83,7 +83,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/authservice',
-    title: (<span><Icon type="bars" /><span>USERSERVICE</span></span>),
+    title: (<span><Icon type="bars" /><span>AUTHSERVICE</span></span>),
     items: [
       {
         type: 'link', 
@@ -93,6 +93,14 @@ export const menuData = [
         type: 'link', 
         path: '/authservice/departments',
         title: 'Departments',
+      }, {
+        type: 'link', 
+        path: '/authservice/companies',
+        title: 'Companies',
+      }, {
+        type: 'link', 
+        path: '/authservice/roles',
+        title: 'Roles',
       },
     ],
   }, {

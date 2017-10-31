@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import qs from 'qs'
 import moment from 'moment'
 import { EROS_BASE_URL } from 'app/constants/paths'
+import { notification } from 'antd'
 
 export function parseError(error) {
   const response = error.response
@@ -203,7 +204,7 @@ export function generateErosOrderLink(id) {
   return `${EROS_BASE_URL}/order/${id}/misa`
 }
 
-export function notify(noti, nextNoti, andNotification) {
+export function notify(noti, nextNoti) {
   if(nextNoti && !nextNoti.equals(noti)) {
     nextNoti.get('messages').forEach(message => {
       notification[nextNoti.get('type')]({

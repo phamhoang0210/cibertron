@@ -1,5 +1,6 @@
 import React from 'react'
 import AccountNewForm from './Account/AccountForm/AccountNewForm'
+import { injectIntl } from 'react-intl'
 
 class NewScreen extends React.Component {
   constructor(props) {
@@ -14,11 +15,13 @@ class NewScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
+
     return (
       <div className="main-content authservice--accounts--new box">
         <div className="box-header">
           <h1 className="box-title">
-            Create new account
+            {intl.formatMessage({id: 'new.title'})}
           </h1>
         </div>
         <div className="box-body">
@@ -29,4 +32,4 @@ class NewScreen extends React.Component {
   }
 }
 
-export default NewScreen
+export default injectIntl(NewScreen)

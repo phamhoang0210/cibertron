@@ -5,6 +5,7 @@ import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 const { TextArea } = Input
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -36,7 +37,7 @@ class AccountChangePasswordForm extends React.Component {
   }
 
   render() {
-    const {editState, sharedState} = this.props
+    const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const account = editState.get('account')
@@ -64,22 +65,34 @@ class AccountChangePasswordForm extends React.Component {
           <Col span={10}>
             {account && !account.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem label="Password" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.password.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Password is required!' }],
+                    rules: [{
+                      required: true,
+                      message: intl.formatMessage({id: 'attrs.password.errors.required'}),
+                  }],
                   })(<Input/>)}
                 </FormItem>
-                <FormItem label="Password confirmation" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.password_confirmation.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
                   {getFieldDecorator('password_confirmation', {
-                    rules: [{ required: true, message: 'Password confirmation is required!' }],
+                    rules: [{
+                      required: true,
+                      message: intl.formatMessage({id: 'attrs.password_confirmation.errors.required'})
+                  }],
                   })(<Input/>)}
                 </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingAccount}>
-                    Save
+                    {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                   </Button>
                   <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                    Back
+                    {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                   </Button>
                 </FormItem>
               </Form>
@@ -91,4 +104,4 @@ class AccountChangePasswordForm extends React.Component {
   }
 }
 
-export default Form.create()(AccountChangePasswordForm)
+export default Form.create()(injectIntl(AccountChangePasswordForm))
