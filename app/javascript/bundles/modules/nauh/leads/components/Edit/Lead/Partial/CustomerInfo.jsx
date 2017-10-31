@@ -4,7 +4,7 @@ import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/consta
 import { selectFilterOption } from 'helpers/antdHelper'
 import {
   Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker,
-  Tabs, Table
+  Tabs, Table, Modal
 } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
@@ -28,6 +28,10 @@ class CustomerInfo extends React.Component {
       'renderUpdateInfoTab',
       'renderHistoriesTab',
       'handleCall',
+      'showEmailNoAnswerModal',
+      'showWrongPhoneNumberModal',
+      'handleSendEmail',
+      'handleCancel',
       'handleTabChange',
     ])
 
@@ -87,6 +91,49 @@ class CustomerInfo extends React.Component {
     }]
   }
 
+  state = { wrongPhone: false, noAnswer: false }
+
+  // Handle show modal
+  showEmailNoAnswerModal = () => {
+    this.setState({
+      noAnswer: true
+    });
+  }
+
+  showWrongPhoneNumberModal = () => {
+    this.setState({
+      wrongPhone: true
+    });
+  }
+
+  // Handle send email
+  handleSendEmail = (e) => {
+    const {actions, editState} = this.props
+    const lead = editState.get('lead')
+    const emailTemplate = editState.get('emailTemplate')
+    var noAnswerTemplate = ''
+    var wrongPhoneTemplate = ''
+    if(emailTemplate) {
+      noAnswerTemplate = emailTemplate.get('noAnswer')
+      wrongPhoneTemplate = emailTemplate.get('wrongPhone')
+    }
+    if(this.state.wrongPhone){
+      actions.sendEmail({leadId: lead.get('id'), content: noAnswerTemplate})
+    }
+    if(this.state.noAnswer) {
+      actions.sendEmail({leadId: lead.get('id'), content: wrongPhoneTemplate})
+    }
+    this.setState({
+      wrongPhone: false, noAnswer: false
+    });
+  }
+
+  handleCancel = (e) => {
+    this.setState({
+      wrongPhone: false, noAnswer: false
+    });
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
@@ -103,6 +150,11 @@ class CustomerInfo extends React.Component {
     const {actions, editState} = this.props
     const lead = editState.get('lead')
     actions.call(lead.get('id'))
+  }
+  unescapeHTML(html) {
+    var escapeEl = document.createElement('textarea');
+    escapeEl.innerHTML = html;
+    return escapeEl.textContent;
   }
 
   handleTabChange(tabKey) {
@@ -151,6 +203,14 @@ class CustomerInfo extends React.Component {
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
+
+    const emailTemplate = editState.get('emailTemplate')
+    var noAnswerTemplate = ''
+    var wrongPhoneTemplate = ''
+    if(emailTemplate) {
+      noAnswerTemplate = emailTemplate.get('noAnswer')
+      wrongPhoneTemplate = emailTemplate.get('wrongPhone')
+    }
 
     return (
       <Form onSubmit={this.handleSubmit} layout="horizontal">
@@ -237,9 +297,45 @@ class CustomerInfo extends React.Component {
             </FormItem>
           </Col>
         </Row>
+
         <Row>
           <Col span={16}>
+            <Button
+              className="button-margin--right--default"
+              type="primary"
+              onClick={this.showWrongPhoneNumberModal}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.email_wrong_phone_number.text'})}
+            </Button>
+            <Modal
+              className = 'modalCustom'
+              title="Wrong Phone Number"
+              visible={this.state.wrongPhone}
+              onOk={this.handleSendEmail}
+              onCancel={this.handleCancel}
+            >
+              <p dangerouslySetInnerHTML={{__html: wrongPhoneTemplate}} />
+            </Modal>
+            <Button
+              type="primary"
+              onClick={this.showEmailNoAnswerModal}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.email_no_answer.text'})}
+            </Button>
+            <Modal
+              className = 'modalCustom'
+              title="No Answer"
+              visible={this.state.noAnswer}
+              onOk={this.handleSendEmail}
+              onCancel={this.handleCancel}
+            >
+              <p dangerouslySetInnerHTML={{__html: noAnswerTemplate}} />
+            </Modal>
           </Col>
+
+
+
+
           <Col span={8} className="text-align--right">
             <Button
               type="primary"
