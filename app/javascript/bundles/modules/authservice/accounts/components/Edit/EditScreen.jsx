@@ -1,5 +1,6 @@
 import React from 'react'
 import AccountEditBox from './Account/AccountEditBox'
+import { injectIntl } from 'react-intl'
 
 class EditScreen extends React.Component {
   constructor(props) {
@@ -15,13 +16,10 @@ class EditScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
+
     return (
       <div className="main-content authservice--accounts--edit box">
-        <div className="box-header">
-          <h1 className="box-title">
-            Update account
-          </h1>
-        </div>
         <div className="box-body">
           <AccountEditBox {...this.props}/>
         </div>
@@ -30,4 +28,4 @@ class EditScreen extends React.Component {
   }
 }
 
-export default EditScreen
+export default injectIntl(EditScreen)

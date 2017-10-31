@@ -81,7 +81,7 @@ class DepartmentEditForm extends React.Component {
                   })(<Input />)}
                 </FormItem>
                 <FormItem
-                  label={intl.formatMessage({id: 'attrs.name.label'})}
+                  label={intl.formatMessage({id: 'attrs.priority.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                   >
                   {getFieldDecorator('priority', {
@@ -126,7 +126,7 @@ class DepartmentEditForm extends React.Component {
                     <Select
                       showSearch
                       filterOption={selectFilterOption}
-                      placeholder={intl.formatMessage({id: 'attrs.department.placeholder.select.single'})}
+                      placeholder={intl.formatMessage({id: 'attrs.sup_department.placeholder.select.single'})}
                     >
                       {supDepartments.map(department => (
                         <Option value={`${department.get('id')}`} key={department.get('id')}>

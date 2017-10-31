@@ -70,13 +70,13 @@ class DepartmentNewForm extends React.Component {
                 })(<Input />)}
               </FormItem>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.priority.errors.required'})}
+                label={intl.formatMessage({id: 'attrs.priority.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('priority')(<Input />)}
               </FormItem>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.name.label'})}
+                label={intl.formatMessage({id: 'attrs.description.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('description')(<TextArea />)}

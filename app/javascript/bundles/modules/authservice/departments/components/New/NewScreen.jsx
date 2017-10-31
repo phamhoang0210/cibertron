@@ -1,4 +1,5 @@
 import React from 'react'
+import { notify } from 'helpers/applicationHelper'
 import DepartmentNewForm from './Department/DepartmentForm/DepartmentNewForm'
 import { injectIntl } from 'react-intl'
 
@@ -11,6 +12,12 @@ class NewScreen extends React.Component {
     const {actions} = this.props
     actions.fetchCompanies({per_page: 'infinite'})
     actions.fetchSupDepartments({per_page: 'infinite'})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const noti = this.props.newState.get('notification')
+    const nextNoti = nextProps.newState.get('notification')
+    notify(noti, nextNoti)
   }
 
   render() {

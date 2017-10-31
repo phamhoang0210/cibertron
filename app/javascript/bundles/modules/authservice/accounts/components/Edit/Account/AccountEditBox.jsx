@@ -4,6 +4,8 @@ import { Tabs } from 'antd'
 import AccountUdateInfoForm from './Form/AccountUdateInfoForm'
 import AccountChangePasswordForm from './Form/AccountChangePasswordForm'
 import AccountUpdateRoleForm from './Form/AccountUpdateRoleForm'
+import { injectIntl } from 'react-intl'
+
 const { TabPane } = Tabs
 
 class AccountEditBox extends React.Component {
@@ -22,15 +24,26 @@ class AccountEditBox extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
+
     return (
-      <Tabs defaultActiveKey="update-infomation">
-        <TabPane tab="Update infomation" key="update-infomation">
+      <Tabs defaultActiveKey="update_infomation">
+        <TabPane
+          tab={intl.formatMessage({id: 'edit.tabs.tab.update_infomation.title'})}
+          key="update_infomation"
+        >
           <AccountUdateInfoForm {...this.props} onSubmit={this.handleSubmit}/>
         </TabPane>
-        <TabPane tab="Update role" key="update-role">
+        <TabPane
+          tab={intl.formatMessage({id: 'edit.tabs.tab.update_role.title'})}
+          key="update_role"
+        >
           <AccountUpdateRoleForm {...this.props} onSubmit={this.handleSubmit}/>
         </TabPane>
-        <TabPane tab="Change password" key="change-password">
+        <TabPane
+          tab={intl.formatMessage({id: 'edit.tabs.tab.change_password.title'})}
+          key="change_password"
+        >
           <AccountChangePasswordForm {...this.props} onSubmit={this.handleSubmit}/>
         </TabPane>
       </Tabs>
@@ -38,4 +51,4 @@ class AccountEditBox extends React.Component {
   }
 }
 
-export default AccountEditBox
+export default injectIntl(AccountEditBox)

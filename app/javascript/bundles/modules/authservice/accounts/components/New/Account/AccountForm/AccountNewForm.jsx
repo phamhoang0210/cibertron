@@ -6,6 +6,7 @@ const { TextArea } = Input
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -36,7 +37,7 @@ class AccountNewForm extends React.Component {
   }
 
   render() {
-    const {newState, sharedState} = this.props
+    const {newState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingAccount = newState.get('isCreatingAccount')
@@ -58,22 +59,37 @@ class AccountNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              <FormItem label="Email" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.email.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('email', {
-                  rules: [{ required: true, message: 'Email is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.email.errors.required'}),
+                  }],
                 })(<Input />)}
               </FormItem>
-              <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.name.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('name')(<Input />)}
               </FormItem>
-              <FormItem label="Department" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.department.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('department_id', {
-                  rules: [{ required: true, message: 'Department is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.department.errors.required'})
+                  }],
                 })(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
-                    placeholder="Please select a department"
+                    placeholder={intl.formatMessage({id: 'attrs.department.placeholder.select.single'})}
                   >
                     {departments.map(department => (
                       <Option value={`${department.get('id')}`} key={department.get('id')}>
@@ -83,17 +99,23 @@ class AccountNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem label="Password" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.password.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
                 {getFieldDecorator('password', {
-                  rules: [{ required: true, message: 'Password is required!' }],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.password.errors.required'}),
+                  }],
                 })(<Input />)}
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingAccount}>
-                  Create
+                  {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                 </Button>
                 <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                  Back
+                  {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                 </Button>
               </FormItem>
             </Form>
@@ -104,4 +126,4 @@ class AccountNewForm extends React.Component {
   }
 }
 
-export default Form.create()(AccountNewForm)
+export default Form.create()(injectIntl(AccountNewForm))

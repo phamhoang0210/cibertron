@@ -7,7 +7,26 @@ export const appLocale = {
   messages: flattenMessages({
     ...commontAntdEn,
     attrs: {
-      
+      id: {
+        // attrs.id.label
+        label: 'Id',
+      },
+      name: {
+        // attrs.name.label
+        label: 'Name',
+        errors: {
+          // attrs.name.errors.required
+          required: 'Name is required'
+        }
+      },
+      description: {
+        // attrs.description.label
+        label: 'Description',
+      },
+      actions: {
+        // attrs.actions.label
+        label: ' ',
+      },
     },
     popconfirm: {
       delete: {
@@ -26,6 +45,14 @@ export const appLocale = {
     index: {
       // index.title
       title: 'Companies',
+      companies_table: {
+        tools: {
+          search: {
+            // index.companies_table.tools.search.placeholder
+            placeholder: 'Search by name, description..',
+          }
+        }
+      },
     },
     edit: {
       // edit.title
