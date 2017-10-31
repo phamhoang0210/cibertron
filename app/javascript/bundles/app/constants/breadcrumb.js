@@ -137,6 +137,13 @@ export const breadcrumbData = Immutable.fromJS({
         },
       },
     },
+    // Home > Authservice
+    authservice: {
+      title: 'Userservice',
+      users: {
+        title: 'Users'
+      },
+    },
     // Home > Nauh
     nauh: {
       title: 'Nauh',
