@@ -22,7 +22,7 @@ class OrderInfo extends React.Component {
       'showOnlinePaymentModal',
       'showCounselingModal',
       'showScheduleModal',
-      'handleSendEmai',
+      'handleSendEmail',
       'handleCancel'
     ])
   }
@@ -48,7 +48,29 @@ class OrderInfo extends React.Component {
     });
   }
 
-  handleSendEmai = (e) => {
+  handleSendEmail = (e) => {
+    const {actions, editState} = this.props
+    const lead = editState.get('lead')
+
+    const emailTemplate = editState.get('emailTemplate')
+    var onlinePaymentTemplate = ''
+    var counselingTemplate = ''
+    var scheduleTemplate = ''
+    if(emailTemplate) {
+      onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
+      counselingTemplate = emailTemplate.get('counselingTemplate')
+      scheduleTemplate = emailTemplate.get('scheduleTemplate')
+    }
+    if(this.state.online_payment){
+      actions.sendEmail({leadId: lead.get('id'), content: onlinePaymentTemplate})
+    }
+    // if(this.state.counseling){
+    //   actions.sendEmail({leadId: lead.get('id'), content: counselingTemplate})
+    // }
+    if(this.state.schedule){
+      actions.sendEmail({leadId: lead.get('id'), content: scheduleTemplate})
+    }
+
     this.setState({
       online_payment: false, counseling: false , schedule: false
     });
@@ -210,8 +232,6 @@ class OrderInfo extends React.Component {
                 <p dangerouslySetInnerHTML={{__html: scheduleTemplate}} />
               </Modal>
             </Row>
-
-
             <Row>
               <Button
                 className="button-margin--bottom--default"

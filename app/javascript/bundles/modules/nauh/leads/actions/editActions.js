@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import {
   NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
   ORDERS_PURCHASE_HISTORY_API_PATH, EROS_BASE_URL, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
-  LEAD_EMAIL_API_PATH
+  LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -63,7 +63,7 @@ export function fetchEmailLead(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingEmailLead())
     authRequest
-      .fetchEntities(`${NAUH_BASE_URL}${LEAD_EMAIL_API_PATH}`, params)
+      .fetchEntities(`${NAUH_BASE_URL}${LEAD_TEMPLATE_EMAIL_API_PATH}`, params)
       .then(res => dispatch(fetchEmailLeadSuccess(res.data)))
       .catch(error => dispatch(fetchEmailLeadFailure(error)))
   }
@@ -88,6 +88,13 @@ function updateLeadFailure(error, leadId) {
     type: actionTypes.UPDATE_LEAD_FAILURE,
     error,
     leadId,
+  }
+}
+
+export function sendEmail(params) {
+  return dispatch => {
+    authRequest
+      .submitEntity(`${NAUH_BASE_URL}${LEAD_SEND_EMAIL_API_PATH}`, params)
   }
 }
 

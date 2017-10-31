@@ -108,6 +108,21 @@ class CustomerInfo extends React.Component {
 
   // Handle send email
   handleSendEmail = (e) => {
+    const {actions, editState} = this.props
+    const lead = editState.get('lead')
+    const emailTemplate = editState.get('emailTemplate')
+    var noAnswerTemplate = ''
+    var wrongPhoneTemplate = ''
+    if(emailTemplate) {
+      noAnswerTemplate = emailTemplate.get('noAnswer')
+      wrongPhoneTemplate = emailTemplate.get('wrongPhone')
+    }
+    if(this.state.wrongPhone){
+      actions.sendEmail({leadId: lead.get('id'), content: noAnswerTemplate})
+    }
+    if(this.state.noAnswer) {
+      actions.sendEmail({leadId: lead.get('id'), content: wrongPhoneTemplate})
+    }
     this.setState({
       wrongPhone: false, noAnswer: false
     });

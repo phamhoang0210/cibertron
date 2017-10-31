@@ -42,10 +42,6 @@ class UserUdateInfoForm extends React.Component {
     const isUpdatingUser = editState.get('isUpdatingUser')
     const isFetchingUser = editState.get('isFetchingUser')
 
-    if(user){
-      console.log(user.toJS())
-    }
-    
     return (
       <div style={{marginTop: '8px'}}>
         {alert && !alert.isEmpty() && (

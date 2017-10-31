@@ -6,13 +6,13 @@ import Header from '../Header'
 import ContentBreadcrumb from '../ContentBreadcrumb'
 import { menuData } from 'app/constants/menu'
 
-import 'styles/app/layouts/userservice/userservice_layout'
+import 'styles/app/layouts/authservice/authservice_layout'
 
 const { Sider, Content } = Layout
 const { ItemGroup, SubMenu } = Menu
 const SIDER_COLLAPSED_KEY = 'authservice_layout_sider_collapsed'
 
-class UserserviceLayout extends React.Component {
+class AuthserviceLayout extends React.Component {
   constructor(props, context) {
     super(props, context)
 
@@ -137,4 +137,4 @@ class UserserviceLayout extends React.Component {
   }
 }
 
-export default UserserviceLayout
+export default AuthserviceLayout
