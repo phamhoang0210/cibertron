@@ -14,10 +14,36 @@ export const appLocale = {
       name: {
         // atts.name.label
         label: 'Name',
+        errors: {
+          // attrs.name.errors.required
+          required: 'Name is required'
+        }
       },
       level: {
         // atts.level.label
         label: 'Level',
+      },
+      role_assignment: {
+        // attrs.role_assignment.label
+        label: 'Role assignment'
+      },
+      entity: {
+        // attrs.entity.label
+        label: 'Entity',
+        placeholder: {
+          select: {
+            // attrs.entity.placeholder.select.single
+            single: 'Select entity',
+          }
+        }
+      },
+      access_level: {
+        placeholder: {
+          select: {
+            // attrs.access_level.placeholder.select.single
+            single: 'Select access level',
+          }
+        }
       },
       actions: {
         // atts.actions.label
@@ -52,7 +78,27 @@ export const appLocale = {
     },
     edit: {
       // edit.title
-      title: 'Update role'
+      title: 'Update role',
+      tabs: {
+        tab: {
+          role_basic: {
+            title: 'Role',
+          },
+          role_assignment: {
+            title: 'Role assignment',
+          }
+        }
+      }
+    },
+    shared: {
+      role_assignment_editor: {
+        module_nodes: {
+          add_new_permission: {
+            // shared.role_assignment_editor.module_nodes.add_new_permission
+            text: 'Add new permission'
+          }
+        }
+      }
     }
   }),
   antd: antdEn,

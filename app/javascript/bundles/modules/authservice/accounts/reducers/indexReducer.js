@@ -5,6 +5,7 @@ import { defaultFilters } from 'app/constants/initialState'
 
 export const initialState = Immutable.fromJS({
   alert: null,
+  notification: null,
   accounts: [],
   accountFilters: {
     ...defaultFilters,
@@ -48,7 +49,9 @@ export default function indexReducer($$state = initialState, action = null) {
               })
             )
           )
-        ))
+        )).merge({
+          notification: null
+        })
       ))
     }
 
@@ -78,7 +81,9 @@ export default function indexReducer($$state = initialState, action = null) {
               })
             )
           )
-        ))
+        )).merge({
+          notification: parseError(error)
+        })
       ))
     }
 

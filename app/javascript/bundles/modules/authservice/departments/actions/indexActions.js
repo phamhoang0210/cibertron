@@ -53,6 +53,7 @@ function deleteDepartmentFailure(error, departmentId) {
   return {
     type: actionTypes.DELETE_DEPARTMENT_FAILURE,
     error,
+    departmentId,
   }
 }
 

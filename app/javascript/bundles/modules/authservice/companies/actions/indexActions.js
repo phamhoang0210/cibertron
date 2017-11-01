@@ -53,6 +53,7 @@ function deleteCompanyFailure(error, companyId) {
   return {
     type: actionTypes.DELETE_COMPANY_FAILURE,
     error,
+    companyId,
   }
 }
 

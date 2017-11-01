@@ -53,6 +53,7 @@ function deleteRoleFailure(error, roleId) {
   return {
     type: actionTypes.DELETE_ROLE_FAILURE,
     error,
+    roleId,
   }
 }
 

@@ -7,11 +7,12 @@ const { TextArea } = Input
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
+import RoleAssignmentEditorBox from '../../../Shared/RoleAssignmentEditor/RoleAssignmentEditorBox'
 
 const Option = Select.Option
 const FormItem = Form.Item
 
-class RoleEditForm extends React.Component {
+class RoleAssignmentEditForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -28,12 +29,9 @@ class RoleEditForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {onSubmit} = this.props
-
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        onSubmit(values)
-      }
-    })
+    if(onSubmit) {
+      onSubmit(this.state)
+    }
   }
 
   render() {
@@ -65,19 +63,14 @@ class RoleEditForm extends React.Component {
           <Col span={10}>
             {role && !role.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.name.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('name', {
-                    rules: [{
-                      required: true,
-                      message: intl.formatMessage({id: 'attrs.name.errors.required'})
-                    }],
-                    initialValue: role.get('name'),
-                  })(<Input />)}
+                <FormItem>
+                  <RoleAssignmentEditorBox
+                    role={role}
+                    sharedState={sharedState}
+                    onChange={v => this.setState({permissions: v})}
+                  />
                 </FormItem>
-                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
+                <FormItem>
                   <Button type="primary" htmlType="submit" loading={isUpdatingRole}>
                     {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                   </Button>
@@ -94,4 +87,4 @@ class RoleEditForm extends React.Component {
   }
 }
 
-export default Form.create()(injectIntl(RoleEditForm))
+export default Form.create()(injectIntl(RoleAssignmentEditForm))
