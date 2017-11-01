@@ -9,6 +9,18 @@ export default flattenMessages({
           // form.form_item.button.create.text
           text: 'Create',
         },
+        cancel: {
+          // form.form_item.button.cancel.text
+          text: 'Cancel',
+        },
+        close: {
+          // form.form_item.button.close.text
+          text: 'Close',
+        },
+        done: {
+          // form.form_item.button.done.text
+          text: 'Done',
+        },
         order: {
           // form.form_item.button.order.text
           text: 'Order',

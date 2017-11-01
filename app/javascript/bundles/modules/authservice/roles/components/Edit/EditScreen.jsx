@@ -1,16 +1,18 @@
 import React from 'react'
 import { notify } from 'helpers/applicationHelper'
-import RoleEditForm from './Role/Form/RoleEditForm'
+import RoleEditBox from './Role/RoleEditBox'
 import {injectIntl} from 'react-intl'
 
 class EditScreen extends React.Component {
   constructor(props) {
     super(props)
+
   }
 
   componentDidMount() {
     const {actions, params} = this.props
     actions.fetchRole(params.id, {fields: 'assignment{}'})
+    actions.fetchEntities({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,13 +26,8 @@ class EditScreen extends React.Component {
 
     return (
       <div className="main-content authservice--roles--edit box">
-        <div className="box-header">
-          <h1 className="box-title">
-            {intl.formatMessage({id: 'edit.title'})}
-          </h1>
-        </div>
         <div className="box-body">
-          <RoleEditForm {...this.props}/>
+          <RoleEditBox {...this.props}/>
         </div>
       </div>
     )

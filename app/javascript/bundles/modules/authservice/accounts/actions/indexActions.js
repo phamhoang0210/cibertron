@@ -52,6 +52,7 @@ function deleteAccountSuccess(record) {
 function deleteAccountFailure(error, accountId) {
   return {
     type: actionTypes.DELETE_ACCOUNT_FAILURE,
+    accountId,
     error,
   }
 }

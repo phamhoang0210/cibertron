@@ -9,6 +9,10 @@ export default flattenMessages({
           // form.form_item.button.create.text
           text: 'Tạo',
         },
+        done: {
+          // form.form_item.button.done.text
+          text: 'Xong',
+        },
         update: {
           // form.form_item.button.update.text
           text: 'Cập nhật',

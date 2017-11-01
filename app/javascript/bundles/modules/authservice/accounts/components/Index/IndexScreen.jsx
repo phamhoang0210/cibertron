@@ -1,5 +1,5 @@
 import React from 'react'
-import { getFilterParams } from 'helpers/applicationHelper'
+import { getFilterParams, notify } from 'helpers/applicationHelper'
 import AccountTableBox from './Account/AccountTable/AccountTableBox'
 import { injectIntl } from 'react-intl'
 
@@ -12,6 +12,12 @@ class IndexScreen extends React.Component {
     const {actions, indexState, location} = this.props
     const accountParams = getFilterParams(indexState.get('accountFilters'), location)
     actions.fetchAccounts(accountParams)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const noti = this.props.indexState.get('notification')
+    const nextNoti = nextProps.indexState.get('notification')
+    notify(noti, nextNoti)
   }
 
   render() {

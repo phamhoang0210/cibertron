@@ -1,6 +1,7 @@
 import React from 'react'
 import AccountNewForm from './Account/AccountForm/AccountNewForm'
 import { injectIntl } from 'react-intl'
+import { notify } from 'helpers/applicationHelper'
 
 class NewScreen extends React.Component {
   constructor(props) {
@@ -12,6 +13,12 @@ class NewScreen extends React.Component {
     actions.fetchDepartments({per_page: 'infinite'})
     // actions.fetchRoles({per_page: 'infinite'})
     // actions.fetchAdminroles({per_page: 'infinite'})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const noti = this.props.newState.get('notification')
+    const nextNoti = nextProps.newState.get('notification')
+    notify(noti, nextNoti)
   }
 
   render() {
