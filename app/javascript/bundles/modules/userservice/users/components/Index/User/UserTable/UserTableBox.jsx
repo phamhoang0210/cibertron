@@ -1,9 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm, Row, Col } from 'antd'
-import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
+import Immutable from 'immutable'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
+import { getFilterParamsAndSyncUrl, getFilterParams, getDefaultTablePagination, getInitialValueForSearch } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { USERS_URL } from '../../../../constants/paths'
+import { injectIntl } from 'react-intl'
+
+const Search = Input.Search
+
 
 class UserTableBox extends React.Component {
   constructor(props) {
@@ -12,23 +17,27 @@ class UserTableBox extends React.Component {
     _.bindAll(this, [
       'handleTableChange',
       'handleEdit',
-      'handleAdd'
+      'handleAdd',
+      'handleSearch'
     ])
 
+    this.initialValues = this.getInitialValues()
+    const {intl} = this.props
+
     this.columns = [{
-      title: 'Id',
+      title: intl.formatMessage({id: 'attrs.id.label'}),
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: 'Name',
+      title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'full_name',
       key: 'full_name',
     }, {
-      title: 'Email',
+      title: intl.formatMessage({id: 'attrs.email.label'}),
       dataIndex: 'basic_profile.email',
       key: 'email',
     }, {
-      title: 'Mobile',
+      title: intl.formatMessage({id: 'attrs.mobile.label'}),
       dataIndex: 'mobile',
       key: 'mobile',
     }, {
@@ -41,12 +50,20 @@ class UserTableBox extends React.Component {
               className="button-margin--left--default"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              Edit
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
           </div>
         )
       },
     }];
+  }
+
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentUserFilters = Immutable.fromJS(getFilterParams(indexState.get('userFilters'), location))
+    return {
+      search: getInitialValueForSearch({}, currentUserFilters, ['username.like']),
+    }
   }
 
   handleEdit(userId) {
@@ -57,11 +74,16 @@ class UserTableBox extends React.Component {
     browserHistory.push(`${USERS_URL}/new`)
   }
 
+  handleSearch(keyword) {
+    const {actions, indexState, location} = this.props
+    let userParams = getFilterParamsAndSyncUrl(indexState.get('userFilters'), location, {compconds: {'username.like': `%${keyword}%`}})
+    actions.fetchUsers(userParams)
+  }
+
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState} = this.props
     let userParams = getFilterParams(indexState.get('userFilters'))
     const {current, pageSize, total} = pagination
-
     if(current != userParams.page) {
       userParams.page = current
     }
@@ -70,7 +92,7 @@ class UserTableBox extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     const users = indexState.get('users')
     var data = []
     if(users) {
@@ -92,8 +114,15 @@ class UserTableBox extends React.Component {
             <Button
               onClick={this.handleAdd}
             >
-              Add
+              {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
+          </Col>
+          <Col span={6} className="main-content-table-box-tools-search-box">
+            <Search
+              defaultValue={this.initialValues.search.initialValue}
+              placeholder={intl.formatMessage({id: 'index.users_table.tools.search.placeholder'})}
+              onSearch={this.handleSearch}
+            />
           </Col>
         </Row>
         <Table
@@ -111,4 +140,4 @@ class UserTableBox extends React.Component {
   }
 }
 
-export default UserTableBox
+export default injectIntl(UserTableBox)

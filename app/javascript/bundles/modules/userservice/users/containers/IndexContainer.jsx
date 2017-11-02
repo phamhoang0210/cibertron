@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import IndexScreen from '../components/Index/IndexScreen'
 import * as actions from '../actions/indexActions'
 
-const IndexContainer = ({ actions, indexState, sharedState }) => {
+const IndexContainer = ({ actions, indexState, sharedState, location }) => {
   return (
-    <IndexScreen {...{actions, indexState, sharedState }} />
+    <IndexScreen {...{actions, indexState, sharedState, location }} />
   );
 }
 

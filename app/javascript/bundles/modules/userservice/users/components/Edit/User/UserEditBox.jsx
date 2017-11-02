@@ -2,6 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 import { Tabs } from 'antd'
 import UserUdateInfoForm from './Form/UserUdateInfoForm'
+import { injectIntl } from 'react-intl'
+
 const { TabPane } = Tabs
 
 class UserEditBox extends React.Component {
@@ -20,9 +22,10 @@ class UserEditBox extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
     return (
       <Tabs defaultActiveKey="update-infomation">
-        <TabPane tab="Update infomation" key="update-infomation">
+        <TabPane tab={intl.formatMessage({id: 'edit.tabs.tab.update_infomation.title'})} key="update-infomation">
           <UserUdateInfoForm {...this.props} onSubmit={this.handleSubmit}/>
         </TabPane>
       </Tabs>
@@ -30,4 +33,4 @@ class UserEditBox extends React.Component {
   }
 }
 
-export default UserEditBox
+export default injectIntl(UserEditBox)
