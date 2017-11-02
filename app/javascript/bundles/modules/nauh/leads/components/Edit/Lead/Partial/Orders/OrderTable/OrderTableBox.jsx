@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Row, Col, Table, Tag, Button } from 'antd'
+import { Row, Col, Table, Tag, Button, Modal } from 'antd'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { EROS_BASE_URL } from 'app/constants/paths'
@@ -17,6 +17,10 @@ class OrderTableBox extends React.Component {
 
     _.bindAll(this, [
       'handleTableChange',
+      'showOnlinePaymentModal',
+      'showScheduleModal',
+      'handleSendEmail',
+      'handleCancelModal'
     ])
 
     const {intl} = this.props
@@ -110,6 +114,49 @@ class OrderTableBox extends React.Component {
     }]
   }
 
+  state = { online_payment: false, 
+            schedule: false}
+
+  showOnlinePaymentModal = () => {
+    this.setState({
+      online_payment: true
+    });
+  }
+
+  showScheduleModal = () => {
+    this.setState({
+      schedule: true
+    });
+  }
+
+  handleSendEmail = (e) => {
+    const {actions, editState} = this.props
+    const lead = editState.get('lead')
+
+    const emailTemplate = editState.get('emailTemplate')
+    var onlinePaymentTemplate = ''
+    var scheduleTemplate = ''
+    if(emailTemplate) {
+      onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
+      scheduleTemplate = emailTemplate.get('scheduleTemplate')
+    }
+    if(this.state.online_payment){
+      actions.sendEmail({leadId: lead.get('id'), content: onlinePaymentTemplate})
+    }
+    if(this.state.schedule){
+      actions.sendEmail({leadId: lead.get('id'), content: scheduleTemplate})
+    }
+
+    this.setState({
+      online_payment: false, schedule: false
+    });
+  }
+
+  handleCancelModal = (e) => {
+    this.setState({
+      online_payment: false, schedule: false
+    });
+  }
 
   handleEdit(orderId) {
     window.open(`${ORDERS_URL}/${orderId}/edit`,'_blank')
@@ -145,9 +192,73 @@ class OrderTableBox extends React.Component {
     const orders = editState.get('orders')
     const paging = editState.getIn(['orderFilters', 'paging'])
     const isFetchingOrders = editState.get('isFetchingOrders')
+
+    var has_online_payment = false
+    var has_schedule = false
+
+    _.forEach(orders.toJS(), function(value) {
+        var method = value.payment.payment_method.code
+        if (method == "OFFICE"){
+          has_schedule = true
+        }
+        if (method == "ONE_PAY"){
+          has_online_payment = true
+        }
+      });
+
+    const emailTemplate = editState.get('emailTemplate')
+    var onlinePaymentTemplate = ''
+    var scheduleTemplate = ''
+    if(emailTemplate) {
+      onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
+      scheduleTemplate = emailTemplate.get('scheduleTemplate')
+    }
     
     return (
       <div>
+        <Row>
+          <Col span={24}>
+          <div className="text-align--right">
+              <Button
+                className="button-margin--right--default"
+                disabled={!has_schedule}
+                icon="mail"
+                type="primary"
+                onClick={this.showScheduleModal}>
+                {intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
+              </Button>
+              <Modal
+                className = 'modalCustom'
+                title={intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
+                visible={this.state.schedule}
+                onOk={this.handleSendEmail}
+                onCancel={this.handleCancelModal}
+              >
+                <p dangerouslySetInnerHTML={{__html: scheduleTemplate}} />
+              </Modal>
+
+              <Button
+                className="button-margin--bottom--default"
+                disabled = {!has_online_payment}
+                icon="mail"
+                type="primary"
+                onClick={this.showOnlinePaymentModal}>
+                {intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
+              </Button>
+              <Modal
+                className = 'modalCustom'
+                title={intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
+                visible={this.state.online_payment}
+                onOk={this.handleSendEmail}
+                onCancel={this.handleCancelModal}
+              >
+                <p dangerouslySetInnerHTML={{__html: onlinePaymentTemplate}} />
+              </Modal>
+              </div>
+              </Col>
+
+            </Row>
+
         <Table
           bordered
           size="middle"
