@@ -1,5 +1,6 @@
 import React from 'react'
 import UserEditBox from './User/UserEditBox'
+import { injectIntl } from 'react-intl'
 
 class EditScreen extends React.Component {
   constructor(props) {
@@ -12,12 +13,11 @@ class EditScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props
+
     return (
       <div className="main-content userservice--users--edit box">
         <div className="box-header">
-          <h1 className="box-title">
-            Update user
-          </h1>
         </div>
         <div className="box-body">
           <UserEditBox {...this.props}/>
@@ -27,4 +27,4 @@ class EditScreen extends React.Component {
   }
 }
 
-export default EditScreen
+export default injectIntl(EditScreen)
