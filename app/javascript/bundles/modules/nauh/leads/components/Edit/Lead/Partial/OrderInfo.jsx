@@ -20,7 +20,6 @@ class OrderInfo extends React.Component {
     _.bindAll(this, [
       'handleUpdateAttr',
       'showOnlinePaymentModal',
-      'showCounselingModal',
       'showScheduleModal',
       'handleSendEmail',
       'handleCancel'
@@ -28,7 +27,6 @@ class OrderInfo extends React.Component {
   }
 
   state = { online_payment: false, 
-            counseling: false,
             schedule: false,
           }
 
@@ -37,11 +35,7 @@ class OrderInfo extends React.Component {
       online_payment: true
     });
   }
-  showCounselingModal = () => {
-    this.setState({
-      counseling: true
-    });
-  }
+
   showScheduleModal = () => {
     this.setState({
       schedule: true
@@ -54,31 +48,26 @@ class OrderInfo extends React.Component {
 
     const emailTemplate = editState.get('emailTemplate')
     var onlinePaymentTemplate = ''
-    var counselingTemplate = ''
     var scheduleTemplate = ''
     if(emailTemplate) {
       onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
-      counselingTemplate = emailTemplate.get('counselingTemplate')
       scheduleTemplate = emailTemplate.get('scheduleTemplate')
     }
     if(this.state.online_payment){
       actions.sendEmail({leadId: lead.get('id'), content: onlinePaymentTemplate})
     }
-    // if(this.state.counseling){
-    //   actions.sendEmail({leadId: lead.get('id'), content: counselingTemplate})
-    // }
     if(this.state.schedule){
       actions.sendEmail({leadId: lead.get('id'), content: scheduleTemplate})
     }
 
     this.setState({
-      online_payment: false, counseling: false , schedule: false
+      online_payment: false, schedule: false
     });
   }
 
   handleCancel = (e) => {
     this.setState({
-      online_payment: false, counseling: false , schedule: false
+      online_payment: false, schedule: false
     });
   }
 
@@ -113,14 +102,11 @@ class OrderInfo extends React.Component {
         }
       });
 
-
     const emailTemplate = editState.get('emailTemplate')
     var onlinePaymentTemplate = ''
-    var counselingTemplate = ''
     var scheduleTemplate = ''
     if(emailTemplate) {
       onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
-      counselingTemplate = emailTemplate.get('counselingTemplate')
       scheduleTemplate = emailTemplate.get('scheduleTemplate')
     }
     
@@ -213,7 +199,6 @@ class OrderInfo extends React.Component {
               </Col>
             </Row>
 
-
             <Row>
               <Button
                 className="button-margin--bottom--default"
@@ -248,23 +233,6 @@ class OrderInfo extends React.Component {
                 onCancel={this.handleCancel}
               >
                 <p dangerouslySetInnerHTML={{__html: onlinePaymentTemplate}} />
-              </Modal>
-            </Row>
-            <Row>
-              <Button
-                className="button-margin--bottom--default"
-                type="primary"
-                onClick={this.showCounselingModal}>
-                {intl.formatMessage({id: 'form.form_item.button.email_counseling_course.text'})}
-              </Button>
-              <Modal
-                className = 'modalCustom'
-                title={intl.formatMessage({id: 'form.form_item.button.email_counseling_course.text'})}
-                visible={this.state.counseling}
-                onOk={this.handleSendEmail}
-                onCancel={this.handleCancel}
-              >
-                <p dangerouslySetInnerHTML={{__html: counselingTemplate}} />
               </Modal>
             </Row>
 
