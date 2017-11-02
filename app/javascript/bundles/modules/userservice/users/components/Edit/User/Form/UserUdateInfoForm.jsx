@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -35,7 +36,7 @@ class UserUdateInfoForm extends React.Component {
   }
 
   render() {
-    const {editState, sharedState} = this.props
+    const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const user = editState.get('user')
@@ -64,23 +65,23 @@ class UserUdateInfoForm extends React.Component {
             {user && !user.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
 
-                <FormItem label="Email" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem label={intl.formatMessage({id: 'attrs.email.label'})} {...DEFAULT_FORM_ITEM_LAYOUT}>
                   <Input disabled value={user.get('basic_profile').get('email')}/>
                 </FormItem>
 
-                <FormItem label="First Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem label={intl.formatMessage({id: 'attrs.first_name.label'})} {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('first_name', {
                     initialValue: user.get('first_name')
                   })(<Input />)}
                 </FormItem>
 
-                <FormItem label="Last Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem label={intl.formatMessage({id: 'attrs.last_name.label'})} {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('last_name', {
                     initialValue: user.get('last_name')
                   })(<Input />)}
                 </FormItem>
 
-                <FormItem label="Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                <FormItem label={intl.formatMessage({id: 'attrs.mobile.label'})} {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('mobile', {
                     initialValue: user.get('mobile')
                   })(<Input />)}
@@ -88,10 +89,10 @@ class UserUdateInfoForm extends React.Component {
 
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingUser}>
-                    Update
+                    {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                   </Button>
                   <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                    Back
+                    {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                   </Button>
                 </FormItem>
               </Form>
@@ -103,4 +104,4 @@ class UserUdateInfoForm extends React.Component {
   }
 }
 
-export default Form.create()(UserUdateInfoForm)
+export default Form.create()(injectIntl(UserUdateInfoForm))
