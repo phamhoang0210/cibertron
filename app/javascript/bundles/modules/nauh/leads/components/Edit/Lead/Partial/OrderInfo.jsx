@@ -97,7 +97,7 @@ class OrderInfo extends React.Component {
         if (method == "OFFICE"){
           has_schedule = true
         }
-        if (method == "ONLINE_PAYMENT"){
+        if (method == "ONE_PAY"){
           has_online_payment = true
         }
       });
