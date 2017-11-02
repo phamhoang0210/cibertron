@@ -19,56 +19,7 @@ class OrderInfo extends React.Component {
 
     _.bindAll(this, [
       'handleUpdateAttr',
-      'showOnlinePaymentModal',
-      'showScheduleModal',
-      'handleSendEmail',
-      'handleCancel'
     ])
-  }
-
-  state = { online_payment: false, 
-            schedule: false,
-          }
-
-  showOnlinePaymentModal = () => {
-    this.setState({
-      online_payment: true
-    });
-  }
-
-  showScheduleModal = () => {
-    this.setState({
-      schedule: true
-    });
-  }
-
-  handleSendEmail = (e) => {
-    const {actions, editState} = this.props
-    const lead = editState.get('lead')
-
-    const emailTemplate = editState.get('emailTemplate')
-    var onlinePaymentTemplate = ''
-    var scheduleTemplate = ''
-    if(emailTemplate) {
-      onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
-      scheduleTemplate = emailTemplate.get('scheduleTemplate')
-    }
-    if(this.state.online_payment){
-      actions.sendEmail({leadId: lead.get('id'), content: onlinePaymentTemplate})
-    }
-    if(this.state.schedule){
-      actions.sendEmail({leadId: lead.get('id'), content: scheduleTemplate})
-    }
-
-    this.setState({
-      online_payment: false, schedule: false
-    });
-  }
-
-  handleCancel = (e) => {
-    this.setState({
-      online_payment: false, schedule: false
-    });
   }
 
   handleUpdateAttr(values) {
@@ -87,28 +38,6 @@ class OrderInfo extends React.Component {
     const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
     const user = users.find(u => u.get('id') == lead.get('staff_id'))
-
-    var has_online_payment = false
-    var has_schedule = false
-    const orders = editState.get('orders').toJS()
-
-    _.forEach(orders, function(value) {
-        var method = value.payment.payment_method.code
-        if (method == "OFFICE"){
-          has_schedule = true
-        }
-        if (method == "ONE_PAY"){
-          has_online_payment = true
-        }
-      });
-
-    const emailTemplate = editState.get('emailTemplate')
-    var onlinePaymentTemplate = ''
-    var scheduleTemplate = ''
-    if(emailTemplate) {
-      onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
-      scheduleTemplate = emailTemplate.get('scheduleTemplate')
-    }
     
     return (
       <div className="box">
@@ -198,44 +127,6 @@ class OrderInfo extends React.Component {
                 />
               </Col>
             </Row>
-
-            <Row>
-              <Button
-                className="button-margin--bottom--default"
-                disabled={!has_schedule}
-                type="primary"
-                onClick={this.showScheduleModal}>
-                {intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
-              </Button>
-              <Modal
-                className = 'modalCustom'
-                title={intl.formatMessage({id: 'form.form_item.button.email_schedule.text'})}
-                visible={this.state.schedule}
-                onOk={this.handleSendEmail}
-                onCancel={this.handleCancel}
-              >
-                <p dangerouslySetInnerHTML={{__html: scheduleTemplate}} />
-              </Modal>
-            </Row>
-            <Row>
-              <Button
-                className="button-margin--bottom--default"
-                disabled = {!has_online_payment}
-                type="primary"
-                onClick={this.showOnlinePaymentModal}>
-                {intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
-              </Button>
-              <Modal
-                className = 'modalCustom'
-                title={intl.formatMessage({id: 'form.form_item.button.email_online_payment_guide.text'})}
-                visible={this.state.online_payment}
-                onOk={this.handleSendEmail}
-                onCancel={this.handleCancel}
-              >
-                <p dangerouslySetInnerHTML={{__html: onlinePaymentTemplate}} />
-              </Modal>
-            </Row>
-
           </div>
         </div>
       </div>
