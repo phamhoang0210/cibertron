@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import {
   NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
   ORDERS_PURCHASE_HISTORY_API_PATH, EROS_BASE_URL, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
-  LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH
+  LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH, CALL_LOG_GET_AUDIO_LINK_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -335,5 +335,37 @@ export function fetchErosOrders(params = {}) {
       .fetchEntities(`${EROS_BASE_URL}${ORDERS_PURCHASE_HISTORY_API_PATH}`, params)
       .then(res => dispatch(fetchErosOrdersSuccess(res.data)))
       .catch(error => dispatch(fetchErosOrdersFailure(error)))
+  }
+}
+
+function setIsFetchingCallLogAudioLink(leadCareHistoryId) {
+  return {
+    type: actionTypes.SET_IS_FETCHING_CALL_LOG_AUDIO_LINK,
+    leadCareHistoryId,
+  }
+}
+function fetchCallLogAudioLinkSuccess(leadCareHistoryId, {audio_link}) {
+  return {
+    type: actionTypes.FETCH_CALL_LOG_AUDIO_LINK_SUCCESS,
+    leadCareHistoryId,
+    audio_link,
+  }
+}
+function fetchCallLogAudioLinkFailure(leadCareHistoryId, error) {
+  return {
+    type: actionTypes.FETCH_CALL_LOG_AUDIO_LINK_FAILURE,
+    leadCareHistoryId,
+    error,
+  }
+}
+
+export function fetchCallLogAudioLink(leadCareHistoryId) {
+  return dispatch => {
+    dispatch(setIsFetchingCallLogAudioLink(leadCareHistoryId))
+
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${CALL_LOG_GET_AUDIO_LINK_PATH}`, {id: leadCareHistoryId})
+      .then(res => dispatch(fetchCallLogAudioLinkSuccess(leadCareHistoryId, res.data)))
+      .catch(error => dispatch(fetchCallLogAudioLinkFailure(leadCareHistoryId, error)))
   }
 }

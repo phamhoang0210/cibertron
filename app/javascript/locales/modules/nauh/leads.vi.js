@@ -82,6 +82,16 @@ export const appLocale = {
           user_id: {
             // attrs.lead_care_history.attrs.user_id.label
             label: 'Người thực hiện',
+          },
+          call_log_audio: {
+            // attrs.lead_care_history.attrs.call_log_audio.label
+            label: 'File ghi âm',
+            // attrs.lead_care_history.attrs.call_log_audio.not_found_call_log
+            not_found_call_log: 'Không có',
+            // attrs.lead_care_history.attrs.call_log_audio.get_audio_link
+            get_audio_link: 'Lấy file ghi âm',
+            // attrs.lead_care_history.attrs.call_log_audio.browser_not_support
+            browser_not_support: 'Trình duyệt của bạn không hỗ trợ xem file ghi âm',
           }
         }
       },
@@ -792,7 +802,7 @@ export const appLocale = {
             lead_care_history_update_form: {
               // edit.lead.partial.lead_care_histories_table.lead_care_history_update_form.title
               title: 'Trạng thái & Nội dung chăm sóc'
-            }
+            },
           },
         }
       }

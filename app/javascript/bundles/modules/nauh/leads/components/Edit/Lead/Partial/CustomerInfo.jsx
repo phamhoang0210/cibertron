@@ -302,7 +302,6 @@ class CustomerInfo extends React.Component {
           <Col span={16}>
             <Button
               className="button-margin--right--default"
-              type="primary"
               onClick={this.showWrongPhoneNumberModal}
             >
               {intl.formatMessage({id: 'form.form_item.button.email_wrong_phone_number.text'})}
@@ -317,7 +316,6 @@ class CustomerInfo extends React.Component {
               <p dangerouslySetInnerHTML={{__html: wrongPhoneTemplate}} />
             </Modal>
             <Button
-              type="primary"
               onClick={this.showEmailNoAnswerModal}
             >
               {intl.formatMessage({id: 'form.form_item.button.email_no_answer.text'})}
@@ -332,9 +330,6 @@ class CustomerInfo extends React.Component {
               <p dangerouslySetInnerHTML={{__html: noAnswerTemplate}} />
             </Modal>
           </Col>
-
-
-
 
           <Col span={8} className="text-align--right">
             <Button

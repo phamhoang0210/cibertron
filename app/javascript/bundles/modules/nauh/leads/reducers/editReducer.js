@@ -18,7 +18,7 @@ export const initialState = Immutable.fromJS({
   leadCareHistories: [],
   leadCareHistoryFilters: {
     ...defaultFilters,
-    fields: 'lead_care_status{lead_status{}}'
+    fields: 'lead_care_status{lead_status{}},call_log{}'
   },
   erosOrders: [],
   isFetchingOrders: false,
@@ -33,7 +33,10 @@ export const initialState = Immutable.fromJS({
 })
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, records, filters, error, leadId } = action
+  const {
+    type, record, records, filters, error, leadId, leadCareHistoryId,
+    audio_link
+  } = action
   
   switch (type) {
     case actionTypes.SET_IS_FETCHING_LEAD: {
@@ -252,6 +255,56 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingErosOrders: false,
       })
+    }
+
+    case actionTypes.SET_IS_FETCHING_CALL_LOG_AUDIO_LINK: {
+      return $$state.withMutations(state => (
+        state.update('leadCareHistories', leadCareHistories => (
+          leadCareHistories.update(
+            leadCareHistories.findIndex(leadCareHistoryItem => leadCareHistoryItem.get('id') == leadCareHistoryId),
+            leadCareHistoryItem => (
+              leadCareHistoryItem.merge({
+                isFetchingCallLogAudioLink: true,
+              })
+            )
+          )
+        )).merge({
+          notification: null,
+        })
+      ))
+    }
+
+    case actionTypes.FETCH_CALL_LOG_AUDIO_LINK_SUCCESS: {
+      return $$state.withMutations(state => (
+        state.update('leadCareHistories', leadCareHistories => (
+          leadCareHistories.update(
+            leadCareHistories.findIndex(leadCareHistoryItem => leadCareHistoryItem.get('id') == leadCareHistoryId),
+            leadCareHistoryItem => (
+              leadCareHistoryItem.mergeDeep({
+                call_log: {audio_link},
+                isFetchingCallLogAudioLink: false,
+              })
+            )
+          )
+        ))
+      ))
+    }
+
+    case actionTypes.FETCH_CALL_LOG_AUDIO_LINK_FAILURE: {
+      return $$state.withMutations(state => (
+        state.update('leadCareHistories', leadCareHistories => (
+          leadCareHistories.update(
+            leadCareHistories.findIndex(leadCareHistoryItem => leadCareHistoryItem.get('id') == leadCareHistoryId),
+            leadCareHistoryItem => (
+              leadCareHistoryItem.merge({
+                isFetchingCallLogAudioLink: false,
+              })
+            )
+          )
+        )).merge({
+          notification: parseError(error),
+        })
+      ))
     }
 
     default: {

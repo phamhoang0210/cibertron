@@ -40,7 +40,7 @@ export const appLocale = {
           select: {
             single: {
               // attrs.adminrole.placeholder.select.single
-              single: 'Select admin role'
+              label: 'Select admin role'
             }
           }
         }

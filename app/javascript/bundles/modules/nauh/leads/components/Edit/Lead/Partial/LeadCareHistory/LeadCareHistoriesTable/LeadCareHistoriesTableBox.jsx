@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Row, Col, Table } from 'antd'
+import { Row, Col, Table, Button } from 'antd'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
@@ -14,6 +14,7 @@ class LeadCareHistoriesTableBox extends React.Component {
 
     _.bindAll(this, [
       'handleTableChange',
+      'handleGetCallLogAudioLink',
     ])
 
     const {intl} = this.props
@@ -39,7 +40,7 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'}),
         dataIndex: 'result_note',
         key: 'result_note',
-        width: '40%',
+        width: '30%',
       }, {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.user_id.label'}),
         dataIndex: 'user_id',
@@ -48,6 +49,35 @@ class LeadCareHistoriesTableBox extends React.Component {
           const {sharedState} = this.props
           return sharedState.getIn(['userIdMappings', `${value}`, 'username'])
         },
+      }, {
+        title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.call_log_audio.label'}),
+        dataIndex: 'call_log',
+        key: 'call_log',
+        width: '20%',
+        render: (value, record) => {
+          if(value) {
+            if(value.audio_link) {
+              return (
+                <audio controls>
+                  <source src={value.audio_link} type="audio/wav"/>
+                  {intl.formatMessage({id: 'attrs.lead_care_history.attrs.call_log_audio.browser_not_support'})}
+                </audio>
+              )
+            } else {
+              return (
+                <Button
+                  onClick={e => this.handleGetCallLogAudioLink(record.id)}
+                  size="small"
+                  loading={!!record.isFetchingCallLogAudioLink}
+                >
+                  {intl.formatMessage({id: 'attrs.lead_care_history.attrs.call_log_audio.get_audio_link'})}
+                </Button>
+              )
+            }
+          } else {
+            return intl.formatMessage({id: 'attrs.lead_care_history.attrs.call_log_audio.not_found_call_log'})
+          }
+        }
       }
     ]
   }
@@ -63,6 +93,11 @@ class LeadCareHistoriesTableBox extends React.Component {
     }
 
     actions.fetchLeadCareHistories({...leadCareHistoriesParams, lead_id: lead.get('id')})
+  }
+
+  handleGetCallLogAudioLink(leadCareHistoryId){
+    const {actions} = this.props
+    actions.fetchCallLogAudioLink(leadCareHistoryId)
   }
 
 
