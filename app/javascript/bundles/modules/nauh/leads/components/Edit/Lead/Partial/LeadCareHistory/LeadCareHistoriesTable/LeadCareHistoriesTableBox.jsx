@@ -24,7 +24,7 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.id.label'}),
         dataIndex: 'id',
         key: 'id',
-        width: 50,
+        width: '5%',
       }, {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.created_at.label'}),
         dataIndex: 'created_at',
@@ -35,16 +35,17 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_name.label'}),
         dataIndex: 'lead_care_status.name',
         key: 'lead_care_status_name',
-        width: '30%',
+        width: '25%',
       }, {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'}),
         dataIndex: 'result_note',
         key: 'result_note',
-        width: '30%',
+        width: '25%',
       }, {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.user_id.label'}),
         dataIndex: 'user_id',
         key: 'user_id',
+        width: '15%',
         render: value => {
           const {sharedState} = this.props
           return sharedState.getIn(['userIdMappings', `${value}`, 'username'])
