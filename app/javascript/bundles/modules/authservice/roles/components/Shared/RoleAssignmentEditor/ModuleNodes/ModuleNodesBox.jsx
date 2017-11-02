@@ -15,6 +15,7 @@ class ModuleNodesBox extends React.Component {
 
     this.state = {
       showActionAdd: false,
+      activeKeys: [],
     }
 
     _.bindAll(this, [
@@ -39,10 +40,13 @@ class ModuleNodesBox extends React.Component {
     if(addPermission) {
       addPermission(permissionKeyNames, this.state)
     }
+
+    this.setState({activeKeys: permissionKeyNames.split('.')})
   }
 
   render() {
     const {permissions, intl} = this.props
+    const {activeKeys} = this.state
     const moduleNodes = []
 
     permissions.forEach((v, k) => {
@@ -70,7 +74,11 @@ class ModuleNodesBox extends React.Component {
 
     return (
       <Row>
-        <Collapse bordered={false}>
+        <Collapse
+          bordered={false}
+          activeKey={activeKeys}
+          onChange={(v) => this.setState({activeKeys: v})}
+        >
           {moduleNodes}
         </Collapse>
         {this.renderActionsBox()}

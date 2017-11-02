@@ -43,7 +43,6 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_ACCOUNT_SUCCESS: {
       return $$state.merge({
         isUpdatingAccount: false,
-        account: record,
         alert: createSuccessAlert('Account was successfully updated'),
       }).update('account', accountItem => (
         accountItem.merge(record)
