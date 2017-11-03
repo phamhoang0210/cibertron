@@ -49,7 +49,7 @@ class LeadUpdateMultipleBox extends React.Component {
           showSearch
           filterOption={selectFilterOption}
           style={{ width: '120px' }}
-          placeholder={intl.formatMessage({id: 'attrs.staff.placeholder.select.single'})}
+          placeholder={intl.formatMessage({id: 'attrs.staff_id.placeholder.select.single'})}
           onChange={(v) => this.setState({staff_id: v})}
         >
           {users.map(user => (
@@ -62,7 +62,7 @@ class LeadUpdateMultipleBox extends React.Component {
           showSearch
           filterOption={selectFilterOption}
           style={{ width: '120px', marginLeft: '4px' }}
-          placeholder={intl.formatMessage({id: 'attrs.lead_status.placeholder.select.single'})}
+          placeholder={intl.formatMessage({id: 'attrs.lead_status_id.placeholder.select.single'})}
           onChange={(v) => this.setState({lead_status_id: v})}
         >
           {leadStatuses.map(status => (

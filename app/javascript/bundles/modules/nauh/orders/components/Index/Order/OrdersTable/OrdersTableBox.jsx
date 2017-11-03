@@ -98,14 +98,8 @@ class OrdersTableBox extends React.Component {
       key: 'payment_method_name',
     },{
       title: intl.formatMessage({id: 'attrs.campaign.label'}),
-      dataIndex: 'campaign_id',
-      key: 'campaign_id',
-      render: value => {
-        const {sharedState} = this.props
-        const campaigns = sharedState.get('campaigns')
-        const campaign = campaigns.find(c => c.get('id') == value)
-        return campaign ? campaign.get('code') : ''
-      }
+      dataIndex: 'campaign_code',
+      key: 'campaign_code',
     }, {
       title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',

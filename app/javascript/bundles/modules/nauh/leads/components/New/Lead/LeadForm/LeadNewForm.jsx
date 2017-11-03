@@ -43,6 +43,7 @@ class LeadNewForm extends React.Component {
     const isCreatingLead = newState.get('isCreatingLead')
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
+    const campaigns = sharedState.get('campaigns')
     const users = sharedState.get('users')
     
     return (
@@ -146,14 +147,12 @@ class LeadNewForm extends React.Component {
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('lead_status_id', {
-                  rules: [
-                    {
-                      required: true,
-                      message: intl.formatMessage(
-                        {id: 'attrs.lead_status_id.errors.required'},
-                      )
-                    }
-                  ],
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage(
+                      {id: 'attrs.lead_status_id.errors.required'},
+                    )
+                  }],
                 })(
                   <Select
                     showSearch
@@ -185,6 +184,33 @@ class LeadNewForm extends React.Component {
                     {users.map(user => (
                       <Option value={`${user.get('id')}`} key={user.get('id')}>
                         {user.get('username')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.campaign.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('campaign_code', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage(
+                      {id: 'attrs.campaign.errors.required'},
+                    )
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    placeholder={intl.formatMessage(
+                      {id: 'attrs.campaign.placeholder.select.single'},
+                    )}
+                    filterOption={selectFilterOption}
+                  >
+                    {campaigns.map(campaign => (
+                      <Option value={`${campaign.get('code')}`} key={campaign.get('id')}>
+                        {campaign.get('code')}
                       </Option>
                     ))}
                   </Select>
