@@ -169,7 +169,7 @@ export function getInitialValueForRangePicker(options, filters, fieldFrom, field
 }
 
 export function getInitialValue(options, filters, field) {
-  const initialValue = filters.getIn(['compconds', ...field])
+  const initialValue = filters.getIn(field)
   if(initialValue) {
     options.initialValue = initialValue.toJS()
   }

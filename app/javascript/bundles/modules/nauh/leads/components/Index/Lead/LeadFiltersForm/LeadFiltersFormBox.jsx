@@ -40,9 +40,9 @@ class LeadFiltersFormBox extends React.Component {
       created_at: getInitialValueForRangePicker({}, currentLeadFilters, ['created_at.gte'], ['created_at.lt']),
       imported_at: getInitialValueForRangePicker({}, currentLeadFilters, ['imported_at.gte'], ['imported_at.lt']),
       assigned_at: getInitialValueForRangePicker({}, currentLeadFilters, ['assigned_at.gte'], ['assigned_at.lt']),
-      lead_level_id: getInitialValue({}, currentLeadFilters, ['lead_level_id.in']),
-      staff_id: getInitialValue({}, currentLeadFilters, ['staff_id.in']),
-      lead_status_id: getInitialValue({}, currentLeadFilters, ['lead_status_id.in']),
+      lead_level_id: getInitialValue({}, currentLeadFilters, ['compconds', 'lead_level_id.in']),
+      staff_id: getInitialValue({}, currentLeadFilters, ['compconds', 'staff_id.in']),
+      lead_status_id: getInitialValue({}, currentLeadFilters, ['compconds', 'lead_status_id.in']),
     }
   }
 
@@ -95,7 +95,7 @@ class LeadFiltersFormBox extends React.Component {
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
-    const totalPage = indexState.getIn(['leadFilters', 'paging', 'record_total'])
+    const recordTotal = indexState.getIn(['leadFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
 
     return (
@@ -139,7 +139,7 @@ class LeadFiltersFormBox extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem 
-                label={intl.formatMessage({id: 'attrs.created_in.label'})}
+                label={intl.formatMessage({id: 'attrs.assigned_in.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('assigned_at', {
@@ -238,7 +238,7 @@ class LeadFiltersFormBox extends React.Component {
               >
                 {intl.formatMessage(
                   {id: 'index.filters_form.form_item.button.export.text'},
-                  {numOfItem: totalPage || ''}
+                  {numOfItem: recordTotal || ''}
                 )}
               </Button>
               <Button
