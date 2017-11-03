@@ -43,23 +43,24 @@ class CustomerInfo extends React.Component {
       title: intl.formatMessage({id: 'attrs.eros_customer.label'}),
       dataIndex: 'name',
       key: 'name',
-      width: '20%',
+      width: '30%',
       render: (value, record) => (
         <div>
           {record.name}<br/>
           • {record.mobile}<br/>
           • {record.email}<br/>
+          • <i>{record.address}</i>
         </div>
       ),
     }, {
       title: intl.formatMessage({id: 'attrs.eros_course.label'}),
       dataIndex: 'course',
       key: 'course',
-      width: '30%',
+      width: '25%',
       render: (value, record) => (
         <div>
           <b>{record.course_code}</b><br/>
-          <i>{record.course_name}</i>
+          <i>{record.course_name}</i><br/>
         </div>
       )
     }, {

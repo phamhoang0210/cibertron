@@ -145,7 +145,7 @@ class OrderCreateFormBox extends React.Component {
               label={intl.formatMessage({id: 'attrs.order.attrs.campaign.label'})}
               {...DEFAULT_FORM_ITEM_LAYOUT}
             >
-              {getFieldDecorator('record.campaign_id', {
+              {getFieldDecorator('record.campaign_code', {
                 rules: [
                   { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.campaign.errors.required'}) }
                 ],
@@ -155,8 +155,8 @@ class OrderCreateFormBox extends React.Component {
                   filterOption={selectFilterOption}
                   placeholder={intl.formatMessage({id: 'attrs.order.attrs.campaign.placeholder.select.single'})}
                 >
-                  {campaigns.map(campaign_code => (
-                    <Option value={`${campaign.get('code')}`} key={campaign.get('code')}>
+                  {campaigns.map(campaign => (
+                    <Option value={`${campaign.get('code')}`} key={campaign.get('id')}>
                       {campaign.get('code')}
                     </Option>
                   ))}

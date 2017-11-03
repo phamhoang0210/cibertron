@@ -54,10 +54,10 @@ class EditScreen extends React.Component {
         {lead && (
           <div>
             <Row gutter={8}>
-              <Col span={8}>
+              <Col span={6}>
                 <OrderInfo {...this.props}/>
               </Col>
-              <Col span={16}>
+              <Col span={18}>
                 <CustomerInfo {...this.props}/>
               </Col>
             </Row>
