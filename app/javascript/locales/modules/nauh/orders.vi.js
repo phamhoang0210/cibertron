@@ -54,7 +54,7 @@ export const appLocale = {
         placeholder: {
           select: {
             // attrs.payment_method.placeholder.select.all
-            all: '-- All --'
+            all: '-- Tất cả --'
           }
         }
       },

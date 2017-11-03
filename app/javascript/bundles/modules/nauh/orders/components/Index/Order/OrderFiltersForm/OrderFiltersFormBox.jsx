@@ -40,7 +40,7 @@ class OrderFiltersFormBox extends React.Component {
     return {
       created_at: getInitialValueForRangePicker({}, currentOrderParams, ['created_at.gte'], ['created_at.lt']),
       updated_at: getInitialValueForRangePicker({}, currentOrderParams, ['updated_at.gte'], ['updated_at.lt']),
-      campaign_id: getInitialValue({}, currentOrderParams, ['campaign_id.in']),
+      campaign_code: getInitialValue({}, currentOrderParams, ['campaign_code.in']),
       staff_id: getInitialValue({}, currentOrderParams, ['compconds', 'staff_id.in']),
       order_level_id: getInitialValue({}, currentOrderParams, ['compconds', 'order_level_id.in']),
       payment_method_ids: getInitialValue({}, currentOrderParams, ['payment_method_ids']),
@@ -65,7 +65,7 @@ class OrderFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['campaign_id', 'order_level_id']
+    const inCompFields = ['campaign_code', 'order_level_id']
     const timerangeFields = ['created_at', 'updated_at']
 
     let compconds = {}
@@ -148,9 +148,9 @@ class OrderFiltersFormBox extends React.Component {
                   label={intl.formatMessage({id: 'attrs.campaign.label'})}
                   {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                  {getFieldDecorator('campaign_id', {
+                  {getFieldDecorator('campaign_code', {
                     rules: [{ type: 'array' }],
-                    ...this.initialValues.campaign_id,
+                    ...this.initialValues.campaign_code,
                   })(
                     <Select
                       showSearch
@@ -162,7 +162,7 @@ class OrderFiltersFormBox extends React.Component {
                       allowClear={true}
                     >
                       {campaigns.toJS().map(campaign => (
-                        <Option value={`${campaign.id}`} key={campaign.id}>
+                        <Option value={`${campaign.code}`} key={campaign.id}>
                           {campaign.code}
                         </Option>
                       ))}

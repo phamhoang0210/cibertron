@@ -7,6 +7,20 @@ export const appLocale = {
   messages: flattenMessages({
     ...commontAntdVi,
     attrs: {
+      campaign: {
+        // attrs.campaign.label
+        label: 'Campaign',
+        errors: {
+          // attrs.campaign.errors.required
+          required: 'Campaign là trường bắt buộc!'
+        },
+        placeholder: {
+          select: {
+            // attrs.campaign.placeholder.select.single
+            single: 'Chọn campaign'
+          }
+        }
+      },
       eros_created_at: {
         // attrs.eros_created_at.label
         label: 'Timestamp',

@@ -155,8 +155,8 @@ class OrderCreateFormBox extends React.Component {
                   filterOption={selectFilterOption}
                   placeholder={intl.formatMessage({id: 'attrs.order.attrs.campaign.placeholder.select.single'})}
                 >
-                  {campaigns.map(campaign => (
-                    <Option value={`${campaign.get('id')}`} key={campaign.get('id')}>
+                  {campaigns.map(campaign_code => (
+                    <Option value={`${campaign.get('code')}`} key={campaign.get('code')}>
                       {campaign.get('code')}
                     </Option>
                   ))}
