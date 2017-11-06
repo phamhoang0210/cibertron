@@ -15,6 +15,15 @@ export const initialState = Immutable.fromJS({
   leadCareStatusIdMappings: {},
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
+  isFetchingLeadLevels: false,
+  isFetchingUsers: false,
+  isFetchingLeadStatuses: false,
+  isFetchingCampaigns: false,
+  isFetchingPaymentMethods: false,
+  isFetchingCombos: false,
+  isFetchingCourses: false,
+  isFetchingProvinces: false,
+  isFetchingLeadCareStatuses: false,
   transferBanks: [
     { value: "Argribank", title: "Agribank - Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam" },
     { value: "Vpbank", title: "Vpbank - Ngân hàng Việt Nam Thịnh Vượng" },
@@ -26,15 +35,9 @@ export const initialState = Immutable.fromJS({
     { value: 'add_1', title: '75 Phương Mai, Đống Đa, Hà Nội'},
     { value: 'add_2', title: '58/10 Thành Thái, Phường 12, Quận 10, HCM'},
   ],
-  isFetchingLeadLevels: false,
-  isFetchingUsers: false,
-  isFetchingLeadStatuses: false,
-  isFetchingCampaigns: false,
-  isFetchingPaymentMethods: false,
-  isFetchingCombos: false,
-  isFetchingCourses: false,
-  isFetchingProvinces: false,
-  isFetchingLeadCareStatuses: false,
+  otherFilters: [
+    { value: 'duplicated', title: 'Trùng'}
+  ],
 })
 
 export default function sharedReducer($$state = initialState, action = null) {

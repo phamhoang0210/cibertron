@@ -7,6 +7,16 @@ export const appLocale = {
   messages: flattenMessages({
     ...commontAntdVi,
     attrs: {
+      other_filters: {
+        // attrs.other_filters.label
+        label: 'Điều kiện khác',
+        placeholder: {
+          select: {
+            // attrs.other_filters.placeholder.select.single
+            none: '-- Không chọn --'
+          }
+        }
+      },
       campaign: {
         // attrs.campaign.label
         label: 'Campaign',
@@ -115,7 +125,7 @@ export const appLocale = {
       },
       imported_in: {
         // attrs.imported_in.label
-        label: 'Ngày import',
+        label: 'Ngày tạo',
       },
       assigned_in: {
         // attrs.assigned_in.label
@@ -207,6 +217,12 @@ export const appLocale = {
         // attrs.name.label
         label: 'Tên',
       },
+      info: {
+        // attrs.info.label
+        label: 'Học viên',
+        // attrs.info.duplicated
+        duplicated: 'Contact trùng',
+      },
       address: {
         // attrs.address.label
         label: 'Địa chỉ',
@@ -291,8 +307,8 @@ export const appLocale = {
             // attrs.lead_level.attrs.a3.label
             label: 'A3',
           },
-          a3: {
-            // attrs.lead_level.attrs.a3.label
+          a3x: {
+            // attrs.lead_level.attrs.a3x.label
             label: 'A3X',
           }
         }
