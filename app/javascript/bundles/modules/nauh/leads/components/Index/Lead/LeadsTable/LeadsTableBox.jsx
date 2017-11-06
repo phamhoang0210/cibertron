@@ -54,7 +54,7 @@ class LeadsTableBox extends React.Component {
     ])
 
     this.columns = [{
-      title: intl.formatMessage({id: 'attrs.name.label'}),
+      title: intl.formatMessage({id: 'attrs.info.label'}),
       dataIndex: 'name',
       key: 'info',
       width: '15%',
@@ -63,6 +63,11 @@ class LeadsTableBox extends React.Component {
           <b>{record.name}</b><br/>
           <span>{`• ${record.email}`}</span><br/>
           <span>{`• ${record.mobile}`}</span><br/>
+          {record.is_duplicated && (
+            <Tag color="red">
+              {intl.formatMessage({id: 'attrs.info.duplicated'})}
+            </Tag>
+          )} 
         </div>
       )
     }, {
