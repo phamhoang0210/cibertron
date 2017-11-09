@@ -6,6 +6,7 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
   sources: [],
+  selectedSourceKeys: [],
   sourceFilters: {
     ...defaultFilters,
     fields: ''
@@ -16,7 +17,7 @@ export const initialState = Immutable.fromJS({
 
 export default function indexReducer($$state = initialState, action = null) {
   const {
-    type, record, records, filters, error, sourceId,
+    type, record, records, filters, error, sourceId, sourceKeys
   } = action
   switch (type) {
     case actionTypes.SET_IS_FETCHING_SOURCES: {
@@ -54,6 +55,12 @@ export default function indexReducer($$state = initialState, action = null) {
     case actionTypes.HAND_OVER_FAILURE: {
       return $$state.merge({
         isHandingOver: false,
+      })
+    }
+
+    case actionTypes.UPDATE_SELECTED_SOURCE_KEYS: {
+      return $$state.merge({
+        selectedSourceKeys: sourceKeys,
       })
     }
 
