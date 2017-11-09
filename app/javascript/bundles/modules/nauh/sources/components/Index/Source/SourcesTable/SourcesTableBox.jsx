@@ -2,10 +2,11 @@ import React from 'react'
 import _ from 'lodash'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input} from 'antd'
-import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input, Pagination} from 'antd'
+import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination, getDefaultTableTitlePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
 import moment from 'moment'
 
 const { Search } = Input
@@ -18,12 +19,16 @@ class SourcesTableBox extends React.Component {
       'handleTableChange',
       'handleSearch',
       'handleHandOver',
+      'renderTableTitle',
+      'handleSelectionChange',
+      'handleClearSelection',
     ])
   }
 
   handleHandOver() {
-    const {actions} = this.props
-    actions.handOver()
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.handOver({selected: selectedSourceKeys})
   }
 
   handleSearch(keyword) {
@@ -44,12 +49,23 @@ class SourcesTableBox extends React.Component {
     actions.fetchSources(sourceParams)
   }
 
+  handleSelectionChange(selectedRowKeys, selectedRows) {
+    const {actions, indexState} = this.props
+    actions.updateSelectedSourceKeys(selectedRowKeys)
+  }
+
+  handleClearSelection() {
+    const {actions, indexState} = this.props
+    actions.updateSelectedSourceKeys([])
+  }
+
   render() {
-    const {indexState} = this.props
+    const {indexState, actions} = this.props
     const paging = indexState.getIn(['sourceFilters', 'paging'])
     const isFetchingSources = indexState.get('isFetchingSources')
     const isHandingOver = indexState.get('isHandingOver')
     const data = indexState.get('sources').toJS()
+    const selectedSourceKeys = indexState.get('selectedSourceKeys')
 
     const columns = [{
       title: 'Email',
@@ -61,7 +77,11 @@ class SourcesTableBox extends React.Component {
     }, {
       title: 'Status',
       dataIndex: 'status',
-    }, {
+    },{
+      title: 'Interest',
+      dataIndex: 'interest',
+    }
+    , {
       title: 'Source',
       dataIndex: 'source_url',
       width: '50%',
@@ -76,6 +96,8 @@ class SourcesTableBox extends React.Component {
               disabled={isHandingOver}
               loading={isHandingOver}
               onClick={this.handleHandOver}
+              type="primary"
+              ghost
             >
               Hand over
             </Button>
@@ -89,7 +111,12 @@ class SourcesTableBox extends React.Component {
         </Row>
         <Table
           columns={columns}
+          title={this.renderTableTitle}
           dataSource={data}
+          rowSelection={{
+            selectedRowKeys: selectedSourceKeys.toJS(),
+            onChange: this.handleSelectionChange
+          }}
           size="middle" 
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           onChange={this.handleTableChange}
@@ -98,6 +125,40 @@ class SourcesTableBox extends React.Component {
         />
       </div>
     );
+  }
+
+  renderTableTitle() {
+    const {indexState, actions} = this.props
+    const selectedSourceKeys = indexState.get('selectedSourceKeys')
+    const paging = indexState.getIn(['sourceFilters', 'paging'])
+
+    return (
+      <Row className="main-content-table-tools">
+        <Col span={16}>
+          {selectedSourceKeys.count() > 0 && (
+            <Col>
+            <b className="button-margin--right--default">
+              Selected: 
+              {selectedSourceKeys.count()}
+            </b>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleClearSelection}
+            >
+              Clear
+            </Button>
+            </Col>
+            )}
+        </Col>
+        <Col span={8} className="main-content-table-tools-pagination-box">
+          <Pagination
+            size="small"
+            onChange={(page, pageSize) => this.handleTableChange({current: page}, {}, {})}
+            {...getDefaultTableTitlePagination(paging.get('page'), paging.get('record_total'))}
+          />
+        </Col>
+      </Row>
+    )
   }
 
 }

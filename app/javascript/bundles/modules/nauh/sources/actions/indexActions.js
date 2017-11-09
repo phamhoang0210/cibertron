@@ -59,12 +59,19 @@ export function handOver(params = {}) {
   return (dispatch, getStore) => {
     dispatch(setIsHandingOver())
     authRequest
-      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/hand_over`)
+      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/hand_over`, params)
       .then(res => {
         dispatch(handOverSuccess(res.data))
         const filterParams = getFilterParams(getStore().indexState.get('sourceFilters'))
         dispatch(fetchSources(filterParams))
       })
       .catch(error => dispatch(handOverFailure(error)))
+  }
+}
+
+export function updateSelectedSourceKeys(sourceKeys) {
+  return {
+    type: actionTypes.UPDATE_SELECTED_SOURCE_KEYS,
+    sourceKeys,
   }
 }
