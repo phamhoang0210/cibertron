@@ -34,8 +34,6 @@ class SourcesTableBox extends React.Component {
     actions.handOver({selected: selectedSourceKeys})
   }
 
-
-
   handleSetToTest() {
     const {actions, indexState} = this.props
     var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
@@ -53,8 +51,6 @@ class SourcesTableBox extends React.Component {
     var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
     actions.setToNew({selected: selectedSourceKeys})
   }
-
-
 
   handleSearch(keyword) {
     const {actions, indexState} = this.props
