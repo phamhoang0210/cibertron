@@ -19,6 +19,9 @@ class SourcesTableBox extends React.Component {
       'handleTableChange',
       'handleSearch',
       'handleHandOver',
+      'handleSetToTest',
+      'handleSetToTrash',
+      'handleSetToNew',
       'renderTableTitle',
       'handleSelectionChange',
       'handleClearSelection',
@@ -29,6 +32,24 @@ class SourcesTableBox extends React.Component {
     const {actions, indexState} = this.props
     var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
     actions.handOver({selected: selectedSourceKeys})
+  }
+
+  handleSetToTest() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.setToTest({selected: selectedSourceKeys})
+  }
+
+  handleSetToTrash() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.setToTrash({selected: selectedSourceKeys})
+  }
+
+  handleSetToNew() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.setToNew({selected: selectedSourceKeys})
   }
 
   handleSearch(keyword) {
@@ -110,6 +131,7 @@ class SourcesTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+          bordered
           columns={columns}
           title={this.renderTableTitle}
           dataSource={data}
@@ -146,6 +168,24 @@ class SourcesTableBox extends React.Component {
               onClick={this.handleClearSelection}
             >
               Clear
+            </Button>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleSetToTest}
+            >
+              Move to Test
+            </Button>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleSetToTrash}
+            >
+              Move to Trash
+            </Button>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleSetToNew}
+            >
+              Move to New
             </Button>
             </Col>
             )}

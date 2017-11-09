@@ -275,9 +275,9 @@ class CustomerInfo extends React.Component {
               {...DEFAULT_FORM_ITEM_LAYOUT}
             >
               {getFieldDecorator('sex_id', {
-                initialValue: `${lead.getIn(['sex','id'])}`,
+                initialValue: lead.get('sex_id') ? `${lead.getIn(['sex','id'])}` : ``,
               })(
-                <Select placeholder="Select">
+                <Select>
                   {sexOptions}
                 </Select>
               )}
