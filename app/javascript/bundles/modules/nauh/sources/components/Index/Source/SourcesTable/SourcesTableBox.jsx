@@ -8,12 +8,15 @@ import { browserHistory } from 'react-router'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
 import moment from 'moment'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
 class SourcesTableBox extends React.Component {
   constructor(props) {
     super(props)
+
+    const {intl} = this.props
 
     _.bindAll(this, [
       'handleTableChange',
@@ -26,6 +29,26 @@ class SourcesTableBox extends React.Component {
       'handleSelectionChange',
       'handleClearSelection',
     ])
+
+    this.columns = [{
+      title: intl.formatMessage({id: 'index.sources_table.headers.email.title'}),
+      dataIndex: 'email',
+    }, {
+      title: intl.formatMessage({id: 'index.sources_table.headers.created_at.title'}),
+      dataIndex: 'created_at',
+      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
+    }, {
+      title: intl.formatMessage({id: 'index.sources_table.headers.status.title'}),
+      dataIndex: 'status',
+    },{
+      title: intl.formatMessage({id: 'index.sources_table.headers.interest.title'}),
+      dataIndex: 'interest',
+    }
+    , {
+      title: intl.formatMessage({id: 'index.sources_table.headers.source_url.title'}),
+      dataIndex: 'source_url',
+      width: '50%',
+    }];
   }
 
   handleHandOver() {
@@ -81,58 +104,27 @@ class SourcesTableBox extends React.Component {
   }
 
   render() {
-    const {indexState, actions} = this.props
+    const {indexState, actions, intl} = this.props
     const paging = indexState.getIn(['sourceFilters', 'paging'])
     const isFetchingSources = indexState.get('isFetchingSources')
-    const isHandingOver = indexState.get('isHandingOver')
     const data = indexState.get('sources').toJS()
     const selectedSourceKeys = indexState.get('selectedSourceKeys')
-
-    const columns = [{
-      title: 'Email',
-      dataIndex: 'email',
-    }, {
-      title: 'Date',
-      dataIndex: 'created_at',
-      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
-    }, {
-      title: 'Status',
-      dataIndex: 'status',
-    },{
-      title: 'Interest',
-      dataIndex: 'interest',
-    }
-    , {
-      title: 'Source',
-      dataIndex: 'source_url',
-      width: '50%',
-    }];
-    
 
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
           <Col span={18}>
-            <Button
-              disabled={isHandingOver}
-              loading={isHandingOver}
-              onClick={this.handleHandOver}
-              type="primary"
-              ghost
-            >
-              Hand over
-            </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by url.."
+              placeholder= {intl.formatMessage({id: 'index.sources_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
         </Row>
         <Table
           bordered
-          columns={columns}
+          columns={this.columns}
           title={this.renderTableTitle}
           dataSource={data}
           rowSelection={{
@@ -150,9 +142,10 @@ class SourcesTableBox extends React.Component {
   }
 
   renderTableTitle() {
-    const {indexState, actions} = this.props
+    const {indexState, actions, intl} = this.props
     const selectedSourceKeys = indexState.get('selectedSourceKeys')
     const paging = indexState.getIn(['sourceFilters', 'paging'])
+    const isHandingOver = indexState.get('isHandingOver')
 
     return (
       <Row className="main-content-table-tools">
@@ -160,33 +153,55 @@ class SourcesTableBox extends React.Component {
           {selectedSourceKeys.count() > 0 && (
             <Col>
             <b className="button-margin--right--default">
-              Selected: 
+              {intl.formatMessage({id: 'index.sources_table.others.selected.label'})}
               {selectedSourceKeys.count()}
             </b>
+
             <Button
               className="button-margin--left--default"
               onClick={this.handleClearSelection}
             >
-              Clear
+              {intl.formatMessage({id: 'index.sources_table.actions.clear.button'})}
             </Button>
+
             <Button
               className="button-margin--left--default"
+              type="primary"
+              ghost
               onClick={this.handleSetToTest}
             >
-              Move to Test
+              {intl.formatMessage({id: 'index.sources_table.actions.move_to_test.button'})}
             </Button>
+
             <Button
               className="button-margin--left--default"
+              type="primary"
+              ghost
               onClick={this.handleSetToTrash}
             >
-              Move to Trash
+              {intl.formatMessage({id: 'index.sources_table.actions.move_to_trash.button'})}
             </Button>
+
             <Button
               className="button-margin--left--default"
+              type="primary"
+              ghost
               onClick={this.handleSetToNew}
             >
-              Move to New
+              {intl.formatMessage({id: 'index.sources_table.actions.move_to_new.button'})}
             </Button>
+
+            <Button
+              className="button-margin--left--default"
+              disabled={isHandingOver}
+              loading={isHandingOver}
+              onClick={this.handleHandOver}
+              type="danger"
+              ghost
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.hand_over.button'})}
+            </Button>
+
             </Col>
             )}
         </Col>
@@ -202,4 +217,4 @@ class SourcesTableBox extends React.Component {
   }
 
 }
-export default SourcesTableBox
+export default injectIntl(SourcesTableBox)
