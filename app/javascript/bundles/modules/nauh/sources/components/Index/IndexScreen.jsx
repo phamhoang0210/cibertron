@@ -3,6 +3,7 @@ import { getFilterParams } from 'helpers/applicationHelper'
 import SourcesTableBox from './Source/SourcesTable/SourcesTableBox'
 import SourceFiltersFormBox from './Source/SourceFiltersForm/SourceFiltersFormBox'
 import { notification } from 'antd'
+import { injectIntl } from 'react-intl'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -28,12 +29,12 @@ class IndexScreen extends React.Component {
   }
 
   render() {
-    const {indexState} = this.props
+    const {indexState, intl} = this.props
     return (
       <div className="main-content nauh--sources box">
         <div className="box-header">
           <h1 className="box-title">
-            Sources
+            {intl.formatMessage({id: 'index.title'})}
           </h1>
         </div>
         <div className="box-body">
@@ -45,4 +46,4 @@ class IndexScreen extends React.Component {
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)
