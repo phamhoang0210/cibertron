@@ -232,10 +232,10 @@ function setIsFetchingProvinces() {
   }
 }
 
-function fetchProvincesSuccess({provinces, filters}) {
+function fetchProvincesSuccess({records, filters}) {
   return {
     type: actionTypes.FETCH_PROVINCES_SUCCESS,
-    records: provinces,
+    records,
     filters,
   }
 }
