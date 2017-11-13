@@ -535,7 +535,7 @@ export const appLocale = {
             placeholder: {
               select: {
                 // attrs.order.attrs.cod_province.placeholder.select.single
-                single: 'Tỉnh là trường bắt buộc!',
+                single: 'Chọn tỉnh/thành phố',
               }
             }
           },
@@ -551,7 +551,23 @@ export const appLocale = {
             placeholder: {
               select: {
                 // attrs.order.attrs.cod_district.placeholder.select.single
-                single: 'Huyện là trường bắt buộc!',
+                single: 'Chọn quận/huyện',
+              }
+            }
+          },
+          cod_ward: {
+            // attrs.order.attrs.cod_ward.label
+            label: 'Phường/Xã',
+            errors: {
+              // attrs.order.attrs.cod_ward.errors.required
+              required: 'Phường/Xã là trường bắt buộc',
+              // attrs.order.attrs.cod_ward.errors.not_in_district
+              not_in_district: 'Phường/Xã không nằm trong huyện đã chọn'
+            },
+            placeholder: {
+              select: {
+                // attrs.order.attrs.cod_ward.placeholder.select.single
+                single: 'Chọn phường/xã',
               }
             }
           },
