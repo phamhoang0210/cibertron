@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import Immutable, { Map } from 'immutable'
+import { Map } from 'immutable'
 import {
   Form, Input, Row, Col, Button, Select, Alert, Checkbox, Spin, Cascader,
   InputNumber, Radio, DatePicker,
@@ -119,9 +119,7 @@ class OrderCreateFormBox extends React.Component {
                 <Cascader
                   options={productCascaderOptions}
                   placeholder={intl.formatMessage({id: 'attrs.order.attrs.product.placeholder.select.single'})}
-                  showSearch={{
-                    filter: (inputValue, path) => path[1].label.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
-                  }}
+                  showSearch
                 />
               )}
             </FormItem>
@@ -209,13 +207,9 @@ class OrderCreateFormBox extends React.Component {
     const lead = editState.get('lead')
     const transferBanks = sharedState.get('transferBanks')
     const officeAddress = sharedState.get('officeAddress')
-
     const provinces = sharedState.get('provinces')
-    const selectedProvince = provinces.find(p => p.get('id') == getFieldValue('payment_detail.COD.province_id'))
-    const districts = selectedProvince ? selectedProvince.get('districts') : Immutable.fromJS([])
-    const selectedDistrict = districts.find(d => d.get('id') == getFieldValue('payment_detail.COD.district_id'))
-    const wards = selectedDistrict ? selectedDistrict.get('wards') : Immutable.fromJS([])
-
+    const selectedProvince = provinces.find(p => p.get('code') == getFieldValue('payment_detail.COD.province'))
+    const districts = selectedProvince && selectedProvince.get('districts')
     const method = getFieldValue('payment_method')
 
     if(method == 'COD') {
@@ -234,17 +228,16 @@ class OrderCreateFormBox extends React.Component {
             label={intl.formatMessage({id: 'attrs.order.attrs.cod_province.label'})}
             {...DEFAULT_FORM_ITEM_LAYOUT}
           >
-            {getFieldDecorator('payment_detail.COD.province_id', {
+            {getFieldDecorator('payment_detail.COD.province', {
               rules: [{ required: true, message: intl.formatMessage({id: 'attrs.order.attrs.cod_province.errors.required'}) }],
             })(
               <Select
                 showSearch
                 filterOption={selectFilterOption}
                 placeholder={intl.formatMessage({id: 'attrs.order.attrs.cod_province.placeholder.select.single'})}
-                onChange={() => this.props.form.resetFields(['payment_detail.COD.district_id', 'payment_detail.COD.ward_id'])}
               >
                 {provinces.map(province => (
-                  <Option value={`${province.get('id')}`} key={province.get('id')}>
+                  <Option value={`${province.get('code')}`} key={province.get('id')}>
                     {`${province.get('code')} - ${province.get('name')}`}
                   </Option>
                 ))}
@@ -255,42 +248,29 @@ class OrderCreateFormBox extends React.Component {
             label={intl.formatMessage({id: 'attrs.order.attrs.cod_district.label'})}
             {...DEFAULT_FORM_ITEM_LAYOUT}
           >
-            {getFieldDecorator('payment_detail.COD.district_id', {
+            {getFieldDecorator('payment_detail.COD.district', {
               rules: [
                 { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.cod_district.errors.required'}) },
+                {
+                  message: intl.formatMessage({id: 'attrs.order.attrs.cod_district.errors.not_in_province'}),
+                  validator: (rule, value, cb) => {
+                    if(districts && districts.find(d => d.get('name') == value)) {
+                      cb()
+                    } else {
+                      cb(true)
+                    }
+                  },
+                },
               ],
             })(
               <Select
                 showSearch
                 filterOption={selectFilterOption}
                 placeholder={intl.formatMessage({id: 'attrs.order.attrs.cod_district.placeholder.select.single'})}
-                onChange={() => this.props.form.resetFields(['payment_detail.COD.ward_id'])}
               >
-                {districts.map(district => (
-                  <Option value={`${district.get('id')}`} key={district.get('id')}>
+                {districts && districts.map(district => (
+                  <Option value={`${district.get('name')}`} key={district.get('code')}>
                     {`${district.get('code')} - ${district.get('name')}`}
-                  </Option>
-                ))}
-              </Select>
-            )}
-          </FormItem>
-          <FormItem
-            label={intl.formatMessage({id: 'attrs.order.attrs.cod_ward.label'})}
-            {...DEFAULT_FORM_ITEM_LAYOUT}
-          >
-            {getFieldDecorator('payment_detail.COD.ward_id', {
-              rules: [
-                { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.cod_ward.errors.required'}) },
-              ],
-            })(
-              <Select
-                showSearch
-                filterOption={selectFilterOption}
-                placeholder={intl.formatMessage({id: 'attrs.order.attrs.cod_ward.placeholder.select.single'})}
-              >
-                {wards.map(ward => (
-                  <Option value={`${ward.get('id')}`} key={ward.get('id')}>
-                    {`${ward.get('code')} - ${ward.get('name')}`}
                   </Option>
                 ))}
               </Select>
@@ -329,7 +309,7 @@ class OrderCreateFormBox extends React.Component {
             label={intl.formatMessage({id: 'attrs.order.attrs.cod_note.label'})}
             {...DEFAULT_FORM_ITEM_LAYOUT}
           >
-            {getFieldDecorator('payment_detail.COD.note')(<TextArea/>)}
+            {getFieldDecorator('COD.note')(<TextArea/>)}
           </FormItem>
         </div>
       )
