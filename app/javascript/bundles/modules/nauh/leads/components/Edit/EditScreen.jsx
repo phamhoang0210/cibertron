@@ -24,6 +24,7 @@ class EditScreen extends React.Component {
     actions.fetchUsers({per_page: 'infinite'})
     actions.fetchCombos({per_page: 'infinite'})
     actions.fetchCourses({per_page: 'infinite'})
+    actions.fetchSexes({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {

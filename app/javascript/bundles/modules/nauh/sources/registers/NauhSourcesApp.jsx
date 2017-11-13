@@ -5,7 +5,9 @@ import { Router, browserHistory } from 'react-router'
 import store from '../store/store'
 import routes from '../routes/routes'
 import { LocaleProvider } from 'antd'
+import { IntlProvider } from 'react-intl'
 import enUS from 'antd/lib/locale-provider/en_US'
+import { appLocale } from 'locales/modules/nauh/sources.en'
 
 export default (props, railsContext) => {
   const appStore = store(props, railsContext)
@@ -16,9 +18,11 @@ export default (props, railsContext) => {
 
   return (
     <LocaleProvider locale={enUS}>
-      <Provider store={appStore}>
-        <Router history={history} children={routes} />
-      </Provider>
+      <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
+        <Provider store={appStore}>
+          <Router history={history} children={routes} />
+        </Provider>
+      </IntlProvider>
     </LocaleProvider>
   )
 }

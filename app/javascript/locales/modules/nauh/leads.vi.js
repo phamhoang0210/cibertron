@@ -227,6 +227,14 @@ export const appLocale = {
         // attrs.address.label
         label: 'Địa chỉ',
       },
+      birth_day: {
+        // attrs.birth_day.label
+        label: 'Ngày sinh',
+      },
+      sex: {
+        // attrs.sex.label
+        label: 'Giới tính',
+      },
       interest: {
         // attrs.interest.label
         label: 'Quan tâm',

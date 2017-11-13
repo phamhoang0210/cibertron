@@ -15,6 +15,7 @@ export const initialState = Immutable.fromJS({
   leadCareStatusIdMappings: {},
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
+  sexes: [],
   isFetchingLeadLevels: false,
   isFetchingUsers: false,
   isFetchingLeadStatuses: false,
@@ -24,6 +25,7 @@ export const initialState = Immutable.fromJS({
   isFetchingCourses: false,
   isFetchingProvinces: false,
   isFetchingLeadCareStatuses: false,
+  isFetchingSexes: false,
   transferBanks: [
     { value: "Argribank", title: "Agribank - Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam" },
     { value: "Vpbank", title: "Vpbank - Ngân hàng Việt Nam Thịnh Vượng" },
@@ -227,6 +229,25 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_LEAD_CARE_STATUSES_FAILURE: {
       return $$state.merge({
         isFetchingLeadCareStatuses: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_SEXES: {
+      return $$state.merge({
+        isFetchingSexes: true,
+      })
+    }
+
+    case actionTypes.FETCH_SEXES_SUCCESS: {
+      return $$state.merge({
+        isFetchingSexes: false,
+        sexes: records,
+      })
+    }
+
+    case actionTypes.FETCH_SEXES_FAILURE: {
+      return $$state.merge({
+        isFetchingSexes: false,
       })
     }
     

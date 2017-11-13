@@ -59,12 +59,118 @@ export function handOver(params = {}) {
   return (dispatch, getStore) => {
     dispatch(setIsHandingOver())
     authRequest
-      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/hand_over`)
+      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/hand_over`, params)
       .then(res => {
         dispatch(handOverSuccess(res.data))
         const filterParams = getFilterParams(getStore().indexState.get('sourceFilters'))
         dispatch(fetchSources(filterParams))
       })
       .catch(error => dispatch(handOverFailure(error)))
+  }
+}
+
+// Set contact to Test
+function setIsSettingToTest() {
+  return {
+    type: actionTypes.SET_IS_SETTING_TO_TEST,
+  }
+}
+
+function settingToTestSuccess(response) {
+  return {
+    type: actionTypes.SET_TO_TEST_SUCCESS,
+  }
+}
+
+function settingToTestFailure(error) {
+  return {
+    type: actionTypes.SET_TO_TEST_FAILURE,
+  }
+}
+
+export function setToTest(params = {}) {
+  return (dispatch, getStore) => {
+    dispatch(setIsSettingToTest())
+    authRequest
+      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/set_to_test`, params)
+      .then(res => {
+        dispatch(settingToTestSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('sourceFilters'))
+        dispatch(fetchSources(filterParams))
+      })
+      .catch(error => dispatch(settingToTestFailure(error)))
+  }
+}
+
+// Set contact to Trash
+function setIsSettingToTrash() {
+  return {
+    type: actionTypes.SET_IS_SETTING_TO_TRASH,
+  }
+}
+
+function settingToTrashSuccess(response) {
+  return {
+    type: actionTypes.SET_TO_TRASH_SUCCESS,
+  }
+}
+
+function settingToTrashFailure(error) {
+  return {
+    type: actionTypes.SET_TO_TRASH_FAILURE,
+  }
+}
+
+export function setToTrash(params = {}) {
+  return (dispatch, getStore) => {
+    dispatch(setIsSettingToTrash())
+    authRequest
+      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/set_to_trash`, params)
+      .then(res => {
+        dispatch(settingToTrashSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('sourceFilters'))
+        dispatch(fetchSources(filterParams))
+      })
+      .catch(error => dispatch(settingToTrashFailure(error)))
+  }
+}
+
+// Set contact to New
+function setIsSettingToNew() {
+  return {
+    type: actionTypes.SET_IS_SETTING_TO_NEW,
+  }
+}
+
+function settingToNewSuccess(response) {
+  return {
+    type: actionTypes.SET_TO_NEW_SUCCESS,
+  }
+}
+
+function settingToNewFailure(error) {
+  return {
+    type: actionTypes.SET_TO_NEW_FAILURE,
+  }
+}
+
+export function setToNew(params = {}) {
+  return (dispatch, getStore) => {
+    dispatch(setIsSettingToNew())
+    authRequest
+      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/set_to_new`, params)
+      .then(res => {
+        dispatch(settingToNewSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('sourceFilters'))
+        dispatch(fetchSources(filterParams))
+      })
+      .catch(error => dispatch(settingToNewFailure(error)))
+  }
+}
+
+export function updateSelectedSourceKeys(sourceKeys) {
+  return {
+    type: actionTypes.UPDATE_SELECTED_SOURCE_KEYS,
+    sourceKeys,
   }
 }

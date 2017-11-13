@@ -4,7 +4,7 @@ import {
   NAUH_BASE_URL, LEAD_LEVELS_API_PATH, CATEGORIES_API_PATH, SOL_BASE_URL, COURSES_API_PATH,
   USERSERVICE_BASE_URL, USERS_API_PATH, LEAD_STATUSES_API_PATH, COMBOS_API_PATH,
   LEADS_API_PATH, CRONUS_BASE_URL, CAMPAIGNS_API_PATH, PAYMENT_METHODS_API_PATH,
-  GAMBIT_BASE_URL, PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH
+  GAMBIT_BASE_URL, PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH, SEXES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -285,5 +285,36 @@ export function fetchLeadCareStatuses(params = {}) {
       .fetchEntities(`${NAUH_BASE_URL}${LEAD_CARE_STATUSES_API_PATH}`, params)
       .then(res => dispatch(fetchLeadCareStatusesSuccess(res.data)))
       .catch(error => dispatch(fetchLeadCareStatusesFailure(error)))
+  }
+}
+
+function setIsFetchingSexes() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_SEXES,
+  }
+}
+
+function fetchSexesSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_SEXES_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchSexesFailure(error) {
+  return {
+    type: actionTypes.FETCH_SEXES_FAILURE,
+    error,
+  }
+}
+
+export function fetchSexes(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingSexes())
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${SEXES_API_PATH}`, params)
+      .then(res => dispatch(fetchSexesSuccess(res.data)))
+      .catch(error => dispatch(fetchSexesFailure(error)))
   }
 }
