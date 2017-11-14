@@ -68,6 +68,7 @@ class NauhLayout extends React.Component {
     return (
       <Layout className="layout-wraper nauh-layout">
         <Sider
+          width={230}
           className="layout-sider"
           trigger={null}
           collapsible

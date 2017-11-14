@@ -67,6 +67,7 @@ class SolLayout extends React.Component {
     return (
       <Layout className="layout-wraper sol-layout">
         <Sider
+          width={230}
           className="layout-sider"
           trigger={null}
           collapsible

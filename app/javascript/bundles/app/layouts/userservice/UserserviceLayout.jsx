@@ -95,6 +95,7 @@ class UserserviceLayout extends React.Component {
     return (
       <Layout className="layout-wraper authservice-layout">
         <Sider
+          width={230}
           className="layout-sider"
           trigger={null}
           collapsible
