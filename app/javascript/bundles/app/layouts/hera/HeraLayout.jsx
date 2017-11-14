@@ -67,6 +67,7 @@ class HeraLayout extends React.Component {
     return (
       <Layout className="layout-wraper hera-layout">
         <Sider
+          width={230}
           className="layout-sider"
           trigger={null}
           collapsible
