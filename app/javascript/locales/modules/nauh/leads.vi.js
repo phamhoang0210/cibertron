@@ -243,6 +243,10 @@ export const appLocale = {
         // attrs.note.label
         label: 'Ghi chú',
       },
+      source: {
+        // attrs.source.label
+        label: 'Nguồn',
+      },
       last_lead_care_history: {
         // attrs.last_lead_care_history.label
         label: 'Chăm sóc gần nhất',
