@@ -226,9 +226,12 @@ class CustomerInfo extends React.Component {
     }
 
     var sourceDetails = ''
-    lead.getIn(['utm','details']).map((key,value) => (
-      sourceDetails += (value.toString() + " : " + key.toString() + "\n")
+    if (lead.getIn(['utm','details'])) {
+      lead.getIn(['utm','details']).map((key,value) => (
+        sourceDetails += (value.toString() + " : " + key.toString() + "\n")
       ))
+    }
+    
 
     const sexOptions = [];
     sexes.map(sex => (
