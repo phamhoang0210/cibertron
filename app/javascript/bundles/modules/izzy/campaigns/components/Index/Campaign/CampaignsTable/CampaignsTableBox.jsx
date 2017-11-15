@@ -46,7 +46,8 @@ class CampaignsTableBox extends React.Component {
         title: 'Created', 
         width: '15%',
         dataIndex: 'created_at', 
-        key: 'created_at'},
+        key: 'created_at',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',},
       {
         title: 'Name',
         width: '15%',
