@@ -13,7 +13,6 @@ import { browserHistory } from 'react-router'
 import { CAMPAIGNS_URL } from '../../../../constants/paths'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
-import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../constants/constants'
 import moment from 'moment'
 
 import { injectIntl } from 'react-intl'
@@ -21,7 +20,7 @@ import { injectIntl } from 'react-intl'
 const { Search } = Input
 const TabPane = Tabs.TabPane
 
-class CampaignsTableBox extends React.Component {
+class TemplatesTableBox extends React.Component {
   constructor(props) {
     super(props)
 
@@ -101,19 +100,19 @@ class CampaignsTableBox extends React.Component {
 
   getInitialValues() {
     const {indexState, location} = this.props
-    const currentCampaignFilters = Immutable.fromJS(getFilterParams(indexState.get('campaignFilters'), location))
+    const currentTemplateFilters = Immutable.fromJS(getFilterParams(indexState.get('templateFilters'), location))
     return {
-      search: currentCampaignFilters.get('full_search'),
+      search: currentTemplateFilters.get('full_search'),
     }
   }
 
-  handleDelete(campaignId) {
+  handleDelete(templateId) {
     const {actions, indexState} = this.props
-    actions.deleteCampaign(campaignId)
+    actions.deleteTemplate(templateId)
   }
 
-  handleEdit(campaignId) {
-    browserHistory.push(`${CAMPAIGNS_URL}/${campaignId}/edit`)
+  handleEdit(templateId) {
+    browserHistory.push(`${CAMPAIGNS_URL}/${templateId}/edit`)
   }
 
   handleAdd(e) {
@@ -124,33 +123,33 @@ class CampaignsTableBox extends React.Component {
     const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
 
-    let campaignParams = {}
-    if(current != campaignParams.page) {
-      campaignParams.page = current
+    let templateParams = {}
+    if(current != templateParams.page) {
+      templateParams.page = current
     }
 
     if(sorter.field) {
-      campaignParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
+      templateParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
 
-    campaignParams = getFilterParamsAndSyncUrl(indexState.get('campaignFilters'), location, campaignParams)
+    templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, templateParams)
 
-    actions.fetchCampaigns(campaignParams)
+    actions.fetchTemplates(templateParams)
   }
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
-    let campaignParams = getFilterParamsAndSyncUrl(indexState.get('campaignFilters'), location, {full_search: keyword})
-    actions.fetchCampaigns(campaignParams)
+    let templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, {full_search: keyword})
+    actions.fetchTemplates(templateParams)
   }
 
   render() {
     const {indexState, sharedState, actions, intl} = this.props
-    const selectedCampaignKeys = indexState.get('selectedCampaignKeys')
-    const campaigns = indexState.get('campaigns')
-    const paging = indexState.getIn(['campaignFilters', 'paging'])
-    const isFetchingCampaigns = indexState.get('isFetchingCampaigns')
+    const selectedTemplateKeys = indexState.get('selectedTemplateKeys')
+    const templates = indexState.get('templates')
+    const paging = indexState.getIn(['templateFilters', 'paging'])
+    const isFetchingTemplates = indexState.get('isFetchingTemplates')
 
     return (
       <div className="main-content-table-box">
@@ -169,16 +168,16 @@ class CampaignsTableBox extends React.Component {
           bordered
           size="middle"
           columns={this.columns}
-          dataSource={campaigns.toJS()}
+          dataSource={templates.toJS()}
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowClassName={rowClassName}
           rowKey="created_at"
           onChange={this.handleTableChange}
-          loading={isFetchingCampaigns}
+          loading={isFetchingTemplates}
         />
       </div>
     )
   }
 }
 
-export default injectIntl(CampaignsTableBox)
+export default injectIntl(TemplatesTableBox)
