@@ -223,6 +223,10 @@ export const appLocale = {
         // attrs.info.duplicated
         duplicated: 'Contact trùng',
       },
+      campaign: {
+        // attrs.campaign.label
+        label: 'Camapaign',
+      },
       address: {
         // attrs.address.label
         label: 'Địa chỉ',

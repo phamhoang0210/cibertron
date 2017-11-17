@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select
+  Tag, Tabs, Badge, Select, Tooltip
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -76,13 +76,19 @@ class LeadsTableBox extends React.Component {
       key: 'interest',
       width: '12%',
       render: (value, record) => (
-        <TextEditable
-          className="table-row-height--md"
-          tagName="div"
-          html={value}
-          disabled={true}
-          onChange={v => this.handleUpdateAttrs(record.id, {interest: v})}
-        />
+        <div>
+          <TextEditable
+            className="table-row-height--md"
+            tagName="div"
+            html={value}
+            disabled={true}
+            onChange={v => this.handleUpdateAttrs(record.id, {interest: v})}
+          />
+          <Tooltip title={intl.formatMessage({id: 'attrs.campaign.label'})}>
+            {record.utm && record.utm.details.utm_campaign && <Tag color="purple">{`${record.utm.details.utm_campaign}`}</Tag>}
+          </Tooltip>
+        </div>
+        
       )
     }, /*{
       title: intl.formatMessage({id: 'attrs.note.label'}),
