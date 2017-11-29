@@ -783,7 +783,7 @@ export const appLocale = {
         tools: {
           search: {
             // index.leads_table.tools.search.placeholder
-            placeholder: 'Tìm kiếm theo email, tên, sđt, ghi chú, quan tâm'
+            placeholder: 'Tìm kiếm theo email, tên, sđt, ghi chú, quan tâm, campaign'
           },
         },
         update_multiple: {
