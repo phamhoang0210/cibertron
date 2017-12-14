@@ -28,6 +28,5 @@
   },
   "devDependencies": {
     "webpack-dev-server": "^2.7.1"
-  },
-  "theme": "./app/javascript/src/styles/themes/antd_customs.js"
+  }
 }
