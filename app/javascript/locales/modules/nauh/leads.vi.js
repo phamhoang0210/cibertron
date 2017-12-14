@@ -223,6 +223,10 @@ export const appLocale = {
         // attrs.info.duplicated
         duplicated: 'Contact trùng',
       },
+      campaign: {
+        // attrs.campaign.label
+        label: 'Camapaign',
+      },
       address: {
         // attrs.address.label
         label: 'Địa chỉ',
@@ -242,6 +246,10 @@ export const appLocale = {
       note: {
         // attrs.note.label
         label: 'Ghi chú',
+      },
+      source: {
+        // attrs.source.label
+        label: 'Nguồn',
       },
       last_lead_care_history: {
         // attrs.last_lead_care_history.label
@@ -775,7 +783,7 @@ export const appLocale = {
         tools: {
           search: {
             // index.leads_table.tools.search.placeholder
-            placeholder: 'Tìm kiếm theo email, tên, sđt, ghi chú, quan tâm'
+            placeholder: 'Tìm kiếm theo email, tên, sđt, ghi chú, quan tâm, campaign'
           },
         },
         update_multiple: {

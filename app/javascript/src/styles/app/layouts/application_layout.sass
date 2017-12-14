@@ -16,10 +16,20 @@
     &-header
       background: #fff
       padding: 0
-      height: 48px
-      &-menu
-        line-height: 47px
+      &-tools
         float: right
+        height: 100%
+        &-action
+          cursor: pointer
+          padding: 0 12px
+          display: inline-block
+          transition: all .3s
+          height: 100%
+          &:hover
+            background: #e6f7ff
+          > i 
+            font-size: 16px
+            vertical-align: middle
     &-footer
       text-align: center
     & > .content-wraper
@@ -31,7 +41,7 @@
   .layout-sider
     &-logo
       padding: 16px
-      border-bottom: 1px dotted #666
+      // border-bottom: 1px dotted #666
       img
         height: 28px
         width: auto

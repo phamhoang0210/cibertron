@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   emailTemplate: null,
   leadCareHistory: {},
   defaultLeadParams: {
-    fields: 'lead_level{},lead_status{},sex{}',
+    fields: 'lead_level{},lead_status{},sex{},utm{}',
   },
   orders: [],
   orderFilters: {
