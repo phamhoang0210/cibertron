@@ -225,6 +225,14 @@ class CustomerInfo extends React.Component {
       wrongPhoneTemplate = emailTemplate.get('wrongPhone')
     }
 
+    var sourceDetails = ''
+    if (lead.getIn(['utm','details'])) {
+      lead.getIn(['utm','details']).map((key,value) => (
+        sourceDetails += (value.toString() + " : " + key.toString() + "\n")
+      ))
+    }
+    
+
     const sexOptions = [];
     sexes.map(sex => (
       sexOptions.push(<Option key={sex.get('id')} value={`${sex.get('id')}`}>
@@ -337,6 +345,16 @@ class CustomerInfo extends React.Component {
                 initialValue: lead.get('note'),
               })(<TextArea />)}
             </FormItem>
+
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.source.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('utm', {
+                initialValue: sourceDetails,
+              })(<TextArea disabled rows={4} />)}
+            </FormItem>
+
           </Col>
         </Row>
 
