@@ -12,6 +12,7 @@ class NewScreen extends React.Component {
     actions.fetchLeadLevels({per_page: 'infinite'})
     actions.fetchLeadStatuses({per_page: 'infinite'})
     actions.fetchUsers({per_page: 'infinite'})
+    actions.fetchCampaigns({per_page: 'infinite'})
   }
 
   render() {

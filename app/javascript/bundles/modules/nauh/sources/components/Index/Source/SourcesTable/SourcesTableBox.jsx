@@ -2,11 +2,13 @@ import React from 'react'
 import _ from 'lodash'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input} from 'antd'
-import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input, Pagination} from 'antd'
+import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination, getDefaultTableTitlePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import SelectEditable from 'partials/components/ContentEditable/Select/SelectEditable'
 import moment from 'moment'
+import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
@@ -14,16 +16,63 @@ class SourcesTableBox extends React.Component {
   constructor(props) {
     super(props)
 
+    const {intl} = this.props
+
     _.bindAll(this, [
       'handleTableChange',
       'handleSearch',
       'handleHandOver',
+      'handleSetToTest',
+      'handleSetToTrash',
+      'handleSetToNew',
+      'renderTableTitle',
+      'handleSelectionChange',
+      'handleClearSelection',
     ])
+
+    this.columns = [{
+      title: intl.formatMessage({id: 'index.sources_table.headers.email.title'}),
+      dataIndex: 'email',
+    }, {
+      title: intl.formatMessage({id: 'index.sources_table.headers.created_at.title'}),
+      dataIndex: 'created_at',
+      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
+    }, {
+      title: intl.formatMessage({id: 'index.sources_table.headers.status.title'}),
+      dataIndex: 'status',
+    },{
+      title: intl.formatMessage({id: 'index.sources_table.headers.interest.title'}),
+      dataIndex: 'interest',
+    }
+    , {
+      title: intl.formatMessage({id: 'index.sources_table.headers.source_url.title'}),
+      dataIndex: 'source_url',
+      width: '50%',
+    }];
   }
 
   handleHandOver() {
-    const {actions} = this.props
-    actions.handOver()
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.handOver({selected: selectedSourceKeys})
+  }
+
+  handleSetToTest() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.setToTest({selected: selectedSourceKeys})
+  }
+
+  handleSetToTrash() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.setToTrash({selected: selectedSourceKeys})
+  }
+
+  handleSetToNew() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.setToNew({selected: selectedSourceKeys})
   }
 
   handleSearch(keyword) {
@@ -44,52 +93,44 @@ class SourcesTableBox extends React.Component {
     actions.fetchSources(sourceParams)
   }
 
+  handleSelectionChange(selectedRowKeys, selectedRows) {
+    const {actions, indexState} = this.props
+    actions.updateSelectedSourceKeys(selectedRowKeys)
+  }
+
+  handleClearSelection() {
+    const {actions, indexState} = this.props
+    actions.updateSelectedSourceKeys([])
+  }
+
   render() {
-    const {indexState} = this.props
+    const {indexState, actions, intl} = this.props
     const paging = indexState.getIn(['sourceFilters', 'paging'])
     const isFetchingSources = indexState.get('isFetchingSources')
-    const isHandingOver = indexState.get('isHandingOver')
     const data = indexState.get('sources').toJS()
-
-    const columns = [{
-      title: 'Email',
-      dataIndex: 'email',
-    }, {
-      title: 'Date',
-      dataIndex: 'created_at',
-      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
-    }, {
-      title: 'Status',
-      dataIndex: 'status',
-    }, {
-      title: 'Source',
-      dataIndex: 'source_url',
-      width: '50%',
-    }];
-    
+    const selectedSourceKeys = indexState.get('selectedSourceKeys')
 
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
           <Col span={18}>
-            <Button
-              disabled={isHandingOver}
-              loading={isHandingOver}
-              onClick={this.handleHandOver}
-            >
-              Hand over
-            </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
-              placeholder="Search by url.."
+              placeholder= {intl.formatMessage({id: 'index.sources_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />
           </Col>
         </Row>
         <Table
-          columns={columns}
+          bordered
+          columns={this.columns}
+          title={this.renderTableTitle}
           dataSource={data}
+          rowSelection={{
+            selectedRowKeys: selectedSourceKeys.toJS(),
+            onChange: this.handleSelectionChange
+          }}
           size="middle" 
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           onChange={this.handleTableChange}
@@ -100,5 +141,80 @@ class SourcesTableBox extends React.Component {
     );
   }
 
+  renderTableTitle() {
+    const {indexState, actions, intl} = this.props
+    const selectedSourceKeys = indexState.get('selectedSourceKeys')
+    const paging = indexState.getIn(['sourceFilters', 'paging'])
+    const isHandingOver = indexState.get('isHandingOver')
+
+    return (
+      <Row className="main-content-table-tools">
+        <Col span={16}>
+          {selectedSourceKeys.count() > 0 && (
+            <Col>
+            <b className="button-margin--right--default">
+              {intl.formatMessage({id: 'index.sources_table.others.selected.label'})}
+              {selectedSourceKeys.count()}
+            </b>
+
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleClearSelection}
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.clear.button'})}
+            </Button>
+
+            <Button
+              className="button-margin--left--default"
+              type="primary"
+              ghost
+              onClick={this.handleSetToTest}
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.move_to_test.button'})}
+            </Button>
+
+            <Button
+              className="button-margin--left--default"
+              type="primary"
+              ghost
+              onClick={this.handleSetToTrash}
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.move_to_trash.button'})}
+            </Button>
+
+            <Button
+              className="button-margin--left--default"
+              type="primary"
+              ghost
+              onClick={this.handleSetToNew}
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.move_to_new.button'})}
+            </Button>
+
+            <Button
+              className="button-margin--left--default"
+              disabled={isHandingOver}
+              loading={isHandingOver}
+              onClick={this.handleHandOver}
+              type="danger"
+              ghost
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.hand_over.button'})}
+            </Button>
+
+            </Col>
+            )}
+        </Col>
+        <Col span={8} className="main-content-table-tools-pagination-box">
+          <Pagination
+            size="small"
+            onChange={(page, pageSize) => this.handleTableChange({current: page}, {}, {})}
+            {...getDefaultTableTitlePagination(paging.get('page'), paging.get('record_total'))}
+          />
+        </Col>
+      </Row>
+    )
+  }
+
 }
-export default SourcesTableBox
+export default injectIntl(SourcesTableBox)

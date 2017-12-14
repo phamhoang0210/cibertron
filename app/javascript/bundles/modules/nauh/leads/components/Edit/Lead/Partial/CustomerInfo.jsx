@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
+import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import {
   Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker,
   Tabs, Table, Modal
@@ -43,23 +44,24 @@ class CustomerInfo extends React.Component {
       title: intl.formatMessage({id: 'attrs.eros_customer.label'}),
       dataIndex: 'name',
       key: 'name',
-      width: '20%',
+      width: '30%',
       render: (value, record) => (
         <div>
           {record.name}<br/>
           • {record.mobile}<br/>
           • {record.email}<br/>
+          • <i>{record.address}</i>
         </div>
       ),
     }, {
       title: intl.formatMessage({id: 'attrs.eros_course.label'}),
       dataIndex: 'course',
       key: 'course',
-      width: '30%',
+      width: '25%',
       render: (value, record) => (
         <div>
           <b>{record.course_code}</b><br/>
-          <i>{record.course_name}</i>
+          <i>{record.course_name}</i><br/>
         </div>
       )
     }, {
@@ -92,6 +94,13 @@ class CustomerInfo extends React.Component {
   }
 
   state = { wrongPhone: false, noAnswer: false }
+
+  handleUpdateAttr(values) {
+    const {actions, editState} = this.props
+    const lead = editState.get('lead')
+    const defaultLeadParams = editState.get('defaultLeadParams').toJS()
+    actions.updateLeadAttr(lead.get('id'), {...defaultLeadParams, record: values})
+  }
 
   // Handle show modal
   showEmailNoAnswerModal = () => {
@@ -141,6 +150,8 @@ class CustomerInfo extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        values.birth_day = moment(values.birth_day).format(LONG_DATETIME_FORMAT)
+        values.imported_at = moment(values.imported_at).format(LONG_DATETIME_FORMAT)
         actions.updateLead(lead.get('id'), {record: values})
       }
     })
@@ -196,6 +207,7 @@ class CustomerInfo extends React.Component {
   renderUpdateInfoTab() {
     const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
+    const isUpdatingLeadAttr = editState.get('isUpdatingLeadAttr')
     const lead = editState.get('lead')
     const isCalling = editState.get('isCalling')
     const isUpdatingLead = editState.get('isUpdatingLead')
@@ -203,6 +215,7 @@ class CustomerInfo extends React.Component {
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
+    const sexes = sharedState.get('sexes')
 
     const emailTemplate = editState.get('emailTemplate')
     var noAnswerTemplate = ''
@@ -211,6 +224,21 @@ class CustomerInfo extends React.Component {
       noAnswerTemplate = emailTemplate.get('noAnswer')
       wrongPhoneTemplate = emailTemplate.get('wrongPhone')
     }
+
+    var sourceDetails = ''
+    if (lead.getIn(['utm','details'])) {
+      lead.getIn(['utm','details']).map((key,value) => (
+        sourceDetails += (value.toString() + " : " + key.toString() + "\n")
+      ))
+    }
+    
+
+    const sexOptions = [];
+    sexes.map(sex => (
+      sexOptions.push(<Option key={sex.get('id')} value={`${sex.get('id')}`}>
+        {sex.get('name')}
+      </Option>)
+    ))
 
     return (
       <Form onSubmit={this.handleSubmit} layout="horizontal">
@@ -251,6 +279,18 @@ class CustomerInfo extends React.Component {
               </InputGroup>
             </FormItem>
             <FormItem
+              label={intl.formatMessage({id: 'attrs.sex.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('sex_id', {
+                initialValue: lead.get('sex_id') ? `${lead.getIn(['sex','id'])}` : ``,
+              })(
+                <Select>
+                  {sexOptions}
+                </Select>
+              )}
+            </FormItem>
+            <FormItem
               label={intl.formatMessage({id: 'attrs.name.label'})}
               {...DEFAULT_FORM_ITEM_LAYOUT}
             >
@@ -287,6 +327,16 @@ class CustomerInfo extends React.Component {
                 initialValue: lead.get('address'),
               })(<Input />)}
             </FormItem>
+
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.birth_day.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('birth_day', {
+                initialValue: lead.get('birth_day') && moment(lead.get('birth_day'))
+              })(<DatePicker className="width--full"/>)}
+            </FormItem>
+
             <FormItem
               label={intl.formatMessage({id: 'attrs.note.label'})}
               {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -295,6 +345,16 @@ class CustomerInfo extends React.Component {
                 initialValue: lead.get('note'),
               })(<TextArea />)}
             </FormItem>
+
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.source.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('utm', {
+                initialValue: sourceDetails,
+              })(<TextArea disabled rows={4} />)}
+            </FormItem>
+
           </Col>
         </Row>
 

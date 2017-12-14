@@ -24,6 +24,7 @@ class EditScreen extends React.Component {
     actions.fetchUsers({per_page: 'infinite'})
     actions.fetchCombos({per_page: 'infinite'})
     actions.fetchCourses({per_page: 'infinite'})
+    actions.fetchSexes({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,10 +55,10 @@ class EditScreen extends React.Component {
         {lead && (
           <div>
             <Row gutter={8}>
-              <Col span={8}>
+              <Col span={6}>
                 <OrderInfo {...this.props}/>
               </Col>
-              <Col span={16}>
+              <Col span={18}>
                 <CustomerInfo {...this.props}/>
               </Col>
             </Row>

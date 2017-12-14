@@ -5,7 +5,7 @@ import {
   USERSERVICE_BASE_URL, USERS_API_PATH, COURSES_API_PATH,
   COMBOS_API_PATH, SOL_BASE_URL, CAMPAIGNS_API_PATH,
   CRONUS_BASE_URL, GAMBIT_BASE_URL, PROVINCES_API_PATH,
-  ORDER_LEVELS_API_PATH,
+  ORDER_LEVELS_API_PATH, PAYMENT_METHODS_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -194,5 +194,37 @@ export function fetchOrderLevels(params = {}) {
       .fetchEntities(`${NAUH_BASE_URL}${ORDER_LEVELS_API_PATH}`, params)
       .then(res => dispatch(fetchOrderLevelsSuccess(res.data)))
       .catch(error => dispatch(fetchOrderLevelsFailure(error)))
+  }
+}
+
+
+function setIsFetchingPaymentMethods() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PAYMENT_METHODS,
+  }
+}
+
+function fetchPaymentMethodsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_PAYMENT_METHODS_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchPaymentMethodsFailure(error) {
+  return {
+    type: actionTypes.FETCH_PAYMENT_METHODS_FAILURE,
+    error,
+  }
+}
+
+export function fetchPaymentMethods(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingPaymentMethods())
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${PAYMENT_METHODS_API_PATH}`, params)
+      .then(res => dispatch(fetchPaymentMethodsSuccess(res.data)))
+      .catch(error => dispatch(fetchPaymentMethodsFailure(error)))
   }
 }

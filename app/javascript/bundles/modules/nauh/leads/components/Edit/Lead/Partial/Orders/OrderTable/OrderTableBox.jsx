@@ -176,7 +176,7 @@ class OrderTableBox extends React.Component {
       leadOrderParams.page = current
     }
 
-    actions.fetchOrders({fields: leadOrderParams.fields, lead_id: lead.get('id')})
+    actions.fetchOrders({...leadOrderParams, lead_id: lead.get('id')})
   }
 
 
@@ -197,13 +197,14 @@ class OrderTableBox extends React.Component {
     var has_schedule = false
 
     _.forEach(orders.toJS(), function(value) {
-        var method = value.payment.payment_method.code
-        if (method == "OFFICE"){
+      if(value.payment) {
+        if (value.payment.payment_method.code == "OFFICE"){
           has_schedule = true
         }
-        if (method == "ONE_PAY"){
+        if (value.payment.payment_method.code == "ONE_PAY"){
           has_online_payment = true
         }
+      }
       });
 
     const emailTemplate = editState.get('emailTemplate')

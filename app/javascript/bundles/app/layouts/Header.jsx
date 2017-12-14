@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col, Menu, Icon, Layout} from 'antd'
+import {Row, Col, Menu, Icon, Layout, Dropdown} from 'antd'
 const SubMenu = Menu.SubMenu
 
 class Header extends React.Component {
@@ -19,21 +19,21 @@ class Header extends React.Component {
             )}
           </Col>
           <Col span={8}>
-            <Menu
-              className="layout-content-header-menu"
-              mode="horizontal"
-            >
-              <SubMenu
-                title={<span>
-                  <Icon type="user" />
-                  {localStorage.getItem('gaia-uid') || 'User'}
-                </span>}
+            <div className="layout-content-header-tools">
+              <Dropdown
+                overlay={(
+                  <Menu>
+                    <Menu.Item key="sign_out">
+                      <a href="/auth/sign_out">Sign out</a>
+                    </Menu.Item>
+                  </Menu>
+                )}
               >
-                <Menu.Item key="sign_out">
-                  <a href="/auth/sign_out">Sign out</a>
-                </Menu.Item>
-              </SubMenu>
-            </Menu>
+                <span className="layout-content-header-tools-action">
+                  <Icon type="user"/> {localStorage.getItem('gaia-uid') || 'User'}
+                </span>
+              </Dropdown>
+            </div>
           </Col>
         </Row>
       </Layout.Header>

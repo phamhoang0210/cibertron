@@ -8,6 +8,7 @@ export const initialState = Immutable.fromJS({
   campaigns: [],
   provinces: [],
   orderLevels: [],
+  paymentMethods: [],
   campaignIdCodeMappings: {},
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
@@ -17,6 +18,7 @@ export const initialState = Immutable.fromJS({
   isFetchingCampaigns: false,
   isFetchingProvinces: false,
   isFetchingOrderLevels: false,
+  isFetchingPaymentMethods: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -142,6 +144,25 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_ORDER_LEVELS_FAILURE: {
       return $$state.merge({
         isFetchingOrderLevels: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_PAYMENT_METHODS: {
+      return $$state.merge({
+        isFetchingPaymentMethods: true,
+      })
+    }
+
+    case actionTypes.FETCH_PAYMENT_METHODS_SUCCESS: {
+      return $$state.merge({
+        isFetchingPaymentMethods: false,
+        paymentMethods: records,
+      })
+    }
+
+    case actionTypes.FETCH_PAYMENT_METHODS_FAILURE: {
+      return $$state.merge({
+        isFetchingPaymentMethods: false,
       })
     }
 

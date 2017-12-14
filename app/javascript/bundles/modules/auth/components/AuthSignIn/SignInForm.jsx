@@ -65,7 +65,7 @@ class SignInForm extends React.Component {
         </Form.Item>
         <Form.Item>
           <Checkbox>Remember me</Checkbox>
-          <a className="login-form-forgot" href="">Forgot password</a>
+          {/*<a className="login-form-forgot" href="">Forgot password</a>*/}
           <Button
             type="primary"
             htmlType="submit"
@@ -75,7 +75,7 @@ class SignInForm extends React.Component {
           >
             Log in
           </Button>
-          Or <Link to={SIGN_UP_PATH}>register now!</Link>
+         {/*Or <Link to={SIGN_UP_PATH}>register now!</Link>*/}
         </Form.Item>
       </Form>
     )

@@ -7,10 +7,13 @@ import {
   getInitialValue,
 } from 'helpers/applicationHelper'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
+import { NAUH_BASE_URL, ORDER_EXPORT_API_PATH } from '../../../../constants/paths'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
+import {getCredentials} from 'helpers/auth/authHelper'
+import qs from 'qs'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -24,6 +27,7 @@ class OrderFiltersFormBox extends React.Component {
       'handleFilter',
       'formatFormData',
       'handleReset',
+      'handleExport',
     ])
 
     this.initialValues = this.getInitialValues()
@@ -36,8 +40,10 @@ class OrderFiltersFormBox extends React.Component {
     return {
       created_at: getInitialValueForRangePicker({}, currentOrderParams, ['created_at.gte'], ['created_at.lt']),
       updated_at: getInitialValueForRangePicker({}, currentOrderParams, ['updated_at.gte'], ['updated_at.lt']),
-      campaign_id: getInitialValue({}, currentOrderParams, 'campaign_id'),
-      staff_id: getInitialValue({}, currentOrderParams, 'staff_id'),
+      campaign_code: getInitialValue({}, currentOrderParams, ['campaign_code.in']),
+      staff_id: getInitialValue({}, currentOrderParams, ['compconds', 'staff_id.in']),
+      order_level_id: getInitialValue({}, currentOrderParams, ['compconds', 'order_level_id.in']),
+      payment_method_ids: getInitialValue({}, currentOrderParams, ['payment_method_ids']),
     }
   }
 
@@ -59,7 +65,7 @@ class OrderFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['campaign_id', 'order_level_id']
+    const inCompFields = ['campaign_code', 'order_level_id']
     const timerangeFields = ['created_at', 'updated_at']
 
     let compconds = {}
@@ -83,12 +89,21 @@ class OrderFiltersFormBox extends React.Component {
     return mergeDeep([formatedValues, {compconds: compconds}])
   }
 
+  handleExport() {
+    const {actions, indexState, location} = this.props
+    let orderParams = getFilterParams(indexState.get('orderFilters'), location)
+    const query = qs.stringify({...orderParams, ...getCredentials()}, { arrayFormat: 'brackets' })
+    window.open(`${NAUH_BASE_URL}${ORDER_EXPORT_API_PATH}?=${query}`, '_blank')
+  }
+
   render() {
     const {indexState, form, sharedState, intl} = this.props
     const isFetchingOrders = indexState.get('isFetchingOrders')
     const campaigns = sharedState.get('campaigns')
     const users = sharedState.get('users')
     const orderLevels = sharedState.get('orderLevels')
+    const paymentMethods = sharedState.get('paymentMethods')
+    const recordTotal = indexState.getIn(['orderFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
 
     return (
@@ -133,9 +148,9 @@ class OrderFiltersFormBox extends React.Component {
                   label={intl.formatMessage({id: 'attrs.campaign.label'})}
                   {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                  {getFieldDecorator('campaign_id', {
+                  {getFieldDecorator('campaign_code', {
                     rules: [{ type: 'array' }],
-                    ...this.initialValues.campaign_id,
+                    ...this.initialValues.campaign_code,
                   })(
                     <Select
                       showSearch
@@ -147,7 +162,7 @@ class OrderFiltersFormBox extends React.Component {
                       allowClear={true}
                     >
                       {campaigns.toJS().map(campaign => (
-                        <Option value={`${campaign.id}`} key={campaign.id}>
+                        <Option value={`${campaign.code}`} key={campaign.id}>
                           {campaign.code}
                         </Option>
                       ))}
@@ -187,7 +202,7 @@ class OrderFiltersFormBox extends React.Component {
                 >
                   {getFieldDecorator('order_level_id', {
                     rules: [{ type: 'array' }],
-                    ...this.initialValues.staff_id,
+                    ...this.initialValues.order_level_id,
                   })(
                     <Select
                       showSearch
@@ -205,9 +220,44 @@ class OrderFiltersFormBox extends React.Component {
                   )}
                 </FormItem>
               </Col>
+              <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.payment_method.label'})}
+                  {...FILTER_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('payment_method_ids', {
+                    rules: [{ type: 'array' }],
+                    ...this.initialValues.payment_method_ids,
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                      mode="multiple"
+                      placeholder={intl.formatMessage({id: 'attrs.payment_method.placeholder.select.all'})}
+                      allowClear={true}
+                    >
+                      {paymentMethods.toJS().map(paymentMethod => (
+                        <Option value={`${paymentMethod.id}`} key={paymentMethod.id}>
+                          {paymentMethod.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
             </Row>
             <Row>
               <Col span={24} style={{ textAlign: 'right' }}>
+                <Button
+                  className="button-margin--right--default"
+                  onClick={this.handleExport}
+                  disabled={isFetchingOrders}
+                >
+                  {intl.formatMessage(
+                    {id: 'index.filters_form.form_item.button.export.text'},
+                    {numOfItem: recordTotal || ''}
+                  )}
+                </Button>
                 <Button className="button-margin--right--default" onClick={this.handleReset}>
                   {intl.formatMessage({id: 'form.form_item.button.clear.text'})}
                 </Button>

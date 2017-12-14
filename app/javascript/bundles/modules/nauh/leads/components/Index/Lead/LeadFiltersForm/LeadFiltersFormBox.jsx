@@ -37,12 +37,12 @@ class LeadFiltersFormBox extends React.Component {
     const {indexState, location} = this.props
     const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
     return {
-      created_at: getInitialValueForRangePicker({}, currentLeadFilters, ['created_at.gte'], ['created_at.lt']),
       imported_at: getInitialValueForRangePicker({}, currentLeadFilters, ['imported_at.gte'], ['imported_at.lt']),
       assigned_at: getInitialValueForRangePicker({}, currentLeadFilters, ['assigned_at.gte'], ['assigned_at.lt']),
-      lead_level_id: getInitialValue({}, currentLeadFilters, ['lead_level_id.in']),
-      staff_id: getInitialValue({}, currentLeadFilters, ['staff_id.in']),
-      lead_status_id: getInitialValue({}, currentLeadFilters, ['lead_status_id.in']),
+      lead_level_id: getInitialValue({}, currentLeadFilters, ['compconds', 'lead_level_id.in']),
+      staff_id: getInitialValue({}, currentLeadFilters, ['compconds', 'staff_id.in']),
+      lead_status_id: getInitialValue({}, currentLeadFilters, ['compconds', 'lead_status_id.in']),
+      other_filters: getInitialValue({}, currentLeadFilters, ['other_filters']),
     }
   }
 
@@ -64,7 +64,7 @@ class LeadFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
     const inCompFields = ['lead_level_id', 'staff_id', 'lead_status_id']
-    const timerangeFields = ['created_at', 'imported_at', 'assigned_at']
+    const timerangeFields = ['imported_at', 'assigned_at']
     
     let compconds = {}
     inCompFields.forEach(field => {
@@ -94,8 +94,9 @@ class LeadFiltersFormBox extends React.Component {
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
+    const otherFilters = sharedState.get('otherFilters')
     const users = sharedState.get('users')
-    const totalPage = indexState.getIn(['leadFilters', 'paging', 'record_total'])
+    const recordTotal = indexState.getIn(['leadFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
 
     return (
@@ -105,22 +106,6 @@ class LeadFiltersFormBox extends React.Component {
           onSubmit={this.handleFilter}
         >
           <Row gutter={40}>
-            <Col span={8}>
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.created_in.label'})}
-                {...FILTER_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('created_at', {
-                  ...this.initialValues.created_at,
-                })(
-                  <RangePicker
-                    style={{width: '100%'}}
-                    format={LONG_DATETIME_FORMAT}
-                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
-                  />
-                )}
-              </FormItem>
-            </Col>
             <Col span={8}>
               <FormItem 
                 label={intl.formatMessage({id: 'attrs.imported_in.label'})}
@@ -139,7 +124,7 @@ class LeadFiltersFormBox extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem 
-                label={intl.formatMessage({id: 'attrs.created_in.label'})}
+                label={intl.formatMessage({id: 'attrs.assigned_in.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('assigned_at', {
@@ -228,6 +213,31 @@ class LeadFiltersFormBox extends React.Component {
                 )}
               </FormItem>
             </Col>
+            <Col span={8}>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.other_filters.label'})}
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('other_filters', {
+                  rules: [{ type: 'array' }],
+                  ...this.initialValues.other_filters,
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder={intl.formatMessage({id: 'attrs.other_filters.placeholder.select.none'})}
+                    allowClear={true}
+                  >
+                    {otherFilters.toJS().map(otherFilter => (
+                      <Option value={`${otherFilter.value}`} key={otherFilter.value}>
+                        {otherFilter.title}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
           </Row>
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
@@ -238,7 +248,7 @@ class LeadFiltersFormBox extends React.Component {
               >
                 {intl.formatMessage(
                   {id: 'index.filters_form.form_item.button.export.text'},
-                  {numOfItem: totalPage || ''}
+                  {numOfItem: recordTotal || ''}
                 )}
               </Button>
               <Button

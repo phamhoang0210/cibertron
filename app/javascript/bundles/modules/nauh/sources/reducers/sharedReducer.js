@@ -6,6 +6,9 @@ export const initialState = Immutable.fromJS({
   contacta3Statuses: [
     {id: 'new', name: 'new'},
     {id: 'handed_over', name: 'handed_over'},
+    {id: 'test', name: 'test'},
+    {id: 'trash', name: 'trash'},
+    {id: 'duplicate', name: 'duplicate'},
   ]
 })
 

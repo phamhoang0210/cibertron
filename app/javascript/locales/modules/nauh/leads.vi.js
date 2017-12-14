@@ -7,6 +7,30 @@ export const appLocale = {
   messages: flattenMessages({
     ...commontAntdVi,
     attrs: {
+      other_filters: {
+        // attrs.other_filters.label
+        label: 'Điều kiện khác',
+        placeholder: {
+          select: {
+            // attrs.other_filters.placeholder.select.single
+            none: '-- Không chọn --'
+          }
+        }
+      },
+      campaign: {
+        // attrs.campaign.label
+        label: 'Campaign',
+        errors: {
+          // attrs.campaign.errors.required
+          required: 'Campaign là trường bắt buộc!'
+        },
+        placeholder: {
+          select: {
+            // attrs.campaign.placeholder.select.single
+            single: 'Chọn campaign'
+          }
+        }
+      },
       eros_created_at: {
         // attrs.eros_created_at.label
         label: 'Timestamp',
@@ -101,7 +125,7 @@ export const appLocale = {
       },
       imported_in: {
         // attrs.imported_in.label
-        label: 'Ngày import',
+        label: 'Ngày tạo',
       },
       assigned_in: {
         // attrs.assigned_in.label
@@ -193,9 +217,27 @@ export const appLocale = {
         // attrs.name.label
         label: 'Tên',
       },
+      info: {
+        // attrs.info.label
+        label: 'Học viên',
+        // attrs.info.duplicated
+        duplicated: 'Contact trùng',
+      },
+      campaign: {
+        // attrs.campaign.label
+        label: 'Camapaign',
+      },
       address: {
         // attrs.address.label
         label: 'Địa chỉ',
+      },
+      birth_day: {
+        // attrs.birth_day.label
+        label: 'Ngày sinh',
+      },
+      sex: {
+        // attrs.sex.label
+        label: 'Giới tính',
       },
       interest: {
         // attrs.interest.label
@@ -204,6 +246,10 @@ export const appLocale = {
       note: {
         // attrs.note.label
         label: 'Ghi chú',
+      },
+      source: {
+        // attrs.source.label
+        label: 'Nguồn',
       },
       last_lead_care_history: {
         // attrs.last_lead_care_history.label
@@ -277,8 +323,8 @@ export const appLocale = {
             // attrs.lead_level.attrs.a3.label
             label: 'A3',
           },
-          a3: {
-            // attrs.lead_level.attrs.a3.label
+          a3x: {
+            // attrs.lead_level.attrs.a3x.label
             label: 'A3X',
           }
         }
@@ -505,7 +551,7 @@ export const appLocale = {
             placeholder: {
               select: {
                 // attrs.order.attrs.cod_province.placeholder.select.single
-                single: 'Tỉnh là trường bắt buộc!',
+                single: 'Chọn tỉnh/thành phố',
               }
             }
           },
@@ -521,7 +567,23 @@ export const appLocale = {
             placeholder: {
               select: {
                 // attrs.order.attrs.cod_district.placeholder.select.single
-                single: 'Huyện là trường bắt buộc!',
+                single: 'Chọn quận/huyện',
+              }
+            }
+          },
+          cod_ward: {
+            // attrs.order.attrs.cod_ward.label
+            label: 'Phường/Xã',
+            errors: {
+              // attrs.order.attrs.cod_ward.errors.required
+              required: 'Phường/Xã là trường bắt buộc',
+              // attrs.order.attrs.cod_ward.errors.not_in_district
+              not_in_district: 'Phường/Xã không nằm trong huyện đã chọn'
+            },
+            placeholder: {
+              select: {
+                // attrs.order.attrs.cod_ward.placeholder.select.single
+                single: 'Chọn phường/xã',
               }
             }
           },
@@ -721,7 +783,7 @@ export const appLocale = {
         tools: {
           search: {
             // index.leads_table.tools.search.placeholder
-            placeholder: 'Tìm kiếm theo email, tên, sđt, ghi chú, quan tâm'
+            placeholder: 'Tìm kiếm theo email, tên, sđt, ghi chú, quan tâm, campaign'
           },
         },
         update_multiple: {

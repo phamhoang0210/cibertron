@@ -40,10 +40,6 @@ class ReportTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.a3.label'}),
       dataIndex: 'A3',
       key: 'A3',
-    }, {
-      title: intl.formatMessage({id: 'attrs.lead_level.attrs.a3.label'}),
-      dataIndex: 'A3X',
-      key: 'A3X',
     }];
 
     this.formItemLayout = {

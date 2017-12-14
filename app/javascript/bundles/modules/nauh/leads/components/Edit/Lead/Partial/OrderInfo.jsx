@@ -101,6 +101,11 @@ class OrderInfo extends React.Component {
                     })
                   ))}
                 />
+                {lead.get('is_duplicated') && (
+                  <Tag color="red">
+                    {intl.formatMessage({id: 'attrs.info.duplicated'})}
+                  </Tag>
+                )} 
               </Col>
             </Row>
             <Row gutter={8} className="order-info-update-form-item">
