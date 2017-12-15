@@ -1,4 +1,4 @@
-FROM duongtv/ruby-node-gaia:1.0.1
+FROM duongtv/ruby-node-gaia:1.0.4
 ADD . /home/rails/gaia
 WORKDIR /home/rails/gaia
 RUN apt-get update -qq && \
