@@ -8,6 +8,33 @@
     <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'nauh' %>
     <%= stylesheet_pack_tag 'nauh' %>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script src="http://ceto.edumall.io/build/landingpage/extensions/jquery_snowfall_2.min.js"></script>
+    <script>
+      $(document).ready( function(){
+        /**
+         * @params flakeCount - Số lượng bông tuyết
+         * @params flakeColor - Màu của bông tuyết, mặc định #FFF (Màu trắng)
+         * @params maxSize - Kích thước bông tuyết lớn nhất có thể, mặc định là 20
+         * @params minSize - Kích thước bông tuyết nhỏ nhất có thể, mặc định 500
+         * @params minSpeed - Tốc độ rơi nhỏ nhất có thể,
+         * @params maxSpeed - Tốc độ rơi lớn nhất có thể,
+         * @params round - Bông tuýet có phải hình tròn hay vuông
+         */
+        $('.ant-layout-sider-children').snowfall({
+          flakeCount : 50,
+          flakeColor : '#ffffff',
+          maxSize : 4,
+          minSize : 1,
+          minSpeed : 1,
+          maxSpeed : 4,
+          round : true,
+        });
+      });
+    </script>
   </head>
 
   <body>
