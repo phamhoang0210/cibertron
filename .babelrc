@@ -22,6 +22,6 @@
         "spec": true
       }
     ],
-    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }], // `style: true` for less
+    ["import", { libraryName: "antd", style: "css" }],
   ]
 }
