@@ -91,6 +91,7 @@ class NauhLayout extends React.Component {
           >
             {menuData.map(menu => this.loadSiderMenu(menu))}
           </Menu>
+          <img width="230" height="auto" src="/assets/xmas.png" style={{position: "fixed", bottom: "0px"}}/>
         </Sider>
         <Layout className="layout-content">
           <Header
