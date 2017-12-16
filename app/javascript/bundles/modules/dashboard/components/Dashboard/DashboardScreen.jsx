@@ -14,7 +14,7 @@ class DashboardScreen extends React.Component {
   render() {
     return (
       <div>
-        <h1>Dashboard</h1>
+        <h1>Apps</h1>
         <ServiceList {...this.props}/>
       </div>
     )

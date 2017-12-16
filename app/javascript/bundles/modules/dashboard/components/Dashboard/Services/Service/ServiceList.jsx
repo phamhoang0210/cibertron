@@ -28,9 +28,9 @@ class ServiceList extends React.Component {
             }
 
             return (
-              <Col span={6} style={{marginTop: '16px', cursor: 'pointer'}} key={service.get('id')}>
-                <Card title={service.get('name')} bordered={false} onClick={handleClick}>
-                  <p style={{height: '36px', lineHeight: '12px', overflowY: 'auto'}}>
+              <Col span={6} style={{marginTop: '16px'}} key={service.get('id')}>
+                <Card hoverable title={service.get('name')} bordered={false} onClick={handleClick}>
+                  <p style={{height: '36px', lineHeight: '18px', overflowY: 'auto'}}>
                     {service.get('description')}
                   </p>
                 </Card>
