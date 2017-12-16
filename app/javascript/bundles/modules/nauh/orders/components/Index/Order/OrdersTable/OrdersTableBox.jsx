@@ -196,6 +196,7 @@ class OrdersTableBox extends React.Component {
           </Col>
           <Col span={6} style={{ textAlign: 'right' }}>
             <Search
+              enterButton
               defaultValue={this.initialValues.search.initialValue}
               placeholder={intl.formatMessage({id: 'index.orders_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}

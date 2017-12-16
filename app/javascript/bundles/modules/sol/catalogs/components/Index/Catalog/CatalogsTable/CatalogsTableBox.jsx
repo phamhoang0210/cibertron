@@ -141,6 +141,7 @@ class CatalogsTableBox extends React.Component {
           </Col>
           <Col span={6}>
             <Search
+              enterButton
               defaultValue={this.initialValues.search.initialValue}
               placeholder="Search by code.."
               onSearch={this.handleSearch}
