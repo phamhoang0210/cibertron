@@ -9,5 +9,6 @@ module.exports = {
       styles: 'src/styles',
       locales: 'locales',
     }
-  }
+  },
+  devtool: 'eval',
 }
