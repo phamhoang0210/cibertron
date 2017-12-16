@@ -138,6 +138,7 @@ class NodesTableBox extends React.Component {
           </Col>
           <Col span={6} className="main-content-table-box-tools-box-search-box">
             <Search
+              enterButton
               placeholder={intl.formatMessage({id: 'index.nodes_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
             />

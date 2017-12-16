@@ -126,6 +126,7 @@ class DomainsTableBox extends React.Component {
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
+              enterButton
               placeholder={intl.formatMessage({id: 'index.domains_table.search.placeholder'})}
               onSearch={this.handleSearch}
             />

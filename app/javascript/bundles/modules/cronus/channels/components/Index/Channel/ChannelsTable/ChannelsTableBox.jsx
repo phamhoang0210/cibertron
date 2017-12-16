@@ -121,6 +121,7 @@ class ChannelsTableBox extends React.Component {
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
+              enterButton
               placeholder="Search by code.."
               onSearch={this.handleSearch}
             />

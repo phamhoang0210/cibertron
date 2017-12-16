@@ -118,6 +118,7 @@ class DiscountsTableBox extends React.Component {
         <Row className="main-content-table-box-tools">
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
+              enterButton
               placeholder="Search by name.."
               onSearch={this.handleSearch}
             />

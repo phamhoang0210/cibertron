@@ -128,6 +128,7 @@ class DepartmentTableBox extends React.Component {
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
+              enterButton
               defaultValue={this.initialValues.search}
               placeholder={intl.formatMessage({id: 'index.departments_table.tools.search.placeholder'})}
               onSearch={this.handleSearch}
