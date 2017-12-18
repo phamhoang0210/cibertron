@@ -112,6 +112,25 @@ export const menuData = [
     ]
   }, {
     type: 'subMenu',
+    path: '/izzy',
+    title: (<span><Icon type="bars" /><span>IZZY</span></span>),
+    items: [
+      {
+        type: 'link', 
+        path: '/izzy/campaigns',
+        title: 'Campaigns',
+      } , {
+        type: 'link', 
+        path: '/izzy/lists',
+        title: 'Lists',
+      } , {
+        type: 'link', 
+        path: '/izzy/templates',
+        title: 'Templates',
+      },
+    ]
+  }, {
+    type: 'subMenu',
     path: '/hera',
     title: (<span><Icon type="bars" /><span>HERA</span></span>),
     items: [
