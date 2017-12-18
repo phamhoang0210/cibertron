@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingTemplate: false,
         template: record,
-        alert: createSuccessAlert(`Template was successfully created. {email: ${record.email}}`),
+        alert: createSuccessAlert(`Template was successfully created.}`),
       })
     }
 

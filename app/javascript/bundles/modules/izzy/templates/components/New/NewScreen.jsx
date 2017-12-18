@@ -1,5 +1,5 @@
 import React from 'react'
-import CampaignNewForm from './Campaign/CampaignForm/CampaignNewForm'
+import TemplateNewForm from './Template/TemplateForm/TemplateNewForm'
 import {injectIntl} from 'react-intl'
 
 class NewScreen extends React.Component {
@@ -21,7 +21,7 @@ class NewScreen extends React.Component {
           </h1>
         </div>
         <div className="box-body">
-          <CampaignNewForm {...this.props}/>
+          <TemplateNewForm {...this.props}/>
         </div>
       </div>
     )

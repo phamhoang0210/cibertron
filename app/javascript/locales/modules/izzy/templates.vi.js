@@ -39,10 +39,10 @@ export const appLocale = {
 
       name: {
         // attrs.name.label
-        label: 'Tên chiến dịch',
+        label: 'Tên template',
         errors: {
         // attrs.name.errors.required
-          required: 'Name là trường bắt buộc'
+          required: 'Tên là trường bắt buộc'
         }
       },
       imported_at: {
@@ -70,7 +70,7 @@ export const appLocale = {
     },
     index: {
       // index.title
-      title: 'Campaigns',
+      title: 'Templates',
       filters_form: {
         form_item: {
           button: {

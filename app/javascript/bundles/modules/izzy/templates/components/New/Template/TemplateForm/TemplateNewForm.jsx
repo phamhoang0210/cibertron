@@ -11,7 +11,7 @@ const Option = Select.Option
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 
-class CampaignNewForm extends React.Component {
+class TemplateNewForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -31,7 +31,7 @@ class CampaignNewForm extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        actions.createCampaign({record: values})
+        actions.createTemplate({record: values})
       }
     })
   }
@@ -55,7 +55,7 @@ class CampaignNewForm extends React.Component {
           </Row>
         )}
         <Row>
-          <Col span={10}>
+          <Col span={20}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
               <FormItem
                 label={intl.formatMessage({id: 'attrs.name.label'})}
@@ -82,7 +82,7 @@ class CampaignNewForm extends React.Component {
                       {id: 'attrs.subject.errors.required'},
                     ),
                   }],
-                })(<Input />)}
+                })(<TextArea rows={15} />)}
               </FormItem>
 
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
@@ -110,4 +110,4 @@ class CampaignNewForm extends React.Component {
   }
 }
 
-export default Form.create()(injectIntl(CampaignNewForm))
+export default Form.create()(injectIntl(TemplateNewForm))

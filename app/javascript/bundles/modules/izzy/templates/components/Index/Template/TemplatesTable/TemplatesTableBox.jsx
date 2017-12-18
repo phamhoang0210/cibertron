@@ -3,14 +3,14 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select
+  Tag, Tabs, Badge, Select, Modal
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
   getDefaultTableTitlePagination, getFilterParams, getInitialValueForSearch,
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
-import { CAMPAIGNS_URL } from '../../../../constants/paths'
+import { TEMPLATES_URL } from '../../../../constants/paths'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
 import moment from 'moment'
@@ -26,10 +26,6 @@ class TemplatesTableBox extends React.Component {
 
     const {intl} = this.props
 
-    this.state = {
-      showImportModal: false,
-    }
-
     this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
@@ -38,33 +34,25 @@ class TemplatesTableBox extends React.Component {
       'handleEdit',
       'handleAdd',
       'handleSearch',
+      'handleShowTemplateModal',
+      'handleCancelTemplateModal'
     ])
 
     this.columns = [
       {
         title: 'Created', 
-        width: '15%',
+        width: '10%',
         dataIndex: 'created_at', 
         key: 'created_at',
-        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',},
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
       {
         title: 'Name',
-        width: '15%',
         dataIndex: 'name',
         key: 'name'},
       {
-        title: 'Sender',
-        width: '15%',
-        dataIndex: 'sender.name', 
-        key: 'sender'},
-      {
-        title: 'Last send',
-        width: '15%',
-        dataIndex: 'user_id', 
-        key: 'last_send'},
-      {
         title: 'Nguoi tao',
-        width: '15%',
+        width: '10%',
         dataIndex: 'user_id', 
         key: 'user'},
       {
@@ -74,6 +62,21 @@ class TemplatesTableBox extends React.Component {
         render: (cell, row) => {
           return (
             <div className="text-align--right">
+              <Button
+                type="primary"
+                ghost
+                icon="eye"
+                className="button-margin--left--default"
+                onClick={(e) => this.handleShowTemplateModal(row.content)}
+              >
+              </Button>
+              <Button
+                type="primary"
+                icon="edit"
+                className="button-margin--left--default"
+                onClick={(e) => this.handleEdit(row.id)}
+              >
+              </Button>
               <Popconfirm
                 placement="topLeft"
                 title="Are you sure delete this catalog?"
@@ -81,21 +84,32 @@ class TemplatesTableBox extends React.Component {
                 okText="Yes"
                 cancelText="No"
               >
-                <Button type="danger" loading={row.isDeleting}>
-                  Delete
+                <Button 
+                  icon="delete" 
+                  type="danger" 
+                  loading={row.isDeleting}
+                  className="button-margin--left--default">
                 </Button>
               </Popconfirm>
-              <Button
-                className="button-margin--left--default"
-                onClick={(e) => this.handleEdit(row.id)}
-              >
-                Edit
-              </Button>
             </div>
           )
         },
       },
     ]
+  }
+
+  state = {modalShow: false, modalContent: ''}
+  //Handle show modal
+  handleShowTemplateModal(modalContent) {
+    this.setState({
+      modalShow: true,
+      modalContent: modalContent,
+    });
+  }
+  handleCancelTemplateModal() {
+    this.setState({
+      modalShow: false
+    });
   }
 
   getInitialValues() {
@@ -112,11 +126,11 @@ class TemplatesTableBox extends React.Component {
   }
 
   handleEdit(templateId) {
-    browserHistory.push(`${CAMPAIGNS_URL}/${templateId}/edit`)
+    browserHistory.push(`${TEMPLATES_URL}/${templateId}/edit`)
   }
 
   handleAdd(e) {
-    browserHistory.push(`${CAMPAIGNS_URL}/new`)
+    browserHistory.push(`${TEMPLATES_URL}/new`)
   }
 
   handleTableChange(pagination, filters, sorter) {
@@ -164,6 +178,18 @@ class TemplatesTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
           </Col>
         </Row>
+
+        <Modal
+          className = 'modalCustom'
+          title="Template"
+          cancelText="Cancel"
+          visible={this.state.modalShow}
+          onCancel={this.handleCancelTemplateModal}
+          onOk={this.handleCancelTemplateModal}
+        >
+          <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
+        </Modal>
+        
         <Table
           bordered
           size="middle"
