@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       option.resources :campaigns 
       option.resources :lists
       option.resources :templates
+      option.resources :senders
     end
   end
 

@@ -3,17 +3,15 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, List, Avatar, Progress } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
-import moment from 'moment'
-import { LONG_DATETIME_FORMAT, SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 
 const Option = Select.Option
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 
-class ListNewForm extends React.Component {
+class SenderNewForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -29,15 +27,12 @@ class ListNewForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const {actions,editState} = this.props
-    const f = this.inputFile.files[0]
-    var data = new FormData()
-    data.append('file', f)
-    var listId = editState.getIn(['list', 'id'])
+    const {actions, editState} = this.props
+    var senderId = editState.getIn(['sender', 'id'])
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        data.append('name', values["name"])
-        actions.updateList(listId, {record: data})
+        actions.updateSender(senderId, {record: values})
       }
     })
   }
@@ -46,9 +41,8 @@ class ListNewForm extends React.Component {
     const {editState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
     const alert = editState.get('alert')
-    const isUpdatingList = editState.get('isUpdatingList')
-    const list = editState.get('list')
-    const uploadFiles = editState.getIn(['list', 'upload_files'])
+    const isUpdatingSender = editState.get('isUpdatingSender')
+    const sender = editState.get('sender')
 
     return (
       <div className="main-content-form-box">
@@ -64,7 +58,7 @@ class ListNewForm extends React.Component {
         )}
         <Row>
           <Col span={20}>
-            {list && !list.isEmpty() && (
+            {sender && !sender.isEmpty() && (
             <Form onSubmit={this.handleSubmit} layout="horizontal">
               <FormItem
                 label={intl.formatMessage({id: 'attrs.name.label'})}
@@ -76,17 +70,29 @@ class ListNewForm extends React.Component {
                       {id: 'attrs.name.errors.required'},
                     ),
                   }],
-                  initialValue: list.get('name')
+                  initialValue: sender.get('name')
                 })(<Input />)}
               </FormItem>
 
-              <input style={{marginLeft: '25%'}} accept=".csv" ref={ref => this.inputFile = ref} type="file" id="file" name="file"/>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.email.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('email', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage(
+                      {id: 'attrs.email.errors.required'},
+                    ),
+                  }],
+                  initialValue: sender.get('email')
+                })(<Input />)}
+              </FormItem>
 
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={isUpdatingList}
+                  loading={isUpdatingSender}
                 >
                   {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                 </Button>
@@ -101,26 +107,10 @@ class ListNewForm extends React.Component {
             </Form>)}
           </Col>
         </Row>
-        {
-          uploadFiles && (
-            <List
-              itemLayout="horizontal"
-              dataSource={uploadFiles.toJS()}
-              renderItem={item => (
-                <List.Item actions={[<a href={item.public_url}>download</a>]}>
-                  <List.Item.Meta
-                    avatar={ <Progress type="circle" width={30} percent={100} />}
-                    title={item.original_filename}
-                    description={`Ngày: ${moment(item.created_at).format(SHORT_DATETIME_FORMAT)} Bởi: TungLD Số lượng: 2000`}
-                  />
-                </List.Item>
-              )}
-            />
-          ) 
-        }
+
       </div>
     );
   }
 }
 
-export default Form.create()(injectIntl(ListNewForm))
+export default Form.create()(injectIntl(SenderNewForm))
