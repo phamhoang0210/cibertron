@@ -127,6 +127,10 @@ export const menuData = [
         type: 'link', 
         path: '/izzy/templates',
         title: 'Templates',
+      } , {
+        type: 'link', 
+        path: '/izzy/senders',
+        title: 'Senders',
       },
     ]
   }, {

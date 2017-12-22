@@ -194,6 +194,13 @@ export const breadcrumbData = Immutable.fromJS({
         new: {
           title: 'Create',
         }
+      },
+      senders: {
+        title: 'Senders',
+        // Home > Izzy > Senders > Create
+        new: {
+          title: 'Create',
+        }
       }
     },
     // Home > Hera

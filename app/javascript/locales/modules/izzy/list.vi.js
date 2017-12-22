@@ -12,37 +12,32 @@ export const appLocale = {
         // attrs.created_in.label
         label: 'Ngày tạo',
       },
-      assigned_in: {
-        // attrs.assigned_in.label
-        label: 'Ngày giao tvts',
+      creator: {
+        // attrs.creator.label
+        label: 'Người tạo',
       },
-      message: {
-        // attrs.message.label
-        label: 'Message',
+      last_update: {
+        // attrs.last_update.label
+        label: 'Người sửa',
       },
-      email: {
-        // attrs.email.label
-        label: 'Email',
-        errors: {
-        // attrs.email.errors.required
-          required: 'Email là trường bắt buộc'
-        }
+      count: {
+        // attrs.count.label
+        label: 'Số lượng',
       },
-      subject: {
-        // attrs.subject.label
-        label: 'Subject',
-        errors: {
-          // attrs.subject.errors.required
-          required: 'Subject là trường bắt buộc!'
-        }
-      },
-
       name: {
         // attrs.name.label
-        label: 'Tên chiến dịch',
+        label: 'Tên',
         errors: {
         // attrs.name.errors.required
           required: 'Name là trường bắt buộc'
+        }
+      },
+      file: {
+        // attrs.file.label
+        label: 'File',
+        errors: {
+        // attrs.file.errors.required
+          required: 'File là trường bắt buộc'
         }
       },
       imported_at: {
@@ -70,7 +65,7 @@ export const appLocale = {
     },
     index: {
       // index.title
-      title: 'Campaigns',
+      title: 'Lists',
       filters_form: {
         form_item: {
           button: {
@@ -103,7 +98,7 @@ export const appLocale = {
         tools: {
           search: {
             // index.campaigns_table.tools.search.placeholder
-            placeholder: 'Tìm kiếm theo tên Campaign'
+            placeholder: 'Tìm kiếm theo tên List'
           },
         },
         update_multiple: {
@@ -128,11 +123,11 @@ export const appLocale = {
     },
     new: {
       // new.title
-      title: 'Tạo campaign',
+      title: 'Tạo list',
     },
     edit: {
       // edit.title
-      title: 'Cập nhật thông tin campaign',
+      title: 'Cập nhật thông tin list',
       campaign: {
         partial: {
           customer_info: {
