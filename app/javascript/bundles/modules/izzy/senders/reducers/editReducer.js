@@ -47,7 +47,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_SENDER_SUCCESS: {
       return $$state.merge({
         isUpdatingSender: false,
-        notification: createSuccessAlert('Cập nhật thành công!'),
+        alert: createSuccessAlert('Cập nhật thành công!'),
       }).update('sender', senderItem => (
         senderItem.merge(record)
       ))

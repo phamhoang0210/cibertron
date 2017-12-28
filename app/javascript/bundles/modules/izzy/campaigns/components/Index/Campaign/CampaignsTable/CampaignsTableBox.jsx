@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select
+  Tag, Tabs, Badge, Select, Modal, Icon, Popover
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -13,23 +13,32 @@ import { browserHistory } from 'react-router'
 import { CAMPAIGNS_URL } from '../../../../constants/paths'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
-import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../constants/constants'
 import moment from 'moment'
 
 import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 const TabPane = Tabs.TabPane
+const IconText = ({ type, text }) => (
+  <span>
+    <Icon type={type} style={{ margin: 8 }} />
+    {text}
+  </span>
+);
+const content = (
+  <div>
+    <p><IconText type="check" text="Email Sent" /> </p>
+    <p><IconText type="eye" text="Email Open" /></p>
+    <p><IconText type="select" text="Click Link" /></p>
+    <p><IconText type="dislike" text="Unsubscribe" /></p>
+  </div>
+);
 
 class CampaignsTableBox extends React.Component {
   constructor(props) {
     super(props)
 
     const {intl} = this.props
-
-    this.state = {
-      showImportModal: false,
-    }
 
     this.initialValues = this.getInitialValues()
 
@@ -38,60 +47,77 @@ class CampaignsTableBox extends React.Component {
       'handleDelete',
       'handleEdit',
       'handleAdd',
-      'handleSearch',
+      'handleSearch'
     ])
 
     this.columns = [
       {
-        title: 'Created', 
-        width: '15%',
+        title: intl.formatMessage({id: 'attrs.created_in.label'}), 
+        width: '10%',
         dataIndex: 'created_at', 
         key: 'created_at',
-        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',},
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
       {
-        title: 'Name',
-        width: '15%',
+        title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
-        key: 'name'},
+        key: 'name',
+        render: (value) => (
+          <div>
+            <Tag color="red">
+              SENT
+            </Tag>
+            <b>{value}</b><br/>
+            <Popover content={content}>
+              <IconText type="check" text="156" /> 
+              <IconText type="eye" text="156" />
+              <IconText type="select" text="2" />
+              <IconText type="dislike" text="156" /><br/>
+            </Popover>
+          </div>
+        )
+      },
       {
-        title: 'Sender',
-        width: '15%',
-        dataIndex: 'sender.name', 
-        key: 'sender'},
+        title: intl.formatMessage({id: 'attrs.last_action_by.label'}),
+        dataIndex: 'last_action_by',
+        key: 'last_action_by'},
       {
-        title: 'Last send',
-        width: '15%',
-        dataIndex: 'user_id', 
-        key: 'last_send'},
-      {
-        title: 'Nguoi tao',
-        width: '15%',
+        title: intl.formatMessage({id: 'attrs.creator.label'}),
+        width: '10%',
         dataIndex: 'user_id', 
         key: 'user'},
       {
-        title: 'Action',
+        title: '',
         dataIndex: 'action',
         width: '10%',
         render: (cell, row) => {
           return (
             <div className="text-align--right">
+              <Button
+                type="primary"
+                shape="circle"
+                size="large"
+                icon="edit"
+                className="button-margin--left--default"
+                onClick={(e) => this.handleEdit(row._id.$oid)}
+              >
+              </Button>
               <Popconfirm
                 placement="topLeft"
                 title="Are you sure delete this catalog?"
-                onConfirm={() => this.handleDelete(row.id)}
+                onConfirm={() => this.handleDelete(row._id.$oid)}
                 okText="Yes"
                 cancelText="No"
               >
-                <Button type="danger" loading={row.isDeleting}>
-                  Delete
+                <Button 
+                  icon="delete" 
+                  shape="circle"
+                  size="large"
+                  type="danger" 
+                  loading={row.isDeleting}
+                  className="button-margin--left--default">
                 </Button>
               </Popconfirm>
-              <Button
-                className="button-margin--left--default"
-                onClick={(e) => this.handleEdit(row.id)}
-              >
-                Edit
-              </Button>
             </div>
           )
         },
@@ -133,7 +159,6 @@ class CampaignsTableBox extends React.Component {
       campaignParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
-
     campaignParams = getFilterParamsAndSyncUrl(indexState.get('campaignFilters'), location, campaignParams)
 
     actions.fetchCampaigns(campaignParams)
@@ -165,6 +190,7 @@ class CampaignsTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
           </Col>
         </Row>
+        
         <Table
           bordered
           size="middle"

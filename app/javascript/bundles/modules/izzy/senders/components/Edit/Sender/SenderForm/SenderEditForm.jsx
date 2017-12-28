@@ -48,7 +48,7 @@ class SenderNewForm extends React.Component {
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
           <Row className="main-content-form-box-alert-box">
-            <Col span={10}>
+            <Col span={15} offset={5}>
               <AlertBox
                 messages={alert.get('messages')}
                 type={alert.get('type')}

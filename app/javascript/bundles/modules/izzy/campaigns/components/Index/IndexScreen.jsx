@@ -32,7 +32,7 @@ class IndexScreen extends React.Component {
   render() {
     const {indexState, intl} = this.props
     return (
-      <div className="main-content nauh--campaigns box">
+      <div className="main-content furion--campaigns box">
         <div className="box-header">
           <h1 className="box-title">
             {intl.formatMessage({id: 'index.title'})}

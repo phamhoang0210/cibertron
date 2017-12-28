@@ -7,6 +7,7 @@ export const initialState = Immutable.fromJS({
   campaign: null,
   isFetchingCampaign: false,
   isUpdatingCampaign: false,
+  alert: null
 })
 
 export default function editReducer($$state = initialState, action = null) {
@@ -19,6 +20,7 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingCampaign: true,
         notification: null,
+        alert: null,
         campaign: null,
       })
     }
@@ -47,7 +49,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CAMPAIGN_SUCCESS: {
       return $$state.merge({
         isUpdatingCampaign: false,
-        notification: createSuccessAlert('Cập nhật thành công!'),
+        alert: createSuccessAlert('Cập nhật thành công!'),
       }).update('campaign', campaignItem => (
         campaignItem.merge(record)
       ))
@@ -56,6 +58,27 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
       return $$state.merge({
         isUpdatingCampaign: false,
+        notification: parseError(error)
+      })
+    }
+
+    case actionTypes.SET_IS_SENDING_CAMPAIGN: {
+      return $$state.merge({
+        isSendingCampaign: true,
+        notification: null,
+        alert: null,
+      })
+    }
+
+    case actionTypes.SEND_CAMPAIGN_SUCCESS: {
+      return $$state.merge({
+        isSendingCampaign: false,
+      })
+    }
+
+    case actionTypes.SEND_CAMPAIGN_FAILURE: {
+      return $$state.merge({
+        isSendingCampaign: false,
         notification: parseError(error)
       })
     }

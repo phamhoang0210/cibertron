@@ -55,8 +55,8 @@ class TemplateNewForm extends React.Component {
             </Col>
           </Row>
         )}
-        <Row>
-          <Col span={20}>
+        <Row gutter={16}>
+          <Col span={14}>
             {template && !template.isEmpty() && (
             <Form onSubmit={this.handleSubmit} layout="horizontal">
               <FormItem
@@ -104,6 +104,10 @@ class TemplateNewForm extends React.Component {
                 </Button>
               </FormItem>
             </Form>)}
+          </Col>
+
+          <Col span={10}>
+            <div style={{overflow: 'scroll', height: '80vh'}} dangerouslySetInnerHTML={{__html: getFieldValue('subject')}}/>
           </Col>
         </Row>
 

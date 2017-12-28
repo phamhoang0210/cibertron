@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  FURION_INTERNAL_BASE_URL, CAMPAIGNS_API_PATH
+  FURION_BASE_URL, CAMPAIGNS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -31,7 +31,7 @@ export function fetchCampaigns(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaigns())
     authRequest
-      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
   }
@@ -63,7 +63,7 @@ export function deleteCampaign(campaignId) {
   return (dispatch, getStore) => {
     dispatch(setIsDeletingCampaign(campaignId))
     authRequest
-      .deleteEntity(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
+      .deleteEntity(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
       .then(res => {
         dispatch(deleteCampaignSuccess(res.data))
         const filterParams = getFilterParams(getStore().indexState.get('campaignFilters'))

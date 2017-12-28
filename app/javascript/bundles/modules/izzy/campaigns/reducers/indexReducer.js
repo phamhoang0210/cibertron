@@ -17,7 +17,7 @@ export const initialState = Immutable.fromJS({
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, campaignId,
-    campaign, importResult, campaignKeys,
+    campaign
   } = action
   
   switch (type) {

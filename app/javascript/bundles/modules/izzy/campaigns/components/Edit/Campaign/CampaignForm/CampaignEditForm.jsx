@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Popconfirm } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
@@ -11,13 +11,14 @@ const Option = Select.Option
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 
-class CampaignNewForm extends React.Component {
+class CampaignEditForm extends React.Component {
   constructor(props) {
     super(props)
 
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'handleSendCampaign',
     ])
   }
 
@@ -25,27 +26,34 @@ class CampaignNewForm extends React.Component {
     browserHistory.goBack()
   }
 
+  handleSendCampaign(){
+    const {actions, editState} = this.props
+    var campaignId = editState.getIn(['campaign', '_id', '$oid'])
+    actions.sendCampaign({campaignId: campaignId})
+  }
+
   handleSubmit(e) {
     e.preventDefault()
-    const {actions} = this.props
-
+    const {actions, editState} = this.props
+    var campaignId = editState.getIn(['campaign', '_id', '$oid'])
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        actions.createCampaign({record: values})
+        actions.updateCampaign(campaignId, {record: values})
       }
     })
   }
 
   render() {
-    const {newState, sharedState, intl} = this.props
+    const {editState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
-    const alert = newState.get('alert')
+    const alert = editState.get('alert')
+    const isUpdatingCampaign = editState.get('isUpdatingCampaign')
+    const campaign = editState.get('campaign')
+
     const senders = sharedState.get('senders')
     const lists = sharedState.get('lists')
     const templates = sharedState.get('templates')
 
-    const isCreatingCampaign = newState.get('isCreatingCampaign')
-    
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -60,8 +68,8 @@ class CampaignNewForm extends React.Component {
         )}
         <Row>
           <Col span={12}>
+            {campaign && !campaign.isEmpty() && (
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              
               {/* Name item */}
               <FormItem
                 label={intl.formatMessage({id: 'attrs.name.label'})}
@@ -74,10 +82,11 @@ class CampaignNewForm extends React.Component {
                       {id: 'attrs.name.errors.required'},
                     ),
                   }],
+                  initialValue: campaign.get('name')
                 })(<Input />)}
               </FormItem>
 
-            {/* Subject item */}
+              {/* Subject item */}
               <FormItem
                 label={intl.formatMessage({id: 'attrs.subject.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -89,6 +98,7 @@ class CampaignNewForm extends React.Component {
                       {id: 'attrs.subject.errors.required'},
                     ),
                   }],
+                  initialValue: campaign.get('subject')
                 })(<Input />)}
               </FormItem>
 
@@ -104,6 +114,7 @@ class CampaignNewForm extends React.Component {
                       {id: 'attrs.sender.errors.required'},
                     ),
                   }],
+                  initialValue: campaign.get('sender_id')
                 })(
                   <Select
                     showSearch
@@ -123,7 +134,7 @@ class CampaignNewForm extends React.Component {
                 )}
               </FormItem>
 
-            {/* Template item*/}
+              {/* Template item*/}
               <FormItem
                 label={intl.formatMessage({id: 'attrs.template.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -135,6 +146,7 @@ class CampaignNewForm extends React.Component {
                       {id: 'attrs.template.errors.required'},
                     ),
                   }],
+                  initialValue: campaign.get('template_id')
                 })(
                   <Select
                     showSearch
@@ -166,6 +178,7 @@ class CampaignNewForm extends React.Component {
                       {id: 'attrs.list.errors.required'},
                     ),
                   }],
+                  initialValue: campaign.get('list_id')
                 })(
                   <Select
                     showSearch
@@ -185,13 +198,14 @@ class CampaignNewForm extends React.Component {
                 )}
               </FormItem>
 
+              {/* Buttons item */}
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={isCreatingCampaign}
+                  loading={isUpdatingCampaign}
                 >
-                  {intl.formatMessage({id: 'form.form_item.button.create.text'})}
+                  {intl.formatMessage({id: 'form.form_item.button.update.text'})}
                 </Button>
                 <Button
                   className="button-margin--left--default"
@@ -201,11 +215,28 @@ class CampaignNewForm extends React.Component {
                   {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                 </Button>
               </FormItem>
-            </Form>
+            </Form>)}
           </Col>
+
           <Col span={12}>
-            
+            {campaign && !campaign.isEmpty() && (
+              <Popconfirm
+              placement="topLeft"
+              title={intl.formatMessage({id: 'popconfirm.send.title'})}
+              onConfirm={() => this.handleSendCampaign()}
+              okText="Yes"
+              cancelText="No"
+              >
+              <Button
+                style={{ width: '100px', height: '100px', marginLeft: '40%', marginTop: '10%' }}
+                type="danger"
+                shape="circle"
+              >
+                {intl.formatMessage({id: 'form.form_item.button.send_email.text'})}
+              </Button>
+            </Popconfirm>)}
           </Col>
+
         </Row>
 
       </div>
@@ -213,4 +244,4 @@ class CampaignNewForm extends React.Component {
   }
 }
 
-export default Form.create()(injectIntl(CampaignNewForm))
+export default Form.create()(injectIntl(CampaignEditForm))

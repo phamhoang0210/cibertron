@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
-  campaign: null,
+  sender: null,
   isCreatingCampaign: false,
 })
 
@@ -20,8 +20,8 @@ export default function newReducer($$state = initialState, action = null) {
     case actionTypes.CREATE_CAMPAIGN_SUCCESS: {
       return $$state.merge({
         isCreatingCampaign: false,
-        campaign: record,
-        alert: createSuccessAlert(`Campaign was successfully created. {email: ${record.email}}`),
+        sender: record,
+        alert: createSuccessAlert(`Campaign tạo thành công!`),
       })
     }
 

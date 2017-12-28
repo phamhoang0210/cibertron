@@ -1,36 +1,36 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {NAUH_BASE_URL, LEADS_API_PATH} from '../constants/paths'
+import {FURION_BASE_URL, CAMPAIGNS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
-function setIsCreatingLead() {
+function setIsCreatingCampaign() {
   return {
-    type: actionTypes.SET_IS_CREATING_LEAD,
+    type: actionTypes.SET_IS_CREATING_CAMPAIGN,
   }
 }
 
-function createLeadSucces(record) {
+function createCampaignSucces(record) {
   return {
-    type: actionTypes.CREATE_LEAD_SUCCESS,
+    type: actionTypes.CREATE_CAMPAIGN_SUCCESS,
     record
   }
 }
 
-function createLeadFailure(error) {
+function createCampaignFailure(error) {
   return {
-    type: actionTypes.CREATE_LEAD_FAILURE,
+    type: actionTypes.CREATE_CAMPAIGN_FAILURE,
     error,
   }
 }
 
-export function createLead(params = {}) {
+export function createCampaign(params = {}) {
   return dispatch => {
-    dispatch(setIsCreatingLead())
+    dispatch(setIsCreatingCampaign())
 
     return authRequest
-      .submitEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}`, params)
-      .then(res => dispatch(createLeadSucces(res.data)))
-      .catch(error => dispatch(createLeadFailure(error)))
+      .submitEntity(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .then(res => dispatch(createCampaignSucces(res.data)))
+      .catch(error => dispatch(createCampaignFailure(error)))
   }
 }

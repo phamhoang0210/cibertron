@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
-import Layout from 'app/layouts/nauh/NauhLayout'
+import Layout from 'app/layouts/izzy/IzzyLayout'
 import IndexContainer from '../containers/IndexContainer'
 import EditContainer from '../containers/EditContainer'
 import NewContainer from '../containers/NewContainer'
