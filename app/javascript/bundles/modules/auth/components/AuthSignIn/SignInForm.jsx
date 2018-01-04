@@ -4,6 +4,10 @@ import { browserHistory } from 'react-router'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
 import {Link} from 'react-router'
 import {SIGN_UP_PATH} from 'app/constants/paths'
+import {GoogleLogin} from 'react-google-login'
+import request from 'libs/requests/request'
+import {AUTHSERVICE_BASE_URL} from 'app/constants/paths'
+import * as authHelper  from 'helpers/auth/authHelper'
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -32,7 +36,7 @@ class SignInForm extends React.Component {
 
     const {location} = this.props
     const redirectUrl = location.query.redirect_url
-    
+
     setTimeout(() => {
       if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
         window.location.href = redirectUrl
@@ -46,6 +50,16 @@ class SignInForm extends React.Component {
     const { getFieldDecorator } = this.props.form
     const {authSignInState} = this.props
     const isSigning = authSignInState.get('isSigning')
+
+    const responseGoogle = (response) => {
+      return request
+        .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, response)
+        .then(res => {
+          authHelper.setCredentials(res.data)
+          window.location.href = '/'
+        })
+        .catch(error => {})
+    }
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -75,6 +89,13 @@ class SignInForm extends React.Component {
           >
             Log in
           </Button>
+          <GoogleLogin
+            clientId="756159619050-e6fc577akgdnukparqn0a4qsctdei4k2.apps.googleusercontent.com"
+            buttonText="Sign In with Google"
+            className="ant-btn login-form-button ant-btn-danger"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+          />
          {/*Or <Link to={SIGN_UP_PATH}>register now!</Link>*/}
         </Form.Item>
       </Form>
