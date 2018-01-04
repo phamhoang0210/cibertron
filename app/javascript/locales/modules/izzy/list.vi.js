@@ -18,7 +18,7 @@ export const appLocale = {
       },
       last_update: {
         // attrs.last_update.label
-        label: 'Người sửa',
+        label: 'Cập nhật',
       },
       count: {
         // attrs.count.label

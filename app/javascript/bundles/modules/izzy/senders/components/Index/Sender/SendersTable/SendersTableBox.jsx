@@ -55,7 +55,7 @@ class SendersTableBox extends React.Component {
       {
         title: intl.formatMessage({id: 'attrs.creator.label'}),
         width: '10%',
-        dataIndex: 'user_id', 
+        dataIndex: 'username', 
         key: 'user'},
       {
         title: '',

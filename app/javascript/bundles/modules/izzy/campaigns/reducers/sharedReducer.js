@@ -3,6 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
+  users: [],
   senders: [],
   lists: [],
   templates: [],
@@ -70,6 +71,25 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_TEMPLATES_FAILURE: {
       return $$state.merge({
         isFetchingTemplates: false,
+      })
+    }
+    // Fetch users
+    case actionTypes.SET_IS_FETCHING_USERS: {
+      return $$state.merge({
+        isFetchingUsers: true,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_SUCCESS: {
+      return $$state.merge({
+        isFetchingUsers: false,
+        users: records,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_FAILURE: {
+      return $$state.merge({
+        isFetchingUsers: false,
       })
     }
 

@@ -34,3 +34,9 @@ export function createTemplate(params = {}) {
       .catch(error => dispatch(createTemplateFailure(error)))
   }
 }
+
+export function resetAlert() {
+  return dispatch => {
+    dispatch({type: ''})
+  }
+}

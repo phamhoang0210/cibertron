@@ -1,8 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  AIRI_BASE_URL, MEEPO_BASE_URL, MORPHLING_BASE_URL,
-  LISTS_API_PATH, SENDERS_API_PATH, TEMPLATES_API_PATH
+  AIRI_BASE_URL, MEEPO_BASE_URL, MORPHLING_BASE_URL, 
+  LISTS_API_PATH, SENDERS_API_PATH, TEMPLATES_API_PATH, USERS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -101,3 +101,4 @@ export function fetchTemplates(params = {}) {
       .catch(error => dispatch(fetchTemplatesFailure(error)))
   }
 }
+

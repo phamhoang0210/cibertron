@@ -23,6 +23,8 @@ class ListNewForm extends React.Component {
   }
 
   handleBack(e) {
+    const {actions} = this.props
+    actions.resetAlert()
     browserHistory.goBack()
   }
 
@@ -76,7 +78,7 @@ class ListNewForm extends React.Component {
                 })(<Input />)}
               </FormItem>
               
-              <input style={{marginLeft: '25%'}} accept=".csv" ref={ref => this.inputFile = ref} type="file" id="file" name="file"/>
+              <input style={{marginLeft: '25%', marginBottom: '10px'}} accept=".csv" ref={ref => this.inputFile = ref} type="file" id="file" name="file"/>
 
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button

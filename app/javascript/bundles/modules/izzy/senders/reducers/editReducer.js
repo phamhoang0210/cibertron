@@ -5,6 +5,7 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   notification: null,
   sender: null,
+  alert: null,
   isFetchingSender: false,
   isUpdatingSender: false,
 })
@@ -19,6 +20,7 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingSender: true,
         notification: null,
+        alert: null,
         sender: null,
       })
     }

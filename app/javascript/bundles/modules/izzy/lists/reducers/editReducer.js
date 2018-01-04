@@ -4,6 +4,7 @@ import { defaultFilters } from 'app/constants/initialState'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   notification: null,
+  alert: null,
   list: null,
   listFilters: {
     ...defaultFilters,
@@ -23,6 +24,7 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingList: true,
         notification: null,
+        alert: null,
         list: null,
       })
     }

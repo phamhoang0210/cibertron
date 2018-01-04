@@ -36,6 +36,12 @@ export function fetchTemplate(templateId, params = {}) {
   }
 }
 
+function setIsUpdatingTemplate() {
+  return {
+    type: actionTypes.SET_IS_UPDATING_TEMPLATE,
+  }
+}
+
 function updateTemplateSuccess(record) {
   return {
     type: actionTypes.UPDATE_TEMPLATE_SUCCESS,

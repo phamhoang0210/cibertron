@@ -89,12 +89,15 @@ function sendCampaignFailure(error) {
   }
 }
 
-export function sendCampaign(params = {}) {
+export function sendCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsSendingCampaign())
     authRequest
       .submitEntity(`${FURION_BASE_URL}${SEND_CAMPAIGN_API_PATH}`, params)
-      .then(res => dispatch(sendCampaignSuccess(res.data)))
+      .then(res => {
+        dispatch(sendCampaignSuccess(res.data))
+        dispatch(fetchCampaign(campaignId))
+      })
       .catch(error => dispatch(sendCampaignFailure(error)))
   }
 }

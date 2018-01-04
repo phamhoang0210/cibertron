@@ -27,11 +27,11 @@ class TemplateNewForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const {actions} = this.props
-
+    const {actions, editState} = this.props
+    const templateId = editState.getIn(['template', 'id'])
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        //actions.createTemplate({record: values})
+        actions.updateTemplate(templateId, {record: values})
       }
     })
   }
@@ -56,7 +56,7 @@ class TemplateNewForm extends React.Component {
           </Row>
         )}
         <Row gutter={16}>
-          <Col span={14}>
+          <Col span={10}>
             {template && !template.isEmpty() && (
             <Form onSubmit={this.handleSubmit} layout="horizontal">
               <FormItem
@@ -74,13 +74,13 @@ class TemplateNewForm extends React.Component {
               </FormItem>
 
               <FormItem
-                label={intl.formatMessage({id: 'attrs.subject.label'})}
+                label={intl.formatMessage({id: 'attrs.content.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('subject', {
+                {getFieldDecorator('content', {
                   rules: [{
                     required: true,
                     message: intl.formatMessage(
-                      {id: 'attrs.subject.errors.required'},
+                      {id: 'attrs.content.errors.required'},
                     ),
                   }],
                   initialValue: template.get('content')
@@ -106,8 +106,8 @@ class TemplateNewForm extends React.Component {
             </Form>)}
           </Col>
 
-          <Col span={10}>
-            <div style={{overflow: 'scroll', height: '80vh'}} dangerouslySetInnerHTML={{__html: getFieldValue('subject')}}/>
+          <Col span={14}>
+            <div style={{overflow: 'scroll', height: '80vh'}} dangerouslySetInnerHTML={{__html: getFieldValue('content')}}/>
           </Col>
         </Row>
 

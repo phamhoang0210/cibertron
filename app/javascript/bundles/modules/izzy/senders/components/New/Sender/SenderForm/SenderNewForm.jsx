@@ -22,6 +22,8 @@ class SenderNewForm extends React.Component {
   }
 
   handleBack(e) {
+    const {actions} = this.props
+    actions.resetAlert()
     browserHistory.goBack()
   }
 

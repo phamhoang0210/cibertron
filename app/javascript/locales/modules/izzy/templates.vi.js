@@ -28,12 +28,12 @@ export const appLocale = {
           required: 'Email là trường bắt buộc'
         }
       },
-      subject: {
-        // attrs.subject.label
-        label: 'Subject',
+      content: {
+        // attrs.content.label
+        label: 'Content',
         errors: {
-          // attrs.subject.errors.required
-          required: 'Subject là trường bắt buộc!'
+          // attrs.content.errors.required
+          required: 'Content là trường bắt buộc!'
         }
       },
 

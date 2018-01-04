@@ -53,7 +53,7 @@ class TemplatesTableBox extends React.Component {
       {
         title: 'Nguoi tao',
         width: '10%',
-        dataIndex: 'user_id', 
+        dataIndex: 'username', 
         key: 'user'},
       {
         title: 'Action',
@@ -79,7 +79,7 @@ class TemplatesTableBox extends React.Component {
               </Button>
               <Popconfirm
                 placement="topLeft"
-                title="Are you sure delete this catalog?"
+                title="Are you sure delete this template?"
                 onConfirm={() => this.handleDelete(row.id)}
                 okText="Yes"
                 cancelText="No"
@@ -180,12 +180,13 @@ class TemplatesTableBox extends React.Component {
         </Row>
 
         <Modal
-          className = 'modalCustom'
+          className='modalCustom'
           title="Template"
           cancelText="Cancel"
           visible={this.state.modalShow}
           onCancel={this.handleCancelTemplateModal}
           onOk={this.handleCancelTemplateModal}
+          width="50%"
         >
           <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
         </Modal>

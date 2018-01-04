@@ -62,30 +62,40 @@ class CampaignsTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
         key: 'name',
-        render: (value) => (
-          <div>
-            <Tag color="red">
-              SENT
-            </Tag>
-            <b>{value}</b><br/>
-            <Popover content={content}>
-              <IconText type="check" text="156" /> 
-              <IconText type="eye" text="156" />
-              <IconText type="select" text="2" />
-              <IconText type="dislike" text="156" /><br/>
-            </Popover>
-          </div>
-        )
+        render: (cell, row) => {
+          return (
+            <div>
+              {row.status ? 
+                (<Tag color="red">
+                  SENT
+                </Tag>) : (<Tag color="gray">
+                  DRAFT
+                </Tag>)
+              }
+              
+              <b>{row.name}</b><br/>
+              <Popover content={content}>
+                <IconText type="check" text={row.log_count} /> 
+                <IconText type="eye" text={row.open_count} />
+                <IconText type="select" text="0" />
+                <IconText type="dislike" text="0" /><br/>
+              </Popover>
+            </div>
+          )
+        }
       },
       {
         title: intl.formatMessage({id: 'attrs.last_action_by.label'}),
-        dataIndex: 'last_action_by',
-        key: 'last_action_by'},
+        dataIndex: 'updated_at',
+        key: 'updated_at',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
       {
         title: intl.formatMessage({id: 'attrs.creator.label'}),
         width: '10%',
-        dataIndex: 'user_id', 
-        key: 'user'},
+        dataIndex: 'username', 
+        key: 'user'
+      },
       {
         title: '',
         dataIndex: 'action',
@@ -99,19 +109,20 @@ class CampaignsTableBox extends React.Component {
                 size="large"
                 icon="edit"
                 className="button-margin--left--default"
-                onClick={(e) => this.handleEdit(row._id.$oid)}
+                onClick={(e) => this.handleEdit(row.id)}
               >
               </Button>
               <Popconfirm
                 placement="topLeft"
                 title="Are you sure delete this catalog?"
-                onConfirm={() => this.handleDelete(row._id.$oid)}
+                onConfirm={() => this.handleDelete(row.id)}
                 okText="Yes"
                 cancelText="No"
               >
                 <Button 
                   icon="delete" 
                   shape="circle"
+                  disabled={row.status}
                   size="large"
                   type="danger" 
                   loading={row.isDeleting}
@@ -174,6 +185,7 @@ class CampaignsTableBox extends React.Component {
     const {indexState, sharedState, actions, intl} = this.props
     const selectedCampaignKeys = indexState.get('selectedCampaignKeys')
     const campaigns = indexState.get('campaigns')
+    
     const paging = indexState.getIn(['campaignFilters', 'paging'])
     const isFetchingCampaigns = indexState.get('isFetchingCampaigns')
 
@@ -191,17 +203,17 @@ class CampaignsTableBox extends React.Component {
           </Col>
         </Row>
         
-        <Table
-          bordered
-          size="middle"
-          columns={this.columns}
-          dataSource={campaigns.toJS()}
-          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-          rowClassName={rowClassName}
-          rowKey="created_at"
-          onChange={this.handleTableChange}
-          loading={isFetchingCampaigns}
-        />
+        {campaigns && (<Table
+                          bordered
+                          size="middle"
+                          columns={this.columns}
+                          dataSource={campaigns.toJS()}
+                          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+                          rowClassName={rowClassName}
+                          rowKey="id"
+                          onChange={this.handleTableChange}
+                          loading={isFetchingCampaigns}
+                        />)}
       </div>
     )
   }

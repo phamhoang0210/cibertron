@@ -22,6 +22,8 @@ class TemplateNewForm extends React.Component {
   }
 
   handleBack(e) {
+    const {actions} = this.props
+    actions.resetAlert()
     browserHistory.goBack()
   }
 
@@ -46,7 +48,7 @@ class TemplateNewForm extends React.Component {
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
           <Row className="main-content-form-box-alert-box">
-            <Col span={10}>
+            <Col span={15} offset={5}>
               <AlertBox
                 messages={alert.get('messages')}
                 type={alert.get('type')}
@@ -72,14 +74,14 @@ class TemplateNewForm extends React.Component {
               </FormItem>
 
               <FormItem
-                label={intl.formatMessage({id: 'attrs.subject.label'})}
+                label={intl.formatMessage({id: 'attrs.content.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('subject', {
+                {getFieldDecorator('content', {
                   rules: [{
                     required: true,
                     message: intl.formatMessage(
-                      {id: 'attrs.subject.errors.required'},
+                      {id: 'attrs.content.errors.required'},
                     ),
                   }],
                 })(<TextArea rows={15} />)}

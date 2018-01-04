@@ -33,7 +33,9 @@ export default function newReducer($$state = initialState, action = null) {
     }
 
     default: {
-      return $$state
+      return $$state.merge({
+        alert: null
+      })
     }
   }
 }

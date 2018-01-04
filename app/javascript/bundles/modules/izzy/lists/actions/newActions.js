@@ -34,3 +34,9 @@ export function createList(params = {}) {
       .catch(error => dispatch(createListFailure(error)))
   }
 }
+
+export function resetAlert() {
+  return dispatch => {
+    dispatch({type: ''})
+  }
+}

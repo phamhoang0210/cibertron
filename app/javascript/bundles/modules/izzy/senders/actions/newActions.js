@@ -34,3 +34,9 @@ export function createSender(params = {}) {
       .catch(error => dispatch(createSenderFailure(error)))
   }
 }
+
+export function resetAlert() {
+  return dispatch => {
+    dispatch({type: ''})
+  }
+}

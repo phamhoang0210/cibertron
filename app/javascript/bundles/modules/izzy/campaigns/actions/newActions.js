@@ -34,3 +34,9 @@ export function createCampaign(params = {}) {
       .catch(error => dispatch(createCampaignFailure(error)))
   }
 }
+
+export function resetAlert() {
+  return dispatch => {
+    dispatch({type: ''})
+  }
+}

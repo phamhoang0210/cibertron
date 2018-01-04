@@ -21,7 +21,7 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingList: false,
         list: record,
-        alert: createSuccessAlert(`List was successfully created.}`),
+        alert: createSuccessAlert(`List was successfully created.`),
       })
     }
 
@@ -33,7 +33,9 @@ export default function newReducer($$state = initialState, action = null) {
     }
 
     default: {
-      return $$state
+      return $$state.merge({
+        alert: null
+      })
     }
   }
 }

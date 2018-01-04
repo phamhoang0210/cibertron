@@ -34,8 +34,6 @@ class ListsTableBox extends React.Component {
       'handleEdit',
       'handleAdd',
       'handleSearch',
-      'handleShowListModal',
-      'handleCancelListModal'
     ])
 
     this.columns = [
@@ -53,18 +51,20 @@ class ListsTableBox extends React.Component {
       {
         title: intl.formatMessage({id: 'attrs.count.label'}),
         width: '10%',
-        dataIndex: 'count', 
+        dataIndex: 'contact_count', 
         key: 'count'},
       {
         title: intl.formatMessage({id: 'attrs.creator.label'}),
         width: '10%',
-        dataIndex: 'user_id', 
+        dataIndex: 'username', 
         key: 'user'},
       {
         title: intl.formatMessage({id: 'attrs.last_update.label'}),
         width: '10%',
-        dataIndex: 'last_update', 
-        key: 'last_update'},
+        dataIndex: 'updated_at', 
+        key: 'last_update',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
       {
         title: intl.formatMessage({id: 'form.form_item.button.add.text'}),
         dataIndex: 'action',
@@ -72,14 +72,6 @@ class ListsTableBox extends React.Component {
         render: (cell, row) => {
           return (
             <div className="text-align--right">
-              <Button
-                type="primary"
-                ghost
-                icon="eye"
-                className="button-margin--left--default"
-                onClick={(e) => this.handleShowListModal(row.content)}
-              >
-              </Button>
               <Button
                 type="primary"
                 icon="edit"
@@ -106,20 +98,6 @@ class ListsTableBox extends React.Component {
         },
       },
     ]
-  }
-
-  state = {modalShow: false, modalContent: ''}
-  //Handle show modal
-  handleShowListModal(modalContent) {
-    this.setState({
-      modalShow: true,
-      modalContent: modalContent,
-    });
-  }
-  handleCancelListModal() {
-    this.setState({
-      modalShow: false
-    });
   }
 
   getInitialValues() {
@@ -188,17 +166,6 @@ class ListsTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
           </Col>
         </Row>
-
-        <Modal
-          className = 'modalCustom'
-          title="List"
-          cancelText="Cancel"
-          visible={this.state.modalShow}
-          onCancel={this.handleCancelListModal}
-          onOk={this.handleCancelListModal}
-        >
-          <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
-        </Modal>
         
         <Table
           bordered

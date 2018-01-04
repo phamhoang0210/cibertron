@@ -22,6 +22,8 @@ class CampaignNewForm extends React.Component {
   }
 
   handleBack(e) {
+    const {actions} = this.props
+    actions.resetAlert()
     browserHistory.goBack()
   }
 
@@ -50,7 +52,7 @@ class CampaignNewForm extends React.Component {
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
           <Row className="main-content-form-box-alert-box">
-            <Col span={12}>
+            <Col span={9} offset={3}>
               <AlertBox
                 messages={alert.get('messages')}
                 type={alert.get('type')}
