@@ -99,5 +99,24 @@ export default {
       data: entity,
       validateStatus: validateStatus,
     });
+  },
+
+  uploadPutEntity(path, entity = {}) {
+    const credentials = getCredentials()
+    const railsAuthenticityHeaders = ReactOnRails.authenticityHeaders()
+    
+    return request({
+      method: 'PUT',
+      url: BASE_API_URL + path,
+      responseType: 'json',
+      headers: {
+        ...credentials,
+        ...railsAuthenticityHeaders,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: entity,
+      validateStatus: validateStatus,
+    });
   }
+
 };

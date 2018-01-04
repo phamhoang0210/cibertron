@@ -57,6 +57,10 @@ export default flattenMessages({
           // form.form_item.button.call.text
           text: 'Gọi',
         },
+        send_email: {
+          // form.form_item.button.send_email.text
+          text: 'Gửi email',
+        },
         email_wrong_phone_number: {
           // form.form_item.button.email_wrong_phone_number.text
           text: 'Gửi email sai số',
