@@ -42,7 +42,6 @@ class UserUdateInfoForm extends React.Component {
     const user = editState.get('user')
     const isUpdatingUser = editState.get('isUpdatingUser')
     const isFetchingUser = editState.get('isFetchingUser')
-
     return (
       <div style={{marginTop: '8px'}}>
         {alert && !alert.isEmpty() && (
@@ -66,7 +65,7 @@ class UserUdateInfoForm extends React.Component {
               <Form onSubmit={this.handleSubmit} layout="horizontal">
 
                 <FormItem label={intl.formatMessage({id: 'attrs.email.label'})} {...DEFAULT_FORM_ITEM_LAYOUT}>
-                  <Input disabled value={user.get('basic_profile').get('email')}/>
+                  <Input disabled value={user.getIn(['basic_profile', 'email']) || user.get('username')+"@topica.edu.vn"}/>
                 </FormItem>
 
                 <FormItem label={intl.formatMessage({id: 'attrs.first_name.label'})} {...DEFAULT_FORM_ITEM_LAYOUT}>
