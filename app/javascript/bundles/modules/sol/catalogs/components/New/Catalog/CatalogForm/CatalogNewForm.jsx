@@ -117,7 +117,7 @@ class CatalogNewForm extends React.Component {
           key={k}
         >
         <Row>
-          {getFieldDecorator(`courses.${k}.id`)(   
+          {getFieldDecorator(`courses.${k}.id`)(
             <Cascader
               options={productCascaderOptions}
               placeholder="Please select course"
