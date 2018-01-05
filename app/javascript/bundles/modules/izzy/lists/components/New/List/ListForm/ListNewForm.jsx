@@ -34,7 +34,6 @@ class ListNewForm extends React.Component {
     const f = this.inputFile.files[0]
     var data = new FormData()
     data.append('file', f)
-
     this.props.form.validateFields((err, values) => {
       if (!err) {
         data.append('name', values["name"])
@@ -52,7 +51,7 @@ class ListNewForm extends React.Component {
     return (
       <div className="main-content-form-box" >
         {alert && !alert.isEmpty() && (
-          <Row className="main-content-form-box-alert-box" {...DEFAULT_FORM_ITEM_LAYOUT}>
+          <Row className="main-content-form-box-alert-box">
             <Col span={15} offset={5}>
               <AlertBox
                 messages={alert.get('messages')}

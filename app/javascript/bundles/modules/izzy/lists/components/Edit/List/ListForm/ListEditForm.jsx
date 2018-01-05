@@ -13,7 +13,7 @@ const Option = Select.Option
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 
-class ListNewForm extends React.Component {
+class ListEditForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -30,14 +30,18 @@ class ListNewForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {actions,editState} = this.props
-    const f = this.inputFile.files[0]
+    
     var data = new FormData()
-    data.append('file', f)
+    if (this.inputFile.files[0]){
+      const f = this.inputFile.files[0]
+      data.append('file', f)
+    }
+    
     var listId = editState.getIn(['list', 'id'])
     this.props.form.validateFields((err, values) => {
       if (!err) {
         data.append('name', values["name"])
-        actions.updateList(listId, {record: data})
+        actions.updateList(listId, data)
       }
     })
   }
@@ -54,7 +58,7 @@ class ListNewForm extends React.Component {
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
           <Row className="main-content-form-box-alert-box">
-            <Col span={10}>
+            <Col span={15} offset={5}>
               <AlertBox
                 messages={alert.get('messages')}
                 type={alert.get('type')}
@@ -123,4 +127,4 @@ class ListNewForm extends React.Component {
   }
 }
 
-export default Form.create()(injectIntl(ListNewForm))
+export default Form.create()(injectIntl(ListEditForm))
