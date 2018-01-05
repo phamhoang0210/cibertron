@@ -60,11 +60,12 @@ function updateListFailure(error, listId) {
 
 export function updateList(listId, params = {}) {
   return dispatch => {
-
     dispatch(setIsUpdatingList(listId))
     authRequest
       .uploadPutEntity(`${AIRI_BASE_URL}${LISTS_API_PATH}/${listId}`, params)
-      .then(res => dispatch(updateListSuccess(res.data)))
+      .then(res => {
+        dispatch(updateListSuccess(res.data))
+      })
       .catch(error => dispatch(updateListFailure(error, listId)))
   }
 }
