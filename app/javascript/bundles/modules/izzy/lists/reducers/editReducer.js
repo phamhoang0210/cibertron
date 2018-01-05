@@ -53,10 +53,8 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_LIST_SUCCESS: {
       return $$state.merge({
         isUpdatingList: false,
-        notification: createSuccessAlert('Cập nhật thành công!'),
-      }).update('list', listItem => (
-        listItem.merge(record)
-      ))
+        alert: createSuccessAlert(`List was successfully updated.`),
+      })
     }
 
     case actionTypes.UPDATE_LIST_FAILURE: {
