@@ -113,7 +113,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/izzy',
-    title: (<span><Icon type="bars" /><span>IZZY</span></span>),
+    title: (<span><Icon type="bars" /><span>EES</span></span>),
     items: [
       {
         type: 'link', 
