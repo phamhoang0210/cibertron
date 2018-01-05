@@ -168,36 +168,36 @@ export const breadcrumbData = Immutable.fromJS({
         title: 'Sources',
       }
     },
-    // Home > Izzy
+    // Home > EES
     izzy: {
-      title: 'Izzy',
-      // Home > Izzy > Campaigns
+      title: 'EES',
+      // Home > EES > Campaigns
       campaigns: {
         title: 'Campaigns',
-        // Home > Izzy > Campaigns > Create
+        // Home > EES > Campaigns > Create
         new: {
           title: 'Create',
         }
       },
-      // Home > Izzy > Lists
+      // Home > EES > Lists
       lists: {
         title: 'Lists',
-        // Home > Izzy > Lists > Create
+        // Home > EES > Lists > Create
         new: {
           title: 'Create',
         }
       },
-      // Home > Izzy > Templates
+      // Home > EES > Templates
       templates: {
         title: 'Templates',
-        // Home > Izzy > Templates > Create
+        // Home > EES > Templates > Create
         new: {
           title: 'Create',
         }
       },
       senders: {
         title: 'Senders',
-        // Home > Izzy > Senders > Create
+        // Home > EES > Senders > Create
         new: {
           title: 'Create',
         }
