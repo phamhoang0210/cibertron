@@ -34,9 +34,10 @@ export function fetchCampaigns(params = {}) {
 
     authRequest
       .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
-      .then(res => {dispatch(fetchUsers(res.data))})
+      //.then(res => {dispatch(fetchUsers(res.data))})
+      .then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
-  }
+    }
 }
 
 function setIsDeletingCampaign(campaignId) {

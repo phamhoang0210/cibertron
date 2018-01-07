@@ -33,7 +33,8 @@ export function fetchLists(params = {}) {
     dispatch(setIsFetchingLists())
     authRequest
       .fetchEntities(`${AIRI_BASE_URL}${LISTS_API_PATH}`, params)
-      .then(res => {dispatch(fetchUsers(res.data))})
+      //.then(res => {dispatch(fetchUsers(res.data))})
+      .then(res => dispatch(fetchListsSuccess(res.data)))
       .catch(error => dispatch(fetchListsFailure(error)))
   }
 }
