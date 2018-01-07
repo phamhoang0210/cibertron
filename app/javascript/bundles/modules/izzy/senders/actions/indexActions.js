@@ -33,7 +33,8 @@ export function fetchSenders(params = {}) {
     dispatch(setIsFetchingSenders())
     authRequest
       .fetchEntities(`${MEEPO_BASE_URL}${SENDERS_API_PATH}`, params)
-      .then(res => dispatch(fetchUsers(res.data)))
+      //.then(res => dispatch(fetchUsers(res.data)))
+      .then(res => dispatch(fetchSendersSuccess(res.data)))
       .catch(error => dispatch(fetchSendersFailure(error)))
   }
 }
