@@ -18,7 +18,7 @@ build_image:
 deploy:
   stage: deploy
   script:
-    - export KUBECONFIG=/home/gitlab-runner/.kube/config.kops2
+    #- export KUBECONFIG=/home/gitlab-runner/.kube/config.kops2
     - bash /home/gitlab-runner/ecr-login.sh
     - docker tag gaia:1.0.${CI_BUILD_REF} 350339004156.dkr.ecr.ap-southeast-1.amazonaws.com/gaia:1.0.${CI_BUILD_ID}
     - docker push 350339004156.dkr.ecr.ap-southeast-1.amazonaws.com/gaia:1.0.${CI_BUILD_ID}
