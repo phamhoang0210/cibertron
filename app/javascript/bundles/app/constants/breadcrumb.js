@@ -169,7 +169,7 @@ export const breadcrumbData = Immutable.fromJS({
       }
     },
     // Home > EES
-    izzy: {
+    ees: {
       title: 'EES',
       // Home > EES > Campaigns
       campaigns: {
