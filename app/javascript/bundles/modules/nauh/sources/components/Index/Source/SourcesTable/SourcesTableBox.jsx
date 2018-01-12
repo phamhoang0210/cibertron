@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import qs from 'qs'
 import {getCredentials} from 'helpers/auth/authHelper'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input, Pagination} from 'antd'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input, Pagination, Spin} from 'antd'
 import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination, getDefaultTableTitlePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
@@ -40,11 +40,15 @@ class SourcesTableBox extends React.Component {
     }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.status.title'}),
       dataIndex: 'status',
+    }, {
+      width: 48,
+      title: intl.formatMessage({id: 'index.sources_table.headers.l8_count.title'}),
+      dataIndex: 'l8_count',
+      render: value => (value == 'loading') ? (<Spin indicator={(<Icon type="loading" style={{ fontSize: 12 }} spin />)} />) : value,
     },{
       title: intl.formatMessage({id: 'index.sources_table.headers.interest.title'}),
       dataIndex: 'interest',
-    }
-    , {
+    }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.source_url.title'}),
       dataIndex: 'source_url',
       width: '50%',

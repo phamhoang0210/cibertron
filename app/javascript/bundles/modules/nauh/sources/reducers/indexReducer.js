@@ -17,7 +17,7 @@ export const initialState = Immutable.fromJS({
 
 export default function indexReducer($$state = initialState, action = null) {
   const {
-    type, record, records, filters, error, sourceId, sourceKeys
+    type, record, records, filters, error, sourceId, sourceKeys, data
   } = action
   switch (type) {
     case actionTypes.SET_IS_FETCHING_SOURCES: {
@@ -62,6 +62,36 @@ export default function indexReducer($$state = initialState, action = null) {
       return $$state.merge({
         selectedSourceKeys: sourceKeys,
       })
+    }
+
+    case actionTypes.SET_IS_FETCHING_L8_REPORT: {
+      return $$state.withMutations(state => (
+        state.update('sources', sources => (
+          sources.map(source => source.set('l8_count', 'loading'))
+        ))
+      ))
+    }
+
+    case actionTypes.FETCH_L8_REPORT_SUCESS: {
+      return $$state.withMutations(state => (
+        state.update('sources', sources => (
+          sources.map(source => {
+            const l8Count = data[source.get('mobile')] ? data[source.get('mobile')]['l8'] : 0
+            return source.set('l8_count', l8Count)
+          })
+        ))
+      ))
+
+      return $$state
+    }
+
+    case actionTypes.FETCH_L8_REPORT_FAILURE: {
+      return $$state.withMutations(state => (
+        state.update('sources', sources => (
+          sources.map(source => source.set('l8_count', null))
+        ))
+      ))
+      return $$state
     }
 
     default: {

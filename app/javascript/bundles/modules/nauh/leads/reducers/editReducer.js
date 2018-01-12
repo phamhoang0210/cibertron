@@ -21,6 +21,7 @@ export const initialState = Immutable.fromJS({
     fields: 'lead_care_status{lead_status{}},call_log{}'
   },
   erosOrders: [],
+  l8Report: {},
   isFetchingOrders: false,
   isFetchingLead: false,
   isUpdatingLead: false,
@@ -30,12 +31,13 @@ export const initialState = Immutable.fromJS({
   isFetchingLeadCareHistories: false,
   isUpdatingLeadCareHistory: false,
   isFetchingErosOrders: false,
+  isFetchingL8Report: false,
 })
 
 export default function editReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, leadId, leadCareHistoryId,
-    audio_link
+    audio_link, data
   } = action
   
   switch (type) {
@@ -305,6 +307,25 @@ export default function editReducer($$state = initialState, action = null) {
           notification: parseError(error),
         })
       ))
+    }
+
+    case actionTypes.SET_IS_FETCHING_L8_REPORT: {
+      return $$state.merge({
+        isFetchingL8Report: true,
+      })
+    }
+
+    case actionTypes.FETCH_L8_REPORT_SUCESS: {
+      return $$state.merge({
+        isFetchingL8Report: false,
+        l8Report: data,
+      })
+    }
+
+    case actionTypes.FETCH_L8_REPORT_FAILURE: {
+      return $$state.merge({
+        isFetchingL8Report: false,
+      })
     }
 
     default: {
