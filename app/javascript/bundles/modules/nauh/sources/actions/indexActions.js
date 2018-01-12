@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  A3_STORAGE_BASE_URL, SOURCES_API_PATH,
+  A3_STORAGE_BASE_URL, SOURCES_API_PATH, EROS_BASE_URL, L8_REPORT_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -32,8 +32,42 @@ export function fetchSources(params = {}) {
     dispatch(setIsFetchingSources())
     authRequest
       .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}`, params)
-      .then(res => dispatch(fetchSourcesSuccess(res.data)))
+      .then(res => {
+        dispatch(fetchSourcesSuccess(res.data))
+        dispatch(fetchL8Report(res.data))
+      })
       .catch(error => dispatch(fetchSourcesFailure(error)))
+  }
+}
+
+function setIsFetchingL8Report() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_L8_REPORT,
+  }
+}
+
+function fetchL8ReportSuccess(data) {
+  return {
+    type: actionTypes.FETCH_L8_REPORT_SUCESS,
+    data,
+  }
+}
+
+function fetchL8ReportFailure(error) {
+  return {
+    type: actionTypes.FETCH_L8_REPORT_FAILURE,
+    error,
+  }
+}
+
+export function fetchL8Report(sources) {
+  return dispatch => {
+    const mobile = sources.records.map(s => s.mobile)
+    dispatch(setIsFetchingL8Report())
+    authRequest
+      .fetchEntities(`${EROS_BASE_URL}${L8_REPORT_API_PATH}`, {mobile})
+      .then(res => dispatch(fetchL8ReportSuccess(res.data)))
+      .catch(error => dispatch(fetchL8ReportFailure(error)))
   }
 }
 

@@ -5,7 +5,7 @@ import { selectFilterOption } from 'helpers/antdHelper'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import {
   Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker,
-  Tabs, Table, Modal
+  Tabs, Table, Modal, Icon,
 } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
@@ -174,6 +174,7 @@ class CustomerInfo extends React.Component {
       const lead = editState.get('lead')
 
       actions.fetchErosOrders({email: lead.get('email'), mobile: lead.get('mobile')})
+      actions.fetchL8Report({mobile: [lead.get('mobile')]})
     }
   }
 
@@ -408,18 +409,27 @@ class CustomerInfo extends React.Component {
 
   renderHistoriesTab() {
     const {editState} = this.props
+    const lead = editState.get('lead')
     const isFetchingErosOrders = editState.get('isFetchingErosOrders')
+    const isFetchingL8Report = editState.get('isFetchingL8Report')
     const erosOrders = editState.get('erosOrders')
+    const l8Count = editState.getIn(['l8Report', lead.get('mobile'), 'l8']) || 0
+    const loadingItem = <Spin indicator={(<Icon type="loading" style={{ fontSize: 12 }} spin />)} />
 
     return (
-      <Table
-        size="small"
-        rowKey="id"
-        columns={this.erosOrderColumns}
-        dataSource={erosOrders.toJS()}
-        pagination={{pageSize: 5}}
-        loading={isFetchingErosOrders}
-      />
+      <div>
+        <div style={{padding: '0px 8px 8px 8px'}}>
+          <span>L8 aftersale: {isFetchingL8Report ? loadingItem : (<b>{l8Count}</b>)}</span>
+        </div>
+        <Table
+          size="small"
+          rowKey="id"
+          columns={this.erosOrderColumns}
+          dataSource={erosOrders.toJS()}
+          pagination={{pageSize: 5}}
+          loading={isFetchingErosOrders}
+        />
+      </div>
     )
   }
 }

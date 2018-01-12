@@ -3,10 +3,42 @@ import * as actionTypes from '../constants/actionTypes'
 import {
   NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
   ORDERS_PURCHASE_HISTORY_API_PATH, EROS_BASE_URL, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
-  LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH, CALL_LOG_GET_AUDIO_LINK_PATH
+  LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH, CALL_LOG_GET_AUDIO_LINK_PATH,
+  L8_REPORT_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
+
+
+function setIsFetchingL8Report() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_L8_REPORT,
+  }
+}
+
+function fetchL8ReportSuccess(data) {
+  return {
+    type: actionTypes.FETCH_L8_REPORT_SUCESS,
+    data,
+  }
+}
+
+function fetchL8ReportFailure(error) {
+  return {
+    type: actionTypes.FETCH_L8_REPORT_FAILURE,
+    error,
+  }
+}
+
+export function fetchL8Report(params) {
+  return dispatch => {
+    dispatch(setIsFetchingL8Report())
+    authRequest
+      .fetchEntities(`${EROS_BASE_URL}${L8_REPORT_API_PATH}`, params)
+      .then(res => dispatch(fetchL8ReportSuccess(res.data)))
+      .catch(error => dispatch(fetchL8ReportFailure(error)))
+  }
+}
 
 function setIsFetchingLead() {
   return {
