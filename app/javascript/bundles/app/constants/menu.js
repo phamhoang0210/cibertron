@@ -112,24 +112,24 @@ export const menuData = [
     ]
   }, {
     type: 'subMenu',
-    path: '/izzy',
+    path: '/ees',
     title: (<span><Icon type="bars" /><span>EES</span></span>),
     items: [
       {
         type: 'link', 
-        path: '/izzy/campaigns',
+        path: '/ees/campaigns',
         title: 'Campaigns',
       } , {
         type: 'link', 
-        path: '/izzy/lists',
+        path: '/ees/lists',
         title: 'Lists',
       } , {
         type: 'link', 
-        path: '/izzy/templates',
+        path: '/ees/templates',
         title: 'Templates',
       } , {
         type: 'link', 
-        path: '/izzy/senders',
+        path: '/ees/senders',
         title: 'Senders',
       },
     ]
