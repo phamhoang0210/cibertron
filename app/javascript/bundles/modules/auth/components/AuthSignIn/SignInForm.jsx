@@ -52,8 +52,22 @@ class SignInForm extends React.Component {
     const isSigning = authSignInState.get('isSigning')
 
     const responseGoogle = (response) => {
+      var profileObj = response['profileObj'];
+      var tokenObj = response['tokenObj'];
+      var params_auth = {
+        'profileObj'  : {
+                          'googleId'    : profileObj['googleId'],
+                          'name'        : profileObj['name'],
+                          'email'       : profileObj['email']
+                        },
+        'tokenObj'    : {
+                          'id_token'    : tokenObj['id_token'],
+                          'access_token': tokenObj['access_token']
+                        },
+        'provider'    : response['provider']
+      };
       return request
-        .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, response)
+        .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, params_auth)
         .then(res => {
           authHelper.setCredentials(res.data)
           window.location.href = '/'
