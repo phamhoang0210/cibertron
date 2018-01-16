@@ -13,7 +13,7 @@ class IndexScreen extends React.Component {
   componentDidMount() {
     const {actions, indexState, railsContextState, location} = this.props
     const listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location)
-    listParams["fields"] ="contact_count"
+    // listParams["fields"] ="contact_count"
     actions.fetchLists(listParams)
   }
 

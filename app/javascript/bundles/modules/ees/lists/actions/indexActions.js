@@ -33,7 +33,11 @@ export function fetchLists(params = {}) {
     dispatch(setIsFetchingLists())
     authRequest
       .fetchEntities(`${AIRI_BASE_URL}${LISTS_API_PATH}`, params)
-      .then(res => {dispatch(fetchUsers(res.data))})
+      .then(res => {
+        dispatch(fetchListsSuccess(res.data))
+        dispatch(fetchStatistics(res.data))
+        dispatch(fetchUsers(res.data))
+      })
       //.then(res => dispatch(fetchListsSuccess(res.data)))
       .catch(error => dispatch(fetchListsFailure(error)))
   }
@@ -72,6 +76,57 @@ export function deleteList(listId) {
         dispatch(fetchLists(filterParams))
       })
       .catch(error => dispatch(deleteListFailure(error, listId)))
+  }
+}
+
+//Fetch statistics
+function setIsFetchingStatistics() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_STATISTICS,
+  }
+}
+
+function fetchStatisticsSuccess() {
+  return {
+    type: actionTypes.FETCH_STATISTICSSUCCESS,
+  }
+}
+
+function fetchStatisticsFailure(error) {
+  return {
+    type: actionTypes.FETCH_STATISTICS_FAILURE,
+    error,
+  }
+}
+
+export function fetchStatistics(data) {
+  return dispatch => {
+    dispatch(setIsFetchingStatistics())
+    var list_campaign_id = []
+    if(data.records){
+      data.records.map(record => {
+        list_campaign_id.push(record.id)
+      })
+    }
+    authRequest
+      .fetchEntities(`${AIRI_BASE_URL}${LISTS_API_PATH}`, {'fields': "id,contact_count"})
+      .then(res => {
+        var lists = res.data.records
+        const lists_statistics = {}
+
+        if(lists) {
+          lists.map(list => {
+            lists_statistics[list.id] = list
+          })
+        }
+        if(data.records && lists_statistics){
+          data.records.map(list => {
+            list["contact_count"] = lists_statistics[list.id].contact_count
+          })
+        }
+        dispatch(fetchListsSuccess(data))
+      })
+      .catch(error => dispatch(fetchStatisticsFailure(error)))
   }
 }
 
