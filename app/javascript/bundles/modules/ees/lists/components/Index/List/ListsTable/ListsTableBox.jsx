@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select, Modal, Popover
+  Tag, Tabs, Badge, Select, Modal, Popover, Icon
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -52,7 +52,9 @@ class ListsTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.count.label'}),
         width: '10%',
         dataIndex: 'contact_count', 
-        key: 'count'},
+        key: 'count',
+        render: value => (value || value >= 0)  ? value : (<Icon type="loading" />)
+      },
       {
         title: intl.formatMessage({id: 'attrs.creator.label'}),
         width: '10%',
