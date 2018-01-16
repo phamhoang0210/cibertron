@@ -13,7 +13,8 @@ class IndexScreen extends React.Component {
   componentDidMount() {
     const {actions, indexState, railsContextState, location} = this.props
     const campaignParams = getFilterParamsAndSyncUrl(indexState.get('campaignFilters'), location)
-    campaignParams["fields"]="id,name,created_at,log_count,open_count,status,updated_at,user_id"
+    //campaignParams["fields"]="id,name,created_at,log_count,open_count,status,updated_at,user_id"
+    campaignParams["fields"]="id,name,created_at,status,updated_at,user_id"
     actions.fetchCampaigns(campaignParams)
   }
 

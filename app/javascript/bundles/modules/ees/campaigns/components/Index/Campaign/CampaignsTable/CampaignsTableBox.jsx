@@ -75,8 +75,8 @@ class CampaignsTableBox extends React.Component {
               
               <b>{row.name}</b><br/>
               <Popover content={content}>
-                <IconText type="check" text={row.log_count} /> 
-                <IconText type="eye" text={row.open_count} />
+                {(<IconText type="check" text={(row.log_count || row.log_count >= 0)  ? row.log_count : (<Icon type="loading" />)} />)}
+                {(<IconText type="eye" text={(row.open_count || row.open_count >= 0) ? row.open_count : (<Icon type="loading" />)} />)}
                 <IconText type="select" text="0" />
                 <IconText type="dislike" text="0" /><br/>
               </Popover>
