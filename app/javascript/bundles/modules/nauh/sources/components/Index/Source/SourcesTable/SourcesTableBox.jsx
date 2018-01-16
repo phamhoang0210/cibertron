@@ -48,6 +48,12 @@ class SourcesTableBox extends React.Component {
     },{
       title: intl.formatMessage({id: 'index.sources_table.headers.interest.title'}),
       dataIndex: 'interest',
+      render: (value, record) => (
+          <div>
+          <span>{`• ${record.interest}`}</span><br/>
+          {record.note && (<span>{`• ${record.note}`}</span>)}
+        </div>
+        )
     }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.source_url.title'}),
       dataIndex: 'source_url',
