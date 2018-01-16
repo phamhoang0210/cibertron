@@ -33,7 +33,10 @@ export function fetchTemplates(params = {}) {
     dispatch(setIsFetchingTemplates())
     authRequest
       .fetchEntities(`${MORPHLING_BASE_URL}${TEMPLATES_API_PATH}`, params)
-      .then(res => dispatch(fetchUsers(res.data)))
+      .then(res => {
+        dispatch(fetchTemplatesSuccess(res.data))
+        dispatch(fetchUsers(res.data))
+      })
       //.then(res => dispatch(fetchTemplatesSuccess(res.data)))
       .catch(error => dispatch(fetchTemplatesFailure(error)))
   }

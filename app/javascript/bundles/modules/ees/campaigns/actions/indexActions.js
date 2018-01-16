@@ -31,10 +31,13 @@ function fetchCampaignsFailure(error) {
 export function fetchCampaigns(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaigns())
-
     authRequest
       .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
-      .then(res => {dispatch(fetchUsers(res.data))})
+      .then(res => {
+        dispatch(fetchCampaignsSuccess(res.data))
+        dispatch(fetchStatistics(res.data))
+        dispatch(fetchUsers(res.data))
+      })
       //.then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
     }
@@ -76,6 +79,60 @@ export function deleteCampaign(campaignId) {
   }
 }
 
+//Fetch statistics
+function setIsFetchingStatistics() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_STATISTICS,
+  }
+}
+
+function fetchStatisticsSuccess() {
+  return {
+    type: actionTypes.FETCH_STATISTICSSUCCESS,
+  }
+}
+
+function fetchStatisticsFailure(error) {
+  return {
+    type: actionTypes.FETCH_STATISTICS_FAILURE,
+    error,
+  }
+}
+
+export function fetchStatistics(data) {
+  return dispatch => {
+    dispatch(setIsFetchingStatistics())
+    var list_campaign_id = []
+    if(data.records){
+      data.records.map(record => {
+        list_campaign_id.push(record.id)
+      })
+    }
+    authRequest
+      .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, {'fields': "id,log_count,open_count"})
+      .then(res => {
+        var campaigns = res.data.records
+        const campaigns_statistics = {}
+
+        if(campaigns) {
+          campaigns.map(campaign => {
+            campaigns_statistics[campaign.id] = campaign
+          })
+        }
+        if(data.records && campaigns_statistics){
+          data.records.map(campaign => {
+            campaign["log_count"] = campaigns_statistics[campaign.id].log_count
+            campaign["open_count"] = campaigns_statistics[campaign.id].open_count
+          })
+        }
+        dispatch(fetchCampaignsSuccess(data))
+      })
+      .catch(error => dispatch(fetchStatisticsFailure(error)))
+
+  }
+}
+
+
 // Fetch users
 function setIsFetchingUsers() {
   return {
@@ -109,7 +166,6 @@ export function fetchUsers(data) {
     authRequest
       .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
       .then(res => {
-        dispatch(setIsFetchingUsers())
         var users = res.data.records
         const users_array = {}
 
