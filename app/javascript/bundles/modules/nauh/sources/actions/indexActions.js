@@ -34,7 +34,6 @@ export function fetchSources(params = {}) {
       .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}`, params)
       .then(res => {
         dispatch(fetchSourcesSuccess(res.data))
-        dispatch(fetchL8Report(res.data))
       })
       .catch(error => dispatch(fetchSourcesFailure(error)))
   }
