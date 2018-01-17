@@ -17,6 +17,7 @@ import { selectFilterOption } from 'helpers/antdHelper'
 const FormItem = Form.Item
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker
+const InputGroup = Input.Group
 
 class SourceFiltersFormBox extends React.Component {
   constructor(props) {
@@ -119,6 +120,32 @@ class SourceFiltersFormBox extends React.Component {
                   ))}
                 </Select>
               )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem
+              label="L8"
+              {...FILTER_FORM_ITEM_LAYOUT}
+            >
+              <InputGroup compact style={{ paddingTop: '3px' }}>
+                {getFieldDecorator('min_l8_count')(
+                  <Input
+                    style={{ width: '40%', textAlign: 'center' }}
+                    placeholder="Min"
+                  />
+                )}
+                <Input
+                  style={{ width: '20%', borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff' }}
+                  placeholder="~"
+                  disabled
+                />
+                {getFieldDecorator('max_l8_count')(
+                  <Input
+                    style={{ width: '40%', textAlign: 'center', borderLeft: 0 }}
+                    placeholder="Max"
+                  />
+                )}
+              </InputGroup>
             </FormItem>
           </Col>
         </Row>

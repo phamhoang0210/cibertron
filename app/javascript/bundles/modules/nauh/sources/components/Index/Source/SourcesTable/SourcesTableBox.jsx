@@ -43,8 +43,7 @@ class SourcesTableBox extends React.Component {
     }, {
       width: 48,
       title: intl.formatMessage({id: 'index.sources_table.headers.l8_count.title'}),
-      dataIndex: 'l8_count',
-      render: value => (value == 'loading') ? (<Spin indicator={(<Icon type="loading" style={{ fontSize: 12 }} spin />)} />) : value,
+      dataIndex: 'l8_count'
     },{
       title: intl.formatMessage({id: 'index.sources_table.headers.interest.title'}),
       dataIndex: 'interest',
@@ -53,11 +52,12 @@ class SourcesTableBox extends React.Component {
           <span>{`• ${record.interest}`}</span><br/>
           {record.note && (<span>{`• ${record.note}`}</span>)}
         </div>
-        )
+        ),
+      width: '25%',
     }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.source_url.title'}),
       dataIndex: 'source_url',
-      width: '50%',
+      width: '40%',
     }];
   }
 
