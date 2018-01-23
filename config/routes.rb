@@ -50,7 +50,7 @@ Rails.application.routes.draw do
       option.resources :courses
       option.resources :combos
       option.resources :targets
-      option.resources :systemlogs
+      option.resources :prizes
     end
   end
 
