@@ -5,6 +5,7 @@ import SolCombosApp from 'modules/sol/combos/registers/SolCombosApp'
 import SolTargetsApp from 'modules/sol/targets/registers/SolTargetsApp'
 import SolDiscountsApp from 'modules/sol/discounts/registers/SolDiscountsApp'
 import SolCatalogsApp from 'modules/sol/catalogs/registers/SolCatalogsApp'
+import SolPrizesApp from 'modules/sol/prizes/registers/SolPrizesApp'
 
 ReactOnRails.register({
   SolDiscountsApp,
@@ -13,4 +14,5 @@ ReactOnRails.register({
   SolCombosApp,
   SolTargetsApp,
   SolCatalogsApp,
+  SolPrizesApp,
 });
