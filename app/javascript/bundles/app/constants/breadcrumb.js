@@ -203,13 +203,13 @@ export const breadcrumbData = Immutable.fromJS({
         }
       }
     },
-    // Home > Hera
+    // Home > LP
     hera: {
-      title: 'Hera',
-      // Home > Hera > Landingpages
+      title: 'LP',
+      // Home > LP > Landingpages
       Landingpages: {
         title: 'Landingpages',
-        // Home > Hera > Landingpages > Create
+        // Home > LP > Landingpages > Create
         new: {
           title: 'Create'
         }

@@ -136,7 +136,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/hera',
-    title: (<span><Icon type="bars" /><span>HERA</span></span>),
+    title: (<span><Icon type="bars" /><span>LP</span></span>),
     items: [
       {
         type: 'link', 
