@@ -91,20 +91,20 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         },
       },
-      courses: {
-        title: 'Courses',
-        // Home > SOL > Promos > Create
-        new: {
-          title: 'Create',
-        },
-      },
-      combos: {
-        title: 'Combos',
-        // Home > SOL > Promos > Create
-        new: {
-          title: 'Create',
-        },
-      },
+      // courses: {
+      //   title: 'Courses',
+      //   // Home > SOL > Promos > Create
+      //   new: {
+      //     title: 'Create',
+      //   },
+      // },
+      // combos: {
+      //   title: 'Combos',
+      //   // Home > SOL > Promos > Create
+      //   new: {
+      //     title: 'Create',
+      //   },
+      // },
       targets: {
         title: 'Targets',
         // Home > SOL > Promos > Create
@@ -112,8 +112,8 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create',
         },
       },
-      systemlogs: {
-        title: 'System Logs',
+      prizes: {
+        title: 'Prizes',
         // Home > SOL > Promos > Create
       },
     },
