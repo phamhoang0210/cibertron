@@ -1,8 +1,11 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import { notification } from 'antd'
+import { notification, Tabs } from 'antd'
 import CodeTabsBox from './CodeTabs/CodeTabsBox'
+import PagespeedInsightBox from './PagespeedInsight/PagespeedInsightBox'
 import { injectIntl } from 'react-intl'
+
+const TabPane = Tabs.TabPane
 
 class GetCodeScreen extends React.Component {
   constructor(props) {
@@ -13,6 +16,7 @@ class GetCodeScreen extends React.Component {
     const {actions, getCodeState, params} = this.props
     if(params && params.id) {
       actions.fetchLandingPageCodes(params.id)
+      actions.fetchLandingPagePagespeedInsights(params.id)
     }
   }
 
@@ -33,13 +37,15 @@ class GetCodeScreen extends React.Component {
     const landingPageCodes = getCodeState.get('landingPageCodes')
     return (
       <div className="main-content hera--landing-pages--get-code box">
-        <div className="box-header">
-          <h1 className="box-title">
-            {intl.formatMessage({id: 'get_codes.title'})}
-          </h1>
-        </div>
         <div className="box-body">
-          <CodeTabsBox {...this.props}/>
+          <Tabs>
+            <TabPane tab={intl.formatMessage({id: 'get_codes.title'})} key="get_codes">
+              <CodeTabsBox {...this.props}/>
+            </TabPane>
+            <TabPane tab={intl.formatMessage({id: 'pagespeed_insight.title'})} key="pagespeed_insight">
+              <PagespeedInsightBox {...this.props}/>
+            </TabPane>
+          </Tabs>
         </div>
       </div>
     )
