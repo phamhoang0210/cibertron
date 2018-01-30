@@ -34,3 +34,34 @@ export function fetchLandingPageCodes(landingPageId, params = {}) {
       .catch(error => dispatch(fetchLandingPageCodesFailure(error)))
   }
 }
+
+function setIsFetchingLandingPagePagespeedInsights() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_FACEBOOK_PAGESPEED_INSIGHTS,
+  }
+}
+
+function fetchLandingPagePagespeedInsightsSuccess({landingPage, landing_page_pagespeed_insights}) {
+  return {
+    type: actionTypes.FETCH_FACEBOOK_PAGESPEED_INSIGHTS_SUCCESS,
+    landingPage: landingPage,
+    landingPagePagespeedInsights: landing_page_pagespeed_insights,
+  }
+}
+
+function fetchLandingPagePagespeedInsightsFailure(error) {
+  return {
+    type: actionTypes.FETCH_FACEBOOK_PAGESPEED_INSIGHTS_FAILURE,
+    error,
+  }
+}
+
+export function fetchLandingPagePagespeedInsights(landingPageId, params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingLandingPagePagespeedInsights())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${LANDING_PAGES_API_PATH}/${landingPageId}/pagespeed_insights`, params)
+      .then(res => dispatch(fetchLandingPagePagespeedInsightsSuccess(res.data)))
+      .catch(error => dispatch(fetchLandingPagePagespeedInsightsFailure(error)))
+  }
+}

@@ -148,6 +148,9 @@ export const appLocale = {
         }
       }
     },
+    pagespeed_insight: {
+      title: 'Gợi ý tối ưu tốc độ',
+    },
     get_codes: {
       // get_codes.title
       title: 'Lấy mã landing page',

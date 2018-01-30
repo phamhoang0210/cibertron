@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import {
-  Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs
+  Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge
 } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
@@ -43,11 +43,23 @@ class LandingPagesTableBox extends React.Component {
       )
     }, {
       title: intl.formatMessage({id: 'attrs.domain_id.label'}),
-      dataIndex: 'domain.name',
+      dataIndex: 'domain',
       key: 'domain_name',
-      render: value => {
-        if(value) {
-          return (<a href={`http://${value}`} target="_blank">{value}</a>)
+      render: (value, record) => {
+        if(value.name) {
+          const pagespeedInsight = value.pagespeed_insight
+          const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
+          return (
+            <div>
+              <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
+              <a href={`http://${value.name}`} target="_blank">{value.name}</a>
+              {requestErrors.map(error => (
+                <div>
+                  <small style={{color: 'red'}}>- {error}</small>
+                </div>
+              ))}
+            </div>
+          )
         }
       }
     }, {

@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   landingPages: [],
   landingPageFilters: {
     ...defaultFilters,
-    fields: "domain{}"
+    fields: "domain{pagespeed_insight{}}"
   },
   isFetchingLandingPages: false,
 })
