@@ -102,6 +102,38 @@ export function handOver(params = {}) {
   }
 }
 
+function setIsSedingEmail() {
+  return {
+    type: actionTypes.SET_IS_HANDING_OVER,
+  }
+}
+
+function sendEmailSuccess(response) {
+  return {
+    type: actionTypes.HAND_OVER_SUCCESS,
+  }
+}
+
+function sendEmailFailure(error) {
+  return {
+    type: actionTypes.HAND_OVER_FAILURE,
+  }
+}
+
+export function sendEmail(params = {}) {
+  return (dispatch, getStore) => {
+    dispatch(setIsHandingOver())
+    authRequest
+      .fetchEntities(`${A3_STORAGE_BASE_URL}${SOURCES_API_PATH}/send_email`, params)
+      .then(res => {
+        dispatch(handOverSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('sourceFilters'))
+        dispatch(fetchSources(filterParams))
+      })
+      .catch(error => dispatch(handOverFailure(error)))
+  }
+}
+
 // Set contact to Test
 function setIsSettingToTest() {
   return {
