@@ -18,7 +18,7 @@ import moment from 'moment'
 import { injectIntl } from 'react-intl'
 
 const { Search } = Input
-const TabPane = Tabs.TabPane
+const { TabPane } = Tabs
 
 class TemplatesTableBox extends React.Component {
   constructor(props) {
@@ -178,30 +178,62 @@ class TemplatesTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
           </Col>
         </Row>
+        <Tabs defaultActiveKey="1" size="large">
+          <TabPane tab="Marketing Template" key="1">
+            <Modal
+              className='modalCustom'
+              title="Template"
+              cancelText="Cancel"
+              visible={this.state.modalShow}
+              onCancel={this.handleCancelTemplateModal}
+              onOk={this.handleCancelTemplateModal}
+              width="50%"
+            >
+              <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
+            </Modal>
+            
+            <Table
+              bordered
+              size="middle"
+              columns={this.columns}
+              dataSource={templates.toJS()}
+              pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+              rowClassName={rowClassName}
+              rowKey="created_at"
+              onChange={this.handleTableChange}
+              loading={isFetchingTemplates}
+            />
+          </TabPane>
+          <TabPane tab="Transaction Template" key="2">
+            <Modal
+              className='modalCustom'
+              title="Template"
+              cancelText="Cancel"
+              visible={this.state.modalShow}
+              onCancel={this.handleCancelTemplateModal}
+              onOk={this.handleCancelTemplateModal}
+              width="50%"
+            >
+              <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
+            </Modal>
+            
+            <Table
+              bordered
+              size="middle"
+              columns={this.columns}
+              dataSource={templates.toJS()}
+              pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+              rowClassName={rowClassName}
+              rowKey="created_at"
+              onChange={this.handleTableChange}
+              loading={isFetchingTemplates}
+            />
+          </TabPane>
 
-        <Modal
-          className='modalCustom'
-          title="Template"
-          cancelText="Cancel"
-          visible={this.state.modalShow}
-          onCancel={this.handleCancelTemplateModal}
-          onOk={this.handleCancelTemplateModal}
-          width="50%"
-        >
-          <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
-        </Modal>
+        </Tabs>
+
         
-        <Table
-          bordered
-          size="middle"
-          columns={this.columns}
-          dataSource={templates.toJS()}
-          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-          rowClassName={rowClassName}
-          rowKey="created_at"
-          onChange={this.handleTableChange}
-          loading={isFetchingTemplates}
-        />
+        
       </div>
     )
   }
