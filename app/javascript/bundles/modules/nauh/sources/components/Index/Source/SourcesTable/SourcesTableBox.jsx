@@ -22,6 +22,7 @@ class SourcesTableBox extends React.Component {
       'handleTableChange',
       'handleSearch',
       'handleHandOver',
+      'handleSendEmail',
       'handleSetToTest',
       'handleSetToTrash',
       'handleSetToNew',
@@ -65,6 +66,12 @@ class SourcesTableBox extends React.Component {
     const {actions, indexState} = this.props
     var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
     actions.handOver({selected: selectedSourceKeys})
+  }
+
+  handleSendEmail() {
+    const {actions, indexState} = this.props
+    var selectedSourceKeys = indexState.get('selectedSourceKeys').toJS()
+    actions.sendEmail({selected: selectedSourceKeys})
   }
 
   handleSetToTest() {
@@ -211,6 +218,17 @@ class SourcesTableBox extends React.Component {
               ghost
             >
               {intl.formatMessage({id: 'index.sources_table.actions.hand_over.button'})}
+            </Button>
+
+            <Button
+              className="button-margin--left--default"
+              disabled={isHandingOver}
+              loading={isHandingOver}
+              onClick={this.handleHandOver}
+              type="danger"
+              ghost
+            >
+              {intl.formatMessage({id: 'index.sources_table.actions.send_email.button'})}
             </Button>
 
             </Col>

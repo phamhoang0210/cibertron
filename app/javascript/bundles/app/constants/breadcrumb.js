@@ -181,7 +181,7 @@ export const breadcrumbData = Immutable.fromJS({
       },
       // Home > EES > Lists
       lists: {
-        title: 'Lists',
+        title: 'Contacts',
         // Home > EES > Lists > Create
         new: {
           title: 'Create',
