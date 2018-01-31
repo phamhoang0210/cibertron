@@ -124,7 +124,7 @@ export const menuData = [
       } , {
         type: 'link', 
         path: '/ees/lists',
-        title: 'Lists',
+        title: 'Contacts',
       } , {
         type: 'link', 
         path: '/ees/templates',

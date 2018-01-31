@@ -21,6 +21,10 @@ export const appLocale = {
             // index.sources_table.actions.button.hand_over
             button: 'Hand over',
           },
+          send_email: {
+            // index.sources_table.actions.button.send_email
+            button: 'Send Email',
+          },
           move_to_test: {
             // index.sources_table.actions.button.move_to_test
             button: 'Move to test',

@@ -32,6 +32,14 @@ export const appLocale = {
           required: 'Name là trường bắt buộc'
         }
       },
+      email: {
+        // attrs.email.label
+        label: 'Email',
+        errors: {
+        // attrs.email.errors.required
+          required: 'Email là trường bắt buộc'
+        }
+      },
       file: {
         // attrs.file.label
         label: 'File',

@@ -88,7 +88,7 @@ function setIsFetchingStatistics() {
 
 function fetchStatisticsSuccess() {
   return {
-    type: actionTypes.FETCH_STATISTICSSUCCESS,
+    type: actionTypes.FETCH_STATISTICS_SUCCESS,
   }
 }
 
