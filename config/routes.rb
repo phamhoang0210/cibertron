@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount MinervaFrontend::Engine => "/minerva", :as => 'minerva_frontend'
+
   root to: redirect('/dashboard')
   resources :dashboard, only: [:index]
   resources :auth, only: [:index] do
@@ -73,7 +75,7 @@ Rails.application.routes.draw do
   namespace :ees do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
-      option.resources :campaigns 
+      option.resources :campaigns
       option.resources :lists
       option.resources :templates
       option.resources :senders
