@@ -67,3 +67,5 @@ gem 'pureapi', '~> 0.5.1'
 gem 'jwtauth', '~> 0.3.2'
 
 gem "pundit"
+
+gem "minerva_frontend", path: "minerva_frontend"
