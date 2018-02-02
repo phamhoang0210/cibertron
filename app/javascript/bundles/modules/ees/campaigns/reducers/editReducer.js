@@ -58,7 +58,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
       return $$state.merge({
         isUpdatingCampaign: false,
-        notification: parseError(error)
+        alert: parseError(error)
       })
     }
 
@@ -79,7 +79,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.SEND_CAMPAIGN_FAILURE: {
       return $$state.merge({
         isSendingCampaign: false,
-        notification: parseError(error)
+        alert: parseError(error)
       })
     }
 
