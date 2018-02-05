@@ -194,11 +194,15 @@ class CampaignsTableBox extends React.Component {
     
     var used_emails = 1
     var budget = 1
+    var percent = 100
+
     if (personal_budget && personal_used_emails) {
       used_emails = personal_used_emails.toJS().used_emails
       budget = personal_budget.toJS().budget
     }
-    var percent = Math.round((used_emails/budget)*100)
+    if (budget > 0) {
+      percent = Math.round((used_emails/budget)*100)
+    }
 
     return (
       <div className="main-content-table-box">
