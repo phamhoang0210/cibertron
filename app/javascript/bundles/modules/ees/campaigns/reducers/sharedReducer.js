@@ -7,9 +7,13 @@ export const initialState = Immutable.fromJS({
   senders: [],
   lists: [],
   templates: [],
+  budget: null,
+  budgets: [],
+  used_emails: null,
   isFetchingSenders: false,
   isFetchingLists: false,
   isFetchingTemplates: false,
+  isFetchingUsedEmails: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -90,6 +94,66 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_USERS_FAILURE: {
       return $$state.merge({
         isFetchingUsers: false,
+      })
+    }
+
+    // Fetch budgets
+    case actionTypes.SET_IS_FETCHING_BUDGETS: {
+      return $$state.merge({
+        isFetchingBudgets: true,
+      })
+    }
+
+    case actionTypes.FETCH_BUDGETS_SUCCESS: {
+      return $$state.merge({
+        isFetchingBudgets: false,
+        budgets: records,
+      })
+    }
+
+    case actionTypes.FETCH_BUDGETS_FAILURE: {
+      return $$state.merge({
+        isFetchingBudgets: false,
+      })
+    }
+
+    // Fetch budget
+    case actionTypes.SET_IS_FETCHING_BUDGET: {
+      return $$state.merge({
+        isFetchingBudget: true,
+      })
+    }
+
+    case actionTypes.FETCH_BUDGET_SUCCESS: {
+      return $$state.merge({
+        isFetchingBudget: false,
+        budget: record,
+      })
+    }
+
+    case actionTypes.FETCH_BUDGET_FAILURE: {
+      return $$state.merge({
+        isFetchingBudget: false,
+      })
+    }
+
+    // Fetch email used
+    case actionTypes.SET_IS_FETCHING_USED_EMAILS: {
+      return $$state.merge({
+        isFetchingUsedEmail: true,
+      })
+    }
+
+    case actionTypes.FETCH_USED_EMAILS_SUCCESS: {
+      return $$state.merge({
+        isFetchingUsedEmails: false,
+        used_emails: record,
+      })
+    }
+
+    case actionTypes.FETCH_USED_EMAILS_FAILURE: {
+      return $$state.merge({
+        isFetchingUsedEmails: false,
       })
     }
 

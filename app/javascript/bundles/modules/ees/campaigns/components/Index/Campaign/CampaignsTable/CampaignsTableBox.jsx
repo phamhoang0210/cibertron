@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select, Modal, Icon, Popover
+  Tag, Tabs, Badge, Select, Modal, Icon, Popover, Progress
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -189,6 +189,21 @@ class CampaignsTableBox extends React.Component {
     const paging = indexState.getIn(['campaignFilters', 'paging'])
     const isFetchingCampaigns = indexState.get('isFetchingCampaigns')
 
+    var personal_budget = sharedState.get('budget')
+    var personal_used_emails = sharedState.get('used_emails')
+    
+    var used_emails = 1
+    var budget = 1
+    var percent = 100
+
+    if (personal_budget && personal_used_emails) {
+      used_emails = personal_used_emails.toJS().used_emails
+      budget = personal_budget.toJS().budget
+    }
+    if (budget > 0) {
+      percent = Math.round((used_emails/budget)*100)
+    }
+
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
@@ -200,6 +215,9 @@ class CampaignsTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
+            <Popover content={`EmailBudget: ${used_emails}/${budget}`}>
+              <Progress percent={percent} status="active" />
+            </Popover>
           </Col>
         </Row>
         
