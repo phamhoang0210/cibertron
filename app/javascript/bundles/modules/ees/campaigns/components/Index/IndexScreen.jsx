@@ -16,6 +16,8 @@ class IndexScreen extends React.Component {
     //campaignParams["fields"]="id,name,created_at,log_count,open_count,status,updated_at,user_id"
     campaignParams["fields"]="id,name,created_at,status,updated_at,user_id"
     actions.fetchCampaigns(campaignParams)
+    actions.fetchBudget()
+    actions.fetchUsedEmails()
   }
 
   componentWillReceiveProps(nextProps) {
