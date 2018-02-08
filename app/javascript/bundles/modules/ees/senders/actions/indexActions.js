@@ -2,7 +2,7 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   MEEPO_BASE_URL, SENDERS_API_PATH,
-  USERSERVICE_BASE_URL , USERS_API_PATH
+  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -109,7 +109,7 @@ export function fetchUsers(data) {
       })
     }
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
       .then(res => {
         dispatch(setIsFetchingUsers())
         var users = res.data.records
@@ -117,7 +117,7 @@ export function fetchUsers(data) {
 
         if(users) {
           users.map(user => {
-            users_array[user.id] = user.username
+            users_array[user.id] = user.nickname
           })
         }
         if(data.records && users_array){
