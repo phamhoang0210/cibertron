@@ -13,6 +13,7 @@ class IndexScreen extends React.Component {
   componentDidMount() {
     const {actions, indexState, intl} = this.props
     const landingPageParams = getFilterParams(indexState.get('landingPageFilters'))
+    
     actions.fetchLandingPages(landingPageParams)
     actions.fetchDiscounts({per_page: 'infinite', fields: 'product_json'})
     actions.fetchUsers({per_page: 'infinite'})
