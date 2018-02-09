@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import {
-  Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge
+  Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge, Progress
 } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
@@ -41,7 +41,32 @@ class LandingPagesTableBox extends React.Component {
           type: <i>{record.landing_page_type}</i><br/>
         </div>
       )
-    }, {
+    }, 
+    {
+      title: intl.formatMessage({id: 'attrs.score.label'}),
+      dataIndex: 'domain',
+      key: 'score',
+      render: (value) => {
+        var status = ""
+        var score = 0
+        if (value.pagespeed_insight.formatted_results.rule_groups.SPEED.score) {
+          score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
+        }
+
+        if (score >= 80) {
+          status = "success"
+        } else if (score < 50) {
+          status = "exception"
+        } else {
+          status = "active"
+        }
+
+        return (
+          <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
+        )
+      },
+    },
+    {
       title: intl.formatMessage({id: 'attrs.domain_id.label'}),
       dataIndex: 'domain',
       key: 'domain_name',
@@ -54,7 +79,7 @@ class LandingPagesTableBox extends React.Component {
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
               <a href={`http://${value.name}`} target="_blank">{value.name}</a>
               {requestErrors.map(error => (
-                <div>
+                <div key={error}>
                   <small style={{color: 'red'}}>- {error}</small>
                 </div>
               ))}
@@ -102,6 +127,7 @@ class LandingPagesTableBox extends React.Component {
         const {sharedState} = this.props
         const discountIdMappings = sharedState.get('discountIdMappings')
         const discount = discountIdMappings.get(`${value}`)
+        
         if (discount) {
           return (
             <div>
@@ -111,9 +137,10 @@ class LandingPagesTableBox extends React.Component {
             </div>
           )
         }
-
       }
-    }, {
+    },
+    
+    {
       title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
