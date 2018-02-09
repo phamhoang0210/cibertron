@@ -49,13 +49,20 @@ class LandingPagesTableBox extends React.Component {
       render: (value) => {
         var status = ""
         var score = 0
-        if (value.pagespeed_insight.formatted_results.rule_groups.SPEED.score) {
-          score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
+
+        if (value.pagespeed_insight) {
+          if (value.pagespeed_insight.formatted_results) {
+            if (value.pagespeed_insight.formatted_results.rule_groups) {
+              if (value.pagespeed_insight.formatted_results.rule_groups.SPEED) {
+                score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
+              }
+            }
+          }
         }
 
         if (score >= 80) {
           status = "success"
-        } else if (score < 50) {
+        } else if (score < 60) {
           status = "exception"
         } else {
           status = "active"
