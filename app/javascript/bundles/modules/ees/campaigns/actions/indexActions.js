@@ -36,7 +36,7 @@ export function fetchCampaigns(params = {}) {
       .then(res => {
         dispatch(fetchCampaignsSuccess(res.data))
         dispatch(fetchUsers(res.data))
-        dispatch(fetchStatistics(res.data))
+        // dispatch(fetchStatistics(res.data))
       })
       //.then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
