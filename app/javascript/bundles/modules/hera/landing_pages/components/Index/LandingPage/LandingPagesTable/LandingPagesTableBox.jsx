@@ -49,15 +49,11 @@ class LandingPagesTableBox extends React.Component {
       render: (value) => {
         var status = ""
         var score = 0
-
-        if (value.pagespeed_insight) {
-          if (value.pagespeed_insight.formatted_results) {
-            if (value.pagespeed_insight.formatted_results.rule_groups) {
-              if (value.pagespeed_insight.formatted_results.rule_groups.SPEED) {
-                score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
-              }
-            }
-          }
+        try {
+          score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
+        }
+        catch(err) {
+          console.log(err.message)
         }
 
         if (score >= 80) {
@@ -67,10 +63,16 @@ class LandingPagesTableBox extends React.Component {
         } else {
           status = "active"
         }
-
-        return (
-          <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
-        )
+        if (score == 0) {
+          return (
+            <Progress width={60} status={status} type="circle" percent={score} />
+          )
+        } else {
+          return (
+            <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
+          )
+        }
+        
       },
     },
     {
@@ -78,7 +80,7 @@ class LandingPagesTableBox extends React.Component {
       dataIndex: 'domain',
       key: 'domain_name',
       render: (value, record) => {
-        if(value.name) {
+        if(value && value.name) {
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
           return (
