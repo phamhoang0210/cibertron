@@ -35,7 +35,7 @@ export function fetchLists(params = {}) {
       .fetchEntities(`${AIRI_BASE_URL}${LISTS_API_PATH}`, params)
       .then(res => {
         dispatch(fetchListsSuccess(res.data))
-        dispatch(fetchStatistics(res.data))
+        dispatch(fetchStatistics(res.data, params))
         dispatch(fetchUsers(res.data))
       })
       //.then(res => dispatch(fetchListsSuccess(res.data)))
@@ -99,7 +99,7 @@ function fetchStatisticsFailure(error) {
   }
 }
 
-export function fetchStatistics(data) {
+export function fetchStatistics(data, params) {
   return dispatch => {
     dispatch(setIsFetchingStatistics())
     var list_campaign_id = []
@@ -108,8 +108,9 @@ export function fetchStatistics(data) {
         list_campaign_id.push(record.id)
       })
     }
+    params["fields"] = "id,contact_count"
     authRequest
-      .fetchEntities(`${AIRI_BASE_URL}${LISTS_API_PATH}`, {'fields': "id,contact_count"})
+      .fetchEntities(`${AIRI_BASE_URL}${LISTS_API_PATH}`, params)
       .then(res => {
         var lists = res.data.records
         const lists_statistics = {}
