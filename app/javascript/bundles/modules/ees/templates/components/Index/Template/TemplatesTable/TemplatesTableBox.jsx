@@ -187,7 +187,7 @@ class TemplatesTableBox extends React.Component {
               visible={this.state.modalShow}
               onCancel={this.handleCancelTemplateModal}
               onOk={this.handleCancelTemplateModal}
-              width="50%"
+              width="70%"
             >
               <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
             </Modal>
