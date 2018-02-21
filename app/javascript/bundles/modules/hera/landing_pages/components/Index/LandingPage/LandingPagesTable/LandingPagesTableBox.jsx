@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import {
-  Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge, Progress
+  Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge, Progress, Tag
 } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
@@ -35,17 +35,29 @@ class LandingPagesTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'name',
       key: 'name',
-      render: (value, record) => (
-        <div>
-          <b>{value}</b><br/>
-          type: <i>{record.landing_page_type}</i><br/>
-        </div>
-      )
+      width: '13%',
+      render: (value, record) => {
+        const {sharedState} = this.props
+        const userIdMappings = sharedState.get('userIdMappings')
+        const user = userIdMappings.get(`${record.user_id}`)
+        var name = "unknow"
+        if (user) {
+          name = user.get('username')
+        }
+        return (
+          <div>
+            <b>{value}</b><br/>
+            <span>{name}</span><br/>
+            <Tag color="red"><i>{record.landing_page_type}</i></Tag>
+          </div>
+        )
+      }
     }, 
     {
       title: intl.formatMessage({id: 'attrs.score.label'}),
       dataIndex: 'domain',
       key: 'score',
+      width: '7%',
       render: (value) => {
         var status = ""
         var score = 0
@@ -79,6 +91,7 @@ class LandingPagesTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.domain_id.label'}),
       dataIndex: 'domain',
       key: 'domain_name',
+      width: '15%',
       render: (value, record) => {
         if(value && value.name) {
           const pagespeedInsight = value.pagespeed_insight
@@ -97,22 +110,10 @@ class LandingPagesTableBox extends React.Component {
         }
       }
     }, {
-      title: intl.formatMessage({id: 'attrs.user_id.label'}),
-      dataIndex: 'user_id',
-      key: 'user_id',
-      render: value => {
-        const {sharedState} = this.props
-        const userIdMappings = sharedState.get('userIdMappings')
-        const user = userIdMappings.get(`${value}`)
-        if (user) {
-          return (<span>{user.get('username')}</span>)
-        }
-      }
-    }, {
       title: intl.formatMessage({id: 'attrs.discount_id.label'}),
       dataIndex: 'discount_id',
       key: 'discount',
-      width: '20%',
+      width: '15%',
       render: (value, record) => {
         const {sharedState} = this.props
         const discountIdMappings = sharedState.get('discountIdMappings')
@@ -131,7 +132,7 @@ class LandingPagesTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.product.label'}),
       dataIndex: 'discount_id',
       key: 'discount_product',
-      width: '20%',
+      width: '28%',
       render: (value, record) => {
         const {sharedState} = this.props
         const discountIdMappings = sharedState.get('discountIdMappings')
@@ -148,16 +149,16 @@ class LandingPagesTableBox extends React.Component {
         }
       }
     },
-    
     {
       title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
+      width: '15%',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
     }, {
       title: '',
       key: 'action',
-      width: 100,
+      width: '7%',
       render: (cell, row) => {
         return (
           <div className="text-align--right">
@@ -260,6 +261,7 @@ class LandingPagesTableBox extends React.Component {
         </Row>
         <Table
           className="main-content-table-box-body"
+          bordered
           size="middle"
           columns={this.columns}
           dataSource={landingPages.toJS()}
