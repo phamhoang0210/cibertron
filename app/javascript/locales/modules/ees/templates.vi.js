@@ -12,31 +12,10 @@ export const appLocale = {
         // attrs.created_in.label
         label: 'Ngày tạo',
       },
-      assigned_in: {
-        // attrs.assigned_in.label
-        label: 'Ngày giao tvts',
+      creator: {
+        // attrs.creator.label
+        label: 'Người tạo',
       },
-      message: {
-        // attrs.message.label
-        label: 'Message',
-      },
-      email: {
-        // attrs.email.label
-        label: 'Email',
-        errors: {
-        // attrs.email.errors.required
-          required: 'Email là trường bắt buộc'
-        }
-      },
-      content: {
-        // attrs.content.label
-        label: 'Content',
-        errors: {
-          // attrs.content.errors.required
-          required: 'Content là trường bắt buộc!'
-        }
-      },
-
       name: {
         // attrs.name.label
         label: 'Tên template',

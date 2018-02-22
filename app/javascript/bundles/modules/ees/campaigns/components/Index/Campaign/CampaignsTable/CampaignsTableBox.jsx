@@ -53,7 +53,7 @@ class CampaignsTableBox extends React.Component {
     this.columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_in.label'}), 
-        width: '10%',
+        width: '15%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
@@ -61,6 +61,7 @@ class CampaignsTableBox extends React.Component {
       {
         title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
+        width: '50%',
         key: 'name',
         render: (cell, row) => {
           return (
@@ -88,6 +89,7 @@ class CampaignsTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.last_action_by.label'}),
         dataIndex: 'updated_at',
         key: 'updated_at',
+        width: '15%',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
@@ -104,29 +106,28 @@ class CampaignsTableBox extends React.Component {
           return (
             <div className="text-align--right">
               <Button
-                type="primary"
-                shape="circle"
-                size="large"
                 icon="edit"
-                className="button-margin--left--default"
+                className="width--full"
+                size="small"
                 onClick={(e) => this.handleEdit(row.id)}
               >
               </Button>
+
               <Popconfirm
                 placement="topLeft"
-                title="Are you sure delete this catalog?"
+                title="Are you sure delete this campaign?"
                 onConfirm={() => this.handleDelete(row.id)}
                 okText="Yes"
                 cancelText="No"
               >
-                <Button 
-                  icon="delete" 
-                  shape="circle"
+                <Button
+                  className="button-margin--top--default width--full"
+                  icon="delete"
+                  type="danger"
                   disabled={row.status}
-                  size="large"
-                  type="danger" 
+                  size="small"
                   loading={row.isDeleting}
-                  className="button-margin--left--default">
+                >
                 </Button>
               </Popconfirm>
             </div>
