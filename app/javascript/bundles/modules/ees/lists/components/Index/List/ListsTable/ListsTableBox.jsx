@@ -50,13 +50,14 @@ class ListsTableBox extends React.Component {
     this.columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_in.label'}), 
-        width: '10%',
+        width: '15%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
         title: intl.formatMessage({id: 'attrs.name.label'}),
+        width: '35%',
         dataIndex: 'name',
         key: 'name'},
       {
@@ -73,26 +74,30 @@ class ListsTableBox extends React.Component {
         key: 'user'},
       {
         title: intl.formatMessage({id: 'attrs.last_update.label'}),
-        width: '10%',
+        width: '15%',
         dataIndex: 'updated_at', 
         key: 'last_update',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
-        title: intl.formatMessage({id: 'form.form_item.button.add.text'}),
+        title: '',
         dataIndex: 'action',
-        width: '10%',
         render: (cell, row) => {
           return (
             <div className="text-align--right">
               {row.uploading &&  
                 (<Popover content="Uploading">
-                    <Button type="primary" shape="circle" loading />
+                    <Button
+                      size="small"
+                      type="primary" 
+                      className="button-margin--left--default"
+                      loading >
+                    </Button>
                   </Popover>)
               }
               <Button
-                type="primary"
                 icon="edit"
+                size="small"
                 className="button-margin--left--default"
                 onClick={(e) => this.handleEdit(row.id)}
               >
@@ -106,7 +111,8 @@ class ListsTableBox extends React.Component {
               >
                 <Button 
                   icon="delete" 
-                  type="danger" 
+                  type="danger"
+                  size="small"
                   loading={row.isDeleting}
                   className="button-margin--left--default">
                 </Button>
@@ -293,15 +299,20 @@ class ListsTableBox extends React.Component {
     const unsubscribe_columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_in.label'}), 
-        width: '10%',
+        width: '15%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
-      {
+      },{
         title: intl.formatMessage({id: 'attrs.email.label'}),
+        width: '45%',
         dataIndex: 'email',
-        key: 'email'},
+        key: 'email'
+      },{
+        title: intl.formatMessage({id: 'attrs.campaign.label'}),
+        width: '40%',
+        key: 'campaign'
+      },
     ]
     return (
       <div>
