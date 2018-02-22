@@ -102,11 +102,39 @@ class OrderCreateFormBox extends React.Component {
     const campaigns = sharedState.get('campaigns')
     const paymentMethods = sharedState.get('paymentMethods')
     const productCascaderOptions = this.getProductCascaderOptions()
-    
+    const package_types = [
+      {id: 1, value: "buy_more", text: "Mua nhiều khóa"}, 
+      {id: 2, value: "single", text: "Mua một khóa"}]
+
     return (
       <Row gutter={16}>
         <Form onSubmit={this.handleSubmit} layout="horizontal">
           <Col span={12}>
+
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.order.attrs.package_type.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              {getFieldDecorator('record.package_type', {
+                rules: [
+                  { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.package_type.errors.required'}) }
+                ],
+              })(
+                <Select
+                  showSearch
+                  filterOption={selectFilterOption}
+                  placeholder={intl.formatMessage({id: 'attrs.order.attrs.package_type.placeholder.select.single'})}
+                >
+                  {package_types.map(package_type => (
+                    <Option value={`${package_type['value']}`} key={package_type['id']}>
+                      {package_type['text']}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+
+
             <FormItem
               label={intl.formatMessage({id: 'attrs.order.attrs.product.label'})}
               {...DEFAULT_FORM_ITEM_LAYOUT}
