@@ -445,6 +445,20 @@ export const appLocale = {
               }
             }
           },
+          package_type: {
+            // attrs.package_type.label
+            label: 'Hình thức',
+            errors: {
+              // attrs.package_type.errors.required
+              required: 'Hình thức là trường bắt buộc!'
+            },
+            placeholder: {
+              select: {
+                // attrs.package_type.placeholder.select.single
+                single: 'Chọn Hình thức'
+              }
+            }
+          },
           staff: {
             // attrs.order.attrs.staff.label
             label: 'Nhân viên',
