@@ -40,31 +40,33 @@ class TemplatesTableBox extends React.Component {
 
     this.columns = [
       {
-        title: 'Created', 
-        width: '10%',
+        title: intl.formatMessage({id: 'attrs.created_in.label'}), 
+        width: '15%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
-        title: 'Name',
+        title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
-        key: 'name'},
-      {
-        title: 'Nguoi tao',
+        key: 'name',
+        width: '50%'
+      }, {
+        title: intl.formatMessage({id: 'attrs.creator.label'}),
         width: '10%',
         dataIndex: 'username', 
         key: 'user'},
       {
-        title: 'Action',
+        title: '',
         dataIndex: 'action',
-        width: '10%',
+        width: '13%',
         render: (cell, row) => {
           return (
             <div className="text-align--right">
               <Button
                 type="primary"
                 ghost
+                size="small"
                 icon="eye"
                 className="button-margin--left--default"
                 onClick={(e) => this.handleShowTemplateModal(row.content)}
@@ -73,6 +75,7 @@ class TemplatesTableBox extends React.Component {
               <Button
                 type="primary"
                 icon="edit"
+                size="small"
                 className="button-margin--left--default"
                 onClick={(e) => this.handleEdit(row.id)}
               >
@@ -86,7 +89,8 @@ class TemplatesTableBox extends React.Component {
               >
                 <Button 
                   icon="delete" 
-                  type="danger" 
+                  type="danger"
+                  size="small"
                   loading={row.isDeleting}
                   className="button-margin--left--default">
                 </Button>
