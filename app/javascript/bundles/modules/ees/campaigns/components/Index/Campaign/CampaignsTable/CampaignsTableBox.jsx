@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select, Modal, Icon, Popover
+  Tag, Tabs, Badge, Select, Modal, Icon, Popover, Progress
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -53,7 +53,7 @@ class CampaignsTableBox extends React.Component {
     this.columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_in.label'}), 
-        width: '10%',
+        width: '15%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
@@ -61,6 +61,7 @@ class CampaignsTableBox extends React.Component {
       {
         title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
+        width: '50%',
         key: 'name',
         render: (cell, row) => {
           return (
@@ -75,10 +76,10 @@ class CampaignsTableBox extends React.Component {
               
               <b>{row.name}</b><br/>
               <Popover content={content}>
-                {(<IconText type="check" text={(row.log_count || row.log_count >= 0)  ? row.log_count : (<Icon type="loading" />)} />)}
-                {(<IconText type="eye" text={(row.open_count || row.open_count >= 0) ? row.open_count : (<Icon type="loading" />)} />)}
-                <IconText type="select" text="0" />
-                <IconText type="dislike" text="0" /><br/>
+                {(<IconText type="check" text={(row.amount || row.amount >= 0)  ? row.amount : (<Icon type="loading" />)} />)}
+                {(<IconText type="eye" text={(row.opened || row.opened >= 0) ? row.opened : (<Icon type="loading" />)} />)}
+                <IconText type="dislike" text={(row.unsubscribed || row.unsubscribed >= 0) ? row.unsubscribed : (<Icon type="loading" />)} />
+                <IconText type="select" text="0" /><br/>
               </Popover>
             </div>
           )
@@ -88,6 +89,7 @@ class CampaignsTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.last_action_by.label'}),
         dataIndex: 'updated_at',
         key: 'updated_at',
+        width: '15%',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
@@ -104,29 +106,28 @@ class CampaignsTableBox extends React.Component {
           return (
             <div className="text-align--right">
               <Button
-                type="primary"
-                shape="circle"
-                size="large"
                 icon="edit"
-                className="button-margin--left--default"
+                className="width--full"
+                size="small"
                 onClick={(e) => this.handleEdit(row.id)}
               >
               </Button>
+
               <Popconfirm
                 placement="topLeft"
-                title="Are you sure delete this catalog?"
+                title="Are you sure delete this campaign?"
                 onConfirm={() => this.handleDelete(row.id)}
                 okText="Yes"
                 cancelText="No"
               >
-                <Button 
-                  icon="delete" 
-                  shape="circle"
+                <Button
+                  className="button-margin--top--default width--full"
+                  icon="delete"
+                  type="danger"
                   disabled={row.status}
-                  size="large"
-                  type="danger" 
+                  size="small"
                   loading={row.isDeleting}
-                  className="button-margin--left--default">
+                >
                 </Button>
               </Popconfirm>
             </div>
@@ -189,6 +190,21 @@ class CampaignsTableBox extends React.Component {
     const paging = indexState.getIn(['campaignFilters', 'paging'])
     const isFetchingCampaigns = indexState.get('isFetchingCampaigns')
 
+    var personal_budget = sharedState.get('budget')
+    var personal_used_emails = sharedState.get('used_emails')
+    
+    var used_emails = 1
+    var budget = 1
+    var percent = 100
+
+    if (personal_budget && personal_used_emails) {
+      used_emails = personal_used_emails.toJS().used_emails
+      budget = personal_budget.toJS().budget
+    }
+    if (budget > 0) {
+      percent = Math.round((used_emails/budget)*100)
+    }
+
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
@@ -200,6 +216,9 @@ class CampaignsTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
+            <Popover content={`EmailBudget: ${used_emails}/${budget}`}>
+              <Progress percent={percent} status="active" />
+            </Popover>
           </Col>
         </Row>
         

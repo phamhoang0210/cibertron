@@ -21,13 +21,13 @@ export default function indexReducer($$state = initialState, action = null) {
   } = action
   
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_TEMPLATES: {
+    case actionTypes.SET_IS_FETCHING_MARKETING_TEMPLATES: {
       return $$state.merge({
         isFetchingTemplates: true,
       })
     }
 
-    case actionTypes.FETCH_TEMPLATES_SUCCESS: {
+    case actionTypes.FETCH_MARKETING_TEMPLATES_SUCCESS: {
       return $$state.merge({
         isFetchingTemplates: false,
         templates: records,
@@ -90,6 +90,26 @@ export default function indexReducer($$state = initialState, action = null) {
           alert: parseError(error),
         })
       ))
+    }
+
+    case actionTypes.SET_IS_FETCHING_TRANSACTIONAL_TEMPLATES: {
+      return $$state.merge({
+        isFetchingTemplates: true,
+      })
+    }
+
+    case actionTypes.FETCH_TRANSACTIONAL_TEMPLATES_SUCCESS: {
+      return $$state.merge({
+        isFetchingTemplates: false,
+        templates: records,
+        templateFilters: filters,
+      })
+    }
+
+    case actionTypes.FETCH_TRANSACTIONAL_TEMPLATES_FAILURE: {
+      return $$state.merge({
+        isFetchingTemplates: false,
+      })
     }
 
     default: {

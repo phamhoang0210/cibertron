@@ -2,7 +2,7 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   FURION_BASE_URL, CAMPAIGNS_API_PATH, 
-  USERSERVICE_BASE_URL , USERS_API_PATH
+  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -35,8 +35,8 @@ export function fetchCampaigns(params = {}) {
       .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => {
         dispatch(fetchCampaignsSuccess(res.data))
-        dispatch(fetchStatistics(res.data))
         dispatch(fetchUsers(res.data))
+        // dispatch(fetchStatistics(res.data))
       })
       //.then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
@@ -164,14 +164,13 @@ export function fetchUsers(data) {
       })
     }
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
       .then(res => {
         var users = res.data.records
         const users_array = {}
-
         if(users) {
           users.map(user => {
-            users_array[user.id] = user.username
+            users_array[user.id] = user.nickname
           })
         }
         if(data.records && users_array){

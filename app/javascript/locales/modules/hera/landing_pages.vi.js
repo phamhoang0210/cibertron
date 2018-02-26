@@ -19,6 +19,10 @@ export const appLocale = {
         // attrs.created_at.label
         label: 'Ngày tạo',
       },
+      score: {
+        // attrs.score.label
+        label: 'Điểm',
+      },
       created_in: {
         // attrs.created_in.label
         label: 'Ngày tạo',
