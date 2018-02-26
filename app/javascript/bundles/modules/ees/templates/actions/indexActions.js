@@ -1,44 +1,79 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  MORPHLING_BASE_URL, TEMPLATES_API_PATH,
+  MORPHLING_BASE_URL, MARKETING_TEMPLATES_API_PATH, TRANSACTIONAL_TEMPLATES_API_PATH, TEMPLATES_API_PATH,
   AUTHSERVICE_BASE_URL , AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
-function setIsFetchingTemplates() {
+function setIsFetchingMarketingTemplates() {
   return {
-    type: actionTypes.SET_IS_FETCHING_TEMPLATES,
+    type: actionTypes.SET_IS_FETCHING_MARKETING_TEMPLATES,
   }
 }
 
-function fetchTemplatesSuccess({records, filters}) {
+function fetchMarketingTemplatesSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_TEMPLATES_SUCCESS,
+    type: actionTypes.FETCH_MARKETING_TEMPLATES_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchTemplatesFailure(error) {
+function fetchMarketingTemplatesFailure(error) {
   return {
-    type: actionTypes.FETCH_TEMPLATES_FAILURE,
+    type: actionTypes.FETCH_MARKETING_TEMPLATES_FAILURE,
     error,
   }
 }
 
-export function fetchTemplates(params = {}) {
+export function fetchMarketingTemplates(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingTemplates())
+    dispatch(setIsFetchingMarketingTemplates())
     authRequest
-      .fetchEntities(`${MORPHLING_BASE_URL}${TEMPLATES_API_PATH}`, params)
+      .fetchEntities(`${MORPHLING_BASE_URL}${MARKETING_TEMPLATES_API_PATH}`, params)
       .then(res => {
-        dispatch(fetchTemplatesSuccess(res.data))
+        dispatch(fetchMarketingTemplatesSuccess(res.data))
         dispatch(fetchUsers(res.data))
       })
-      //.then(res => dispatch(fetchTemplatesSuccess(res.data)))
-      .catch(error => dispatch(fetchTemplatesFailure(error)))
+      //.then(res => dispatch(fetchMarketingTemplatesSuccess(res.data)))
+      .catch(error => dispatch(fetchMarketingTemplatesFailure(error)))
+  }
+}
+
+function setIsFetchingTransactionalTemplates() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_TRANSACTIONAL_TEMPLATES,
+  }
+}
+
+function fetchTransactionalTemplatesSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_TRANSACTIONAL_TEMPLATES_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchTransactionalTemplatesFailure(error) {
+  return {
+    type: actionTypes.FETCH_TRANSACTIONAL_TEMPLATES_FAILURE,
+    error,
+  }
+}
+
+export function fetchTransactionalTemplates(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingTransactionalTemplates())
+    authRequest
+      .fetchEntities(`${MORPHLING_BASE_URL}${TRANSACTIONAL_TEMPLATES_API_PATH}`, params)
+      .then(res => {
+        dispatch(fetchTransactionalTemplatesSuccess(res.data))
+        dispatch(fetchUsers(res.data))
+      })
+      //.then(res => dispatch(fetchTransactionalTemplatesSuccess(res.data)))
+      .catch(error => dispatch(fetchTransactionalTemplatesFailure(error)))
   }
 }
 
@@ -72,7 +107,7 @@ export function deleteTemplate(templateId) {
       .then(res => {
         dispatch(deleteTemplateSuccess(res.data))
         const filterParams = getFilterParams(getStore().indexState.get('templateFilters'))
-        dispatch(fetchTemplates(filterParams))
+        dispatch(fetchMarketingTemplates(filterParams))
       })
       .catch(error => dispatch(deleteTemplateFailure(error, templateId)))
   }
@@ -125,7 +160,7 @@ export function fetchUsers(data) {
             record["username"] = users_array[record.user_id]
           })
         }
-        dispatch(fetchTemplatesSuccess(data))
+        // dispatch(fetchTemplatesSuccess(data))
         dispatch(fetchUsersSuccess())
       })
       .catch(error => dispatch(fetchUsersFailure(error)))
