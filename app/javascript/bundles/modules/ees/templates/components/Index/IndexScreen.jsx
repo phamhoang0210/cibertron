@@ -14,7 +14,7 @@ class IndexScreen extends React.Component {
     const {actions, indexState, railsContextState, location} = this.props
     const templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location)
     
-    actions.fetchTemplates(templateParams)
+    actions.fetchMarketingTemplates(templateParams)
   }
 
   componentWillReceiveProps(nextProps) {
