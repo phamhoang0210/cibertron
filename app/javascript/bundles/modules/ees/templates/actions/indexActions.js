@@ -113,6 +113,14 @@ export function deleteTemplate(templateId) {
   }
 }
 
+function fetchTemplatesSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_MARKETING_TEMPLATES_SUCCESS,
+    records,
+    filters,
+  }
+}
+
 // Fetch users
 function setIsFetchingUsers() {
   return {
@@ -160,7 +168,7 @@ export function fetchUsers(data) {
             record["username"] = users_array[record.user_id]
           })
         }
-        // dispatch(fetchTemplatesSuccess(data))
+        dispatch(fetchTemplatesSuccess(data))
         dispatch(fetchUsersSuccess())
       })
       .catch(error => dispatch(fetchUsersFailure(error)))
