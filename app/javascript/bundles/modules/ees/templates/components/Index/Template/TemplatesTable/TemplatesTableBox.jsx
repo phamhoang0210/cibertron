@@ -29,13 +29,18 @@ class TemplatesTableBox extends React.Component {
     this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
-      'handleTableChange',
+      'handleMarketingTableChange',
+      'handleMarketingSearch',
+      'handleTransactionalTableChange',
+      'handleTransactionalSearch',
       'handleDelete',
       'handleEdit',
       'handleAdd',
-      'handleSearch',
       'handleShowTemplateModal',
-      'handleCancelTemplateModal'
+      'handleCancelTemplateModal',
+      'handleTabChange',
+      'renderMarketingTemplates',
+      'renderTransactionalTemplates',
     ])
 
     this.columns = [
@@ -45,18 +50,22 @@ class TemplatesTableBox extends React.Component {
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
-      {
+      },{
         title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
         key: 'name',
-        width: '50%'
-      }, {
+        width: '40%'
+      },{
+        title: intl.formatMessage({id: 'attrs.code.label'}),
+        dataIndex: 'code',
+        key: 'code',
+        width: '10%'
+      },{
         title: intl.formatMessage({id: 'attrs.creator.label'}),
         width: '10%',
         dataIndex: 'username', 
-        key: 'user'},
-      {
+        key: 'user'
+      },{
         title: '',
         dataIndex: 'action',
         width: '13%',
@@ -137,7 +146,7 @@ class TemplatesTableBox extends React.Component {
     browserHistory.push(`${TEMPLATES_URL}/new`)
   }
 
-  handleTableChange(pagination, filters, sorter) {
+  handleMarketingTableChange(pagination, filters, sorter) {
     const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
 
@@ -153,13 +162,97 @@ class TemplatesTableBox extends React.Component {
 
     templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, templateParams)
 
-    actions.fetchTemplates(templateParams)
+    actions.fetchMarketingTemplates(templateParams)
   }
 
-  handleSearch(keyword) {
+  handleMarketingSearch(keyword) {
     const {actions, indexState, location} = this.props
     let templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, {full_search: keyword})
-    actions.fetchTemplates(templateParams)
+    actions.fetchMarketingTemplates(templateParams)
+  }
+
+  handleTransactionalTableChange(pagination, filters, sorter) {
+    const {actions, indexState, location} = this.props
+    const {current, pageSize, total} = pagination
+
+    let templateParams = {}
+    if(current != templateParams.page) {
+      templateParams.page = current
+    }
+
+    if(sorter.field) {
+      templateParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
+    }
+
+
+    templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, templateParams)
+
+    actions.fetchTransactionalTemplates(templateParams)
+  }
+
+  handleTransactionalSearch(keyword) {
+    const {actions, indexState, location} = this.props
+    let templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, {full_search: keyword})
+    actions.fetchTransactionalTemplates(templateParams)
+  }
+
+  handleTabChange(tabKey) {
+    if(tabKey == 'marketing') {
+      const {actions, intl} = this.props
+      actions.fetchMarketingTemplates()
+    }
+    if(tabKey == 'transactional') {
+      const {actions, intl} = this.props
+      actions.fetchTransactionalTemplates()
+    }
+  }
+
+  renderMarketingTemplates() {
+    const {indexState, sharedState, actions, intl} = this.props
+    const selectedTemplateKeys = indexState.get('selectedTemplateKeys')
+    const templates = indexState.get('templates')
+    const paging = indexState.getIn(['templateFilters', 'paging'])
+    const isFetchingTemplates = indexState.get('isFetchingTemplates')
+
+    return (
+      <div>
+        <Table
+          bordered
+          size="middle"
+          columns={this.columns}
+          dataSource={templates.toJS()}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+          rowClassName={rowClassName}
+          rowKey="created_at"
+          onChange={this.handleMarketingTableChange}
+          loading={isFetchingTemplates}
+        />
+      </div>
+    )
+  }
+
+  renderTransactionalTemplates() {
+    const {indexState, sharedState, actions, intl} = this.props
+    const selectedTemplateKeys = indexState.get('selectedTemplateKeys')
+    const templates = indexState.get('templates')
+    const paging = indexState.getIn(['templateFilters', 'paging'])
+    const isFetchingTemplates = indexState.get('isFetchingTemplates')
+
+    return (
+      <div>
+        <Table
+          bordered
+          size="middle"
+          columns={this.columns}
+          dataSource={templates.toJS()}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+          rowClassName={rowClassName}
+          rowKey="created_at"
+          onChange={this.handleTransactionTableChange}
+          loading={isFetchingTemplates}
+        />
+      </div>
+    )
   }
 
   render() {
@@ -179,65 +272,26 @@ class TemplatesTableBox extends React.Component {
               {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
           </Col>
-          <Col span={6} className="main-content-table-box-tools-search-box">
-          </Col>
         </Row>
-        <Tabs defaultActiveKey="1" size="large">
-          <TabPane tab="Marketing Template" key="1">
-            <Modal
-              className='modalCustom'
-              title="Template"
-              cancelText="Cancel"
-              visible={this.state.modalShow}
-              onCancel={this.handleCancelTemplateModal}
-              onOk={this.handleCancelTemplateModal}
-              width="70%"
-            >
-              <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
-            </Modal>
-            
-            <Table
-              bordered
-              size="middle"
-              columns={this.columns}
-              dataSource={templates.toJS()}
-              pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-              rowClassName={rowClassName}
-              rowKey="created_at"
-              onChange={this.handleTableChange}
-              loading={isFetchingTemplates}
-            />
+        <Modal
+          className='modalCustom'
+          title="Template"
+          cancelText="Cancel"
+          visible={this.state.modalShow}
+          onCancel={this.handleCancelTemplateModal}
+          onOk={this.handleCancelTemplateModal}
+          width="70%"
+        >
+          <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
+        </Modal>
+        <Tabs defaultActiveKey="marketing" size="large" onChange={this.handleTabChange}>
+          <TabPane tab="Marketing Template" key="marketing">
+            {this.renderMarketingTemplates()}
           </TabPane>
-          <TabPane tab="Transaction Template" key="2">
-            <Modal
-              className='modalCustom'
-              title="Template"
-              cancelText="Cancel"
-              visible={this.state.modalShow}
-              onCancel={this.handleCancelTemplateModal}
-              onOk={this.handleCancelTemplateModal}
-              width="50%"
-            >
-              <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
-            </Modal>
-            
-            <Table
-              bordered
-              size="middle"
-              columns={this.columns}
-              dataSource={templates.toJS()}
-              pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-              rowClassName={rowClassName}
-              rowKey="created_at"
-              onChange={this.handleTableChange}
-              loading={isFetchingTemplates}
-            />
+          <TabPane tab="Transaction Template" key="transactional">
+            {this.renderTransactionalTemplates()}
           </TabPane>
-
         </Tabs>
-
-        
-        
       </div>
     )
   }

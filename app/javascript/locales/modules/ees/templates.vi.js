@@ -24,6 +24,26 @@ export const appLocale = {
           required: 'Tên là trường bắt buộc'
         }
       },
+      code: {
+        // attrs.code.label
+        label: 'Code'
+      },
+      content: {
+        // attrs.content.label
+        label: 'Nội dung',
+        errors: {
+        // attrs.content.errors.required
+          required: 'Nội dung là trường bắt buộc'
+        }
+      },
+      type: {
+        // attrs.type.label
+        label: 'Phân loại',
+        errors: {
+        // attrs.type.errors.required
+          required: 'Phân loại là trường bắt buộc'
+        }
+      },
       imported_at: {
         // attrs.imported_at.label
         label: 'Ngày import',
