@@ -74,6 +74,26 @@ class TemplateNewForm extends React.Component {
               </FormItem>
 
               <FormItem
+                label={intl.formatMessage({id: 'attrs.type.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('type', {
+                  initialValue: 'Template::Marketing',
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage(
+                      {id: 'attrs.type.errors.required'},
+                    ),
+                  }],
+                })(
+                  <Select>
+                    <Option value="Template::Marketing">Marketing</Option>
+                    <Option value="Template::Transactional">Transactional</Option>
+                  </Select>
+                )}
+              </FormItem>
+
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.content.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
