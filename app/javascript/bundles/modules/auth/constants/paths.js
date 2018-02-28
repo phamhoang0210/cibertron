@@ -1,4 +1,4 @@
-export const AUTHSERVICE_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://authservice.edumall.io' : 'http://localhost:9000'
+export const AUTHSERVICE_BASE_URL = process.env.AUTHSERVICE_BASE_URL
 
 export const AUTH_URL = '/auth'
 export const AUTH_SIGN_IN_URL = '/auth/sign_in'

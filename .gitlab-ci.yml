@@ -1,39 +1,144 @@
+image: registry.edumall.io/sys/reza-image:v2.2.1
+
+variables:
+  PUBLIC_DOMAIN: edumall.io
+
+before_script:
+  - source reza-env
+
 stages:
   - build
-  - deploy
-  - clean_all
-build_image:
+  - test
+  - package
+  - review
+  - staging
+  - canary
+  - production
+  - cleanup
+
+build:
   stage: build
   script:
-    - rm -rf /home/gitlab-runner/Git/config-files
-    - git clone git@git.edumall.io:backend/config-files.git /home/gitlab-runner/Git/config-files
-    - pwd
-    - DIR=$(pwd)
-    - cp /home/gitlab-runner/Git/config-files/gaia/secrets.yml $DIR/config/
-    - cp /home/gitlab-runner/Git/config-files/gaia/database.yml $DIR/config/
-    - cp /home/gitlab-runner/Git/config-files/rsa-public-keys/authservice_jwt.pub $DIR/config/
-    - docker build -t gaia:1.0.${CI_BUILD_REF} -f ./Dockerfile .
+    - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./config/authservice_jwt.pub.encrypted > ./config/authservice_jwt.pub
+    - build_image
+  only:
+    - branches
+
+functional_test:
+  stage: test
+  script:
+    - docker run -i --rm -d -e MYSQL_DATABASE=gaia_test -e MYSQL_USER=gaia_test -e MYSQL_PASSWORD=gaia_test -e MYSQL_ROOT_PASSWORD=gaia_test --name "mysql-$CI_JOB_ID" mysql:latest
+    - sleep 10
+    - docker run -i --rm -e RAILS_ENV=test --name "$CI_JOB_ID-migration" --link "mysql-$CI_JOB_ID":mysql -d "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "rake db:migrate"
+    - docker run -i --rm -w="/home/rails/gaia" -e RAILS_ENV=test --link "mysql-$CI_JOB_ID":mysql --name "test-$CI_JOB_ID" "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "rake test"
+    - docker rm -f "mysql-$CI_JOB_ID"
+  only:
+    - branches
+
+package:
+  stage: package
+  script:
+    - registry_login
+    - push_image
+  only:
+    - branches
+
+review:
+  stage: review
+  script:
+    - deploy review 1
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_PROJECT_PATH_SLUG-$CI_ENVIRONMENT_SLUG.$PUBLIC_DOMAIN
+    on_stop: stop_review
+  only:
+    - branches
+  except:
+    - master
+    - develop
+    - /^release-.*$/
+    - /^hotfix-.*$/
+
+stop_review:
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - delete review
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  when: manual
+  only:
+    - branches
+  except:
+    - master
+    - develop
+    - /^release-.*$/
+    - /^hotfix-.*$/
+
+staging:
+  stage: staging
+  script:
+    - deploy staging 1
+  environment:
+    name: staging
+    url: http://$CI_PROJECT_NAME-staging.$PUBLIC_DOMAIN
+    on_stop: stop_staging
+  only:
+    - develop@tcs/gaia
+
+stop_staging:
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - delete staging
+  environment:
+    name: staging
+    action: stop
+  when: manual
+  only:
+    - develop@tcs/gaia
+
+canary:
+  stage: canary
+  script:
+    - deploy canary 1
+  environment:
+    name: canary
+    url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
   only:
     - master@tcs/gaia
-deploy:
-  stage: deploy
+
+stop_canary:
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
   script:
-    #- export KUBECONFIG=/home/gitlab-runner/.kube/config.kops2
-    - bash /home/gitlab-runner/ecr-login.sh
-    - docker tag gaia:1.0.${CI_BUILD_REF} 350339004156.dkr.ecr.ap-southeast-1.amazonaws.com/gaia:1.0.${CI_BUILD_ID}
-    - docker push 350339004156.dkr.ecr.ap-southeast-1.amazonaws.com/gaia:1.0.${CI_BUILD_ID}
-    - kubectl set image deployment/gaia gaia=350339004156.dkr.ecr.ap-southeast-1.amazonaws.com/gaia:1.0.${CI_BUILD_ID} -n marketing
-    - docker rmi 350339004156.dkr.ecr.ap-southeast-1.amazonaws.com/gaia:1.0.${CI_BUILD_ID}
-  when: on_success
+    - delete canary
+  environment:
+    name: canary
+    action: stop
+  when: manual
+  only:
+    - master@tcs/gaia
+
+production:
+  stage: production
+  script:
+    - deploy production 3
+    - delete canary
   environment:
     name: production
-    url: https://apps.edumall.io
+    url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
+  when: manual
   only:
     - master@tcs/gaia
-clean_all_build:
-  stage: clean_all
+
+cleanup:
+  stage: cleanup
   script:
-    - docker rmi -f gaia:1.0.${CI_BUILD_REF}
-  when: always
-  only:
-    - master@tcs/gaia
+    - remove_image
+  allow_failure: true
+  when: manual
