@@ -8,9 +8,6 @@
 /.bundle
 
 # Ignore database config
-/config/database.yml
-/config/mongoid.yml
-/config/secrets.yml
 /config/authservice_jwt.pub
 
 # Ignore all logfiles and tempfiles.
@@ -26,3 +23,8 @@
 /public/packs
 /public/packs-test
 /node_modules
+.env
+.env.production
+.env.review
+.env.staging
+.env.canary
