@@ -3,7 +3,7 @@ ENV MYSQL_PWD gaia_test
 RUN echo "mysql-server mysql-server/root_password password $MYSQL_PWD" | debconf-set-selections
 RUN echo "mysql-server mysql-server/root_password_again password $MYSQL_PWD" | debconf-set-selections
 RUN apt-get update && apt-get install libmysqlclient-dev mysql-server -y
-RUN mv /home/rails/node/node_modules ./home/rails/gaia/node_modules
+RUN mv /home/rails/node/node_modules /home/rails/gaia/node_modules
 COPY package.json package-lock.json yarn.lock ./
 RUN yarn install --modules-folder ./home/rails/gaia/node_modules
 ADD . /home/rails/gaia
