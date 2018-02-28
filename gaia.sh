@@ -1,7 +1,5 @@
 cd /home/rails/gaia
 
-export RAILS_ENV=production
-
 rails db:migrate
 status=$?
 if [ $status -ne 0 ]; then
