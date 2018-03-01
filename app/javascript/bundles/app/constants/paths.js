@@ -12,8 +12,9 @@ export const GAMBIT_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://p
 export const HERA_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://hera.edumall.io' : 'http://localhost:9007'
 export const AMUN_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://amun.edumall.io' : 'http://localhost:9008'
 export const A3_STORAGE_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://a3-storage.edumall.io' : 'http://localhost:9009'
-//IZZY SYSTEM
-export const FURION_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://furion-internal.edumall.io' : 'http://localhost:8001'
+//EES SYSTEM
+export const FURION_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://furion.edumall.io' : 'http://localhost:8000'
+export const FURION_INTERNAL_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://furion-internal.edumall.io' : 'http://localhost:8001'
 export const MEEPO_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://meepo.edumall.io' : 'http://localhost:8002'
 export const MORPHLING_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://morphling.edumall.io' : 'http://localhost:8003'
 export const AIRI_BASE_URL = process.env.NODE_ENV == 'production' ? 'https://airi.edumall.io' : 'http://localhost:8004'

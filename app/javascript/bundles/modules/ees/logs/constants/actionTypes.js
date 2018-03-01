@@ -1,0 +1,4 @@
+// fetch campaigns
+export const SET_IS_FETCHING_LOGS = 'SET_IS_FETCHING_LOGS'
+export const FETCH_LOGS_SUCCESS = 'FETCH_LOGS_SUCCESS'
+export const FETCH_LOGS_FAILURE = 'FETCH_LOGS_FAILURE'

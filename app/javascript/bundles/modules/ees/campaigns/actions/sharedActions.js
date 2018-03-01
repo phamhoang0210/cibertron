@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  AIRI_BASE_URL, MEEPO_BASE_URL, MORPHLING_BASE_URL, FURION_BASE_URL,
+  AIRI_BASE_URL, MEEPO_BASE_URL, MORPHLING_BASE_URL, FURION_INTERNAL_BASE_URL,
   LISTS_API_PATH, SENDERS_API_PATH, TEMPLATES_API_PATH, USERS_API_PATH,
   BUDGETS_API_PATH, BUDGET_API_PATH, USED_EMAILS_API_PATH
 } from '../constants/paths'
@@ -193,7 +193,7 @@ export function fetchUsedEmails(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingUsedEmails())
     authRequest
-      .fetchEntities(`${FURION_BASE_URL}${USED_EMAILS_API_PATH}`, params)
+      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${USED_EMAILS_API_PATH}`, params)
       .then(res => dispatch(fetchUsedEmailsSuccess(res.data)))
       .catch(error => dispatch(fetchUsedEmailsFailure(error)))
   }

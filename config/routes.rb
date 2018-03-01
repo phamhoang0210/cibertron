@@ -79,6 +79,7 @@ Rails.application.routes.draw do
       option.resources :lists
       option.resources :templates
       option.resources :senders
+      option.resources :logs
     end
   end
 
