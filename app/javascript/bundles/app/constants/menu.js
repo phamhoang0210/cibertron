@@ -134,11 +134,16 @@ export const menuData = [
         path: '/ees/senders',
         title: 'Senders',
       },
+      , {
+        type: 'link', 
+        path: '/ees/logs',
+        title: 'Logs',
+      },
     ]
   }, {
     type: 'subMenu',
     path: '/hera',
-    title: (<span><Icon type="bars" /><span>LP</span></span>),
+    title: (<span><Icon type="bars" /><span>LANDINGPAGES</span></span>),
     items: [
       {
         type: 'link', 
@@ -153,7 +158,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/userservice',
-    title: (<span><Icon type="bars" /><span>USERSERVICE</span></span>),
+    title: (<span><Icon type="bars" /><span>USER INFO</span></span>),
     items: [
       {
         type: 'link', 
@@ -164,7 +169,7 @@ export const menuData = [
   }, {
     type: 'subMenu',
     path: '/authservice',
-    title: (<span><Icon type="bars" /><span>AUTHSERVICE</span></span>),
+    title: (<span><Icon type="bars" /><span>ACCOUNTS</span></span>),
     items: [
       {
         type: 'link', 
