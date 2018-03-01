@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH,
+  LEADS_API_PATH, ORDERS_API_PATH,
   EMAIL_LEADS_API_PATH, LEAD_CARE_HISTORIES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
