@@ -4,7 +4,6 @@ import Immutable from 'immutable'
 import { Row, Col, Table, Tag, Button, Modal } from 'antd'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
-import { EROS_BASE_URL } from 'app/constants/paths'
 import { getFilterParams, getDefaultTablePagination, generateErosOrderLink } from 'helpers/applicationHelper'
 import { LEVEL_COLOR_MAPPINGS, BADGE_STATUS_MAPPINGS } from '../../../../../../constants/constants'
 import { ORDERS_URL } from '../../../../../../constants/paths'
@@ -114,7 +113,7 @@ class OrderTableBox extends React.Component {
     }]
   }
 
-  state = { online_payment: false, 
+  state = { online_payment: false,
             schedule: false}
 
   showOnlinePaymentModal = () => {
@@ -214,7 +213,7 @@ class OrderTableBox extends React.Component {
       onlinePaymentTemplate = emailTemplate.get('onlinePaymentTemplate')
       scheduleTemplate = emailTemplate.get('scheduleTemplate')
     }
-    
+
     return (
       <div>
         <Row>

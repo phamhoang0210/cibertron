@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
-import { NAUH_BASE_URL, LEAD_EXPORT_API_PATH } from '../../../../constants/paths'
+import { LEAD_EXPORT_API_PATH } from '../../../../constants/paths'
 import {
   getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
   getInitialValue,
@@ -65,7 +65,7 @@ class LeadFiltersFormBox extends React.Component {
     let formatedValues = values
     const inCompFields = ['lead_level_id', 'staff_id', 'lead_status_id']
     const timerangeFields = ['imported_at', 'assigned_at']
-    
+
     let compconds = {}
     inCompFields.forEach(field => {
       compconds[`${field}.in`] = formatedValues[field]
@@ -78,7 +78,7 @@ class LeadFiltersFormBox extends React.Component {
       compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    
+
     return mergeDeep([formatedValues, {compconds: compconds}])
   }
 
@@ -107,7 +107,7 @@ class LeadFiltersFormBox extends React.Component {
         >
           <Row gutter={40}>
             <Col span={8}>
-              <FormItem 
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.imported_in.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
@@ -123,7 +123,7 @@ class LeadFiltersFormBox extends React.Component {
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem 
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.assigned_in.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
@@ -164,7 +164,7 @@ class LeadFiltersFormBox extends React.Component {
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem 
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.staff_id.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >

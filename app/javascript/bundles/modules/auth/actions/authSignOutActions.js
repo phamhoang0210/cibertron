@@ -1,6 +1,5 @@
 import request from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {AUTHSERVICE_BASE_URL} from '../constants/paths'
 import { deleteCredentials } from 'helpers/auth/authHelper'
 
 function setIsSigout() {
@@ -26,7 +25,7 @@ function signOutFailure(error) {
 export function signOut(onSuccess = null) {
   return dispatch => {
     dispatch(setIsSigout())
-    
+
     return request
       .deleteEntity(`${AUTHSERVICE_BASE_URL}/auth/sign_out`)
       .then(res => {

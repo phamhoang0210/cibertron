@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
-import { A3_STORAGE_BASE_URL, CONTACTA3S_EXPORT_API_PATH } from '../../../../constants/paths'
+import { CONTACTA3S_EXPORT_API_PATH } from '../../../../constants/paths'
 import {
   getFilterParams, mergeDeep, getInitialValueForRangePicker,
   getInitialValue,
@@ -45,7 +45,7 @@ class SourceFiltersFormBox extends React.Component {
     let formatedValues = values
     const inCompFields = ['status']
     const timerangeFields = ['created_at']
-    
+
     let compconds = {}
     inCompFields.forEach(field => {
       compconds[field] = {in: formatedValues[field]}
@@ -59,7 +59,7 @@ class SourceFiltersFormBox extends React.Component {
       compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    
+
     return mergeDeep([formatedValues, compconds])
   }
 
