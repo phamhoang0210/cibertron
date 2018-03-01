@@ -14,10 +14,9 @@
   </body>
 </html>
 
-<% @_dotenv = Dotenv.load(".env.#{Rails.env}") %>
-<% @_dotenv_key = @_dotenv.keys.select{ |str| str.include?('BASE_URL')} %>
+<% @_dotenv_key = ENV.keys.select{ |str| str.include?('BASE_URL')} %>
 <% @_dotenv_key.each do |env| %>
   <script>
-    window["<%= env %>"] = "<%= @_dotenv[env] %>"
+    window["<%= env %>"] = "<%= ENV[env] %>"
   </script>
 <% end %>
