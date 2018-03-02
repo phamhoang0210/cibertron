@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Badge, Select, Modal, Popover, Icon
+  Tag, Tabs, Badge, Select, Modal, Popover, Icon
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -18,21 +18,24 @@ import moment from 'moment'
 import { injectIntl } from 'react-intl'
 
 const { Search } = Input
+const { TabPane } = Tabs
 
-class ListsTableBox extends React.Component {
+class UnsubscribesTableBox extends React.Component {
   constructor(props) {
     super(props)
-
     const {intl} = this.props
+
+    this.state = {
+      showImportUnsubscribeModal: false
+    }
 
     this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
-      'handleTableChange',
-      'handleDelete',
-      'handleEdit',
-      'handleAdd',
+      'handleTableUnsubscribesChange',
       'handleSearch',
+      'handleImportUnsubscribe',
+      'handleCancel',
     ])
 
     this.columns = [
@@ -42,30 +45,15 @@ class ListsTableBox extends React.Component {
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
-      {
-        title: intl.formatMessage({id: 'attrs.name.label'}),
-        width: '35%',
-        dataIndex: 'name',
-        key: 'name'},
-      {
-        title: intl.formatMessage({id: 'attrs.count.label'}),
-        width: '10%',
-        dataIndex: 'contact_count', 
-        key: 'count',
-        render: value => (value || value >= 0)  ? value : (<Icon type="loading" />)
-      },
-      {
-        title: intl.formatMessage({id: 'attrs.creator.label'}),
-        width: '10%',
-        dataIndex: 'username', 
-        key: 'user'},
-      {
-        title: intl.formatMessage({id: 'attrs.last_update.label'}),
-        width: '15%',
-        dataIndex: 'updated_at', 
-        key: 'last_update',
-        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },{
+        title: intl.formatMessage({id: 'attrs.email.label'}),
+        width: '45%',
+        dataIndex: 'email',
+        key: 'email'
+      },{
+        title: intl.formatMessage({id: 'attrs.campaign.label'}),
+        width: '40%',
+        key: 'campaign'
       },
       {
         title: '',
@@ -73,23 +61,6 @@ class ListsTableBox extends React.Component {
         render: (cell, row) => {
           return (
             <div className="text-align--right">
-              {row.uploading &&  
-                (<Popover content="Uploading">
-                    <Button
-                      size="small"
-                      type="primary" 
-                      className="button-margin--left--default"
-                      loading >
-                    </Button>
-                  </Popover>)
-              }
-              <Button
-                icon="edit"
-                size="small"
-                className="button-margin--left--default"
-                onClick={(e) => this.handleEdit(row.id)}
-              >
-              </Button>
               <Popconfirm
                 placement="topLeft"
                 title="Are you sure delete this catalog?"
@@ -120,39 +91,23 @@ class ListsTableBox extends React.Component {
     }
   }
 
-  handleDelete(listId) {
-    const {actions, indexState} = this.props
-    actions.deleteList(listId)
-  }
-
-  handleEdit(listId) {
-    browserHistory.push(`${LISTS_URL}/${listId}/edit`)
-  }
-
-  handleAdd(e) {
-    browserHistory.push(`${LISTS_URL}/new`)
-  }
-
-  handleTableChange(pagination, filters, sorter) {
-    const {actions, indexState, location} = this.props
+  handleTableUnsubscribesChange(pagination, filters, sorter) {
+    const {actions, sharedState} = this.props
     const {current, pageSize, total} = pagination
 
-    let listParams = {}
-    if(current != listParams.page) {
-      listParams.page = current
+    let unsubscribeParams = {}
+    if(current != unsubscribeParams.page) {
+      unsubscribeParams.page = current
     }
 
     if(sorter.field) {
-      listParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
+      unsubscribeParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
-
-    listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location, listParams)
-
-    actions.fetchLists(listParams)
+    unsubscribeParams = getFilterParams(sharedState.get('unsubscribesFilters'), unsubscribeParams)
+    unsubscribeParams.page = current
+    actions.fetchUnsubscribes(unsubscribeParams)
   }
-
-  
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
@@ -160,19 +115,31 @@ class ListsTableBox extends React.Component {
     actions.fetchLists(listParams)
   }
 
+  handleImportUnsubscribe() {
+    const {actions} = this.props
+    const file = this.inputFile.files[0]
+    var data = new FormData()
+    data.append('file', file)
+    actions.importUnsubscribes(data)
+    this.setState({showImportUnsubscribeModal: false})
+  }
+
+  handleCancel() {
+    this.setState({showImportUnsubscribeModal: false})
+  }
+
   render() {
-    const {indexState, sharedState, actions, intl} = this.props
-    const selectedListKeys = indexState.get('selectedListKeys')
-    const lists = indexState.get('lists')
-    const paging = indexState.getIn(['listFilters', 'paging'])
-    const isFetchingLists = indexState.get('isFetchingLists')
+    const {indexState, sharedState, intl} = this.props
+    const paging = sharedState.getIn(['unsubscribesFilters', 'paging'])
+    const unsubscribes = sharedState.get('unsubscribes')
+    const isFetchingUnsubscribes = indexState.get('isFetchingUnsubscribes')
 
     return (
-      <div className="main-content-table-box">
+      <div>
         <Row className="main-content-table-box-tools">
           <Col span={18}>
             <Button
-              onClick={this.handleAdd}
+              onClick={(e) => this.setState({showImportUnsubscribeModal: true})}
             >
               {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
@@ -180,22 +147,38 @@ class ListsTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
           </Col>
         </Row>
-        
         <Table
           bordered
           size="middle"
           columns={this.columns}
-          dataSource={lists.toJS()}
+          dataSource={unsubscribes.toJS()}
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowClassName={rowClassName}
           rowKey="id"
-          onChange={this.handleTableChange}
-          loading={isFetchingLists}
+          onChange={this.handleTableUnsubscribesChange}
+          loading={isFetchingUnsubscribes}
         />
-      </div>
-    )
+        <Modal
+          title="Import Unsubscribes"
+          visible={this.state.showImportUnsubscribeModal}
+          onOk={this.handleImportUnsubscribe}
+          onCancel={this.handleCancel}
+          okText="Import"
+          cancelText="Close"
+        >
+          <input
+            ref={ref => this.inputFile = ref}
+            type="file"
+            name="file"
+            placeholder=""
+            accept=".csv"
+            required
+          />
+          <p className="help-block">
+            Please upload format correct file (.csv, .xlsx). <a href="#">Sample file</a>
+          </p>
+        </Modal>
+      </div>)
   }
-
 }
-
-export default injectIntl(ListsTableBox)
+export default injectIntl(UnsubscribesTableBox)
