@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Badge, Select, Modal, Popover, Icon
+  Tag, Tabs, Badge, Select, Modal, Popover, Icon
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -19,77 +19,44 @@ import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
-class ListsTableBox extends React.Component {
+class BouncesTableBox extends React.Component {
   constructor(props) {
     super(props)
 
     const {intl} = this.props
 
+    this.state = {
+      showImportUnsubscribeModal: false
+    }
+
     this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
-      'handleTableChange',
+      'handleTableBouncesChange',
       'handleDelete',
-      'handleEdit',
-      'handleAdd',
       'handleSearch',
+      'handleImportBounce',
+      'handleCancel',
     ])
 
     this.columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_in.label'}), 
-        width: '15%',
+        width: '10%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
-        title: intl.formatMessage({id: 'attrs.name.label'}),
-        width: '35%',
-        dataIndex: 'name',
-        key: 'name'},
-      {
-        title: intl.formatMessage({id: 'attrs.count.label'}),
-        width: '10%',
-        dataIndex: 'contact_count', 
-        key: 'count',
-        render: value => (value || value >= 0)  ? value : (<Icon type="loading" />)
-      },
-      {
-        title: intl.formatMessage({id: 'attrs.creator.label'}),
-        width: '10%',
-        dataIndex: 'username', 
-        key: 'user'},
-      {
-        title: intl.formatMessage({id: 'attrs.last_update.label'}),
-        width: '15%',
-        dataIndex: 'updated_at', 
-        key: 'last_update',
-        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
+        title: intl.formatMessage({id: 'attrs.email.label'}),
+        dataIndex: 'email',
+        key: 'email'},
       {
         title: '',
         dataIndex: 'action',
         render: (cell, row) => {
           return (
             <div className="text-align--right">
-              {row.uploading &&  
-                (<Popover content="Uploading">
-                    <Button
-                      size="small"
-                      type="primary" 
-                      className="button-margin--left--default"
-                      loading >
-                    </Button>
-                  </Popover>)
-              }
-              <Button
-                icon="edit"
-                size="small"
-                className="button-margin--left--default"
-                onClick={(e) => this.handleEdit(row.id)}
-              >
-              </Button>
               <Popconfirm
                 placement="topLeft"
                 title="Are you sure delete this catalog?"
@@ -125,34 +92,23 @@ class ListsTableBox extends React.Component {
     actions.deleteList(listId)
   }
 
-  handleEdit(listId) {
-    browserHistory.push(`${LISTS_URL}/${listId}/edit`)
-  }
-
-  handleAdd(e) {
-    browserHistory.push(`${LISTS_URL}/new`)
-  }
-
-  handleTableChange(pagination, filters, sorter) {
-    const {actions, indexState, location} = this.props
+  handleTableBouncesChange(pagination, filters, sorter) {
+    const {actions, sharedState} = this.props
     const {current, pageSize, total} = pagination
 
-    let listParams = {}
-    if(current != listParams.page) {
-      listParams.page = current
+    let bounceParams = {}
+    if(current != bounceParams.page) {
+      bounceParams.page = current
     }
 
     if(sorter.field) {
-      listParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
+      bounceParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
-
-    listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location, listParams)
-
-    actions.fetchLists(listParams)
+    bounceParams = getFilterParams(sharedState.get('bouncesFilters'), bounceParams)
+    bounceParams.page = current
+    actions.fetchBounces(bounceParams)
   }
-
-  
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
@@ -160,19 +116,33 @@ class ListsTableBox extends React.Component {
     actions.fetchLists(listParams)
   }
 
-  render() {
-    const {indexState, sharedState, actions, intl} = this.props
-    const selectedListKeys = indexState.get('selectedListKeys')
-    const lists = indexState.get('lists')
-    const paging = indexState.getIn(['listFilters', 'paging'])
-    const isFetchingLists = indexState.get('isFetchingLists')
+  handleImportBounce() {
+    const {actions} = this.props
+    const file = this.inputFile.files[0]
+    var data = new FormData()
+    data.append('file', file)
+    actions.importBounces(data)
+    this.setState({showImportBounceModal: false})
+  }
 
+  handleCancel() {
+    this.setState({showImportUnsubscribeModal: false, showImportBounceModal: false})
+  }
+
+  render() {
+    const {indexState, sharedState, intl} = this.props
+    const paging = sharedState.getIn(['bouncesFilters', 'paging'])
+    const bounces = sharedState.get('bounces')
+    const isFetchingBounces = indexState.get('isFetchingBounces')
+    const bounce_columns = [
+      
+    ]
     return (
-      <div className="main-content-table-box">
+      <div>
         <Row className="main-content-table-box-tools">
           <Col span={18}>
             <Button
-              onClick={this.handleAdd}
+              onClick={(e) => this.setState({showImportBounceModal: true})}
             >
               {intl.formatMessage({id: 'form.form_item.button.add.text'})}
             </Button>
@@ -180,22 +150,40 @@ class ListsTableBox extends React.Component {
           <Col span={6} className="main-content-table-box-tools-search-box">
           </Col>
         </Row>
-        
         <Table
           bordered
           size="middle"
-          columns={this.columns}
-          dataSource={lists.toJS()}
+          columns={bounce_columns}
+          dataSource={bounces.toJS()}
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowClassName={rowClassName}
           rowKey="id"
-          onChange={this.handleTableChange}
-          loading={isFetchingLists}
+          onChange={this.handleTableBouncesChange}
+          loading={isFetchingBounces}
         />
+        <Modal
+          title="Import Bounces"
+          visible={this.state.showImportBounceModal}
+          onOk={this.handleImportBounce}
+          onCancel={this.handleCancel}
+          okText="Import"
+          cancelText="Close"
+        >
+          <input
+            ref={ref => this.inputFile = ref}
+            type="file"
+            name="file"
+            placeholder=""
+            accept=".csv"
+            required
+          />
+          <p className="help-block">
+            Please upload format correct file (.csv, .xlsx). <a href="#">Sample file</a>
+          </p>
+        </Modal>
       </div>
     )
   }
-
 }
 
-export default injectIntl(ListsTableBox)
+export default injectIntl(BouncesTableBox)

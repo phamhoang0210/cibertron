@@ -3,14 +3,14 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Badge, Select, Modal, Popover, Icon
+  Tag, Tabs, Badge, Select, Modal
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
   getDefaultTableTitlePagination, getFilterParams, getInitialValueForSearch,
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
-import { LISTS_URL } from '../../../../constants/paths'
+import { SENDERS_URL } from '../../../../constants/paths'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
 import moment from 'moment'
@@ -19,20 +19,20 @@ import { injectIntl } from 'react-intl'
 
 const { Search } = Input
 
-class ListsTableBox extends React.Component {
+class BudgetsTableBox extends React.Component {
   constructor(props) {
     super(props)
 
     const {intl} = this.props
 
-    this.initialValues = this.getInitialValues()
+    // this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
       'handleTableChange',
       'handleDelete',
       'handleEdit',
       'handleAdd',
-      'handleSearch',
+      'handleSearch'
     ])
 
     this.columns = [
@@ -42,50 +42,26 @@ class ListsTableBox extends React.Component {
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
-      {
-        title: intl.formatMessage({id: 'attrs.name.label'}),
-        width: '35%',
-        dataIndex: 'name',
-        key: 'name'},
-      {
-        title: intl.formatMessage({id: 'attrs.count.label'}),
-        width: '10%',
-        dataIndex: 'contact_count', 
-        key: 'count',
-        render: value => (value || value >= 0)  ? value : (<Icon type="loading" />)
-      },
-      {
-        title: intl.formatMessage({id: 'attrs.creator.label'}),
-        width: '10%',
-        dataIndex: 'username', 
-        key: 'user'},
-      {
-        title: intl.formatMessage({id: 'attrs.last_update.label'}),
-        width: '15%',
-        dataIndex: 'updated_at', 
-        key: 'last_update',
-        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
+      },{
+        title: intl.formatMessage({id: 'attrs.email.label'}),
+        dataIndex: 'email',
+        width: '25%',
+        key: 'email'
+      },{
+        title: intl.formatMessage({id: 'attrs.budget.label'}),
+        dataIndex: 'budget',
+        key: 'budget'},
       {
         title: '',
         dataIndex: 'action',
+        width: '10%',
         render: (cell, row) => {
           return (
             <div className="text-align--right">
-              {row.uploading &&  
-                (<Popover content="Uploading">
-                    <Button
-                      size="small"
-                      type="primary" 
-                      className="button-margin--left--default"
-                      loading >
-                    </Button>
-                  </Popover>)
-              }
               <Button
-                icon="edit"
+                type="primary"
                 size="small"
+                icon="edit"
                 className="button-margin--left--default"
                 onClick={(e) => this.handleEdit(row.id)}
               >
@@ -98,9 +74,9 @@ class ListsTableBox extends React.Component {
                 cancelText="No"
               >
                 <Button 
-                  icon="delete" 
-                  type="danger"
+                  icon="delete"
                   size="small"
+                  type="danger" 
                   loading={row.isDeleting}
                   className="button-margin--left--default">
                 </Button>
@@ -112,60 +88,58 @@ class ListsTableBox extends React.Component {
     ]
   }
 
-  getInitialValues() {
-    const {indexState, location} = this.props
-    const currentListFilters = Immutable.fromJS(getFilterParams(indexState.get('listFilters'), location))
-    return {
-      search: currentListFilters.get('full_search'),
-    }
-  }
+  // getInitialValues() {
+  //   const {indexState, location} = this.props
+  //   const currentBudgetFilters = Immutable.fromJS(getFilterParams(indexState.get('budgetFilters'), location))
+  //   return {
+  //     search: currentBudgetFilters.get('full_search'),
+  //   }
+  // }
 
-  handleDelete(listId) {
+  handleDelete(budgetId) {
     const {actions, indexState} = this.props
-    actions.deleteList(listId)
+    actions.deleteBudget(budgetId)
   }
 
-  handleEdit(listId) {
-    browserHistory.push(`${LISTS_URL}/${listId}/edit`)
+  handleEdit(budgetId) {
+    // browserHistory.push(`${SENDERS_URL}/${budgetId}/edit`)
   }
 
   handleAdd(e) {
-    browserHistory.push(`${LISTS_URL}/new`)
+    // browserHistory.push(`${SENDERS_URL}/new`)
   }
 
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
 
-    let listParams = {}
-    if(current != listParams.page) {
-      listParams.page = current
+    let budgetParams = {}
+    if(current != budgetParams.page) {
+      budgetParams.page = current
     }
 
     if(sorter.field) {
-      listParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
+      budgetParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
 
-    listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location, listParams)
+    budgetParams = getFilterParamsAndSyncUrl(indexState.get('budgetFilters'), location, budgetParams)
 
-    actions.fetchLists(listParams)
+    actions.fetchBudgets(budgetParams)
   }
-
-  
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
-    let listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location, {full_search: keyword})
-    actions.fetchLists(listParams)
+    let budgetParams = getFilterParamsAndSyncUrl(indexState.get('budgetFilters'), location, {full_search: keyword})
+    actions.fetchBudgets(budgetParams)
   }
 
   render() {
     const {indexState, sharedState, actions, intl} = this.props
-    const selectedListKeys = indexState.get('selectedListKeys')
-    const lists = indexState.get('lists')
-    const paging = indexState.getIn(['listFilters', 'paging'])
-    const isFetchingLists = indexState.get('isFetchingLists')
+    const selectedBudgetKeys = indexState.get('selectedBudgetKeys')
+    const budgets = indexState.get('budgets')
+    const paging = indexState.getIn(['budgetFilters', 'paging'])
+    const isFetchingBudgets = indexState.get('isFetchingBudgets')
 
     return (
       <div className="main-content-table-box">
@@ -185,17 +159,16 @@ class ListsTableBox extends React.Component {
           bordered
           size="middle"
           columns={this.columns}
-          dataSource={lists.toJS()}
+          dataSource={budgets.toJS()}
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowClassName={rowClassName}
-          rowKey="id"
+          rowKey="created_at"
           onChange={this.handleTableChange}
-          loading={isFetchingLists}
+          loading={isFetchingBudgets}
         />
       </div>
     )
   }
-
 }
 
-export default injectIntl(ListsTableBox)
+export default injectIntl(BudgetsTableBox)

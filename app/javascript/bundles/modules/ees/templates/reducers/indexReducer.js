@@ -35,12 +35,6 @@ export default function indexReducer($$state = initialState, action = null) {
       })
     }
 
-    case actionTypes.FETCH_TEMPLATES_FAILURE: {
-      return $$state.merge({
-        isFetchingTemplates: false,
-      })
-    }
-
     case actionTypes.SET_IS_DELETING_TEMPLATE: {
       return $$state.withMutations(state => (
         state.update('templates', templates => (
