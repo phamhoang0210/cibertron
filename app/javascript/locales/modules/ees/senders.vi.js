@@ -32,6 +32,14 @@ export const appLocale = {
           required: 'Name là trường bắt buộc'
         }
       },
+      budget: {
+        // attrs.budget.label
+        label: 'Budget',
+        errors: {
+        // attrs.budget.errors.required
+          required: 'Budget là trường bắt buộc'
+        }
+      },
     },
     popconfirm: {
       delete: {
