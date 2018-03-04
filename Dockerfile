@@ -10,6 +10,7 @@ WORKDIR /home/rails/gaia
 RUN cd /home/rails/gaia
 RUN mv /home/rails/node/node_modules /home/rails/gaia/node_modules
 RUN bundle install --without development test --deployment
+RUN gem install bundler
 RUN NODE_ENV=production rails assets:precompile
 RUN chmod 777 /home/rails/gaia && chmod 777 /home/rails/gaia/gaia.sh
 RUN mkdir -p /var/log/unicorn && mkdir -p /home/unicorn/pids
