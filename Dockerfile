@@ -2,7 +2,7 @@ FROM starefossen/ruby-node:2-8
 ENV MYSQL_PWD gaia_test
 RUN echo "mysql-server mysql-server/root_password password $MYSQL_PWD" | debconf-set-selections
 RUN echo "mysql-server mysql-server/root_password_again password $MYSQL_PWD" | debconf-set-selections
-RUN apt-get update && apt-get install libmysqlclient-dev mysql-server -y
+RUN apt-get update && apt-get install mysql-server -y
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --without development test --deployment --binstubs --path=/home/rails/bundle
 ADD . /home/rails/gaia
