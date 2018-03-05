@@ -5,12 +5,13 @@ RUN echo "mysql-server mysql-server/root_password_again password $MYSQL_PWD" | d
 RUN apt-get update && apt-get install mysql-server -y
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --without development test --deployment --binstubs --path=/home/rails/bundle
+ENV NODE_OPTIONS --max_old_space_size=4096
+COPY package.json package-lock.json yarn.lock ./
+RUN yarn install --modules-folder ./home/rails/gaia/node_modules
 ADD . /home/rails/gaia
 WORKDIR /home/rails/gaia
 RUN cd /home/rails/gaia
-ENV NODE_OPTIONS --max_old_space_size=4096
-RUN yarn install
-RUN rails assets:precompile --trace
+RUN rails assets:precompile
 RUN mkdir -p /var/log/unicorn && mkdir -p /home/unicorn/pids && chmod -R 777 /home/rails/gaia
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
