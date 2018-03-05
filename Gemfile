@@ -67,5 +67,3 @@ gem 'jwtauth', '~> 0.3.2'
 
 gem "pundit"
 gem 'dotenv-rails'
-
-gem "minerva_frontend", path: "minerva_frontend"

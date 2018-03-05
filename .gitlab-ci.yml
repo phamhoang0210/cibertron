@@ -1,4 +1,4 @@
-image: registry.edumall.io/sys/reza-image:v2.2.1
+image: registry.edumall.io/sys/reza-image:latest
 
 variables:
   PUBLIC_DOMAIN: edumall.io
@@ -131,7 +131,7 @@ production:
     - delete canary
   environment:
     name: production
-    url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
+    url: https://apps.edumall.io
   when: manual
   only:
     - master@tcs/gaia
