@@ -3,7 +3,7 @@
   <head>
     <title>Edumall apps - Sol</title>
     <%= csrf_meta_tags %>
-
+    <%= render 'layouts/dotenv' %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_pack_tag 'sol' %>
@@ -14,10 +14,3 @@
     <%= yield %>
   </body>
 </html>
-
-<% @_dotenv_key = ENV.keys.select{ |str| str.include?('BASE_URL')} %>
-<% @_dotenv_key.each do |env| %>
-  <script>
-    window["<%= env %>"] = "<%= ENV[env] %>"
-  </script>
-<% end %>
