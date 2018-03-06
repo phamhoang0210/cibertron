@@ -103,7 +103,6 @@ export function getFilterParamsAndSyncUrl(filters, location, params = {}) {
   const latestParams = mergeDeep([filterParams, searches.toJS(), queryParams, params])
 
   syncUrlQuery(location, latestParams)
-
   return latestParams
 }
 
