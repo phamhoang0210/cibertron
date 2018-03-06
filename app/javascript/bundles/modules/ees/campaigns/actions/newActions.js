@@ -1,6 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {CAMPAIGNS_API_PATH} from '../constants/paths'
+>>>>>>> 27e9a6e632b7d2db0a63e08a7946b4e111aa911a
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -29,7 +30,7 @@ export function createCampaign(params = {}) {
     dispatch(setIsCreatingCampaign())
 
     return authRequest
-      .submitEntity(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .submitEntity(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => dispatch(createCampaignSucces(res.data)))
       .catch(error => dispatch(createCampaignFailure(error)))
   }

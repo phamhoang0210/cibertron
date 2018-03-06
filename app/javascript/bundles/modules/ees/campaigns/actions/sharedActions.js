@@ -192,7 +192,7 @@ export function fetchUsedEmails(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingUsedEmails())
     authRequest
-      .fetchEntities(`${FURION_BASE_URL}${USED_EMAILS_API_PATH}`, params)
+      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${USED_EMAILS_API_PATH}`, params)
       .then(res => dispatch(fetchUsedEmailsSuccess(res.data)))
       .catch(error => dispatch(fetchUsedEmailsFailure(error)))
   }

@@ -30,7 +30,7 @@ export function fetchCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaign())
     authRequest
-      .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
       .then(res => dispatch(fetchCampaignSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignFailure(error)))
   }
@@ -62,7 +62,7 @@ export function updateCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsUpdatingCampaign(campaignId))
     authRequest
-      .putEntity(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .putEntity(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
       .then(res => dispatch(updateCampaignSuccess(res.data)))
       .catch(error => dispatch(updateCampaignFailure(error, campaignId)))
   }
@@ -93,7 +93,7 @@ export function sendCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsSendingCampaign())
     authRequest
-      .submitEntity(`${FURION_BASE_URL}${SEND_CAMPAIGN_API_PATH}`, params)
+      .submitEntity(`${FURION_INTERNAL_BASE_URL}${SEND_CAMPAIGN_API_PATH}`, params)
       .then(res => {
         dispatch(sendCampaignSuccess(res.data))
         dispatch(fetchCampaign(campaignId))
