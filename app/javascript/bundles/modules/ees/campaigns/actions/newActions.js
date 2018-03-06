@@ -1,7 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {CAMPAIGNS_API_PATH} from '../constants/paths'
->>>>>>> 27e9a6e632b7d2db0a63e08a7946b4e111aa911a
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
