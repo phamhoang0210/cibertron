@@ -216,18 +216,15 @@ class CampaignsTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
-<<<<<<< HEAD
             <Search
               enterButton
               defaultValue={this.initialValues.search}
               placeholder="campaign"
               onSearch={this.handleSearch}
             />
-=======
             <Popover content={`EmailBudget: ${used_emails}/${budget}`}>
               <Progress percent={percent} status="active" />
             </Popover>
->>>>>>> 50208d54b6b8a03c42b8a1889430b4b9a4c1b747
           </Col>
         </Row>
         
