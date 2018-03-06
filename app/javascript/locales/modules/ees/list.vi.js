@@ -40,6 +40,10 @@ export const appLocale = {
           required: 'Email là trường bắt buộc'
         }
       },
+      campaign: {
+        // attrs.campaign.label
+        label: 'Campaign'
+      },
       file: {
         // attrs.file.label
         label: 'File',

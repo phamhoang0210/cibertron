@@ -6,5 +6,9 @@ export const SEND_CAMPAIGN_API_PATH = '/api/secure/v1/campaigns/send'
 
 export const LISTS_API_PATH = '/api/secure/v1/lists'
 export const SENDERS_API_PATH = '/api/secure/v1/senders'
+export const BUDGETS_API_PATH = '/api/secure/v1/budgets'
+export const BUDGET_API_PATH = '/api/secure/v1/budgets/personal'
+export const USED_EMAILS_API_PATH = '/api/secure/v1/campaigns/personal'
+
 export const TEMPLATES_API_PATH = '/api/secure/v1/templates'
-export const USERS_API_PATH = '/api/v01/users'
+export const AUTHS_API_PATH = '/api/v01/accounts'

@@ -1,8 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  MEEPO_BASE_URL, SENDERS_API_PATH,
-  USERSERVICE_BASE_URL , USERS_API_PATH
+  MEEPO_BASE_URL, SENDERS_API_PATH, BUDGETS_API_PATH,
+  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -78,6 +78,75 @@ export function deleteSender(senderId) {
   }
 }
 
+function setIsFetchingBudgets() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_BUDGETS,
+  }
+}
+
+function fetchBudgetsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_BUDGETS_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchBudgetsFailure(error) {
+  return {
+    type: actionTypes.FETCH_BUDGETS_FAILURE,
+    error,
+  }
+}
+
+export function fetchBudgets(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingBudgets())
+    authRequest
+      .fetchEntities(`${MEEPO_BASE_URL}${BUDGETS_API_PATH}`, params)
+      .then(res => {
+        dispatch(fetchBudgetsSuccess(res.data))
+      })
+      .catch(error => dispatch(fetchBudgetsFailure(error)))
+  }
+}
+
+function setIsDeletingBudget(budgetId) {
+  return {
+    type: actionTypes.SET_IS_DELETING_BUDGET,
+    budgetId,
+  }
+}
+
+function deleteBudgetSuccess(record) {
+  return {
+    type: actionTypes.DELETE_BUDGET_SUCCESS,
+    record,
+  }
+}
+
+function deleteBudgetFailure(error, budgetId) {
+  return {
+    type: actionTypes.DELETE_BUDGET_FAILURE,
+    error,
+    budgetId,
+  }
+}
+
+export function deleteBudget(budgetId) {
+  return (dispatch, getStore) => {
+    dispatch(setIsDeletingBudget(budgetId))
+    authRequest
+      .deleteEntity(`${MEEPO_BASE_URL}${BUDGETS_API_PATH}/${budgetId}`)
+      .then(res => {
+        dispatch(deleteBudgetSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('budgetFilters'))
+        dispatch(fetchBudgets(filterParams))
+      })
+      .catch(error => dispatch(deleteBudgetFailure(error, budgetId)))
+  }
+}
+
 // Fetch users
 function setIsFetchingUsers() {
   return {
@@ -109,7 +178,7 @@ export function fetchUsers(data) {
       })
     }
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
       .then(res => {
         dispatch(setIsFetchingUsers())
         var users = res.data.records
@@ -117,7 +186,7 @@ export function fetchUsers(data) {
 
         if(users) {
           users.map(user => {
-            users_array[user.id] = user.username
+            users_array[user.id] = user.nickname
           })
         }
         if(data.records && users_array){

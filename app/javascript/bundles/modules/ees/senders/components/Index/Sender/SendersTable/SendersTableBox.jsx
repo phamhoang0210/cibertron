@@ -39,7 +39,7 @@ class SendersTableBox extends React.Component {
     this.columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_in.label'}), 
-        width: '10%',
+        width: '15%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
@@ -51,6 +51,7 @@ class SendersTableBox extends React.Component {
       {
         title: intl.formatMessage({id: 'attrs.email.label'}),
         dataIndex: 'email',
+        width: '25%',
         key: 'email'},
       {
         title: intl.formatMessage({id: 'attrs.creator.label'}),
@@ -66,8 +67,7 @@ class SendersTableBox extends React.Component {
             <div className="text-align--right">
               <Button
                 type="primary"
-                shape="circle"
-                size="large"
+                size="small"
                 icon="edit"
                 className="button-margin--left--default"
                 onClick={(e) => this.handleEdit(row.id)}
@@ -81,9 +81,8 @@ class SendersTableBox extends React.Component {
                 cancelText="No"
               >
                 <Button 
-                  icon="delete" 
-                  shape="circle"
-                  size="large"
+                  icon="delete"
+                  size="small"
                   type="danger" 
                   loading={row.isDeleting}
                   className="button-margin--left--default">

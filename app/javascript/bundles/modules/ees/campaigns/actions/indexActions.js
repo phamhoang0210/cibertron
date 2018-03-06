@@ -1,8 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  FURION_BASE_URL, CAMPAIGNS_API_PATH, 
-  USERSERVICE_BASE_URL , USERS_API_PATH
+  FURION_INTERNAL_BASE_URL, CAMPAIGNS_API_PATH, 
+  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -32,11 +32,11 @@ export function fetchCampaigns(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaigns())
     authRequest
-      .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => {
         dispatch(fetchCampaignsSuccess(res.data))
-        dispatch(fetchStatistics(res.data))
         dispatch(fetchUsers(res.data))
+        // dispatch(fetchStatistics(res.data))
       })
       //.then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
@@ -69,7 +69,7 @@ export function deleteCampaign(campaignId) {
   return (dispatch, getStore) => {
     dispatch(setIsDeletingCampaign(campaignId))
     authRequest
-      .deleteEntity(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
+      .deleteEntity(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
       .then(res => {
         dispatch(deleteCampaignSuccess(res.data))
         const filterParams = getFilterParams(getStore().indexState.get('campaignFilters'))
@@ -109,7 +109,7 @@ export function fetchStatistics(data) {
       })
     }
     authRequest
-      .fetchEntities(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, {'fields': "id,log_count,open_count"})
+      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}`, {'fields': "id,log_count,open_count"})
       .then(res => {
         var campaigns = res.data.records
         const campaigns_statistics = {}
@@ -164,14 +164,13 @@ export function fetchUsers(data) {
       })
     }
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
       .then(res => {
         var users = res.data.records
         const users_array = {}
-
         if(users) {
           users.map(user => {
-            users_array[user.id] = user.username
+            users_array[user.id] = user.nickname
           })
         }
         if(data.records && users_array){

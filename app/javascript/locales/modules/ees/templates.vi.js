@@ -12,37 +12,36 @@ export const appLocale = {
         // attrs.created_in.label
         label: 'Ngày tạo',
       },
-      assigned_in: {
-        // attrs.assigned_in.label
-        label: 'Ngày giao tvts',
+      creator: {
+        // attrs.creator.label
+        label: 'Người tạo',
       },
-      message: {
-        // attrs.message.label
-        label: 'Message',
-      },
-      email: {
-        // attrs.email.label
-        label: 'Email',
-        errors: {
-        // attrs.email.errors.required
-          required: 'Email là trường bắt buộc'
-        }
-      },
-      content: {
-        // attrs.content.label
-        label: 'Content',
-        errors: {
-          // attrs.content.errors.required
-          required: 'Content là trường bắt buộc!'
-        }
-      },
-
       name: {
         // attrs.name.label
         label: 'Tên template',
         errors: {
         // attrs.name.errors.required
           required: 'Tên là trường bắt buộc'
+        }
+      },
+      code: {
+        // attrs.code.label
+        label: 'Code'
+      },
+      content: {
+        // attrs.content.label
+        label: 'Nội dung',
+        errors: {
+        // attrs.content.errors.required
+          required: 'Nội dung là trường bắt buộc'
+        }
+      },
+      type: {
+        // attrs.type.label
+        label: 'Phân loại',
+        errors: {
+        // attrs.type.errors.required
+          required: 'Phân loại là trường bắt buộc'
         }
       },
       imported_at: {
