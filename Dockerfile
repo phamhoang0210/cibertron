@@ -8,7 +8,7 @@ RUN bundle install --without development test --deployment --binstubs --path=/ho
 ADD . /home/rails/gaia
 WORKDIR /home/rails/gaia
 RUN cd /home/rails/gaia
-ENV NODE_OPTIONS --max_old_space_size=4096
+ENV NODE_OPTIONS --max_old_space_size=16384
 RUN yarn install
 RUN rails assets:precompile
 RUN mkdir -p /var/log/unicorn && mkdir -p /home/unicorn/pids && chmod -R 777 /home/rails/gaia
