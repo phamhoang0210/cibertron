@@ -4,14 +4,18 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
   users: [],
+  allusers: [],
   senders: [],
   lists: [],
   templates: [],
   budget: null,
   budgets: [],
   used_emails: null,
+  userIdMappings: {},
   isFetchingSenders: false,
   isFetchingLists: false,
+  isFetchingUsers: false,
+  isFetchingAllUsers: false,
   isFetchingTemplates: false,
   isFetchingUsedEmails: false,
 })
@@ -19,6 +23,12 @@ export const initialState = Immutable.fromJS({
 export default function sharedReducer($$state = initialState, action = null) {
   const { type, record, records, filters, error } = action
 
+  const recordIdMappings = {}
+  if(records) {
+    records.forEach(record => recordIdMappings[record.id] = record)
+  }
+  
+  
   switch (type) {
 
     case actionTypes.SET_IS_FETCHING_SENDERS: {
@@ -96,7 +106,26 @@ export default function sharedReducer($$state = initialState, action = null) {
         isFetchingUsers: false,
       })
     }
+    //Fetch all user
+    case actionTypes.SET_IS_FETCHING_ALL_USERS: {
+      return $$state.merge({
+        isFetchingAllUsers: true,
+      })
+    }
 
+    case actionTypes.FETCH_ALL_USERS_SUCCESS: {
+      return $$state.merge({
+        isFetchingAllUsers: false,
+        allusers: records,
+        userIdMappings: recordIdMappings,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_USERS_FAILURE: {
+      return $$state.merge({
+        isFetchingAllUsers: false,
+      })
+    }
     // Fetch budgets
     case actionTypes.SET_IS_FETCHING_BUDGETS: {
       return $$state.merge({
