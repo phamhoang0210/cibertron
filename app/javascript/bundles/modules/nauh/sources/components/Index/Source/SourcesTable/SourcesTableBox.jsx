@@ -34,17 +34,24 @@ class SourcesTableBox extends React.Component {
     this.columns = [{
       title: intl.formatMessage({id: 'index.sources_table.headers.email.title'}),
       dataIndex: 'email',
+      width: '15%'
     }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.created_at.title'}),
       dataIndex: 'created_at',
       render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
+      width: '10%',
     }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.status.title'}),
       dataIndex: 'status',
+      width: '5%',
     }, {
-      width: 48,
       title: intl.formatMessage({id: 'index.sources_table.headers.l8_count.title'}),
-      dataIndex: 'l8_count'
+      dataIndex: 'l8_count',
+      width: '3%',
+    },{
+      title: intl.formatMessage({id: 'index.sources_table.headers.address.title'}),
+      dataIndex: 'address',
+      width: '12%',
     },{
       title: intl.formatMessage({id: 'index.sources_table.headers.interest.title'}),
       dataIndex: 'interest',
@@ -54,7 +61,7 @@ class SourcesTableBox extends React.Component {
           {record.note && (<span>{`• ${record.note}`}</span>)}
         </div>
         ),
-      width: '25%',
+      width: '15%',
     }, {
       title: intl.formatMessage({id: 'index.sources_table.headers.source_url.title'}),
       dataIndex: 'source_url',
