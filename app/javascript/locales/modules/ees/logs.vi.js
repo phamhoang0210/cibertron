@@ -8,37 +8,33 @@ export const appLocale = {
     ...commontAntdVi,
     attrs: {
       
-      created_in: {
-        // attrs.created_in.label
+      created_at: {
+        // attrs.created_at.label
         label: 'Ngày tạo',
       },
-      creator: {
-        // attrs.creator.label
-        label: 'Người tạo',
+      opened_at: {
+        // attrs.opened_at.label
+        label: 'Ngày mở',
       },
       email: {
         // attrs.email.label
-        label: 'Email',
-        errors: {
-        // attrs.email.errors.required
-          required: 'Email là trường bắt buộc'
-        }
+        label: 'Email'
       },
-      name: {
-        // attrs.name.label
-        label: 'Tên',
-        errors: {
-        // attrs.name.errors.required
-          required: 'Name là trường bắt buộc'
-        }
+      status: {
+        // attrs.status.label
+        label: 'Status'
       },
-      budget: {
-        // attrs.budget.label
-        label: 'Budget',
-        errors: {
-        // attrs.budget.errors.required
-          required: 'Budget là trường bắt buộc'
-        }
+      sender: {
+        // attrs.sender.label
+        label: 'Sender'
+      },
+      group: {
+        // attrs.group.label
+        label: 'Group'
+      },
+      error: {
+        // attrs.error.label
+        label: 'Error'
       },
     },
     popconfirm: {
@@ -53,7 +49,7 @@ export const appLocale = {
     },
     index: {
       // index.title
-      title: 'Campaigns',
+      title: 'Logs',
       filters_form: {
         form_item: {
           button: {

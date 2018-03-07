@@ -18,15 +18,14 @@ import moment from 'moment'
 import { injectIntl } from 'react-intl'
 
 const { Search } = Input
-const TabPane = Tabs.TabPane
 
-class SendersTableBox extends React.Component {
+class BudgetsTableBox extends React.Component {
   constructor(props) {
     super(props)
 
     const {intl} = this.props
 
-    this.initialValues = this.getInitialValues()
+    // this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
       'handleTableChange',
@@ -43,21 +42,15 @@ class SendersTableBox extends React.Component {
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
-      },
-      {
-        title: intl.formatMessage({id: 'attrs.name.label'}),
-        dataIndex: 'name',
-        key: 'name'},
-      {
+      },{
         title: intl.formatMessage({id: 'attrs.email.label'}),
         dataIndex: 'email',
         width: '25%',
-        key: 'email'},
-      {
-        title: intl.formatMessage({id: 'attrs.creator.label'}),
-        width: '10%',
-        dataIndex: 'username', 
-        key: 'user'},
+        key: 'email'
+      },{
+        title: intl.formatMessage({id: 'attrs.budget.label'}),
+        dataIndex: 'budget',
+        key: 'budget'},
       {
         title: '',
         dataIndex: 'action',
@@ -95,62 +88,58 @@ class SendersTableBox extends React.Component {
     ]
   }
 
-  getInitialValues() {
-    const {indexState, location} = this.props
-    const currentSenderFilters = Immutable.fromJS(getFilterParams(indexState.get('senderFilters'), location))
-    return {
-      search: currentSenderFilters.get('full_search'),
-    }
-  }
+  // getInitialValues() {
+  //   const {indexState, location} = this.props
+  //   const currentBudgetFilters = Immutable.fromJS(getFilterParams(indexState.get('budgetFilters'), location))
+  //   return {
+  //     search: currentBudgetFilters.get('full_search'),
+  //   }
+  // }
 
-  handleDelete(senderId) {
+  handleDelete(budgetId) {
     const {actions, indexState} = this.props
-    actions.deleteSender(senderId)
+    actions.deleteBudget(budgetId)
   }
 
-  handleEdit(senderId) {
-    browserHistory.push(`${SENDERS_URL}/${senderId}/edit`)
+  handleEdit(budgetId) {
+    // browserHistory.push(`${SENDERS_URL}/${budgetId}/edit`)
   }
 
   handleAdd(e) {
-    browserHistory.push(`${SENDERS_URL}/new`)
+    // browserHistory.push(`${SENDERS_URL}/new`)
   }
 
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
 
-    let senderParams = {}
-    if(current != senderParams.page) {
-      senderParams.page = current
+    let budgetParams = {}
+    if(current != budgetParams.page) {
+      budgetParams.page = current
     }
 
     if(sorter.field) {
-      senderParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
+      budgetParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
     }
 
 
-    senderParams = getFilterParamsAndSyncUrl(indexState.get('senderFilters'), location, senderParams)
+    budgetParams = getFilterParamsAndSyncUrl(indexState.get('budgetFilters'), location, budgetParams)
 
-    actions.fetchSenders(senderParams)
+    actions.fetchBudgets(budgetParams)
   }
 
   handleSearch(keyword) {
-    const {actions, indexState} = this.props
-    let senderParams = getFilterParamsAndSyncUrl(
-      indexState.get('senderFilters'),
-      location,
-       {full_search: keyword}
-    )
-    actions.fetchSenders(senderParams)
+    const {actions, indexState, location} = this.props
+    let budgetParams = getFilterParamsAndSyncUrl(indexState.get('budgetFilters'), location, {full_search: keyword})
+    actions.fetchBudgets(budgetParams)
   }
 
   render() {
     const {indexState, sharedState, actions, intl} = this.props
-    const selectedSenderKeys = indexState.get('selectedSenderKeys')
-    const senders = indexState.get('senders')
-    const paging = indexState.getIn(['senderFilters', 'paging'])
-    const isFetchingSenders = indexState.get('isFetchingSenders')
+    const selectedBudgetKeys = indexState.get('selectedBudgetKeys')
+    const budgets = indexState.get('budgets')
+    const paging = indexState.getIn(['budgetFilters', 'paging'])
+    const isFetchingBudgets = indexState.get('isFetchingBudgets')
 
     return (
       <div className="main-content-table-box">
@@ -163,12 +152,6 @@ class SendersTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
-            <Search
-              enterButton
-              defaultValue={this.initialValues.search}
-              placeholder="email,name"
-              onSearch={this.handleSearch}
-            />
           </Col>
         </Row>
         
@@ -176,16 +159,16 @@ class SendersTableBox extends React.Component {
           bordered
           size="middle"
           columns={this.columns}
-          dataSource={senders.toJS()}
+          dataSource={budgets.toJS()}
           pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           rowClassName={rowClassName}
           rowKey="created_at"
           onChange={this.handleTableChange}
-          loading={isFetchingSenders}
+          loading={isFetchingBudgets}
         />
       </div>
     )
   }
 }
 
-export default injectIntl(SendersTableBox)
+export default injectIntl(BudgetsTableBox)

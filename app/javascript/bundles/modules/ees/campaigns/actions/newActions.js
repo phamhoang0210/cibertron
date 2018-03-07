@@ -29,7 +29,7 @@ export function createCampaign(params = {}) {
     dispatch(setIsCreatingCampaign())
 
     return authRequest
-      .submitEntity(`${FURION_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .submitEntity(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => dispatch(createCampaignSucces(res.data)))
       .catch(error => dispatch(createCampaignFailure(error)))
   }
