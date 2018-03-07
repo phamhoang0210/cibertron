@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import {
   AIRI_BASE_URL, MEEPO_BASE_URL, MORPHLING_BASE_URL, FURION_INTERNAL_BASE_URL,
   LISTS_API_PATH, SENDERS_API_PATH, TEMPLATES_API_PATH, USERS_API_PATH,
-  BUDGETS_API_PATH, BUDGET_API_PATH, USED_EMAILS_API_PATH
+  BUDGETS_API_PATH, BUDGET_API_PATH, USED_EMAILS_API_PATH,USERSERVICE_BASE_URL
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -70,7 +70,37 @@ export function fetchSenders(params = {}) {
       .catch(error => dispatch(fetchSendersFailure(error)))
   }
 }
+// Fetch users
+function setIsFetchingAllUsers() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_ALL_USERS,
+  }
+}
 
+function fetchAllUsersSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchAllUsersFailure(error) {
+  return {
+    type: actionTypes.FETCH_ALL_USERS_FAILURE,
+    error,
+  }
+}
+
+export function fetchAllUsers(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingAllUsers())
+    authRequest
+      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)
+      .then(res => dispatch(fetchAllUsersSuccess(res.data)))
+      .catch(error => dispatch(fetchAllUsersFailure(error)))
+  }
+}
 // Fetch templates
 function setIsFetchingTemplates() {
   return {
