@@ -29,13 +29,15 @@ class LogsTableBox extends React.Component {
 
     _.bindAll(this, [
       'handleTableChange',
-      'handleSearch'
+      'handleSearch',
+      'handleShowTemplateModal',
+      'handleCancelTemplateModal',
     ])
 
     this.columns = [
       {
         title: intl.formatMessage({id: 'attrs.created_at.label'}), 
-        width: '10%',
+        width: '12%',
         dataIndex: 'created_at', 
         key: 'created_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
@@ -48,11 +50,12 @@ class LogsTableBox extends React.Component {
       },{
         title: intl.formatMessage({id: 'attrs.status.label'}),
         dataIndex: 'status',
-        width: '10%',
+        width: '11%',
         key: 'status'
       },{
         title: intl.formatMessage({id: 'attrs.opened_at.label'}),
         dataIndex: 'email_open_at',
+        width: '12%',
         key: 'email_open_at',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },{
@@ -61,19 +64,19 @@ class LogsTableBox extends React.Component {
         dataIndex: 'sender', 
         key: 'sender'
       },{
-        title: intl.formatMessage({id: 'attrs.sender.label'}),
+        title: intl.formatMessage({id: 'attrs.group.label'}),
         width: '10%',
         dataIndex: 'group_name', 
         key: 'group_name'
       },{
         title: intl.formatMessage({id: 'attrs.error.label'}),
-        width: '10%',
+        
         dataIndex: 'error', 
         key: 'error'
       },{
-        title: 'Action',
+        title: '',
         dataIndex: 'action',
-        width: '10%',
+        width: '5%',
         render: (cell, row) => {
           return (
             <div className="text-align--right">
@@ -90,6 +93,20 @@ class LogsTableBox extends React.Component {
         },
       },
     ]
+  }
+
+  state = {modalShow: false, modalContent: ''}
+  //Handle show modal
+  handleShowTemplateModal(modalContent) {
+    this.setState({
+      modalShow: true,
+      modalContent: modalContent,
+    });
+  }
+  handleCancelTemplateModal() {
+    this.setState({
+      modalShow: false
+    });
   }
 
   getInitialValues() {
@@ -136,15 +153,26 @@ class LogsTableBox extends React.Component {
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
           <Col span={18}>
-            <Button
-              onClick={this.handleAdd}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.add.text'})}
-            </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
+            <Search
+              enterButton
+              placeholder= {intl.formatMessage({id: 'placeholder.title'})}
+              onSearch={this.handleSearch}
+            />
           </Col>
         </Row>
+        <Modal
+          className='modalCustom'
+          title="Template"
+          cancelText="Cancel"
+          visible={this.state.modalShow}
+          onCancel={this.handleCancelTemplateModal}
+          onOk={this.handleCancelTemplateModal}
+          width="70%"
+        >
+          <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
+        </Modal>
         
         <Table
           bordered
