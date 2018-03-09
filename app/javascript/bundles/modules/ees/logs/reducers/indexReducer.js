@@ -6,6 +6,7 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
   logs: [],
+  groups: [],
   logFilters: {
     ...defaultFilters,
     fields: ''
@@ -38,6 +39,27 @@ export default function indexReducer($$state = initialState, action = null) {
         isFetchingLogs: false,
       })
     }
+
+    case actionTypes.SET_IS_FETCHING_GROUPS: {
+      return $$state.merge({
+        isFetchingGroups: true,
+      })
+    }
+
+    case actionTypes.FETCH_GROUPS_SUCCESS: {
+      return $$state.merge({
+        isFetchingGroups: false,
+        groups: records,
+        groupFilters: filters,
+      })
+    }
+
+    case actionTypes.FETCH_GROUPS_FAILURE: {
+      return $$state.merge({
+        isFetchingGroups: false,
+      })
+    }
+
     default: {
       return $$state
     }
