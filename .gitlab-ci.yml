@@ -27,11 +27,12 @@ build:
 functional_test:
   stage: test
   script:
-    - docker run -i --rm -d -e MYSQL_DATABASE=gaia_test -e MYSQL_USER=gaia_test -e MYSQL_PASSWORD=gaia_test -e MYSQL_ROOT_PASSWORD=gaia_test --name "mysql-$CI_JOB_ID" mysql:latest
-    - sleep 10
-    - docker run -i --rm -e RAILS_ENV=test --name "$CI_JOB_ID-migration" --link "mysql-$CI_JOB_ID":mysql -d "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "rake db:migrate"
-    - docker run -i --rm -w="/home/rails/gaia" -e RAILS_ENV=test --link "mysql-$CI_JOB_ID":mysql --name "test-$CI_JOB_ID" "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "rake test"
-    - docker rm -f "mysql-$CI_JOB_ID"
+    - (docker run -i --rm -d -e MYSQL_DATABASE=meepo_test -e MYSQL_USER=meepo_test -e MYSQL_PASSWORD=meepo_test -e MYSQL_ROOT_PASSWORD=meepo_test --name "mysql-$CI_JOB_ID" mysql:latest &&
+      sleep 10 &&
+      docker run -i --rm -e RAILS_ENV=test --name "$CI_JOB_ID-migration" --link "mysql-$CI_JOB_ID":mysql -d "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "rails db:migrate" &&
+      docker run -i --rm -w="/home/rails/meepo" -e RAILS_ENV=test --link "mysql-$CI_JOB_ID":mysql --name "test-$CI_JOB_ID" "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "bundle exec rake test" &&
+      docker rm -f "mysql-$CI_JOB_ID") ||
+      (docker rm -f "mysql-$CI_JOB_ID" && exit 1)
   only:
     - branches
 
