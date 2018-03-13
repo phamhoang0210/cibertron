@@ -178,6 +178,12 @@ class ListsTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
+            <Search
+              enterButton
+              defaultValue={this.initialValues.search}
+              placeholder="name"
+              onSearch={this.handleSearch}
+            />
           </Col>
         </Row>
         
