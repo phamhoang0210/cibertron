@@ -3,7 +3,6 @@ import DeepMerge from 'deep-merge/multiple'
 import { browserHistory } from 'react-router'
 import qs from 'qs'
 import moment from 'moment'
-import { EROS_BASE_URL } from 'app/constants/paths'
 import { notification } from 'antd'
 
 export function parseError(error) {
@@ -123,7 +122,7 @@ export function mergeDeep(objs = []) {
   const merge = DeepMerge(function (a, b) {
     return b
   })
-  
+
   return merge(objs)
 }
 

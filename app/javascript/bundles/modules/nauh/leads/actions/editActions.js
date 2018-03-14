@@ -1,8 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  NAUH_BASE_URL, LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
-  ORDERS_PURCHASE_HISTORY_API_PATH, EROS_BASE_URL, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
+  LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
+  ORDERS_PURCHASE_HISTORY_API_PATH, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
   LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH, CALL_LOG_GET_AUDIO_LINK_PATH,
   L8_REPORT_API_PATH,
 } from '../constants/paths'
@@ -332,7 +332,7 @@ export function updateLeadCareHistory(params = {}) {
         const {editState} = getStore()
         const filterParams = getFilterParams(editState.get('leadCareHistoryFilters'))
         const lead = editState.get('lead')
-        
+
         dispatch(fetchLeadCareHistories(filterParams))
         dispatch(fetchLead(lead.get('id'), editState.get('defaultLeadParams').toJS()))
       })

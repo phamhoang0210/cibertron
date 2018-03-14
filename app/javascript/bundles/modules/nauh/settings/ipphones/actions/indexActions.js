@@ -1,6 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {NAUH_BASE_URL, IPPHONES_API_PATH} from '../constants/paths'
+import {IPPHONES_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 

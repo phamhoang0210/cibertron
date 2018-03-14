@@ -1,8 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  MEEPO_BASE_URL, SENDERS_API_PATH, BUDGETS_API_PATH,
-  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
+  SENDERS_API_PATH, BUDGETS_API_PATH, AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -171,7 +170,7 @@ export function fetchUsers(data) {
   return dispatch => {
     dispatch(setIsFetchingUsers())
     var list_user_id = []
-    
+
     if(data.records){
       data.records.map(record => {
         list_user_id.push(record.user_id)
