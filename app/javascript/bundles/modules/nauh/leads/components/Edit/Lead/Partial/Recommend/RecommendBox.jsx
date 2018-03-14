@@ -181,6 +181,7 @@ class RecommendBox extends React.Component {
 
     let params = values
     params.lead_id = lead.get('id');
+    params.lead_email = lead.get('email');
     params.product_ids = this.state.selectCourses;
     params.config = this.state.configs
 
@@ -238,11 +239,18 @@ class RecommendBox extends React.Component {
 
     if (recommendNauh) {
       var temp = recommendNauh.get("product_ids")
-      
+      if (temp) {
+        coursesRecommend = JSON.parse(temp)
+      }
     }
 
     let recCourses = editState.get('recCourses')
+    recCourses.map(function(course){
+      if(1==1) {
 
+      }
+    })
+    debugger
 
 
     if (isRec) {
