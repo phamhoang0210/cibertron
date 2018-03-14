@@ -22,6 +22,7 @@ class IndexScreen extends React.Component {
     const listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location)
     // listParams["fields"] ="contact_count"
     actions.fetchLists(listParams)
+    actions.fetchAllUsers({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {

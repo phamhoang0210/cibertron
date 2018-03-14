@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
+import { Form, Row, Col, Input, Select, DatePicker, Button } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import {
@@ -17,21 +17,144 @@ import { injectIntl } from 'react-intl'
 const FormItem = Form.Item
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker
+const InputGroup = Input.Group
 
 class LogFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
 
     _.bindAll(this, [
+      'handleFilter',
+      'formatFormData',
     ])
 
   }
 
+  handleFilter(e) {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const {actions, indexState, location} = this.props
+        let logParams = getFilterParams(indexState.get('logFilters'))
+        actions.fetchLogs(mergeDeep([logParams, this.formatFormData(values)]))
+      }
+    })
+  }
+
+  formatFormData(values) {
+    let formatedValues = values
+    const inCompFields = ['status', 'group_id']
+    const timerangeFields = ['created_at']
+    
+    let compconds = {}
+    inCompFields.forEach(field => {
+      compconds[field] = {in: formatedValues[field]}
+      delete formatedValues[field]
+    })
+
+    timerangeFields.forEach(field => {
+      const timeRange = formatedValues[field] || []
+      compconds[field] = {}
+      compconds[field]['gte'] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      delete formatedValues[field]
+    })
+    
+    return mergeDeep([formatedValues, compconds])
+  }
+
   render() {
+    const {indexState, form, sharedState} = this.props
+    const isFetchingLogs = indexState.get('isFetchingLogs')
+    const logs = sharedState.get('logs')
+    const totalPage = indexState.getIn(['logFilters', 'paging', 'record_total'])
+    const { getFieldDecorator } = form
+    const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"}]
+    const groups = indexState.get('groups')
 
     return (
       <div className="box box-with-shadow box-with-border">
-       
+        <Form
+          className="box-body"
+          onSubmit={this.handleFilter}
+        >
+          <Row gutter={40}>
+            <Col span={8}>
+              <FormItem
+                label="Created in"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('created_at')(
+                  <RangePicker
+                    style={{width: '100%'}}
+                    format={LONG_DATETIME_FORMAT}
+                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                  />
+                )}
+              </FormItem>
+            </Col>
+
+            <Col span={8}>
+              <FormItem
+                label="Status"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('status', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder="-- All --"
+                    allowClear={true}
+                  >
+                    {logstatuses && logstatuses.map(status => (
+                      <Option key={status.id} value={status.name}>
+                        {status.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+
+            <Col span={8}>
+              <FormItem
+                label="Group"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('group_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder="-- All --"
+                    allowClear={true}
+                  >
+                    {groups && groups.toJS().map(group => (
+                      <Option key={group.id} value={group.id}>
+                        {group.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+            
+          </Row>
+
+          <Row>
+            <Col span={24} style={{ textAlign: 'right' }}>
+              <Button type="primary" htmlType="submit" loading={isFetchingLogs}>
+                Filter
+              </Button>
+            </Col>
+          </Row>
+
+        </Form>
       </div>
     )
   }
