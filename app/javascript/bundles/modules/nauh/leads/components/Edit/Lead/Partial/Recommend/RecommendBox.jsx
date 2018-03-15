@@ -167,7 +167,7 @@ class RecommendBox extends React.Component {
 
     e.preventDefault()
     const {actions} = this.props
-    debugger
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let params = this.formatFormData(values)
@@ -251,10 +251,11 @@ class RecommendBox extends React.Component {
         this.state.configs = JSON.parse(tempConfig)
 
       }
-      debugger
+
     }
     if (this.state.selectCoursesId.length == 0 && coursesRecommend.length > 0) {
         this.state.selectCoursesId = coursesRecommend.map(function(item){ return item.id })
+        this.state.selectCourses = coursesRecommend.map(function(item){ return item})
     }
     //let courseIds = coursesRecommend.map(function(item){ return item.id }) + this.state.selectCoursesId
     const configLength = this.state.configs.length
