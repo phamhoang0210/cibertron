@@ -427,7 +427,7 @@ function fetchRecommendationFailureNauh(error) {
 export function fetchRecommendationNauh(lead_id) {
   return dispatch => {
     dispatch(setIsFetchingRecommendationNauh())
-    
+
     authRequest
       .fetchEntities(`${NAUH_BASE_URL}${RECOMMENDATION_GET_PATH}?id=${lead_id}`)
       .then(res => dispatch(fetchRecommendationSuccessNauh(res.data)))
@@ -470,20 +470,20 @@ export function fetchRecommendation(input, limit) {
 // Create Recommend
 function setIsCreateRecommendation() {
   return {
-    type: actionTypes.SET_IS_FETCHING_RECOMMENDATION,
+    type: actionTypes.SET_IS_CREATE_RECOMMENDATION,
   }
 }
 
 function createRecommendationSuccess(data) {
   return {
-    type: actionTypes.FETCH_RECOMMENDATION_SUCESS,
+    type: actionTypes.CREATE_RECOMMENDATION_SUCESS,
     data,
   }
 }
 
 function createRecommendationFailure(error) {
   return {
-    type: actionTypes.FETCH_RECOMMENDATION_FAILURE,
+    type: actionTypes.CREATE_RECOMMENDATION_FAILURE,
     error,
   }
 }
