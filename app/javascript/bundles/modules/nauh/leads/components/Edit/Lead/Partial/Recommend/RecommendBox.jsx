@@ -182,7 +182,7 @@ class RecommendBox extends React.Component {
 
     let params = values
     params.lead_id = lead.get('id');
-    params.lead_email = lead.get('email');
+    // params.lead_email = lead.get('email');
     params.product_ids = this.state.selectCourses;
     params.config = this.state.configs
 
