@@ -20,9 +20,9 @@ build:
   stage: build
   script:
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./config/authservice_jwt.pub.encrypted > ./config/authservice_jwt.pub
-    - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./.ssh/id_rsa.pub.encrypted > ./.ssh/id_rsa.pub
-    - git clone https://git.edumall.io/backend/minerva_frontend.git /home/minerva_frontend
-    - git clone https://git.edumall.io/backend/nami_frontend.git /home/nami_frontend
+    - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./.ssh/id_rsa.encrypted > ./.ssh/id_rsa
+    - git clone git@git.edumall.io:backend/minerva_frontend.git /home/minerva_frontend
+    - git clone git@git.edumall.io:backend/nami_frontend.git /home/nami_frontend
     - build_image
   only:
     - branches
