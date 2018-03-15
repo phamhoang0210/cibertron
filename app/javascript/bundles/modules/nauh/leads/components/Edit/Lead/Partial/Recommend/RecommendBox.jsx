@@ -49,6 +49,7 @@ class RecommendBox extends React.Component {
     this.props.actions.fetchRecommendation(email, 10)
     this.props.actions.fetchRecommendationNauh(lead_id)
 
+
   }
 
   // Xử lý sự kiện khi check vào checkbox
@@ -233,24 +234,30 @@ class RecommendBox extends React.Component {
     const isRec = editState.get('isRec')
 
     const Option = Select.Option
-    const configLength = this.state.configs.length
+
+
+
+    let recCourses = editState.get('recCourses')
     const recommendNauh = editState.get('recommendNauh')
     let coursesRecommend = []
 
     if (recommendNauh) {
       var temp = recommendNauh.get("product_ids")
+      var tempConfig = recommendNauh.get("config")
       if (temp) {
         coursesRecommend = JSON.parse(temp)
       }
-    }
-
-    let recCourses = editState.get('recCourses')
-    recCourses.map(function(course){
-      if(1==1) {
+      if (tempConfig && this.state.configs.length == 1) {
+        this.state.configs = JSON.parse(tempConfig)
 
       }
-    })
-    debugger
+      debugger
+    }
+    if (this.state.selectCoursesId.length == 0 && coursesRecommend.length > 0) {
+        this.state.selectCoursesId = coursesRecommend.map(function(item){ return item.id })
+    }
+    //let courseIds = coursesRecommend.map(function(item){ return item.id }) + this.state.selectCoursesId
+    const configLength = this.state.configs.length
 
 
     if (isRec) {
@@ -258,6 +265,7 @@ class RecommendBox extends React.Component {
         <p>Loading...</p>
       )
     }
+
 
     return (
       <div className="box">
@@ -272,9 +280,9 @@ class RecommendBox extends React.Component {
               <Row>
                 <Col span={12}>
                 {editState.get('recCourses').map(course =>
-                  <Row key={course.get('_id')}>
-                      <Checkbox onChange={(e) => this.onCheckCheckbox(e, course)} ref={course.get('_id')}>{course.get('name')}</Checkbox>
-                  </Row>
+                      <Row key={course.get('_id')}>
+                          <Checkbox onChange={(e) => this.onCheckCheckbox(e, course)} ref={course.get('_id')} checked={(this.state.selectCoursesId && this.state.selectCoursesId.indexOf(course.get('_id')) >= 0) ? true : false}>{course.get('name')}</Checkbox>
+                      </Row>
                 )}
 
                 </Col>
@@ -303,7 +311,7 @@ class RecommendBox extends React.Component {
                               label='Số khóa'
                               {...DEFAULT_FORM_ITEM_LAYOUT}
                             >
-                                <Input className='quantity' key={config.key} onChange={(e) => this.onChangeQuantity(e, config.key)}/>
+                                <Input className='quantity' key={config.key} defaultValue={config.quantity} onChange={(e) => this.onChangeQuantity(e, config.key)}/>
 
                           </FormItem>
                         </Col>
@@ -312,7 +320,7 @@ class RecommendBox extends React.Component {
                               label='Giá'
                               {...DEFAULT_FORM_ITEM_LAYOUT}
                             >
-                                <Input className='price' key={config.key} onChange={(e) => this.onChangePrice(e, config.key)}/>
+                                <Input className='price' key={config.key} onChange={(e) => this.onChangePrice(e, config.key)} defaultValue={config.price}/>
 
                           </FormItem>
                         </Col>
