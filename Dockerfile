@@ -10,7 +10,8 @@ ENV NODE_OPTIONS --max_old_space_size=16384
 RUN mkdir /root/.ssh && \
     cp /home/rails/gaia/.ssh/id_rsa /root/.ssh && \
     touch /root/.ssh/known_hosts && \
-    ssh-keyscan git.edumall.io >> /root/.ssh/known_hosts
+    ssh-keyscan git.edumall.io >> /root/.ssh/known_hosts && \
+    chmod -R 755 /root/.ssh
 RUN git clone git@git.edumall.io:backend/minerva_frontend.git ./client/minerva_frontend && \
     cd /client/minerva_frontend && \
     npm install && \
