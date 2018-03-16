@@ -1,8 +1,9 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  FURION_BASE_URL, LOGS_API_PATH,
-  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
+  LOGS_API_PATH,
+  AUTHS_API_PATH,
+  GROUPS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -64,7 +65,7 @@ export function fetchLogs(params = {}) {
 //   return dispatch => {
 //     dispatch(setIsFetchingUsers())
 //     var list_user_id = []
-    
+
 //     if(data.records){
 //       data.records.map(record => {
 //         list_user_id.push(record.user_id)
@@ -93,3 +94,34 @@ export function fetchLogs(params = {}) {
 //       .catch(error => dispatch(fetchUsersFailure(error)))
 //   }
 // }
+
+function setIsFetchingGroups() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_GROUPS,
+  }
+}
+
+function fetchGroupsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_GROUPS_SUCCESS,
+    records,
+    filters
+  }
+}
+
+function fetchGroupsFailure(error) {
+  return {
+    type: actionTypes.FETCH_GROUPS_FAILURE,
+    error,
+  }
+}
+
+export function fetchGroups(params) {
+  return dispatch => {
+    dispatch(setIsFetchingGroups())
+    authRequest
+      .fetchEntities(`${FURION_BASE_URL}${GROUPS_API_PATH}`, params)
+      .then(res => dispatch(fetchGroupsSuccess(res.data)))
+      .catch(error => dispatch(fetchGroupsFailure(error)))
+  }
+}

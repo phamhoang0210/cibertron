@@ -71,6 +71,11 @@ export const appLocale = {
       // edit.title
       title: 'Cập nhật thông tin sender',
     },
+    placeholder: {
+      // placeholder.title
+      title: 'Email',
+    },
+
 
   }),
   antd: antdVi,

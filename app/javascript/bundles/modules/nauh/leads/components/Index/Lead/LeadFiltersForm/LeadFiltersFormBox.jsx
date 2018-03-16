@@ -22,7 +22,6 @@ const RangePicker = DatePicker.RangePicker
 class LeadFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
-
     _.bindAll(this, [
       'handleFilter',
       'formatFormData',
