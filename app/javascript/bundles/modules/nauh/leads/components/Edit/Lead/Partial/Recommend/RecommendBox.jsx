@@ -7,6 +7,7 @@ import {
 } from 'antd'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
+import { selectFilterOption } from 'helpers/antdHelper'
 
 
 const FormItem = Form.Item
@@ -48,6 +49,7 @@ class RecommendBox extends React.Component {
     const lead_id = lead.get('id')
     this.props.actions.fetchRecommendation(email, 10)
     this.props.actions.fetchRecommendationNauh(lead_id)
+    actions.fetchCampaigns({per_page: 'infinite'})
 
 
   }
@@ -185,7 +187,8 @@ class RecommendBox extends React.Component {
     // params.lead_email = lead.get('email');
     params.product_ids = this.state.selectCourses;
     params.config = this.state.configs
-
+    params.campaign_code = values.record.campaign_code
+    params.coupon_code = values.record.coupon_code
     return params
   }
 
@@ -230,7 +233,9 @@ class RecommendBox extends React.Component {
   }
 
   render() {
-    const {editState, intl} = this.props
+    const {editState, sharedState, intl} = this.props
+    const { getFieldDecorator, getFieldValue } = this.props.form
+    const campaigns = sharedState.get('campaigns')
     const isRec = editState.get('isRec')
 
     const Option = Select.Option
@@ -239,11 +244,16 @@ class RecommendBox extends React.Component {
 
     let recCourses = editState.get('recCourses')
     const recommendNauh = editState.get('recommendNauh')
+    let defaultCampaign = "";
+    let defaultCupon = "";
     let coursesRecommend = []
 
     if (recommendNauh) {
       var temp = recommendNauh.get("product_ids")
       var tempConfig = recommendNauh.get("config")
+      defaultCampaign = recommendNauh.get("campaign_code")
+      defaultCupon = recommendNauh.get("coupon_code")
+
       if (temp) {
         coursesRecommend = JSON.parse(temp)
       }
@@ -280,11 +290,44 @@ class RecommendBox extends React.Component {
             <Form onSubmit={this.handleSubmit} >
               <Row>
                 <Col span={12}>
-                {editState.get('recCourses').map(course =>
-                      <Row key={course.get('_id')}>
-                          <Checkbox onChange={(e) => this.onCheckCheckbox(e, course)} ref={course.get('_id')} checked={(this.state.selectCoursesId && this.state.selectCoursesId.indexOf(course.get('_id')) >= 0) ? true : false}>{course.get('name')}</Checkbox>
-                      </Row>
-                )}
+                  {editState.get('recCourses').map(course =>
+                        <Row key={course.get('_id')}>
+                            <Checkbox onChange={(e) => this.onCheckCheckbox(e, course)} ref={course.get('_id')} checked={(this.state.selectCoursesId && this.state.selectCoursesId.indexOf(course.get('_id')) >= 0) ? true : false}>{course.get('name')}</Checkbox>
+                        </Row>
+                  )}
+                  <Row>
+                    <FormItem
+                      label={intl.formatMessage({id: 'attrs.order.attrs.coupon_code.label'})}
+                      {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                      {getFieldDecorator('record.coupon_code', {initialValue: defaultCupon})(
+                        <Input/>
+                      )}
+                    </FormItem>
+                    <FormItem
+                      label={intl.formatMessage({id: 'attrs.order.attrs.campaign.label'})}
+                      {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                      {getFieldDecorator('record.campaign_code', {
+                        rules: [
+                          { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.campaign.errors.required'}) }
+                        ],
+                        initialValue: defaultCampaign
+                      })(
+                        <Select
+                          showSearch
+                          filterOption={selectFilterOption}
+                          placeholder={intl.formatMessage({id: 'attrs.order.attrs.campaign.placeholder.select.single'})}
+                        >
+                          {campaigns.map(campaign => (
+                            <Option value={`${campaign.get('code')}`} key={campaign.get('id')}>
+                              {campaign.get('code')}
+                            </Option>
+                          ))}
+                        </Select>
+                      )}
+                    </FormItem>
+                  </Row>
 
                 </Col>
                 <Col span={12}>
