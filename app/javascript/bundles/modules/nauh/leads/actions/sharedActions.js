@@ -69,7 +69,7 @@ export function fetchUsers(params = {}) {
     // But we have some staffs with role maketer + saler
     var array = ['lanptt','vanntp','thuna','thienlt','trangntq7','phuongntm12',
                   'tuyetvt','hangntt21','linhltt5','linhpk4','huyennt36','hoamt2',
-                  'vunq','maivt5','linhnh16','duongbt','trangnq7']
+                  'vunq','maivt5','linhnh16','duongbt','trangnq7','maivt5','linhnh16']
     params['compconds'] = {'username.in': array}
     params['per_page'] = 'infinite'
     // End
