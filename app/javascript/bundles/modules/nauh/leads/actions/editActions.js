@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
+  LEADS_API_PATH, ORDERS_API_PATH, TRANSACTIONS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
   ORDERS_PURCHASE_HISTORY_API_PATH, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
   LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH, CALL_LOG_GET_AUDIO_LINK_PATH,
   L8_REPORT_API_PATH,
@@ -367,6 +367,36 @@ export function fetchErosOrders(params = {}) {
       .fetchEntities(`${EROS_BASE_URL}${ORDERS_PURCHASE_HISTORY_API_PATH}`, params)
       .then(res => dispatch(fetchErosOrdersSuccess(res.data)))
       .catch(error => dispatch(fetchErosOrdersFailure(error)))
+  }
+}
+
+function setIsFetchingBifrostTransactions() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_BIFROST_TRANSACTIONS,
+  }
+}
+
+function fetchBifrostTransactionsSuccess(records) {
+  return {
+    type: actionTypes.FETCH_BIFROST_TRANSACTIONS_SUCCESS,
+    records: records.result,
+  }
+}
+
+function fetchBifrostTransactionsFailure(error) {
+  return {
+    type: actionTypes.FETCH_BIFROST_TRANSACTIONS_FAILURE,
+    error,
+  }
+}
+
+export function fetchBifrostTransactions(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingBifrostTransactions())
+    authRequest
+      .fetchEntities(`${BIFROST_BASE_URL}${TRANSACTIONS_API_PATH}`, params)
+      .then(res => dispatch(fetchBifrostTransactionsSuccess(res.data)))
+      .catch(error => dispatch(fetchBifrostTransactionsFailure(error)))
   }
 }
 

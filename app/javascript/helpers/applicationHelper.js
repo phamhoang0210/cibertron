@@ -202,6 +202,10 @@ export function generateErosOrderLink(id) {
   return `${EROS_BASE_URL}/order/${id}/misa`
 }
 
+export function generateBifrostTransactionLink(id) {
+  return `${BIFROST_BASE_URL}/gateway/transaction/${id}/edit`
+}
+
 export function notify(noti, nextNoti) {
   if(nextNoti && !nextNoti.equals(noti)) {
     nextNoti.get('messages').forEach(message => {
