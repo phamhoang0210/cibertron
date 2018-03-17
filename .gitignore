@@ -15,7 +15,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-
+.ssh/id_rsa
 /node_modules
 /yarn-error.log
 

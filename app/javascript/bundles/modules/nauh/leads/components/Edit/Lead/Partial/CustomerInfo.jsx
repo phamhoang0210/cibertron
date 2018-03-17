@@ -231,6 +231,7 @@ class CustomerInfo extends React.Component {
     if(tabKey == 'histories') {
       const {actions, editState} = this.props
       const lead = editState.get('lead')
+      actions.fetchErosOrders({email: lead.get('email').replace(/\s/g, ''), mobile: lead.get('mobile').replace(/\s/g, '')})
       actions.fetchBifrostTransactions({email: lead.get('email').replace(/\s/g, ''), mobile: lead.get('mobile').replace(/\s/g, ''), source: 'eop_gateway'})
       actions.fetchL8Report({mobile: [lead.get('mobile').replace(/\s/g, '')]})
     }
