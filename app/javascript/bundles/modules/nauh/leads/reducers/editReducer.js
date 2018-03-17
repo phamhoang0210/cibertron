@@ -21,6 +21,7 @@ export const initialState = Immutable.fromJS({
     fields: 'lead_care_status{lead_status{}},call_log{}'
   },
   erosOrders: [],
+  bifrostTransactions: [],
   l8Report: {},
   isFetchingOrders: false,
   isFetchingLead: false,
@@ -31,6 +32,7 @@ export const initialState = Immutable.fromJS({
   isFetchingLeadCareHistories: false,
   isUpdatingLeadCareHistory: false,
   isFetchingErosOrders: false,
+  isFetchingBifrostTransactions: false,
   isFetchingL8Report: false,
 })
 
@@ -256,6 +258,25 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_EROS_ORDERS_FAILURE: {
       return $$state.merge({
         isFetchingErosOrders: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_BIFROST_TRANSACTIONS: {
+      return $$state.merge({
+        isFetchingBifrostTransactions: true,
+      })
+    }
+
+    case actionTypes.FETCH_BIFROST_TRANSACTIONS_SUCCESS: {
+      return $$state.merge({
+        isFetchingBifrostTransactions: false,
+        bifrostTransactions: records,
+      })
+    }
+
+    case actionTypes.FETCH_BIFROST_TRANSACTIONS_FAILURE: {
+      return $$state.merge({
+        isFetchingBifrostTransactions: false,
       })
     }
 
