@@ -104,7 +104,7 @@ class RecommendBox extends React.Component {
 
     const temp = opt.props.recommend;
     let course = {} ;
-    course.id = temp.get('_id')
+    course.id = temp.get('source_id')
     course.price = temp.get('price')
     course.name = temp.get('name')
     course.alias_name = temp.get('alias_name')
@@ -241,8 +241,12 @@ class RecommendBox extends React.Component {
     const Option = Select.Option
 
 
+    let allCourses = sharedState.get("courses")
 
     let recCourses = editState.get('recCourses')
+    //recCourses.mergeDeep(allCourses);
+
+
     const recommendNauh = editState.get('recommendNauh')
     let defaultCampaign = "";
     let defaultCupon = "";
@@ -342,8 +346,9 @@ class RecommendBox extends React.Component {
                         onDeselect={this.handleSelectOnDeSelect}
                         filterOption={this.handleFilterOption}
                       >
-                        {editState.get('recCourses').map(course =>
-                          <Option key={course.get('_id')} recommend={course} ref={course.get('_id')}>{course.get('name')}</Option>
+                        {allCourses.map(course =>
+
+                          <Option key={course.get('source_id')} recommend={course} ref={course.get('source_id')}>{course.get('name')}</Option>
                         )}
                       </Select>
                   </Row>
