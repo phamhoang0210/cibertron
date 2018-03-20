@@ -21,6 +21,7 @@ class IndexScreen extends React.Component {
     const senderParams = getFilterParamsAndSyncUrl(indexState.get('senderFilters'), location)
     
     actions.fetchSenders(senderParams)
+    actions.fetchAllUsers({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {

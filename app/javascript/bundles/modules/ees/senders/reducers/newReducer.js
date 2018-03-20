@@ -32,6 +32,28 @@ export default function newReducer($$state = initialState, action = null) {
       })
     }
 
+    case actionTypes.SET_IS_CREATING_BUDGETS: {
+      return $$state.merge({
+        isCreatingBudgets: true,
+      })
+    }
+
+    case actionTypes.CREATE_BUDGETS_SUCCESS: {
+      return $$state.merge({
+        isCreatingBudgets: false,
+        budget: record,
+        alert: createSuccessAlert(`Budgets tạo thành công!`),
+      })
+    }
+
+    case actionTypes.CREATE_BUDGETS_FAILURE: {
+      return $$state.merge({
+        isCreatingBudgets: false,
+        alert: parseError(error)
+      })
+    }
+
+
     default: {
       return $$state.merge({
         alert: null

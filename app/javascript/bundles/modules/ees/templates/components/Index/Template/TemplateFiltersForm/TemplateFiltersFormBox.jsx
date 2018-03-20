@@ -46,7 +46,7 @@ class TemplateFiltersFormBox extends React.Component {
         const {actions, indexState, location} = this.props
         let templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, this.formatFormData(values))
         
-        actions.fetchTemplates(templateParams)
+        actions.fetchMarketingTemplates(templateParams)
       }
     })
   }
@@ -54,22 +54,21 @@ class TemplateFiltersFormBox extends React.Component {
     let formatedValues = values
     const inCompFields = []
     const timerangeFields = ['created_at']
+    
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[field] = {in: formatedValues[field]}
+      compconds[`${field}.in`] = formatedValues[field]
       delete formatedValues[field]
     })
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
-      compconds[field] = {}
-      compconds[field]['gte'] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-
-
-    return mergeDeep([formatedValues, compconds])
+    
+    return mergeDeep([formatedValues, {compconds: compconds}])
   }
   handleExport() {
     const {actions, indexState, location} = this.props
