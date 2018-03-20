@@ -24,6 +24,14 @@ export const appLocale = {
           required: 'Email là trường bắt buộc'
         }
       },
+      staff_id: {
+        // attrs.email.label
+        label: 'Nhân viên',
+        errors: {
+        // attrs.email.errors.required
+          required: 'Nhân viên là trường bắt buộc'
+        }
+      },
       name: {
         // attrs.name.label
         label: 'Tên',
