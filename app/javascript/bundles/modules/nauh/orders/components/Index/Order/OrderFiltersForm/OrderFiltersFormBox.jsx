@@ -7,7 +7,7 @@ import {
   getInitialValue,
 } from 'helpers/applicationHelper'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
-import { NAUH_BASE_URL, ORDER_EXPORT_API_PATH } from '../../../../constants/paths'
+import { ORDER_EXPORT_API_PATH } from '../../../../constants/paths'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import moment from 'moment'

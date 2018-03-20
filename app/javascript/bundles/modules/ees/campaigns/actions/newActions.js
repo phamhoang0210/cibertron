@@ -1,6 +1,6 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {FURION_INTERNAL_BASE_URL, CAMPAIGNS_API_PATH} from '../constants/paths'
+import {CAMPAIGNS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 

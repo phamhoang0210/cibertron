@@ -1,8 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  CRONUS_BASE_URL, NODES_API_PATH, CATEGORIES_API_PATH, COMBOS_API_PATH,
-  COURSES_API_PATH, SOL_BASE_URL
+  NODES_API_PATH, CATEGORIES_API_PATH, COMBOS_API_PATH,
+  COURSES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
