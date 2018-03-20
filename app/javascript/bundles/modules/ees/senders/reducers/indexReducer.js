@@ -21,7 +21,7 @@ export const initialState = Immutable.fromJS({
 
 export default function indexReducer($$state = initialState, action = null) {
   const {
-    type, record, records, filters, error, senderId,
+    type, record, records, filters, error, senderId,budgetId,
     sender
   } = action
   
@@ -159,6 +159,56 @@ export default function indexReducer($$state = initialState, action = null) {
             budgetItem => (
               budgetItem.merge({
                 isDeleting: false,
+              })
+            )
+          )
+        )).merge({
+          alert: parseError(error),
+        })
+      ))
+    }
+    case actionTypes.SET_IS_UPDATING_BUDGET: {
+      return $$state.withMutations(state => (
+        state.update('budgets', budgets => (
+          budgets.update(
+            budgets.findIndex(c => c.get('id') == budgetId),
+            budgetItem => (
+              budgetItem.merge({
+                isUpdating: true,
+              })
+            )
+          )
+        )).merge({
+          alert: null,
+        })
+      ))
+    }
+
+    case actionTypes.UPDATE_BUDGET_SUCCESS: {
+      return $$state.withMutations(state => (
+        state.update('budgets', budgets => (
+          budgets.update(
+            budgets.findIndex(c => c.get('id') == budgetId),
+            budgetItem => (
+              budgetItem.merge({
+                isUpdating: false,
+              })
+            )
+          )
+        )).merge({
+          alert: null,
+        })
+      ))
+    }
+
+    case actionTypes.UPDATE_BUDGET_FAILURE: {
+      return $$state.withMutations(state => (
+        state.update('budgets', budgets => (
+          budgets.update(
+            budgets.findIndex(c => c.get('id') == budgetId),
+            budgetItem => (
+              budgetItem.merge({
+                isUpdating: false,
               })
             )
           )

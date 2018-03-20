@@ -200,3 +200,72 @@ export function fetchUsers(data) {
       .catch(error => dispatch(fetchUsersFailure(error)))
   }
 }
+//Create Budgets
+function setIsCreatingBudgets() {
+  return {
+    type: actionTypes.SET_IS_CREATING_BUDGETS,
+  }
+}
+
+function createBudgetsSucces(record) {
+  return {
+    type: actionTypes.CREATE_BUDGETS_SUCCESS,
+    record
+  }
+}
+
+function createBudgetsFailure(error) {
+  return {
+    type: actionTypes.CREATE_BUDGETS_FAILURE,
+    error,
+  }
+}
+
+export function createBudgets(params = {}) {
+  return dispatch => {
+    dispatch(setIsCreatingBudgets())
+
+    return authRequest
+      .submitEntity(`${MEEPO_BASE_URL}${BUDGETS_API_PATH}`, params)
+      .then(res => {
+        dispatch(createBudgetsSucces(res.data))
+        dispatch(fetchBudgets())
+      })
+      .catch(error => dispatch(createBudgetsFailure(error)))
+  }
+}
+
+//Update Budget
+function setIsUpdatingBudget(budgetId) {
+  return {
+    type: actionTypes.SET_IS_UPDATING_BUDGET,
+    budgetId,
+  }
+}
+
+function updateBudgetSuccess(record) {
+  return {
+    type: actionTypes.UPDATE_BUDGET_SUCCESS,
+    record,
+  }
+}
+
+function updateBudgetFailure(error, budgetId) {
+  return {
+    type: actionTypes.UPDATE_BUDGET_FAILURE,
+    error,
+    budgetId,
+  }
+}
+
+export function updateBudget(budgetId, params = {}) {
+  return dispatch => {
+    dispatch(setIsUpdatingBudget(budgetId))
+    authRequest
+      .putEntity(`${MEEPO_BASE_URL}${BUDGETS_API_PATH}/${budgetId}`, params)
+      .then(res => {dispatch(updateBudgetSuccess(res.data))
+      dispatch(fetchBudgets())
+    })
+      .catch(error => dispatch(updateBudgetFailure(error, budgetId)))
+  }
+}
