@@ -44,7 +44,6 @@ class CampaignFiltersFormBox extends React.Component {
       if (!err) {
         const {actions, indexState, location} = this.props
         let campaignParams = getFilterParamsAndSyncUrl(indexState.get('campaignFilters'), location, this.formatFormData(values))
-        debugger
         actions.fetchCampaigns(campaignParams)
       }
     })
