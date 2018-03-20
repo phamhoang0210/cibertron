@@ -5,7 +5,7 @@ Jwtauth.setup do |config|
   config.jwt_rsa_pub = OpenSSL::PKey::RSA.new(File.read('config/authservice_jwt.pub'))
 
   # Define authservice path for get session (jwt)
-  config.session_path = (Rails.env.development? ? 'http://localhost:9000' : 'https://authservice.edumall.io') + '/api/v01/sessions'
+  config.session_path = ENV['AUTHSERVICE_BASE_URL'] + '/api/v01/sessions'
 
   # Entity represent for current session
   # config.session_entity = User

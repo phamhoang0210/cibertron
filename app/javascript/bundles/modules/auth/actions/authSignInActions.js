@@ -1,6 +1,5 @@
 import request from 'libs/requests/request'
 import * as actionTypes from '../constants/actionTypes'
-import {AUTHSERVICE_BASE_URL} from '../constants/paths'
 import * as authHelper from 'helpers/auth/authHelper'
 
 function setIsSigning() {

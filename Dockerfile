@@ -1,16 +1,17 @@
-FROM duongtv/ruby-node-gaia:1.0.4
+FROM starefossen/ruby-node:2-8
+ENV MYSQL_PWD gaia_test
+RUN echo "mysql-server mysql-server/root_password password $MYSQL_PWD" | debconf-set-selections
+RUN echo "mysql-server mysql-server/root_password_again password $MYSQL_PWD" | debconf-set-selections
+RUN apt-get update && apt-get install mysql-server -y
+COPY Gemfile Gemfile.lock ./
+RUN bundle install --without development test --deployment --binstubs --path=/home/rails/bundle
 ADD . /home/rails/gaia
 WORKDIR /home/rails/gaia
-RUN apt-get update -qq && \
-    cd /home/rails/gaia && \
-    mkdir -p /var/log/unicorn && \
-    mkdir -p /home/unicorn/pids && \
-    mv /home/rails/node/node_modules /home/rails/gaia/node_modules && \
-    bundle install --without development test --deployment --path=/home/rails/bundle && \
-    yarn install && \
-    export RAILS_ENV=production && \
-    rails db:migrate && \
-    rails assets:precompile
+RUN cd /home/rails/gaia
+ENV NODE_OPTIONS --max_old_space_size=16384
+RUN yarn install
+RUN rails assets:precompile
+RUN mkdir -p /var/log/unicorn && mkdir -p /home/unicorn/pids && chmod -R 777 /home/rails/gaia
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
-CMD ["unicorn", "-c", "config/unicorn.rb"]
+CMD /home/rails/gaia/gaia.sh

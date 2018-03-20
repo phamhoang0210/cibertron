@@ -1,10 +1,10 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  NAUH_BASE_URL, NODES_API_PATH, CATEGORIES_API_PATH, 
-  USERSERVICE_BASE_URL, USERS_API_PATH, COURSES_API_PATH,
-  COMBOS_API_PATH, SOL_BASE_URL, CAMPAIGNS_API_PATH,
-  CRONUS_BASE_URL, GAMBIT_BASE_URL, PROVINCES_API_PATH,
+  NODES_API_PATH, CATEGORIES_API_PATH,
+  USERS_API_PATH, COURSES_API_PATH,
+  COMBOS_API_PATH, CAMPAIGNS_API_PATH,
+  PROVINCES_API_PATH,
   ORDER_LEVELS_API_PATH, PAYMENT_METHODS_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'

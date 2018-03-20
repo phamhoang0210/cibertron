@@ -1,0 +1,5 @@
+<% ENV.keys.select{ |str| str.include?('BASE_URL')}.each do |env| %>
+  <script>
+    window["<%= env %>"] = "<%= ENV[env] %>"
+  </script>
+<% end %>

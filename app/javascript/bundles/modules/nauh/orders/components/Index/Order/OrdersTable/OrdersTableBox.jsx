@@ -11,7 +11,6 @@ import { ORDERS_URL } from '../../../../constants/paths'
 import { LEVEL_COLOR_MAPPINGS } from '../../../../constants/constants'
 import moment from 'moment'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
-import { EROS_BASE_URL } from 'app/constants/paths'
 import { injectIntl } from 'react-intl'
 
 const { Search } = Input

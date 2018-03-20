@@ -6,7 +6,6 @@ import {Link} from 'react-router'
 import {SIGN_UP_PATH} from 'app/constants/paths'
 import {GoogleLogin} from 'react-google-login'
 import request from 'libs/requests/request'
-import {AUTHSERVICE_BASE_URL} from 'app/constants/paths'
 import * as authHelper  from 'helpers/auth/authHelper'
 
 class SignInForm extends React.Component {

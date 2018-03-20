@@ -1,8 +1,8 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  FURION_INTERNAL_BASE_URL, CAMPAIGNS_API_PATH, 
-  AUTHSERVICE_BASE_URL , AUTHS_API_PATH
+  CAMPAIGNS_API_PATH,
+  AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -157,7 +157,7 @@ export function fetchUsers(data) {
   return dispatch => {
     dispatch(setIsFetchingUsers())
     var list_user_id = []
-    
+
     if(data.records){
       data.records.map(record => {
         list_user_id.push(record.user_id)
