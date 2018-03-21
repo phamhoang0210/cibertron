@@ -461,7 +461,7 @@ export function fetchRecommendation(input, limit) {
     dispatch(setIsFetchingRecommendation())
 
     requestManager
-      .get(`${EROS_IO_BASE_URL}${RECOMMENDATION_API}?q=${input}&limit=${limit}`)
+      .get(`${EROS_BASE_URL}${RECOMMENDATION_API}?q=${input}&limit=${limit}`)
       .then(res => dispatch(fetchRecommendationSuccess(res.data)))
       .catch(error => dispatch(fetchRecommendationFailure(error)))
   }
