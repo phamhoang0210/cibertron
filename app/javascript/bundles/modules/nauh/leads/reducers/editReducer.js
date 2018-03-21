@@ -36,7 +36,9 @@ export const initialState = Immutable.fromJS({
   recCourses: [],
   isCreateRecommend: false,
   isGetRecommendNauh: false,
-  recommendNauh: []
+  recommendNauh: [],
+  isFetchingUser: false,
+  user: null
 })
 
 export default function editReducer($$state = initialState, action = null) {
@@ -389,6 +391,28 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_L8_REPORT_FAILURE: {
       return $$state.merge({
         isFetchingL8Report: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_USER: {
+      return $$state.merge({
+        isFetchingUser: true,
+        alert: null,
+        user: null,
+      })
+    }
+
+    case actionTypes.FETCH_USER_SUCCESS: {
+      return $$state.merge({
+        isFetchingUser: false,
+        user: record,
+      })
+    }
+
+    case actionTypes.FETCH_USER_FAILURE: {
+      return $$state.merge({
+        isFetchingUser: false,
+        alert: parseError(error)
       })
     }
 
