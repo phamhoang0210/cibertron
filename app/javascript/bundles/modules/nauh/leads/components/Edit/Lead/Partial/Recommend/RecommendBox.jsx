@@ -50,8 +50,7 @@ class RecommendBox extends React.Component {
     this.props.actions.fetchRecommendation(email, 10)
     this.props.actions.fetchRecommendationNauh(lead_id)
     actions.fetchCampaigns({per_page: 'infinite'})
-
-
+      //actions.fetchUser(lead.staff_id, {fields: 'basic_profile{}'})
   }
 
   // Xử lý sự kiện khi check vào checkbox

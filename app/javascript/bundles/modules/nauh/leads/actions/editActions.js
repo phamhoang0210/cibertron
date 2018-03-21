@@ -461,7 +461,7 @@ export function fetchRecommendation(input, limit) {
     dispatch(setIsFetchingRecommendation())
 
     requestManager
-      .get(`${RECOMMENDATION_API}?q=${input}&limit=${limit}`)
+      .get(`${EROS_BASE_URL}${RECOMMENDATION_API}?q=${input}&limit=${limit}`)
       .then(res => dispatch(fetchRecommendationSuccess(res.data)))
       .catch(error => dispatch(fetchRecommendationFailure(error)))
   }
@@ -496,5 +496,34 @@ export function createRecommendation(params) {
       .submitEntity(`${NAUH_BASE_URL}${RECOMMENDATION_CREATE_PATH}`, params)
       .then(res => dispatch(createRecommendationSuccess(res.data)))
       .catch(error => dispatch(createRecommendationFailure(error)))
+  }
+}
+function setIsFetchingUser() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_USER,
+  }
+}
+
+function fetchUserSuccess(record) {
+  return {
+    type: actionTypes.FETCH_USER_SUCCESS,
+    record,
+  }
+}
+
+function fetchUserFailure(error) {
+  return {
+    type: actionTypes.FETCH_USER_FAILURE,
+    error,
+  }
+}
+
+export function fetchUser(userId, params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingUser())
+    authRequest
+      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}/${userId}`, params)
+      .then(res => dispatch(fetchUserSuccess(res.data)))
+      .catch(error => dispatch(fetchUserFailure(error)))
   }
 }
