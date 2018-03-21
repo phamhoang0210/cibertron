@@ -6,7 +6,6 @@ import {Link} from 'react-router'
 import {SIGN_UP_PATH} from 'app/constants/paths'
 import {GoogleLogin} from 'react-google-login'
 import request from 'libs/requests/request'
-import {AUTHSERVICE_BASE_URL} from 'app/constants/paths'
 import * as authHelper  from 'helpers/auth/authHelper'
 
 class SignInForm extends React.Component {
@@ -103,13 +102,14 @@ class SignInForm extends React.Component {
           >
             Log in
           </Button>
-          <GoogleLogin
-            clientId="756159619050-e6fc577akgdnukparqn0a4qsctdei4k2.apps.googleusercontent.com"
-            buttonText="Sign In with Google"
-            className="ant-btn login-form-button ant-btn-danger"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-          />
+            <GoogleLogin
+              clientId="756159619050-e6fc577akgdnukparqn0a4qsctdei4k2.apps.googleusercontent.com"
+              buttonText="Sign In with Google"
+              className="ant-btn login-form-button ant-btn-danger"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+            />
+          
          {/*Or <Link to={SIGN_UP_PATH}>register now!</Link>*/}
         </Form.Item>
       </Form>

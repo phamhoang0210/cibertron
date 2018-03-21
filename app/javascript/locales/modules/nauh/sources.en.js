@@ -61,6 +61,10 @@ export const appLocale = {
             // index.sources_table.headers.l8_count.title
             title: "L8"
           },
+          address: {
+            // index.sources_table.headers.address.title
+            title: "Address"
+          },
           interest: {
             // index.sources_table.headers.interest.title
             title: "Interest"

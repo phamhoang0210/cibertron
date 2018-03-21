@@ -17,6 +17,7 @@ class IndexScreen extends React.Component {
     campaignParams["fields"]="id,name,created_at,status,updated_at,user_id,amount,unsubscribed,opened"
     actions.fetchCampaigns(campaignParams)
     actions.fetchBudget()
+    actions.fetchAllUsers({per_page: 'infinite'})
     actions.fetchUsedEmails()
   }
 

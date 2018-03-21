@@ -136,8 +136,12 @@ class SendersTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
-    const {actions, indexState, location} = this.props
-    let senderParams = getFilterParamsAndSyncUrl(indexState.get('senderFilters'), location, {full_search: keyword})
+    const {actions, indexState} = this.props
+    let senderParams = getFilterParamsAndSyncUrl(
+      indexState.get('senderFilters'),
+      location,
+       {full_search: keyword}
+    )
     actions.fetchSenders(senderParams)
   }
 
@@ -159,6 +163,12 @@ class SendersTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
+            <Search
+              enterButton
+              defaultValue={this.initialValues.search}
+              placeholder="email,name"
+              onSearch={this.handleSearch}
+            />
           </Col>
         </Row>
         

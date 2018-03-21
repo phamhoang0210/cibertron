@@ -24,12 +24,28 @@ export const appLocale = {
           required: 'Email là trường bắt buộc'
         }
       },
+      staff_id: {
+        // attrs.email.label
+        label: 'Nhân viên',
+        errors: {
+        // attrs.email.errors.required
+          required: 'Nhân viên là trường bắt buộc'
+        }
+      },
       name: {
         // attrs.name.label
         label: 'Tên',
         errors: {
         // attrs.name.errors.required
           required: 'Name là trường bắt buộc'
+        }
+      },
+      budget: {
+        // attrs.budget.label
+        label: 'Budget',
+        errors: {
+        // attrs.budget.errors.required
+          required: 'Budget là trường bắt buộc'
         }
       },
     },

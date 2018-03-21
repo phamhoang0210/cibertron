@@ -15,6 +15,7 @@ class IndexScreen extends React.Component {
     const logParams = getFilterParamsAndSyncUrl(indexState.get('logFilters'), location)
     logParams["fields"] = "id, email_open_at, error, created_at, group_name, content, sender, email, status"
     actions.fetchLogs(logParams)
+    actions.fetchGroups({"fields": "id, name"})
   }
 
   componentWillReceiveProps(nextProps) {

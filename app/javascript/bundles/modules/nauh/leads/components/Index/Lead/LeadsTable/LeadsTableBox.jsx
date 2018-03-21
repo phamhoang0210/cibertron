@@ -57,7 +57,7 @@ class LeadsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.info.label'}),
       dataIndex: 'name',
       key: 'info',
-      width: '15%',
+      width: '18%',
       render: (value, record) => (
         <div>
           <b>{record.name}</b><br/>
@@ -74,7 +74,7 @@ class LeadsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.interest.label'}),
       dataIndex: 'interest',
       key: 'interest',
-      width: '12%',
+      width: '15%',
       render: (value, record) => (
         <div>
           <TextEditable
@@ -109,7 +109,7 @@ class LeadsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.last_lead_care_history.label'}),
       dataIndex: 'last_lead_care_history',
       key: 'last_lead_care_history',
-      width: '12%',
+      width: '17%',
       render: value => {
         if(value) {
           const {sharedState} = this.props
@@ -125,21 +125,30 @@ class LeadsTableBox extends React.Component {
         }
       }
     }, {
-      title: intl.formatMessage({id: 'attrs.assigned_at.label'}),
+      title: intl.formatMessage({id: 'attrs.date.label'}),
       dataIndex: 'assigned_at',
       key: 'assigned_at',
       sorter: true,
-      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
-    }, {
-      title: intl.formatMessage({id: 'attrs.imported_at.label'}),
-      dataIndex: 'imported_at',
-      key: 'imported_at',
-      sorter: true,
-      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
-    }, {
+      width: '11%',
+      render: (value, row) => {
+        return (
+          <div>
+            {value ? 
+              <Tooltip title={intl.formatMessage({id: 'attrs.assigned_at.label'})}>
+                <Tag color="#2db7f5">{moment(value).format(SHORT_DATETIME_FORMAT)}</Tag>
+              </Tooltip> : ''}
+            {row.imported_at ? 
+              <Tooltip title={intl.formatMessage({id: 'attrs.imported_at.label'})}>
+                <Tag style={{ marginTop: '10px' }} color="#87d068">{moment(row.imported_at).format(SHORT_DATETIME_FORMAT)}</Tag>
+              </Tooltip>  : ''}
+          </div>
+        )
+      }
+    },{
       title: intl.formatMessage({id: 'attrs.lead_status_id.label'}),
       dataIndex: 'lead_status',
       key: 'lead_status',
+      width: '10%',
       render: (value, record) => {
         const {sharedState} = this.props
         const leadStatuses = sharedState.get('leadStatuses')
@@ -162,6 +171,7 @@ class LeadsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.lead_level_id.label'}),
       dataIndex: 'lead_level.name',
       key: 'lead_level_name',
+      width: '4%',
       render: (value, record) => {
         const {sharedState} = this.props
         const leadLevels = sharedState.get('leadLevels')
@@ -183,6 +193,7 @@ class LeadsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.staff_id.label'}),
       dataIndex: 'staff_id',
       key: 'staff_id',
+      width: '13%',
       render: (value, record) => {
         const {sharedState} = this.props
         const users = sharedState.get('users')
@@ -204,7 +215,7 @@ class LeadsTableBox extends React.Component {
     }, {
       title: intl.formatMessage({id: 'attrs.actions.label'}),
       key: 'action',
-      width: 100,
+      width: '5%',
       render: (cell, row) => {
         return (
           <div className="text-align--right">
@@ -214,7 +225,6 @@ class LeadsTableBox extends React.Component {
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
             <br/>
             <Popconfirm
@@ -231,7 +241,6 @@ class LeadsTableBox extends React.Component {
                 loading={row.isDeleting}
                 style={{ width: '100%' }}
               >
-                {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
               </Button>
             </Popconfirm>
           </div>

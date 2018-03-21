@@ -8,9 +8,6 @@
 /.bundle
 
 # Ignore database config
-/config/database.yml
-/config/mongoid.yml
-/config/secrets.yml
 /config/authservice_jwt.pub
 
 # Ignore all logfiles and tempfiles.
@@ -18,7 +15,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-
+.ssh/id_rsa
 /node_modules
 /yarn-error.log
 
@@ -27,3 +24,9 @@
 /public/packs-test
 /node_modules
 /.idea
+=======
+.env
+.env.production
+.env.review
+.env.staging
+.env.canary

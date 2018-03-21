@@ -267,6 +267,10 @@ export const appLocale = {
           required: 'Ngày import là trường bắt buộc'
         }
       },
+      date: {
+        // attrs.date.label
+        label: 'Ngày'
+      },
       actions: {
         // attrs.actions.label
         label: ' ',

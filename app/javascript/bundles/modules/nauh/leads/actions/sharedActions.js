@@ -1,10 +1,10 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  NAUH_BASE_URL, LEAD_LEVELS_API_PATH, CATEGORIES_API_PATH, SOL_BASE_URL, COURSES_API_PATH,
-  USERSERVICE_BASE_URL, USERS_API_PATH, LEAD_STATUSES_API_PATH, COMBOS_API_PATH,
-  LEADS_API_PATH, CRONUS_BASE_URL, CAMPAIGNS_API_PATH, PAYMENT_METHODS_API_PATH,
-  GAMBIT_BASE_URL, PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH, SEXES_API_PATH
+  LEAD_LEVELS_API_PATH, CATEGORIES_API_PATH, COURSES_API_PATH,
+  USERS_API_PATH, LEAD_STATUSES_API_PATH, COMBOS_API_PATH,
+  LEADS_API_PATH, CAMPAIGNS_API_PATH, PAYMENT_METHODS_API_PATH,
+  PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH, SEXES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -63,6 +63,16 @@ function fetchUsersFailure(error) {
 
 export function fetchUsers(params = {}) {
   return dispatch => {
+    // Update this later
+    // Unofficial solution for user author.
+    // Sale manager just wanna see all their staff
+    // But we have some staffs with role maketer + saler
+    var array = ['lanptt','vanntp','thuna','thienlt','trangntq7','phuongntm12',
+                  'tuyetvt','hangntt21','linhltt5','linhpk4','huyennt36','hoamt2',
+                  'vunq','maivt5','linhnh16','duongbt','trangnq7','chienl','sangnv2']
+    params['compconds'] = {'username.in': array}
+    params['per_page'] = 'infinite'
+    // End
     dispatch(setIsFetchingUsers())
     authRequest
       .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)

@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  A3_STORAGE_BASE_URL, SOURCES_API_PATH, EROS_BASE_URL, L8_REPORT_API_PATH
+  SOURCES_API_PATH, L8_REPORT_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
