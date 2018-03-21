@@ -23,6 +23,8 @@
 /public/packs
 /public/packs-test
 /node_modules
+/.idea
+=======
 .env
 .env.production
 .env.review

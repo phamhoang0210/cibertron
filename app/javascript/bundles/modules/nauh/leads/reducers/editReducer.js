@@ -32,6 +32,13 @@ export const initialState = Immutable.fromJS({
   isUpdatingLeadCareHistory: false,
   isFetchingErosOrders: false,
   isFetchingL8Report: false,
+  isRec: false,
+  recCourses: [],
+  isCreateRecommend: false,
+  isGetRecommendNauh: false,
+  recommendNauh: [],
+  isFetchingUser: false,
+  user: null
 })
 
 export default function editReducer($$state = initialState, action = null) {
@@ -39,8 +46,67 @@ export default function editReducer($$state = initialState, action = null) {
     type, record, records, filters, error, leadId, leadCareHistoryId,
     audio_link, data
   } = action
-  
+
   switch (type) {
+
+    // Get Recommand from Nauth
+    case actionTypes.SET_IS_FETCHING_RECOMMENDATION_NAUH: {
+      return $$state.merge({ isGetRecommendNauh: true })
+    }
+
+    case actionTypes.FETCH_RECOMMENDATION_SUCESS_NAUH: {
+      return $$state.merge({
+        isGetRecommendNauh: false,
+        recommendNauh: action.data,
+      })
+    }
+
+    case actionTypes.FETCH_RECOMMENDATION_FAILURE_NAUH: {
+      return $$state.merge({
+        isGetRecommendNauh: false,
+        notification: parseError(error)
+      })
+    }
+
+    // Get Recommand from eros
+    case actionTypes.SET_IS_FETCHING_RECOMMENDATION: {
+      return $$state.merge({ isRec: true })
+    }
+
+    case actionTypes.FETCH_RECOMMENDATION_SUCESS: {
+      return $$state.merge({
+        isRec: false,
+        recCourses: action.data,
+      })
+    }
+
+    case actionTypes.FETCH_RECOMMENDATION_FAILURE: {
+      return $$state.merge({
+        isRec: false,
+        notification: parseError(error)
+      })
+    }
+
+    // Create Recommand
+    case actionTypes.SET_IS_CREATE_RECOMMENDATION: {
+      return $$state.merge({ isCreateRecommend: true })
+    }
+
+    case actionTypes.CREATE_RECOMMENDATION_SUCESS: {
+      return $$state.merge({
+        isCreateRecommend: false,
+        notification: createSuccessAlert('Gửi thành công!'),
+      })
+    }
+
+    case actionTypes.CREATE_RECOMMENDATION_FAILURE: {
+      return $$state.merge({
+        isCreateRecommend: false,
+        notification: parseError(error)
+      })
+    }
+
+    ////
     case actionTypes.SET_IS_FETCHING_LEAD: {
       return $$state.merge({
         isFetchingLead: true,
@@ -206,7 +272,7 @@ export default function editReducer($$state = initialState, action = null) {
 
     case actionTypes.FETCH_LEAD_CARE_HISTORIES_SUCCESS: {
       return $$state.merge({
-       isFetchingLeadCareHistories: false, 
+       isFetchingLeadCareHistories: false,
        leadCareHistories: records,
        leadCareHistoryFilters: filters,
       })
@@ -325,6 +391,28 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_L8_REPORT_FAILURE: {
       return $$state.merge({
         isFetchingL8Report: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_USER: {
+      return $$state.merge({
+        isFetchingUser: true,
+        alert: null,
+        user: null,
+      })
+    }
+
+    case actionTypes.FETCH_USER_SUCCESS: {
+      return $$state.merge({
+        isFetchingUser: false,
+        user: record,
+      })
+    }
+
+    case actionTypes.FETCH_USER_FAILURE: {
+      return $$state.merge({
+        isFetchingUser: false,
+        alert: parseError(error)
       })
     }
 
