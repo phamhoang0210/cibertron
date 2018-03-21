@@ -884,6 +884,10 @@ export const appLocale = {
               title: 'Trạng thái & Nội dung chăm sóc'
             },
           },
+          lead_recommend: {
+            // edit.lead.partial.lead_recommend.title
+            title: 'Đề xuất khóa học',
+          },
         }
       }
     },
