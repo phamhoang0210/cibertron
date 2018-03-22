@@ -11,6 +11,7 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { generateErosOrderLink } from 'helpers/applicationHelper'
+import { generateBifrostTransactionLink } from 'helpers/applicationHelper'
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -88,6 +89,64 @@ class CustomerInfo extends React.Component {
           <a href={generateErosOrderLink(record.id)} target="_blank">
             {intl.formatMessage({id: 'attrs.eros_actions.view_on_eros.text'})}
           </a>
+        </span>
+      ),
+    }]
+
+    this.bifrostTransactionColumns = [{
+      title: intl.formatMessage({id: 'attrs.eros_created_at.label'}),
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (value, record) => (
+      <div>
+      {record.created_at.substring(11,13) + ":" + record.created_at.substring(14,16) + " "+ record.created_at.substring(8,10) + "/" + record.created_at.substring(5,7) + "/" + record.created_at.substring(0,4)}
+      </div>
+      )
+    }, {
+      title: intl.formatMessage({id: 'attrs.eros_customer.label'}),
+      dataIndex: 'name',
+      key: 'name',
+      width: '30%',
+      render: (value, record) => (
+        <div>
+          {record.buyer.name}<br/>
+          • {record.buyer.mobile}<br/>
+          • {record.buyer.email}<br/>
+          • <i>{record.buyer.address}</i>
+        </div>
+      ),
+    }, {
+      title: intl.formatMessage({id: 'attrs.eros_course.label'}),
+      dataIndex: 'course',
+      key: 'course',
+      width: '25%',
+      render: (value, record) => (
+        <div>
+          {record.courses.map(function(course, key){
+            return(
+              <div key={course["id"]}>
+                <b>{course["code"]}</b><br/>
+                <i>{course["name"]}</i><br/>
+              </div>
+            )
+            })}
+        </div>
+      )
+    }, {
+      title: intl.formatMessage({id: 'attrs.eros_level.label'}),
+      dataIndex: 'level',
+      key: 'level',
+      render: (value, record) => (
+        <div>
+          {record.status == "success" ? "L8":"L7"}
+        </div>
+      )
+    }, {
+      title: intl.formatMessage({id: 'attrs.eros_actions.label'}),
+      key: 'actions',
+      render: (text, record) => (
+        <span>
+          <a href={generateBifrostTransactionLink(record.id)} target="_blank">Xem trên Bifrost</a>
         </span>
       ),
     }]
@@ -172,9 +231,9 @@ class CustomerInfo extends React.Component {
     if(tabKey == 'histories') {
       const {actions, editState} = this.props
       const lead = editState.get('lead')
-
-      actions.fetchErosOrders({email: lead.get('email'), mobile: lead.get('mobile')})
-      actions.fetchL8Report({mobile: [lead.get('mobile')]})
+      actions.fetchErosOrders({email: lead.get('email').replace(/\s/g, ''), mobile: lead.get('mobile').replace(/\s/g, '')})
+      actions.fetchBifrostTransactions({email: lead.get('email').replace(/\s/g, ''), mobile: lead.get('mobile').replace(/\s/g, ''), source: 'eop_gateway'})
+      actions.fetchL8Report({mobile: [lead.get('mobile').replace(/\s/g, '')]})
     }
   }
 
@@ -413,6 +472,9 @@ class CustomerInfo extends React.Component {
     const isFetchingErosOrders = editState.get('isFetchingErosOrders')
     const isFetchingL8Report = editState.get('isFetchingL8Report')
     const erosOrders = editState.get('erosOrders')
+    const isFetchingBifrostTransactions = editState.get('isFetchingBifrostTransactions')
+    const bifrostTransactions = editState.get('bifrostTransactions')
+    const eopL8Count = bifrostTransactions.toJS().filter(function(item){return item["status"] == "success"}).length
     const l8Count = editState.getIn(['l8Report', lead.get('mobile'), 'l8']) || 0
     const loadingItem = <Spin indicator={(<Icon type="loading" style={{ fontSize: 12 }} spin />)} />
 
@@ -428,6 +490,20 @@ class CustomerInfo extends React.Component {
           dataSource={erosOrders.toJS()}
           pagination={{pageSize: 5}}
           loading={isFetchingErosOrders}
+        />
+        <div style={{padding: '0px 8px 8px 8px'}}>
+          <span>Nguồn: <b>eop_gateway</b></span>
+        </div>
+        <div style={{padding: '0px 8px 8px 8px'}}>
+          <span>L8: <b>{eopL8Count}</b></span>
+        </div>
+        <Table
+          size="small"
+          rowKey="id"
+          columns={this.bifrostTransactionColumns}
+          dataSource={bifrostTransactions.toJS()}
+          pagination={{pageSize: 5}}
+          loading={isFetchingBifrostTransactions}
         />
       </div>
     )
