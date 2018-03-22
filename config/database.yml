@@ -72,10 +72,3 @@ review:
   username: <%= ENV['GAIA_MYSQL_USER'] %>
   password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
   url:      <%= ENV['GAIA_MYSQL_HOST'] %>
-
-canary:
-  <<: *default
-  database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
-  username: <%= ENV['GAIA_MYSQL_USER'] %>
-  password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
-  url:      <%= ENV['GAIA_MYSQL_HOST'] %>
