@@ -4,6 +4,7 @@ import OrderInfo from './Lead/Partial/OrderInfo'
 import OrdersBox from './Lead/Partial/Orders/OrdersBox'
 import LeadCareHistoriesTableBox from './Lead/Partial/LeadCareHistory/LeadCareHistoriesTable/LeadCareHistoriesTableBox'
 import LeadCareHistoryUpdateFormBox from './Lead/Partial/LeadCareHistory/LeadCareHistoryUpdateForm/LeadCareHistoryUpdateFormBox'
+import RecommendBox from './Lead/Partial/Recommend/RecommendBox'
 import { injectIntl } from 'react-intl'
 import { Row, Col, notification, Tabs, Spin } from 'antd'
 
@@ -42,7 +43,9 @@ class EditScreen extends React.Component {
   render() {
     const {editState, intl} = this.props
     const lead = editState.get('lead')
-    
+
+
+
     const isFetchingLead = editState.get('isFetchingLead')
 
     return (
@@ -60,6 +63,11 @@ class EditScreen extends React.Component {
               </Col>
               <Col span={18}>
                 <CustomerInfo {...this.props}/>
+              </Col>
+            </Row>
+            <Row gutter={8}>
+              <Col span={24}>
+                <RecommendBox {...this.props}/>
               </Col>
             </Row>
             <Row gutter={8}>

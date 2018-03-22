@@ -1,10 +1,11 @@
 import authRequest from 'libs/requests/authRequest'
+import requestManager from 'axios'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  LEADS_API_PATH, ORDERS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
+  LEADS_API_PATH, ORDERS_API_PATH, TRANSACTIONS_API_PATH, LEAD_CARE_HISTORIES_API_PATH,
   ORDERS_PURCHASE_HISTORY_API_PATH, UPDATE_LEAD_CARE_HISTORIES_API_PATH,
   LEAD_TEMPLATE_EMAIL_API_PATH,LEAD_SEND_EMAIL_API_PATH, CALL_LOG_GET_AUDIO_LINK_PATH,
-  L8_REPORT_API_PATH,
+  L8_REPORT_API_PATH, RECOMMENDATION_API, RECOMMENDATION_CREATE_PATH, RECOMMENDATION_GET_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -370,6 +371,36 @@ export function fetchErosOrders(params = {}) {
   }
 }
 
+function setIsFetchingBifrostTransactions() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_BIFROST_TRANSACTIONS,
+  }
+}
+
+function fetchBifrostTransactionsSuccess(records) {
+  return {
+    type: actionTypes.FETCH_BIFROST_TRANSACTIONS_SUCCESS,
+    records: records.result,
+  }
+}
+
+function fetchBifrostTransactionsFailure(error) {
+  return {
+    type: actionTypes.FETCH_BIFROST_TRANSACTIONS_FAILURE,
+    error,
+  }
+}
+
+export function fetchBifrostTransactions(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingBifrostTransactions())
+    authRequest
+      .fetchEntities(`${BIFROST_BASE_URL}${TRANSACTIONS_API_PATH}`, params)
+      .then(res => dispatch(fetchBifrostTransactionsSuccess(res.data)))
+      .catch(error => dispatch(fetchBifrostTransactionsFailure(error)))
+  }
+}
+
 function setIsFetchingCallLogAudioLink(leadCareHistoryId) {
   return {
     type: actionTypes.SET_IS_FETCHING_CALL_LOG_AUDIO_LINK,
@@ -399,5 +430,130 @@ export function fetchCallLogAudioLink(leadCareHistoryId) {
       .fetchEntities(`${NAUH_BASE_URL}${CALL_LOG_GET_AUDIO_LINK_PATH}`, {id: leadCareHistoryId})
       .then(res => dispatch(fetchCallLogAudioLinkSuccess(leadCareHistoryId, res.data)))
       .catch(error => dispatch(fetchCallLogAudioLinkFailure(leadCareHistoryId, error)))
+  }
+}
+
+// Get Recommend from Nauth
+function setIsFetchingRecommendationNauh() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_RECOMMENDATION_NAUH,
+  }
+}
+
+function fetchRecommendationSuccessNauh(data) {
+  return {
+    type: actionTypes.FETCH_RECOMMENDATION_SUCESS_NAUH,
+    data,
+  }
+}
+
+function fetchRecommendationFailureNauh(error) {
+  return {
+    type: actionTypes.FETCH_RECOMMENDATION_FAILURE_NAUH,
+    error,
+  }
+}
+
+export function fetchRecommendationNauh(lead_id) {
+  return dispatch => {
+    dispatch(setIsFetchingRecommendationNauh())
+
+    authRequest
+      .fetchEntities(`${NAUH_BASE_URL}${RECOMMENDATION_GET_PATH}?id=${lead_id}`)
+      .then(res => dispatch(fetchRecommendationSuccessNauh(res.data)))
+      .catch(error => dispatch(fetchRecommendationFailureNauh(error)))
+  }
+}
+
+// Get Recommend from eros
+function setIsFetchingRecommendation() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_RECOMMENDATION,
+  }
+}
+
+function fetchRecommendationSuccess(data) {
+  return {
+    type: actionTypes.FETCH_RECOMMENDATION_SUCESS,
+    data,
+  }
+}
+
+function fetchRecommendationFailure(error) {
+  return {
+    type: actionTypes.FETCH_RECOMMENDATION_FAILURE,
+    error,
+  }
+}
+
+export function fetchRecommendation(input, limit) {
+  return dispatch => {
+    dispatch(setIsFetchingRecommendation())
+
+    requestManager
+      .get(`${EROS_BASE_URL}${RECOMMENDATION_API}?q=${input}&limit=${limit}`)
+      .then(res => dispatch(fetchRecommendationSuccess(res.data)))
+      .catch(error => dispatch(fetchRecommendationFailure(error)))
+  }
+}
+
+// Create Recommend
+function setIsCreateRecommendation() {
+  return {
+    type: actionTypes.SET_IS_CREATE_RECOMMENDATION,
+  }
+}
+
+function createRecommendationSuccess(data) {
+  return {
+    type: actionTypes.CREATE_RECOMMENDATION_SUCESS,
+    data,
+  }
+}
+
+function createRecommendationFailure(error) {
+  return {
+    type: actionTypes.CREATE_RECOMMENDATION_FAILURE,
+    error,
+  }
+}
+
+export function createRecommendation(params) {
+  return dispatch => {
+    dispatch(setIsCreateRecommendation())
+
+    authRequest
+      .submitEntity(`${NAUH_BASE_URL}${RECOMMENDATION_CREATE_PATH}`, params)
+      .then(res => dispatch(createRecommendationSuccess(res.data)))
+      .catch(error => dispatch(createRecommendationFailure(error)))
+  }
+}
+function setIsFetchingUser() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_USER,
+  }
+}
+
+function fetchUserSuccess(record) {
+  return {
+    type: actionTypes.FETCH_USER_SUCCESS,
+    record,
+  }
+}
+
+function fetchUserFailure(error) {
+  return {
+    type: actionTypes.FETCH_USER_FAILURE,
+    error,
+  }
+}
+
+export function fetchUser(userId, params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingUser())
+    authRequest
+      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}/${userId}`, params)
+      .then(res => dispatch(fetchUserSuccess(res.data)))
+      .catch(error => dispatch(fetchUserFailure(error)))
   }
 }

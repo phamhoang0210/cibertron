@@ -267,6 +267,10 @@ export const appLocale = {
           required: 'Ngày import là trường bắt buộc'
         }
       },
+      date: {
+        // attrs.date.label
+        label: 'Ngày'
+      },
       actions: {
         // attrs.actions.label
         label: ' ',
@@ -879,6 +883,10 @@ export const appLocale = {
               // edit.lead.partial.lead_care_histories_table.lead_care_history_update_form.title
               title: 'Trạng thái & Nội dung chăm sóc'
             },
+          },
+          lead_recommend: {
+            // edit.lead.partial.lead_recommend.title
+            title: 'Đề xuất khóa học',
           },
         }
       }
