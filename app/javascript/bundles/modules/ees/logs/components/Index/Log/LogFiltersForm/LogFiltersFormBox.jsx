@@ -32,11 +32,17 @@ class LogFiltersFormBox extends React.Component {
 
   handleFilter(e) {
     e.preventDefault()
+    const {tabKey} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const {actions, indexState, location} = this.props
-        let logParams = getFilterParams(indexState.get('logFilters'))
-        actions.fetchLogs(mergeDeep([logParams, this.formatFormData(values)]))
+        if(tabKey=="logs"){
+          let logParams = getFilterParams(indexState.get('logFilters'))
+          actions.fetchLogs(mergeDeep([logParams, this.formatFormData(values)]))
+        }else{
+          let emailParams = getFilterParams(indexState.get('emailFilters'))
+          actions.fetchEmails(mergeDeep([emailParams, this.formatFormData(values)]))
+        }
       }
     })
   }
@@ -64,14 +70,13 @@ class LogFiltersFormBox extends React.Component {
   }
 
   render() {
-    const {indexState, form, sharedState} = this.props
+    const {indexState, form, sharedState, tabKey} = this.props
     const isFetchingLogs = indexState.get('isFetchingLogs')
     const logs = sharedState.get('logs')
     const totalPage = indexState.getIn(['logFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
     const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"}]
     const groups = indexState.get('groups')
-
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -128,6 +133,7 @@ class LogFiltersFormBox extends React.Component {
                   rules: [{ type: 'array' }],
                 })(
                   <Select
+                    disabled={(tabKey=="emails") ? true : false}
                     showSearch
                     filterOption={selectFilterOption}
                     mode="multiple"
