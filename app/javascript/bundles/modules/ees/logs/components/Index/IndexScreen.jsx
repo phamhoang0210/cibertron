@@ -2,20 +2,28 @@ import React from 'react'
 import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper'
 import LogsTableBox from './Log/LogsTable/LogsTableBox'
 import LogFiltersFormBox from './Log/LogFiltersForm/LogFiltersFormBox'
-import { notification } from 'antd'
+import EmailsTableBox from './Log/EmailsTable/EmailsTableBox'
+import { notification,Tabs } from 'antd'
 import { injectIntl } from 'react-intl'
 
+const { TabPane } = Tabs
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
+    _.bindAll(this, [
+      'handleTabChange'
+    ])
+
+    this.state = {
+      tabKey: "emails"
+    }
   }
 
   componentDidMount() {
     const {actions, indexState, railsContextState, location} = this.props
-    const logParams = getFilterParamsAndSyncUrl(indexState.get('logFilters'), location)
-    logParams["fields"] = "id, email_open_at, error, created_at, group_name, content, sender, email, status"
-    actions.fetchLogs(logParams)
-    actions.fetchGroups({"fields": "id, name"})
+    const emailParams = getFilterParamsAndSyncUrl(indexState.get('emailFilters'), location)
+    emailParams["fields"] = "id, email, c_obj, open_at, error,status,created_at,user_id"
+    actions.fetchEmails(emailParams)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +37,27 @@ class IndexScreen extends React.Component {
       })
     }
   }
-
+  handleTabChange(tabKey) {
+    if(tabKey == 'logs') {
+      const {actions, indexState, railsContextState, location} = this.props
+      const logParams = getFilterParamsAndSyncUrl(indexState.get('logFilters'), location)
+      logParams["fields"] = "id, email_open_at, error, created_at, group_name, content, sender, email, status"
+      this.setState({
+        tabKey: tabKey
+      })
+      actions.fetchLogs(logParams)
+      actions.fetchGroups({"fields": "id, name"})
+    }
+    if(tabKey == 'emails') {
+      const {actions, indexState, railsContextState, location} = this.props
+      const emailParams = getFilterParamsAndSyncUrl(indexState.get('emailFilters'), location)
+      this.setState({
+        tabKey:tabKey
+      })
+      emailParams["fields"] = "id, email, c_obj, open_at, error,status,created_at,user_id"
+      actions.fetchEmails(emailParams)
+    }
+  }
   render() {
     const {indexState, intl} = this.props
     return (
@@ -40,8 +68,15 @@ class IndexScreen extends React.Component {
           </h1>
         </div>
         <div className="box-body">
-          <LogFiltersFormBox {...this.props}/>
-          <LogsTableBox {...this.props}/>
+          <LogFiltersFormBox {...this.props} tabKey={this.state.tabKey}/>
+          <Tabs defaultActiveKey="system" size="large" onChange={this.handleTabChange}>
+            <TabPane tab="Marketing" key="emails">
+              <EmailsTableBox {...this.props}/>
+            </TabPane>
+            <TabPane tab="Systems" key="logs">
+              <LogsTableBox {...this.props}/>
+            </TabPane>
+          </Tabs>
         </div>
       </div>
     )
