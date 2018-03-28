@@ -4,7 +4,8 @@ import {
   LOGS_API_PATH,
   AUTHS_API_PATH,
   GROUPS_API_PATH,
-  EMAILS_API_PATH
+  EMAILS_API_PATH,
+  MARKETING_TEMPLATES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -68,13 +69,66 @@ export function fetchEmails(params = {}) {
     dispatch(setIsFetchingEmails())
     authRequest
       .fetchEntities(`${FURION_INTERNAL_BASE_URL}${EMAILS_API_PATH}`, params)
-      .then(res => {
+      .then(res => { 
         dispatch(fetchEmailsSuccess(res.data))
+        dispatch(fetchMarketingTemplates(res.data))
       })
       .catch(error => dispatch(fetchEmailsFailure(error)))
   }
 }
 
+// Fetch template
+function setIsFetchingMarketingTemplates() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_MARKETING_TEMPLATES,
+  }
+}
+
+function fetchMarketingTemplatesSuccess() {
+  return {
+    type: actionTypes.FETCH_MARKETING_TEMPLATES_SUCCESS,
+  }
+}
+
+function fetchMarketingTemplatesFailure(error) {
+  return {
+    type: actionTypes.FETCH_MARKETING_TEMPLATES_FAILURE,
+    error,
+  }
+}
+
+export function fetchMarketingTemplates(data) {
+  return dispatch => {
+    dispatch(setIsFetchingMarketingTemplates())
+    var list_template_id = []
+    if(data.records){
+      data.records.map(record => {
+        list_template_id.push(record.c_obj.template_id)
+      })
+    }
+    authRequest
+      .fetchEntities(`${MORPHLING_BASE_URL}${MARKETING_TEMPLATES_API_PATH}`, {'compconds': {'id.in':list_template_id}})
+      .then(res => {
+        var templates = res.data.records
+        const templates_array = {}
+        if(templates) {
+          templates.map(template => {
+            templates_array[template.id] = template.content
+          })
+
+        }
+        if(data.records && templates_array){
+          data.records.map(log => {
+            log["content"] = templates_array[log.c_obj.template_id]
+          })
+        }
+        dispatch(fetchEmailsSuccess(data))
+        dispatch(fetchMarketingTemplatesSuccess())
+        
+      })
+      .catch(error => dispatch(fetchMarketingTemplatesFailure(error)))
+  }
+}
 
 // // Fetch users
 // function setIsFetchingUsers() {

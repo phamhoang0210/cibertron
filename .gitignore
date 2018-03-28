@@ -15,7 +15,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-
+.ssh/id_rsa
 /node_modules
 /yarn-error.log
 
@@ -23,6 +23,8 @@
 /public/packs
 /public/packs-test
 /node_modules
+/.idea
+=======
 .env
 .env.production
 .env.review

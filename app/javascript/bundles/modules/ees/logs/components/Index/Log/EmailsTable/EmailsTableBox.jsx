@@ -29,6 +29,8 @@ class EmailsTableBox extends React.Component {
     _.bindAll(this, [
       'handleTableChange',
       'handleSearch',
+      'handleShowTemplateModal',
+      'handleCancelTemplateModal'
     ])
 
     this.columns = [
@@ -72,6 +74,7 @@ class EmailsTableBox extends React.Component {
                 ghost
                 icon="eye"
                 className="button-margin--left--default"
+                onClick={(e) => this.handleShowTemplateModal(row.content)}
               >
               </Button>
             </div>
@@ -80,6 +83,22 @@ class EmailsTableBox extends React.Component {
       },
     ]
   }
+
+  state = {modalShow: false, modalContent: ''}
+  //Handle show modal
+  handleShowTemplateModal(modalContent) {
+    this.setState({
+      modalShow: true,
+      modalContent: modalContent,
+    });
+  }
+  handleCancelTemplateModal() {
+    this.setState({
+      modalShow: false
+    });
+  }
+
+
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
@@ -100,7 +119,9 @@ class EmailsTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
-
+    const {actions, indexState, location} = this.props
+    let emailParams = getFilterParamsAndSyncUrl(indexState.get('emailFilters'), location, {full_search: keyword})
+    actions.fetchEmails(emailParams)
   }
 
   render(){
@@ -121,6 +142,17 @@ class EmailsTableBox extends React.Component {
             />
           </Col>
         </Row>
+        <Modal
+          className='modalCustom'
+          title="Template"
+          cancelText="Cancel"
+          visible={this.state.modalShow}
+          onCancel={this.handleCancelTemplateModal}
+          onOk={this.handleCancelTemplateModal}
+          width="70%"
+        >
+          <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
+        </Modal>
          <Table
           bordered
           size="middle"

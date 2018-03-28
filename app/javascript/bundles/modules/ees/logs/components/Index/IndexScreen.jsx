@@ -15,16 +15,15 @@ class IndexScreen extends React.Component {
     ])
 
     this.state = {
-      tabKey: "logs"
+      tabKey: "emails"
     }
   }
 
   componentDidMount() {
     const {actions, indexState, railsContextState, location} = this.props
-    const logParams = getFilterParamsAndSyncUrl(indexState.get('logFilters'), location)
-    logParams["fields"] = "id, email_open_at, error, created_at, group_name, content, sender, email, status"
-    actions.fetchLogs(logParams)
-    actions.fetchGroups({"fields": "id, name"})
+    const emailParams = getFilterParamsAndSyncUrl(indexState.get('emailFilters'), location)
+    emailParams["fields"] = "id, email, c_obj, open_at, error,status,created_at,user_id"
+    actions.fetchEmails(emailParams)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +54,7 @@ class IndexScreen extends React.Component {
       this.setState({
         tabKey:tabKey
       })
-      emailParams["fields"] = "id, email,open_at, error,status,created_at,user_id"
+      emailParams["fields"] = "id, email, c_obj, open_at, error,status,created_at,user_id"
       actions.fetchEmails(emailParams)
     }
   }
@@ -71,13 +70,11 @@ class IndexScreen extends React.Component {
         <div className="box-body">
           <LogFiltersFormBox {...this.props} tabKey={this.state.tabKey}/>
           <Tabs defaultActiveKey="system" size="large" onChange={this.handleTabChange}>
-
-            <TabPane tab="Logs" key="logs">
-              <LogsTableBox {...this.props}/>
-            </TabPane>
-
-            <TabPane tab="Emails" key="emails">
+            <TabPane tab="Marketing" key="emails">
               <EmailsTableBox {...this.props}/>
+            </TabPane>
+            <TabPane tab="Systems" key="logs">
+              <LogsTableBox {...this.props}/>
             </TabPane>
           </Tabs>
         </div>
