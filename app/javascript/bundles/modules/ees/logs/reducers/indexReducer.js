@@ -68,13 +68,13 @@ export default function indexReducer($$state = initialState, action = null) {
     //Featch emails
     case actionTypes.SET_IS_FETCHING_EMAILS: {
       return $$state.merge({
-        isFetchingEmails: true,
+        isFetchingEmailLogs: true,
       })
     }
 
     case actionTypes.FETCH_EMAILS_SUCCESS: {
       return $$state.merge({
-        isFetchingEmails: false,
+        isFetchingEmailLogs: false,
         emails: records,
         emailFilters: filters,
       })
@@ -82,7 +82,7 @@ export default function indexReducer($$state = initialState, action = null) {
 
     case actionTypes.FETCH_EMAILS_FAILURE: {
       return $$state.merge({
-        isFetchingEmails: false,
+        isFetchingEmailLogs: false,
       })
     }
 

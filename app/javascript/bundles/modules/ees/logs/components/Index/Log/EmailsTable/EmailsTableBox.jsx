@@ -47,6 +47,11 @@ class EmailsTableBox extends React.Component {
         width: '20%',
         key: 'email'
       },{
+        title: intl.formatMessage({id: 'attrs.name.label'}),
+        dataIndex: 'c_obj.name',
+        width: '15%',
+        key: 'name',
+      },{
         title: intl.formatMessage({id: 'attrs.status.label'}),
         dataIndex: 'status',
         width: '15%',

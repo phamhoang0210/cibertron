@@ -20,6 +20,10 @@ export const appLocale = {
         // attrs.email.label
         label: 'Email'
       },
+      name: {
+        // attrs.name.label
+        label: 'Tên campaign'
+      },
       status: {
         // attrs.status.label
         label: 'Status'
