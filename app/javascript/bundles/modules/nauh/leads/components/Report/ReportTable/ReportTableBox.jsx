@@ -26,28 +26,28 @@ class ReportTableBox extends React.Component {
       }
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.lich_hen.label'}),
-      dataIndex: '',
-      key: '',
+      dataIndex: 'lich_hen',
+      key: 'lich_hen',
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.dinh_muc.label'}),
-      dataIndex: '',
-      key: '',
+      dataIndex: 'dinh_muc',
+      key: 'dinh_muc',
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.xu_ly_trong_lich.label'}),
-      dataIndex: '',
-      key: '',
+      dataIndex: 'xu_ly_trong_lich',
+      key: 'xu_ly_trong_lich',
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.xu_ly_ngoai_lich.label'}),
-      dataIndex: '',
-      key: '',
+      dataIndex: 'xu_ly_ngoai_lich',
+      key: 'xu_ly_ngoai_lich',
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.chua_goi.label'}),
-      dataIndex: '',
-      key: '',
+      dataIndex: 'chua_goi',
+      key: 'chua_goi',
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.tong_ton.label'}),
-      dataIndex: '',
-      key: '',
+      dataIndex: 'tong_ton',
+      key: 'tong_ton',
     }, {
       title: intl.formatMessage({id: 'attrs.lead_level.attrs.a0.label'}),
       dataIndex: 'A0',

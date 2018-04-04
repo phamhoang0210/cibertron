@@ -36,14 +36,14 @@ class LeadReportFormBox extends React.Component {
       <Form layout="inline" onSubmit={this.handleSubmit}>
         <FormItem label={intl.formatMessage({id: 'report.leads_form.form_item.from.label'})}>
             <Input
-              style={{ width: '100px' }}
+              style={{ width: '300px' }}
               type="number"
               placeholder={intl.formatMessage({id: 'report.leads_form.form_item.from.placeholder.input'})}
             />
         </FormItem>
         <FormItem label={intl.formatMessage({id: 'report.leads_form.form_item.to.label'})}>
             <Input
-                style={{ width: '100px' }}
+                style={{ width: '300px' }}
                 type="number"
                 placeholder={intl.formatMessage({id: 'report.leads_form.form_item.to.placeholder.input'})}
             />
