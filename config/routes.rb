@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       option.resources :leads do
         collection do
           get 'assign', to: 'leads#assign'
+          get 'report', to: 'leads#report'
         end
       end
       option.resources :orders
