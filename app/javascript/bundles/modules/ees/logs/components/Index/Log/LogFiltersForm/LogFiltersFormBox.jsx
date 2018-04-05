@@ -26,6 +26,7 @@ class LogFiltersFormBox extends React.Component {
     _.bindAll(this, [
       'handleFilter',
       'formatFormData',
+      'handleExport',
     ])
 
   }
@@ -46,7 +47,9 @@ class LogFiltersFormBox extends React.Component {
       }
     })
   }
+  handleExport() {
 
+  }
   formatFormData(values) {
     let formatedValues = values
     const inCompFields = ['status', 'group_id']
@@ -71,9 +74,9 @@ class LogFiltersFormBox extends React.Component {
 
   render() {
     const {indexState, form, sharedState, tabKey} = this.props
-    const isFetchingLogs = indexState.get('isFetchingLogs')
+    const isFetchingLogs = (tabKey=="emails") ? indexState.get('isFetchingEmailLogs') : indexState.get('isFetchingLogs')
     const logs = sharedState.get('logs')
-    const totalPage = indexState.getIn(['logFilters', 'paging', 'record_total'])
+    const totalPage = (tabKey=="emails") ? indexState.getIn(['emailFilters', 'paging', 'record_total']) : indexState.getIn(['logFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
     const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"}]
     const groups = indexState.get('groups')
@@ -154,6 +157,13 @@ class LogFiltersFormBox extends React.Component {
 
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              className="button-margin--right--default"
+              onClick={this.handleExport}
+              disabled={isFetchingLogs}
+            >
+              {`Export (${totalPage})`}
+            </Button>
               <Button type="primary" htmlType="submit" loading={isFetchingLogs}>
                 Filter
               </Button>
