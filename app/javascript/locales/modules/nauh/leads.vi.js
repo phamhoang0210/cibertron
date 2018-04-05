@@ -75,7 +75,14 @@ export const appLocale = {
           },
           lead_care_status_name: {
             // attrs.lead_care_history.attrs.call_status_name.label
+            label: 'Trạng thái cuộc gọi',
+          },
+          lead_care_status_name_2: {
+            // attrs.lead_care_history.attrs.call_status_name.label
             label: 'Trạng thái chăm sóc',
+          },
+          schedule_at: {
+            label: 'Ngày hẹn gọi lại',
           },
           result_note: {
             // attrs.lead_care_history.attrs.result_note.label
@@ -91,10 +98,10 @@ export const appLocale = {
           },
           lead_care_status_id: {
             // attrs.lead_care_history.attrs.call_status_id.label
-            label: 'Trạng thái chăm sóc',
+            label: 'Trạng thái cuộc gọi',
             errors: {
               // attrs.lead_care_history.attrs.call_status_id.errors.required
-              required: 'Trạng thái chăm sóc là trường bắt buộc'
+              required: 'Trạng thái cuộc gọi là trường bắt buộc'
             },
             placeholder: {
               select: {
@@ -250,6 +257,10 @@ export const appLocale = {
       source: {
         // attrs.source.label
         label: 'Nguồn',
+      },
+      count_lead_care_history: {
+        // attrs.count_lead_care_history.label
+        label: 'Số lần chăm sóc',
       },
       last_lead_care_history: {
         // attrs.last_lead_care_history.label

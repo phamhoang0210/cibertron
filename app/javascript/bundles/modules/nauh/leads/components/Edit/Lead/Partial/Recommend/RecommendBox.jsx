@@ -299,21 +299,14 @@ class RecommendBox extends React.Component {
                         </Row>
                   )}
                   <Row>
-                    <FormItem
-                      label={intl.formatMessage({id: 'attrs.order.attrs.coupon_code.label'})}
-                      {...DEFAULT_FORM_ITEM_LAYOUT}
-                    >
-                      {getFieldDecorator('record.coupon_code', {initialValue: defaultCupon})(
-                        <Input/>
-                      )}
-                    </FormItem>
+
                     <FormItem
                       label={intl.formatMessage({id: 'attrs.order.attrs.campaign.label'})}
                       {...DEFAULT_FORM_ITEM_LAYOUT}
                     >
                       {getFieldDecorator('record.campaign_code', {
                         rules: [
-                          { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.campaign.errors.required'}) }
+                          { required: false, message: intl.formatMessage({id: 'attrs.order.attrs.campaign.errors.required'}) }
                         ],
                         initialValue: defaultCampaign
                       })(

@@ -106,6 +106,12 @@ class LeadsTableBox extends React.Component {
       )
     }, */
     {
+      title: intl.formatMessage({id: 'attrs.count_lead_care_history.label'}),
+      dataIndex: 'count_lead_care_history',
+      key: 'count_lead_care_history',
+      width: '10%'
+    },
+    {
       title: intl.formatMessage({id: 'attrs.last_lead_care_history.label'}),
       dataIndex: 'last_lead_care_history',
       key: 'last_lead_care_history',

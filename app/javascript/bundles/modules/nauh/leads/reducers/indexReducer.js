@@ -10,7 +10,7 @@ export const initialState = Immutable.fromJS({
   selectedLeadKeys: [],
   leadFilters: {
     ...defaultFilters,
-    fields: 'lead_level{},lead_status{}, utm{},last_lead_care_history'
+    fields: 'lead_level{},lead_status{}, utm{},last_lead_care_history,count_lead_care_history'
   },
   isFetchingLeads: false,
   isImportingLeads: false,
@@ -22,7 +22,7 @@ export default function indexReducer($$state = initialState, action = null) {
     type, record, records, filters, error, leadId,
     lead, importResult, leadKeys,
   } = action
-  
+
   switch (type) {
     case actionTypes.SET_IS_FETCHING_LEADS: {
       return $$state.merge({
