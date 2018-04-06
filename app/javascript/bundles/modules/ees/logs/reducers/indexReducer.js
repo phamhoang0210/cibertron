@@ -8,6 +8,7 @@ export const initialState = Immutable.fromJS({
   logs: [],
   groups: [],
   emails: [],
+  campaigns: [],
   logFilters: {
     ...defaultFilters,
     fields: ''
@@ -83,6 +84,27 @@ export default function indexReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_EMAILS_FAILURE: {
       return $$state.merge({
         isFetchingEmailLogs: false,
+      })
+    }
+
+    //Featch CAMPAIGNS
+    case actionTypes.SET_IS_FETCHING_CAMPAIGNS: {
+      return $$state.merge({
+        isFetchingCampaigns: true,
+      })
+    }
+
+    case actionTypes.FETCH_CAMPAIGNS_SUCCESS: {
+      return $$state.merge({
+        isFetchingCampaigns: false,
+        campaigns: records,
+        campaignFilters: filters,
+      })
+    }
+
+    case actionTypes.FETCH_CAMPAIGNS_FAILURE: {
+      return $$state.merge({
+        isFetchingCampaigns: false,
       })
     }
 

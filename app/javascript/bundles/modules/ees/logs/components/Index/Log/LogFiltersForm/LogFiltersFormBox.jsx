@@ -18,6 +18,7 @@ const FormItem = Form.Item
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker
 const InputGroup = Input.Group
+const dateFormat = 'YYYY/MM/DD'
 
 class LogFiltersFormBox extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ class LogFiltersFormBox extends React.Component {
   }
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['status', 'group_id']
+    const inCompFields = ['status', 'group_id', 'campaign_id']
     const timerangeFields = ['created_at']
     
     let compconds = {}
@@ -68,7 +69,6 @@ class LogFiltersFormBox extends React.Component {
       compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    
     return mergeDeep([formatedValues, compconds])
   }
 
@@ -80,6 +80,7 @@ class LogFiltersFormBox extends React.Component {
     const { getFieldDecorator } = form
     const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"}]
     const groups = indexState.get('groups')
+    const campaigns = indexState.get('campaigns')
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -92,7 +93,9 @@ class LogFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at')(
+                {getFieldDecorator('created_at',{
+                  initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]
+                })(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}
@@ -154,7 +157,33 @@ class LogFiltersFormBox extends React.Component {
             </Col>
             
           </Row>
-
+          <Row gutter={40}>
+            <Col span={8}>
+              <FormItem
+                label="Campaign"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('campaign_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    disabled={(tabKey=="emails") ? false : true}
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder="-- All --"
+                    allowClear={true}
+                  >
+                    {campaigns && campaigns.toJS().map(campaign => (
+                      <Option key={campaign.id} value={campaign.id}>
+                        {campaign.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+          </Row>
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
             <Button

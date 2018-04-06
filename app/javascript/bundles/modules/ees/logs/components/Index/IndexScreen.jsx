@@ -6,6 +6,7 @@ import EmailsTableBox from './Log/EmailsTable/EmailsTableBox'
 import { notification,Tabs } from 'antd'
 import { injectIntl } from 'react-intl'
 
+
 const { TabPane } = Tabs
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -22,8 +23,16 @@ class IndexScreen extends React.Component {
   componentDidMount() {
     const {actions, indexState, railsContextState, location} = this.props
     const emailParams = getFilterParamsAndSyncUrl(indexState.get('emailFilters'), location)
+
+    let gte = (new Date().toISOString().split('T')[0])+' 00:00:00'
+    let lt = (new Date().toISOString().split('T')[0])+' 23:59:59'
+    let created_at = {"gte":gte, "lt":lt}
+
     emailParams["fields"] = "id, email, c_obj, open_at, error,status,created_at,user_id"
+    emailParams["created_at"] = created_at
+    
     actions.fetchEmails(emailParams)
+    actions.fetchCampaigns({"fields": "id, name"})
   }
 
   componentWillReceiveProps(nextProps) {
