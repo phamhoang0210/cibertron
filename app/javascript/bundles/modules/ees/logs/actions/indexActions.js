@@ -5,7 +5,6 @@ import {
   AUTHS_API_PATH,
   GROUPS_API_PATH,
   EMAILS_API_PATH,
-  MARKETING_TEMPLATES_API_PATH,
   CAMPAIGNS_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
