@@ -5,7 +5,8 @@ import {
   AUTHS_API_PATH,
   GROUPS_API_PATH,
   EMAILS_API_PATH,
-  MARKETING_TEMPLATES_API_PATH
+  MARKETING_TEMPLATES_API_PATH,
+  CAMPAIGNS_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -77,7 +78,7 @@ export function fetchEmails(params = {}) {
   }
 }
 
-// Fetch template
+// Fetch  marketing template
 function setIsFetchingMarketingTemplates() {
   return {
     type: actionTypes.SET_IS_FETCHING_MARKETING_TEMPLATES,
@@ -212,5 +213,37 @@ export function fetchGroups(params) {
       .fetchEntities(`${FURION_BASE_URL}${GROUPS_API_PATH}`, params)
       .then(res => dispatch(fetchGroupsSuccess(res.data)))
       .catch(error => dispatch(fetchGroupsFailure(error)))
+  }
+}
+
+//Fetching all campaigns
+function setIsFetchingCampaigns() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_CAMPAIGNS,
+  }
+}
+
+function fetchCampaignsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_CAMPAIGNS_SUCCESS,
+    records,
+    filters
+  }
+}
+
+function fetchCampaignsFailure(error) {
+  return {
+    type: actionTypes.FETCH_CAMPAIGNS_FAILURE,
+    error,
+  }
+}
+
+export function fetchCampaigns(params) {
+  return dispatch => {
+    dispatch(setIsFetchingCampaigns())
+    authRequest
+      .fetchEntities(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .then(res => dispatch(fetchCampaignsSuccess(res.data)))
+      .catch(error => dispatch(fetchCampaignsFailure(error)))
   }
 }
