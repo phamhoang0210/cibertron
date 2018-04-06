@@ -16,3 +16,8 @@ export const FILTER_FORM_ITEM_LAYOUT = {
   labelCol: { span: 7 },
   wrapperCol: { span: 17 },
 }
+
+export const DEFAULT_FORM_ITEM_LAYOUT_10 = {
+  labelCol: { span: 10 },
+  wrapperCol: { span: 18 },
+}

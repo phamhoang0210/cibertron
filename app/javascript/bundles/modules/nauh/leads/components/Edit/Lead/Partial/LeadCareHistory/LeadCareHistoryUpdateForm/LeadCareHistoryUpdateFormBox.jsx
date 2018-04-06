@@ -1,8 +1,9 @@
   import React from 'react'
 import _ from 'lodash'
-import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_ITEM_LAYOUT_10 } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker, Tabs } from 'antd'
+import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
@@ -20,6 +21,11 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
     _.bindAll(this, [
       'handleSubmit',
     ])
+    this.state = {
+      careStatusName: '',
+    }
+
+    this.handleLeadCareStatusSelect = this.handleLeadCareStatusSelect.bind(this)
   }
 
   handleSubmit(e) {
@@ -38,9 +44,13 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
     })
   }
 
+  handleLeadCareStatusSelect(value, opt) {
+    const leadCareStatus = opt.props.leadCareStatus
+    this.state.careStatusName = leadCareStatus.get('lead_status_care_name')
+  }
   componentDidMount(){
     const {actions} = this.props
-    actions.fetchLeadCareStatuses({per_page: 'infinite'})
+    actions.fetchLeadCareStatuses({per_page: 'infinite', orders:['id.asc']})
   }
 
   render() {
@@ -51,7 +61,7 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
     const leadCareHistory = editState.get('leadCareHistory')
     const callLog = leadCareHistory.get('call_log')
     const isUpdatingLeadCareHistory = editState.get('isUpdatingLeadCareHistory')
-    
+
     return (
       <div className="box box-with-shadow box-with-border">
         <div className="box-header">
@@ -63,9 +73,9 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
           <Form onSubmit={this.handleSubmit} layout="horizontal">
             <Row gutter={8}>
               <Col span={8}>
-                <FormItem 
+                <FormItem
                   label={intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_id.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                  {...DEFAULT_FORM_ITEM_LAYOUT_10}
                 >
                   {getFieldDecorator('lead_care_status_id', {
                     rules: [{
@@ -79,20 +89,33 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
                         {id: 'attrs.lead_care_history.attrs.lead_care_status_id.placeholder.select.single'},
                       )}
                       filterOption={selectFilterOption}
+                      onSelect={this.handleLeadCareStatusSelect}
                     >
                       {leadCareStatuses.map(leadCareStatus => (
-                        <Option key={leadCareStatus.get('id')} value={`${leadCareStatus.get('id')}`}>
-                          {leadCareStatus.get('name')}
+                        leadCareStatus.get('id') >= 7  ?
+                        <Option key={leadCareStatus.get('id')} value={`${leadCareStatus.get('id')}`} leadCareStatus={leadCareStatus}>
+                          {leadCareStatus.get('lead_sub_status_id') ? leadCareStatus.get('lead_sub_status_id') + ' - ' : ''}  {leadCareStatus.get('name')}
                         </Option>
+                        : ''
                       ))}
                     </Select>
                   )}
                 </FormItem>
               </Col>
+
+              <Col span={8}>
+              <FormItem
+                label="Trạng thái chăm sóc"
+                {...DEFAULT_FORM_ITEM_LAYOUT_10}
+              >
+                <b>{this.state.careStatusName}</b>
+              </FormItem>
+              </Col>
+
               <Col span={8}>
                 <FormItem
                   label={intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                  {...DEFAULT_FORM_ITEM_LAYOUT_10}
                 >
                   {getFieldDecorator('result_note', {
                     initialValue: leadCareHistory.get('result_note'),
@@ -103,6 +126,15 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
                 </FormItem>
               </Col>
               <Col span={8}>
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.lead_care_history.attrs.schedule_at.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT_10}
+                >
+                  {getFieldDecorator('schedule_at', {
+                    initialValue: leadCareHistory.get('schedule_at'),
+                  })(<DatePicker style={{ width: '100%' }} placeholder="Ngày hẹn gọi lại" format={LONG_DATETIME_FORMAT}
+                  showTime={TIME_PICKER_DEFAULT_SHOW_TIME}/>)}
+                </FormItem>
               </Col>
             </Row>
             <Row>

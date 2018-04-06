@@ -75,7 +75,14 @@ export const appLocale = {
           },
           lead_care_status_name: {
             // attrs.lead_care_history.attrs.call_status_name.label
+            label: 'Trạng thái cuộc gọi',
+          },
+          lead_care_status_name_2: {
+            // attrs.lead_care_history.attrs.call_status_name.label
             label: 'Trạng thái chăm sóc',
+          },
+          schedule_at: {
+            label: 'Ngày hẹn gọi lại',
           },
           result_note: {
             // attrs.lead_care_history.attrs.result_note.label
@@ -91,10 +98,10 @@ export const appLocale = {
           },
           lead_care_status_id: {
             // attrs.lead_care_history.attrs.call_status_id.label
-            label: 'Trạng thái chăm sóc',
+            label: 'Trạng thái cuộc gọi',
             errors: {
               // attrs.lead_care_history.attrs.call_status_id.errors.required
-              required: 'Trạng thái chăm sóc là trường bắt buộc'
+              required: 'Trạng thái cuộc gọi là trường bắt buộc'
             },
             placeholder: {
               select: {
@@ -251,6 +258,10 @@ export const appLocale = {
         // attrs.source.label
         label: 'Nguồn',
       },
+      count_lead_care_history: {
+        // attrs.count_lead_care_history.label
+        label: 'Số lần chăm sóc',
+      },
       last_lead_care_history: {
         // attrs.last_lead_care_history.label
         label: 'Chăm sóc gần nhất',
@@ -310,6 +321,30 @@ export const appLocale = {
           staff_id: {
             // attrs.lead_level.attrs.staff_id.label
             label: 'Nhân viên',
+          },
+          lich_hen: {
+            // attrs.lead_level.attrs.lich_hen.label
+            label: 'Lịch hẹn',
+          },
+          dinh_muc: {
+            // attrs.lead_level.attrs.dinh_muc.label
+            label: 'Định mức',
+          },
+          xu_ly_trong_lich: {
+            // attrs.lead_level.attrs.xu_ly_trong_lich.label
+            label: 'Đã gọi trong lịch',
+          },
+          xu_ly_ngoai_lich: {
+            // attrs.lead_level.attrs.xu_ly_ngoai_lich.label
+            label: 'Đã gọi ngoài lịch',
+          },
+          chua_goi: {
+            // attrs.lead_level.attrs.chua_goi.label
+            label: 'Chưa gọi',
+          },
+          tong_ton: {
+            // attrs.lead_level.attrs.chua_goi.label
+            label: 'Tồn kho',
           },
           a0: {
             // attrs.lead_level.attrs.a0.label
@@ -916,6 +951,27 @@ export const appLocale = {
                 // assign.leads_form.form_item.staff.placeholder.select.single
                 single: 'Chọn nhân viên'
               }
+            }
+          },
+        },
+      },
+    },
+    report: {
+      // assign.assign
+      title: 'Báo cáo năng suất',
+      leads_form: {
+        form_item: {
+          from: {
+            label: 'Từ ngày',
+            placeholder: {
+              input: 'Chọn ngày',
+            }
+          },
+          to: {
+            // assign.leads_form.form_item.staff.label
+            label: 'Đến ngày',
+            placeholder: {
+              input: 'Chọn ngày',
             }
           },
         },

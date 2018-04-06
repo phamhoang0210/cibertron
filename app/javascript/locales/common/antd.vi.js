@@ -49,6 +49,10 @@ export default flattenMessages({
           // form.form_item.button.assign.text
           text: 'Phân chia',
         },
+        report: {
+          // form.form_item.button.assign.text
+          text: 'Báo cáo năng suất',
+        },
         get_code: {
           // form.form_item.button.get_code.text
           text: 'Lấy mã',
