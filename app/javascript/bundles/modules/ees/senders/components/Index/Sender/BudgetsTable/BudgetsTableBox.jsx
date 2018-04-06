@@ -238,8 +238,8 @@ class BudgetsTableBox extends React.Component {
                   allowClear={true}
                 >
                   {users.toJS().map(user => (
-                    <Option value={`${user.id + '-' +user.username}`} key={user.id}>
-                      {user.username}
+                    <Option value={`${user.id + '-' +user.email}`} key={user.id}>
+                      {user.email}
                     </Option>
                   ))}
                 </Select>

@@ -9,7 +9,8 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
 #
-default: &default
+default: 
+  &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 15 } %>
@@ -18,7 +19,7 @@ default: &default
   port: 3306
 
 development:
-    <<: *default
+  <<: *default
   database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
   username: <%= ENV['GAIA_MYSQL_USER'] %>
   password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
