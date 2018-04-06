@@ -357,12 +357,7 @@ class LeadsTableBox extends React.Component {
             >
               {intl.formatMessage({id: 'form.form_item.button.assign.text'})}
             </Button>
-            <Button
-              className="button-margin--left--default"
-              onClick={this.handleReport}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.report.text'})}
-            </Button>
+
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search
