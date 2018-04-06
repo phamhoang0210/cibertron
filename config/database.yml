@@ -18,11 +18,12 @@ default: &default
   port: 3306
 
 development:
-  <<: *default
+    <<: *default
   database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
   username: <%= ENV['GAIA_MYSQL_USER'] %>
   password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
   url:      <%= ENV['GAIA_MYSQL_HOST'] %>
+
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
