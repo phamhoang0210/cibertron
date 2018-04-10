@@ -32,7 +32,7 @@ class IndexScreen extends React.Component {
     emailParams["created_at"] = created_at
     
     actions.fetchEmails(emailParams)
-    actions.fetchCampaigns({"fields": "id, name"})
+    actions.fetchCampaigns({"fields": "id, name",per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {
