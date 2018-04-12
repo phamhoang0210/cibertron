@@ -1,6 +1,7 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
+import { defaultFilters } from 'app/constants/initialState'
 export const initialState = Immutable.fromJS({
   leadLevels: [],
   leadStatuses: [],
@@ -13,6 +14,10 @@ export const initialState = Immutable.fromJS({
   leadCareStatuses: [],
   userIdMappings: {},
   leadCareStatusIdMappings: {},
+  leadCareStatusFilter: {
+    ...defaultFilters,
+    fields: 'lead_status{}'
+  },
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
   sexes: [],
@@ -49,7 +54,7 @@ export default function sharedReducer($$state = initialState, action = null) {
   if(records) {
     records.forEach(record => recordIdMappings[record.id] = record)
   }
-  
+
   switch (type) {
     case actionTypes.SET_IS_FETCHING_LEAD_LEVELS: {
       return $$state.merge({
@@ -198,14 +203,14 @@ export default function sharedReducer($$state = initialState, action = null) {
         isFetchingProvinces: true,
       })
     }
-    
+
     case actionTypes.FETCH_PROVINCES_SUCCESS: {
       return $$state.merge({
         isFetchingProvinces: false,
         provinces: records,
       })
     }
-    
+
     case actionTypes.FETCH_PROVINCES_FAILURE: {
       return $$state.merge({
         isFetchingProvinces: false,
@@ -222,7 +227,7 @@ export default function sharedReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingLeadCareStatuses: false,
         leadCareStatuses: records,
-        leadCareStatusIdMappings: recordIdMappings,
+        leadCareStatusIdMappings: recordIdMappings
       })
     }
 
@@ -250,7 +255,7 @@ export default function sharedReducer($$state = initialState, action = null) {
         isFetchingSexes: false,
       })
     }
-    
+
     default: {
       return $$state
     }
