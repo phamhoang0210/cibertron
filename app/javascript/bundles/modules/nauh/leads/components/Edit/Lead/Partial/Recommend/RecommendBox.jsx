@@ -352,7 +352,7 @@ class RecommendBox extends React.Component {
                               label='Số khóa'
                               {...DEFAULT_FORM_ITEM_LAYOUT}
                             >
-                                <Input className='quantity' key={config.key} defaultValue={config.quantity} onChange={(e) => this.onChangeQuantity(e, config.key)}/>
+                                <Input className='quantity' type="number" key={config.key} defaultValue={config.quantity} onChange={(e) => this.onChangeQuantity(e, config.key)}/>
 
                           </FormItem>
                         </Col>
@@ -361,7 +361,7 @@ class RecommendBox extends React.Component {
                               label='Giá'
                               {...DEFAULT_FORM_ITEM_LAYOUT}
                             >
-                                <Input className='price' key={config.key} onChange={(e) => this.onChangePrice(e, config.key)} defaultValue={config.price}/>
+                                <Input className='price' type="number" key={config.key} onChange={(e) => this.onChangePrice(e, config.key)} defaultValue={config.price}/>
 
                           </FormItem>
                         </Col>

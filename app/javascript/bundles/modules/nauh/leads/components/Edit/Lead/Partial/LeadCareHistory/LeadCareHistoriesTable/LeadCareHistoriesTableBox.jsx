@@ -41,12 +41,12 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: 'Level',
         dataIndex: 'lead_care_status.lead_sub_status_id',
         key: 'lead_sub_status_id',
-        width: '10%',
+        width: '5%',
       },{
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_name_2.label'}),
-        dataIndex: 'lead_care_status.lead_status_care_name',
+        dataIndex: 'lead_care_status.lead_status.name',
         key: 'lead_status_care_name_2',
-        width: '20%',
+        width: '10%',
       },{
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.schedule_at.label'}),
         dataIndex: 'schedule_at',
@@ -57,7 +57,7 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'}),
         dataIndex: 'result_note',
         key: 'result_note',
-        width: '15%',
+        width: '10%',
       }, {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.user_id.label'}),
         dataIndex: 'user_id',
@@ -71,7 +71,7 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.call_log_audio.label'}),
         dataIndex: 'call_log',
         key: 'call_log',
-        width: '20%',
+        width: '10%',
         render: (value, record) => {
           if(value) {
             if(value.audio_link) {
