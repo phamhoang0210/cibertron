@@ -46,11 +46,14 @@ class LeadCareHistoryUpdateFormBox extends React.Component {
 
   handleLeadCareStatusSelect(value, opt) {
     const leadCareStatus = opt.props.leadCareStatus
-    this.state.careStatusName = leadCareStatus.get('lead_status_care_name')
+    this.state.careStatusName = leadCareStatus.get('lead_status').get('name');
   }
   componentDidMount(){
     const {actions} = this.props
-    actions.fetchLeadCareStatuses({per_page: 'infinite', orders:['id.asc']})
+    actions.fetchLeadCareStatuses({per_page: 'infinite'
+      , orders:['lead_sub_status_id.asc','id.asc']
+      , fields: 'lead_status{}'
+    })
   }
 
   render() {
