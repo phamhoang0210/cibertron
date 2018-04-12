@@ -50,7 +50,8 @@ export default function reportReducer($$state = initialState, action = null) {
     case actionTypes.REPORT_LEAD_FAILURE: {
       return $$state.merge({
         isReportingLeads: false,
-        alert: parseError(error),
+          alert: null,
+        // alert: parseError(error),
       })
     }
     default: {
