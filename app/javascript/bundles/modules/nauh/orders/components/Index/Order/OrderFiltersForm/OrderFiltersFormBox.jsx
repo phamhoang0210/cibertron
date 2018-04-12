@@ -76,10 +76,8 @@ class OrderFiltersFormBox extends React.Component {
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
-      compconds[`${field}.gte`] = timeRange[0] && timeRange[0]._d.setHours(timeRange[0]._d.getHours() - 7) && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[`${field}.lt`] = timeRange[1] && timeRange[1]._d.setHours(timeRange[1]._d.getHours() - 7) && timeRange[1].format(MYSQL_DATETIME_FORMAT)
-      if (timeRange[0]) {timeRange[0]._d.setHours(timeRange[0]._d.getHours() + 7)}
-      if (timeRange[1]) {timeRange[1]._d.setHours(timeRange[1]._d.getHours() + 7)}
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
 
