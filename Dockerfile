@@ -32,4 +32,5 @@ RUN yarn install && \
     chmod -R 777 /home/rails/gaia
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true
+ENV TZ Asia/Ho_Chi_Minh
 CMD /home/rails/gaia/gaia.sh
