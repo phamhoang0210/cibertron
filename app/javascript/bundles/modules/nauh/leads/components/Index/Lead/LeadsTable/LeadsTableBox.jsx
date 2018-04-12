@@ -67,7 +67,7 @@ class LeadsTableBox extends React.Component {
             <Tag color="red">
               {intl.formatMessage({id: 'attrs.info.duplicated'})}
             </Tag>
-          )} 
+          )}
         </div>
       )
     }, {
@@ -88,7 +88,7 @@ class LeadsTableBox extends React.Component {
             {record.utm && record.utm.details.utm_campaign && <Tag color="purple">{`${record.utm.details.utm_campaign}`}</Tag>}
           </Tooltip>
         </div>
-        
+
       )
     }, /*{
       title: intl.formatMessage({id: 'attrs.note.label'}),
@@ -105,6 +105,12 @@ class LeadsTableBox extends React.Component {
         />
       )
     }, */
+    {
+      title: intl.formatMessage({id: 'attrs.count_lead_care_history.label'}),
+      dataIndex: 'count_lead_care_history',
+      key: 'count_lead_care_history',
+      width: '10%'
+    },
     {
       title: intl.formatMessage({id: 'attrs.last_lead_care_history.label'}),
       dataIndex: 'last_lead_care_history',
@@ -133,11 +139,11 @@ class LeadsTableBox extends React.Component {
       render: (value, row) => {
         return (
           <div>
-            {value ? 
+            {value ?
               <Tooltip title={intl.formatMessage({id: 'attrs.assigned_at.label'})}>
                 <Tag color="#2db7f5">{moment(value).format(SHORT_DATETIME_FORMAT)}</Tag>
               </Tooltip> : ''}
-            {row.imported_at ? 
+            {row.imported_at ?
               <Tooltip title={intl.formatMessage({id: 'attrs.imported_at.label'})}>
                 <Tag style={{ marginTop: '10px' }} color="#87d068">{moment(row.imported_at).format(SHORT_DATETIME_FORMAT)}</Tag>
               </Tooltip>  : ''}
@@ -308,6 +314,10 @@ class LeadsTableBox extends React.Component {
     browserHistory.push(`${LEADS_URL}/assign`)
   }
 
+  handleReport() {
+    browserHistory.push(`${LEADS_URL}/report`)
+  }
+
   handleUpdateAttrs(id, values) {
     const {actions} = this.props
     actions.updateLeadAttrs(id, {fields: 'lead_level{},lead_status{}', record: values})
@@ -347,6 +357,7 @@ class LeadsTableBox extends React.Component {
             >
               {intl.formatMessage({id: 'form.form_item.button.assign.text'})}
             </Button>
+
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
             <Search

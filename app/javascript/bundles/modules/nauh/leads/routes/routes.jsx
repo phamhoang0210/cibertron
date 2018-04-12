@@ -5,6 +5,7 @@ import IndexContainer from '../containers/IndexContainer'
 import EditContainer from '../containers/EditContainer'
 import NewContainer from '../containers/NewContainer'
 import AssignContainer from '../containers/AssignContainer'
+import ReportContainer from '../containers/ReportContainer'
 import {LEADS_URL} from '../constants/paths'
 import {requireAuth} from 'helpers/auth/authHelper'
 
@@ -14,5 +15,6 @@ export default (
     <Route path=":id/edit" component={EditContainer} />
     <Route path="new" component={NewContainer} />
     <Route path="assign" component={AssignContainer} />
+    <Route path="report" component={ReportContainer} />
   </Route>
 )
