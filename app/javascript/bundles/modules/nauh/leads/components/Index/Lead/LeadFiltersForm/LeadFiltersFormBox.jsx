@@ -62,9 +62,9 @@ class LeadFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['lead_level_id', 'staff_id', 'lead_status_id']
+    const inCompFields = ['lead_level_id', 'staff_id']
     const timerangeFields = ['imported_at', 'assigned_at']
-
+    const lead_status_code = formatedValues['lead_status_code']
     let compconds = {}
     inCompFields.forEach(field => {
       compconds[`${field}.in`] = formatedValues[field]
@@ -78,7 +78,7 @@ class LeadFiltersFormBox extends React.Component {
       delete formatedValues[field]
     })
 
-    return mergeDeep([formatedValues, {compconds: compconds}])
+    return mergeDeep([formatedValues, {compconds: compconds}, {lead_status_code_filters: lead_status_code}])
   }
 
   handleExport() {
@@ -192,7 +192,7 @@ class LeadFiltersFormBox extends React.Component {
                 label={intl.formatMessage({id: 'attrs.lead_status_id.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('lead_status_id', {
+                {getFieldDecorator('lead_status_code', {
                   rules: [{ type: 'array' }],
                   ...this.initialValues.lead_status_id,
                 })(
@@ -204,7 +204,7 @@ class LeadFiltersFormBox extends React.Component {
                     allowClear={true}
                   >
                     {leadStatuses.toJS().map(status => (
-                      <Option value={`${status.id}`} key={status.id}>
+                      <Option value={`${status.code}`} key={status.id}>
                         {status.name}
                       </Option>
                     ))}
