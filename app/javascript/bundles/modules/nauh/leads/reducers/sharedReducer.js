@@ -43,7 +43,8 @@ export const initialState = Immutable.fromJS({
     { value: 'add_2', title: '58/10 Thành Thái, Phường 12, Quận 10, HCM'},
   ],
   otherFilters: [
-    { value: 'duplicated', title: 'Trùng'}
+    { value: 'duplicated', title: 'Trùng'},
+    { value: 'recovery', title: 'Thu hồi'}
   ],
 })
 

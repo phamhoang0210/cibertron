@@ -15,6 +15,7 @@ export const initialState = Immutable.fromJS({
   isFetchingLeads: false,
   isImportingLeads: false,
   isUpdatingLeads: false,
+  isRecoveringLeads: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
@@ -324,6 +325,24 @@ export default function indexReducer($$state = initialState, action = null) {
           )
         ))
       ))
+    }
+
+    case actionTypes.SET_IS_RECOVERING_LEADS: {
+      return $$state.merge({
+        isRecoveringLeads: true,
+      })
+    }
+
+    case actionTypes.RECOVERING_LEADS_SUCCESS: {
+      return $$state.merge({
+        isRecoveringLeads: false,
+      })
+    }
+
+    case actionTypes.RECOVERING_LEADS_FAILURE: {
+      return $$state.merge({
+        isRecoveringLeads: false,
+      })
     }
 
     default: {
