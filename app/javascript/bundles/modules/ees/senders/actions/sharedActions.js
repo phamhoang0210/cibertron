@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  USERS_API_PATH
+  AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -31,7 +31,7 @@ export function fetchAllUsers(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingAllUsers())
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, params)
       .then(res => dispatch(fetchAllUsersSuccess(res.data)))
       .catch(error => dispatch(fetchAllUsersFailure(error)))
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
-import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
+import { LONG_DATETIME_FORMAT, REVERSE_SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import {
   Form, Input, Row, Col, Button, Select, Alert, Spin, DatePicker,
   Tabs, Table, Modal, Icon,
@@ -99,7 +99,7 @@ class CustomerInfo extends React.Component {
       key: 'created_at',
       render: (value, record) => (
       <div>
-      {record.created_at.substring(11,13) + ":" + record.created_at.substring(14,16) + " "+ record.created_at.substring(8,10) + "/" + record.created_at.substring(5,7) + "/" + record.created_at.substring(0,4)}
+      {moment(record.created_at).format(REVERSE_SHORT_DATETIME_FORMAT)}
       </div>
       )
     }, {
