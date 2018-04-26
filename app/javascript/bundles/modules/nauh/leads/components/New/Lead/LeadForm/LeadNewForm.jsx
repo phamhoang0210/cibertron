@@ -45,7 +45,7 @@ class LeadNewForm extends React.Component {
     const leadStatuses = sharedState.get('leadStatuses')
     const campaigns = sharedState.get('campaigns')
     const users = sharedState.get('users')
-    
+
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -113,7 +113,7 @@ class LeadNewForm extends React.Component {
               >
                 {getFieldDecorator('note')(<TextArea />)}
               </FormItem>
-              <FormItem 
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.lead_level_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >

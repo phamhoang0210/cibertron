@@ -35,6 +35,7 @@ class LeadsTableBox extends React.Component {
 
     this.state = {
       showImportModal: false,
+      selectedRowKeys:[]
     }
 
     this.initialValues = this.getInitialValues()
@@ -51,8 +52,9 @@ class LeadsTableBox extends React.Component {
       'handleSelectionChange',
       'renderTableTitle',
       'renderLeadDetail',
+      'handleRecovery'
     ])
-
+    const resource = ['','MKT','CC','Other']
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.info.label'}),
       dataIndex: 'name',
@@ -63,9 +65,15 @@ class LeadsTableBox extends React.Component {
           <b>{record.name}</b><br/>
           <span>{`• ${record.email}`}</span><br/>
           <span>{`• ${record.mobile}`}</span><br/>
+          <b>{`• Nguồn: ${resource[record.type_lead]}`}</b><br/>
           {record.is_duplicated && (
             <Tag color="red">
               {intl.formatMessage({id: 'attrs.info.duplicated'})}
+            </Tag>
+          )}
+          {record.is_recovery && (
+            <Tag color="red">
+              {intl.formatMessage({id: 'attrs.info.recovery'})}
             </Tag>
           )}
         </div>
@@ -300,6 +308,7 @@ class LeadsTableBox extends React.Component {
   }
 
   handleSelectionChange(selectedRowKeys, selectedRows) {
+    this.state.selectedRowKeys = selectedRowKeys
     const {actions, indexState} = this.props
     actions.updateSelectedLeadKeys(selectedRowKeys)
   }
@@ -323,6 +332,12 @@ class LeadsTableBox extends React.Component {
     actions.updateLeadAttrs(id, {fields: 'lead_level{},lead_status{}', record: values})
   }
 
+  handleRecovery() {
+    const {actions, indexState, location} = this.props
+    console.log(this.state.selectedRowKeys)
+    actions.recoveryLeads({ids: this.state.selectedRowKeys})
+
+  }
 
   render() {
     const {indexState, sharedState, actions, intl} = this.props
@@ -362,6 +377,12 @@ class LeadsTableBox extends React.Component {
               onClick={this.handleReport}
             >
               {intl.formatMessage({id: 'form.form_item.button.report.text'})}
+            </Button>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleRecovery}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.recovery.text'})}
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">

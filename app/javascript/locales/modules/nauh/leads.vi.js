@@ -229,6 +229,9 @@ export const appLocale = {
         label: 'Học viên',
         // attrs.info.duplicated
         duplicated: 'Contact trùng',
+
+        // attrs.info.recovery
+        recovery: 'Thu hồi',
       },
       campaign: {
         // attrs.campaign.label
@@ -810,7 +813,7 @@ export const appLocale = {
             export: {
               // index.filters_form.form_item.button.export.text
               text: 'Xuất ({numOfItem})',
-            },
+            }
           },
         },
       },

@@ -280,3 +280,36 @@ export function fetchLeadLeadCareHistories(lead, params) {
       .catch(error => dispatch(fetchLeadLeadCareHistoriesFailure(lead, error)))
   }
 }
+function setIsRecoveringLeads() {
+  return {
+    type: actionTypes.SET_IS_RECOVERING_LEADS,
+  }
+}
+
+function recoveryLeadsSuccess(updateMultipleResults) {
+  return {
+    type: actionTypes.RECOVERING_LEADS_SUCCESS,
+    updateMultipleResults,
+  }
+}
+
+function recoveryLeadsFailure(error) {
+  return {
+    type: actionTypes.RECOVERING_LEADS_FAILURE,
+    error,
+  }
+}
+
+export function recoveryLeads(params) {
+  return (dispatch, getStore) => {
+    dispatch(setIsRecoveringLeads())
+    authRequest
+      .submitEntity(`${NAUH_BASE_URL}${LEADS_API_PATH}/update_multiple_recovery`, params)
+      .then(res => {
+        const filterParams = getFilterParams(getStore().indexState.get('leadFilters'))
+        dispatch(recoveryLeadsSuccess(res.data))
+        dispatch(fetchLeads(filterParams))
+      })
+      .catch(error => dispatch(recoveryLeadsSuccess(error)))
+  }
+}
