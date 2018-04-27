@@ -17,6 +17,25 @@ export const appLocale = {
           }
         }
       },
+        report: {
+            label: 'Báo cáo',
+            placeholder: {
+                select: {
+                    none: '-- Tất cả --'
+                }
+            }
+        },
+        calls: {
+            label: 'Số lần gọi',
+            placeholder: {
+                select: {
+                    none: '-- Tất cả --'
+                }
+            }
+        },
+        lead_care: {
+            label: 'Quan tâm',
+        },
       campaign: {
         // attrs.campaign.label
         label: 'Campaign',
