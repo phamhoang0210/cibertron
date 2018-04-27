@@ -94,6 +94,8 @@ class LeadFiltersFormBox extends React.Component {
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
     const otherFilters = sharedState.get('otherFilters')
+    const calls = sharedState.get('calls')
+    const report = sharedState.get('report')
     const users = sharedState.get('users')
     const recordTotal = indexState.getIn(['leadFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
@@ -237,6 +239,66 @@ class LeadFiltersFormBox extends React.Component {
                 )}
               </FormItem>
             </Col>
+              <Col span={8}>
+                  <FormItem
+                      label={intl.formatMessage({id: 'attrs.calls.label'})}
+                      {...FILTER_FORM_ITEM_LAYOUT}
+                  >
+                      {getFieldDecorator('calls', {
+                          rules: [{ type: 'array' }],
+                          ...this.initialValues.calls,
+                      })(
+                          <Select
+                              showSearch
+                              filterOption={selectFilterOption}
+                              mode="multiple"
+                              placeholder={intl.formatMessage({id: 'attrs.calls.placeholder.select.none'})}
+                              allowClear={true}
+                          >
+                              {calls.toJS().map(calls => (
+                                  <Option value={`${calls.value}`} key={calls.value}>
+                                      {calls.title}
+                                  </Option>
+                              ))}
+                          </Select>
+                      )}
+                  </FormItem>
+              </Col>
+              <Col span={8}>
+                  <FormItem
+                      label={intl.formatMessage({id: 'attrs.lead_care.label'})}
+                      {...FILTER_FORM_ITEM_LAYOUT}
+                  >
+                      {getFieldDecorator('lead_care', {
+                          ...this.initialValues.lead_care,
+                      })(<Input/>)}
+                  </FormItem>
+              </Col>
+              <Col span={8}>
+                  <FormItem
+                      label={intl.formatMessage({id: 'attrs.report.label'})}
+                      {...FILTER_FORM_ITEM_LAYOUT}
+                  >
+                      {getFieldDecorator('report', {
+                          rules: [{ type: 'array' }],
+                          ...this.initialValues.report,
+                      })(
+                          <Select
+                              showSearch
+                              filterOption={selectFilterOption}
+                              mode="multiple"
+                              placeholder={intl.formatMessage({id: 'attrs.report.placeholder.select.none'})}
+                              allowClear={true}
+                          >
+                              {report.toJS().map(report => (
+                                  <Option value={`${report.value}`} key={report.value}>
+                                      {report.title}
+                                  </Option>
+                              ))}
+                          </Select>
+                      )}
+                  </FormItem>
+              </Col>
           </Row>
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
