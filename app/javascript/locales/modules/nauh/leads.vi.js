@@ -33,6 +33,14 @@ export const appLocale = {
                 }
             }
         },
+        source_contact: {
+            label: 'Nguồn',
+            placeholder: {
+                select: {
+                    none: '-- Tất cả --'
+                }
+            }
+        },
         lead_care: {
             label: 'Quan tâm',
         },
