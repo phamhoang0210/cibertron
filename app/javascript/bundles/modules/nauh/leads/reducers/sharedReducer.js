@@ -44,8 +44,23 @@ export const initialState = Immutable.fromJS({
   ],
   otherFilters: [
     { value: 'duplicated', title: 'Trùng'},
+    { value: 'unduplicated', title: 'Không Trùng'},
     { value: 'recovery', title: 'Thu hồi'}
   ],
+    calls: [
+        {value: '1', title: '1 lần'},
+        {value: '2', title: '2 lần'},
+        {value: '3', title: '3 lần'},
+        {value: '4', title: '4 lần'},
+        {value: '5', title: '5 lần'},
+        {value: '6', title: '6 lần'},
+        {value: '7', title: 'Trên 7 lần'},
+    ],
+    report: [
+        { value: 'lichhen', title: 'Lịch hẹn'},
+        { value: 'dagoi', title: 'Đã gọi'},
+        { value: 'chuagoi', title: 'Chưa gọi'}
+    ],
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
