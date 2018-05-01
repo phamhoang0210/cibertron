@@ -3,6 +3,7 @@ export * from 'app/constants/paths'
 export const CAMPAIGNS_URL = '/ees/campaigns'
 export const CAMPAIGNS_API_PATH = '/api/secure/v1/campaigns'
 export const SEND_CAMPAIGN_API_PATH = '/api/secure/v1/campaigns/send'
+export const SEND_TEST_API_PATH = '/api/secure/v1/campaigns/send_test'
 
 export const LISTS_API_PATH = '/api/secure/v1/lists'
 export const SENDERS_API_PATH = '/api/secure/v1/senders'

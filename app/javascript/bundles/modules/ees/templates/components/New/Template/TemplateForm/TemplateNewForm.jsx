@@ -42,7 +42,7 @@ class TemplateNewForm extends React.Component {
     return (
       <div>
         <h3><Icon type="smile" /> Cung cấp cụ thể địa chỉ, thông tin liên hệ của Edumall ở phần footer của email template.</h3>
-        <h3><Icon type="smile-o" /> Template khi tạo phải có thẻ Unsubscribe: <b>{"ees_unsubscribes"}</b> Ví dụ: </h3>
+        <h3><Icon type="smile-o" /> Template khi tạo phải có thẻ Unsubscribe: <b>{"{ees_unsubscribes}"}</b> Ví dụ: </h3>
         <h3><Icon type="exclamation" /> (Đây là ví dụ, không phải mẫu, không khuyến khích copy, nên chỉnh sửa lại cho phù hợp template) </h3>
         <Alert
           description={"<div style=\"font-size: 16px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center;\"><div class=\"our-class\"> Bỏ theo dõi, click <a href=\"{ees_unsubscribes}\">Đây</a> </div></div>"}
