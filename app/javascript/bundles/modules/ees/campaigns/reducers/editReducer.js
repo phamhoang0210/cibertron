@@ -7,6 +7,7 @@ export const initialState = Immutable.fromJS({
   campaign: null,
   isFetchingCampaign: false,
   isUpdatingCampaign: false,
+  isSendingTest: false,
   alert: null
 })
 
@@ -79,6 +80,26 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.SEND_CAMPAIGN_FAILURE: {
       return $$state.merge({
         isSendingCampaign: false,
+        alert: parseError(error)
+      })
+    }
+
+    case actionTypes.SET_IS_SENDING_TEST: {
+      return $$state.merge({
+        isSendingTest: true,
+      })
+    }
+
+    case actionTypes.SEND_TEST_SUCCESS: {
+      return $$state.merge({
+        isSendingTest: false,
+        alert: createSuccessAlert(`Test thành công!`),
+      })
+    }
+
+    case actionTypes.SEND_TEST_FAILURE: {
+      return $$state.merge({
+        isSendingTest: false,
         alert: parseError(error)
       })
     }

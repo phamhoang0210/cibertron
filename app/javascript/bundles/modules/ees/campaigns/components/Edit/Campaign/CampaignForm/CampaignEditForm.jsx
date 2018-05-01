@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Popconfirm, Tabs, Icon } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Popconfirm, Tabs, Icon, Tooltip } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
@@ -20,6 +20,7 @@ class CampaignEditForm extends React.Component {
       'handleBack',
       'handleSubmit',
       'handleSendCampaign',
+      'handleSendTest',
     ])
   }
 
@@ -44,13 +45,24 @@ class CampaignEditForm extends React.Component {
     })
   }
 
+  handleSendTest(e) {
+    e.preventDefault()
+    const {actions, editState} = this.props
+    var campaignId = editState.getIn(['campaign', '_id', '$oid'])
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        actions.sendTest(campaignId, {record: values})
+      }
+    })
+  }
+
   renderMessage(){
     return (
       <div>
         <h3><Icon type="warning" /> Subject cần phải rõ ràng, đúng với nội dung trong email.</h3>
         <h3><Icon type="warning" /> Campaign đã gửi không thể sửa hoặc xóa.</h3>
         <h3><Icon type="warning" /> Hệ thống sẽ tự động gửi một bản email cho người gửi.</h3>
-        <h3><Icon type="smile-o" /> Nên sử dụng chức năng <b>Send test</b> trước khi gửi campaign.</h3>
+        <h3><Icon type="smile-o" /> Nên sử dụng chức năng <b>Gửi thử</b> trước khi gửi campaign.</h3>
       </div>
     )
   }
@@ -232,11 +244,42 @@ class CampaignEditForm extends React.Component {
                           >
                             {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                           </Button>
+                          <Button
+                            className="button-margin--left--default"
+                            type="default"
+                            onClick={this.handleSendTest}
+                          >
+                          {intl.formatMessage({id: 'actions.send_test.label'})}
+                        </Button>
                         </FormItem>
+
+                        {/* Test emails item */}
+                        <FormItem
+                          label={intl.formatMessage({id: 'attrs.test_emails.label'})}
+                          {...DEFAULT_FORM_ITEM_LAYOUT}
+                        >
+                          <Tooltip title={intl.formatMessage({id: 'attrs.test_emails.tool_tip'})}>
+                            {getFieldDecorator('test_emails')(<Input />)}
+                          </Tooltip>
+                        </FormItem>
+
+                        {/* Buttons item */}
+                        <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
+                          
+                          <Button
+                            className="button-margin--left--default"
+                            type="default"
+                            onClick={this.handleSendTest}
+                          >
+                          {intl.formatMessage({id: 'actions.send_test.label'})}
+                        </Button>
+                        </FormItem>
+
                       </Form>)}
                     </Col>
                     {campaign &&
                       (<Col span={12}>
+                        <Row>
                         <Popconfirm
                           placement="topLeft"
                           title={intl.formatMessage({id: 'popconfirm.send.title'})}
@@ -253,6 +296,8 @@ class CampaignEditForm extends React.Component {
                             {intl.formatMessage({id: 'form.form_item.button.send_email.text'})}
                           </Button>
                         </Popconfirm>
+                        </Row>
+
                       </Col>)}
                   </Row>
                 </TabPane>
