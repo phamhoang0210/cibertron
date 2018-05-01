@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
@@ -36,6 +36,20 @@ class TemplateNewForm extends React.Component {
         actions.createTemplate({record: values})
       }
     })
+  }
+
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="smile" /> Cung cấp cụ thể địa chỉ, thông tin liên hệ của Edumall ở phần footer của email template.</h3>
+        <h3><Icon type="smile-o" /> Template khi tạo phải có thẻ Unsubscribe: <b>{"ees_unsubscribes"}</b> Ví dụ: </h3>
+        <h3><Icon type="exclamation" /> (Đây là ví dụ, không phải mẫu, không khuyến khích copy, nên chỉnh sửa lại cho phù hợp template) </h3>
+        <Alert
+          description={"<div style=\"font-size: 16px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center;\"><div class=\"our-class\"> Bỏ theo dõi, click <a href=\"{ees_unsubscribes}\">Đây</a> </div></div>"}
+          type="success"
+        />
+      </div>
+    )
   }
 
   render() {
@@ -124,6 +138,16 @@ class TemplateNewForm extends React.Component {
                 </Button>
               </FormItem>
             </Form>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={15} offset={5}>
+            <Alert
+              message="Có thể bạn đã biết"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+            />
           </Col>
         </Row>
 

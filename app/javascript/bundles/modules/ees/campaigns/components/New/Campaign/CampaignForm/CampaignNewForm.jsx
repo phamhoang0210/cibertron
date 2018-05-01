@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
@@ -36,6 +36,15 @@ class CampaignNewForm extends React.Component {
         actions.createCampaign({record: values})
       }
     })
+  }
+
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="smile-o" /> Mỗi người có một budget 20k email/ngày, không được gửi quá budget, nên chia ra các khung giờ để gửi.</h3>
+        <h3><Icon type="smile-o" /> Subject cần phải rõ ràng, đúng với nội dung trong email.</h3>
+      </div>
+    )
   }
 
   render() {
@@ -205,8 +214,15 @@ class CampaignNewForm extends React.Component {
               </FormItem>
             </Form>
           </Col>
-          <Col span={12}>
-            
+        </Row>
+        <Row>
+          <Col span={9} offset={3}>
+            <Alert
+              message="Có thể bạn đã biết"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+            />
           </Col>
         </Row>
 
