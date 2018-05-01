@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  CAMPAIGNS_API_PATH, SEND_CAMPAIGN_API_PATH
+  CAMPAIGNS_API_PATH, SEND_CAMPAIGN_API_PATH, SEND_TEST_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -102,4 +102,36 @@ export function sendCampaign(campaignId, params = {}) {
   }
 }
 
+// Send Test
+function setIsSendingTest() {
+  return {
+    type: actionTypes.SET_IS_SENDING_TEST,
+  }
+}
 
+function sendTestSuccess(record) {
+  return {
+    type: actionTypes.SEND_TEST_SUCCESS,
+    record,
+  }
+}
+
+function sendTestFailure(error) {
+  return {
+    type: actionTypes.SEND_TEST_FAILURE,
+    error,
+  }
+}
+
+export function sendTest(campaignId, params = {}) {
+  params['campaignId'] = campaignId
+  return dispatch => {
+    dispatch(setIsSendingTest())
+    authRequest
+      .submitEntity(`${FURION_INTERNAL_BASE_URL}${SEND_TEST_API_PATH}`, params)
+      .then(res => {
+        dispatch(sendTestSuccess(res.data))
+      })
+      .catch(error => dispatch(sendTestFailure(error)))
+  }
+}
