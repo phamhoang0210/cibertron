@@ -229,16 +229,16 @@ class CampaignsTableBox extends React.Component {
         </Row>
         
         {campaigns && (<Table
-                          bordered
-                          size="middle"
-                          columns={this.columns}
-                          dataSource={campaigns.toJS()}
-                          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-                          rowClassName={rowClassName}
-                          rowKey="id"
-                          onChange={this.handleTableChange}
-                          loading={isFetchingCampaigns}
-                        />)}
+          bordered
+          size="middle"
+          columns={this.columns}
+          dataSource={campaigns.toJS()}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+          rowClassName={rowClassName}
+          rowKey="id"
+          onChange={this.handleTableChange}
+          loading={isFetchingCampaigns}
+        />)}
       </div>
     )
   }

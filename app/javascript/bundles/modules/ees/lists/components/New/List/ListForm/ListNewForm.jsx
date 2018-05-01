@@ -42,6 +42,18 @@ class ListNewForm extends React.Component {
     })
   }
 
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="smile-o" /> Tệp email chỉ nên có 1 cột với header là <b>email</b>.</h3>
+        <h3><Icon type="smile-o" /> Nên lọc và định dạng lại ngôn ngữ thành không dấu trước khi upload.</h3>
+        <h3><Icon type="smile-o" /> Nên upload lên Google Sheet, sau đấy tải về để có định dạng chuẩn.</h3>
+        <h3><Icon type="smile" /> Làm hết các cách trên mà vẫn lỗi thì chịu, đi báo Product Support.</h3>
+        <h3><Icon type="edit" /> Ở phần Edit, có thể tải lên các tệp khác vào cùng một List.</h3>
+      </div>
+    )
+  }
+
   render() {
     const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
@@ -98,7 +110,16 @@ class ListNewForm extends React.Component {
             </Form>
           </Col>
         </Row>
-
+        <Row>
+          <Col span={15} offset={5}>
+            <Alert
+              message="Có thể bạn đã biết"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+            />
+          </Col>
+        </Row>
       </div>
     );
   }

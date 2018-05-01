@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Popconfirm, Tabs } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Popconfirm, Tabs, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
@@ -42,6 +42,17 @@ class CampaignEditForm extends React.Component {
         actions.updateCampaign(campaignId, {record: values})
       }
     })
+  }
+
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="warning" /> Subject cần phải rõ ràng, đúng với nội dung trong email.</h3>
+        <h3><Icon type="warning" /> Campaign đã gửi không thể sửa hoặc xóa.</h3>
+        <h3><Icon type="warning" /> Hệ thống sẽ tự động gửi một bản email cho người gửi.</h3>
+        <h3><Icon type="smile-o" /> Nên sử dụng chức năng <b>Send test</b> trước khi gửi campaign.</h3>
+      </div>
+    )
   }
 
   render() {
@@ -248,6 +259,16 @@ class CampaignEditForm extends React.Component {
                 <TabPane tab="Stats" key="2">Content of tab 2</TabPane>
               </Tabs>
             </Col>)}
+        </Row>
+        <Row>
+          <Col span={9} offset={3}>
+            <Alert
+              message="Có thể bạn đã biết"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+            />
+          </Col>
         </Row>
       </div>
     );
