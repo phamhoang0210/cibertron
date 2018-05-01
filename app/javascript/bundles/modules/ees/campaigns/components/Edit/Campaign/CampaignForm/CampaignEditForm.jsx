@@ -244,13 +244,6 @@ class CampaignEditForm extends React.Component {
                           >
                             {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                           </Button>
-                          <Button
-                            className="button-margin--left--default"
-                            type="default"
-                            onClick={this.handleSendTest}
-                          >
-                          {intl.formatMessage({id: 'actions.send_test.label'})}
-                        </Button>
                         </FormItem>
 
                         {/* Test emails item */}
