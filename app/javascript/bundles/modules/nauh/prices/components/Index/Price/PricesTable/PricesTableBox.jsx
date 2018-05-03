@@ -34,15 +34,15 @@ class PricesTableBox extends React.Component {
     this.initialValues = this.getInitialValues()
 
     this.columns = [{
-        title: intl.formatMessage({id: 'Tên khóa học'}),
+        title: intl.formatMessage({id: 'attrs.name_course.label'}),
         dataIndex: 'name',
         key: 'name',
     }, {
-      title: intl.formatMessage({id: 'Giá thấp nhất'}),
+      title: intl.formatMessage({id: 'attrs.min_price.label'}),
       dataIndex: 'min_price',
       key: 'min_price',
     }, {
-        title: intl.formatMessage({id: 'Giá cao nhất'}),
+        title: intl.formatMessage({id: 'attrs.max_price.label'}),
         dataIndex: 'max_price',
         key: 'max_price',
     }, {

@@ -1,5 +1,5 @@
 import React from 'react'
-import OrderNewForm from './Order/OrderForm/OrderNewForm'
+import PriceNewForm from './Price/PriceForm/PriceNewForm'
 import { injectIntl } from 'react-intl'
 
 class NewScreen extends React.Component {
@@ -30,7 +30,7 @@ class NewScreen extends React.Component {
           </h1>
         </div>
         <div className="box-body">
-          <OrderNewForm {...this.props}/>
+          <PriceNewForm {...this.props}/>
         </div>
       </div>
     )

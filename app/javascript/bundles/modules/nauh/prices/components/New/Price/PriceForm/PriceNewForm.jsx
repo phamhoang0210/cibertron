@@ -20,7 +20,7 @@ const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 const TextArea = Input.TextArea
 
-class OrderNewForm extends React.Component {
+class PriceNewForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -41,7 +41,7 @@ class OrderNewForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let params = this.formatFormData(values)
-        actions.createOrder({record: params})
+        actions.createPrice({record: params})
       }
     })
   }
@@ -97,7 +97,7 @@ class OrderNewForm extends React.Component {
     const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
     const alert = newState.get('alert')
-    const isCreatingOrder = newState.get('isCreatingOrder')
+    const isCreatingPrice = newState.get('isCreatingPrice')
     const isFetchingLead = newState.get('isFetchingLead')
     const campaigns = sharedState.get('campaigns')
     const lead = newState.get('lead')
@@ -219,7 +219,7 @@ class OrderNewForm extends React.Component {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      loading={isCreatingOrder}
+                      loading={isCreatingPrice}
                     >
                       {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                     </Button>
@@ -543,4 +543,4 @@ class OrderNewForm extends React.Component {
   }
 }
 
-export default Form.create()(injectIntl(OrderNewForm))
+export default Form.create()(injectIntl(PriceNewForm))

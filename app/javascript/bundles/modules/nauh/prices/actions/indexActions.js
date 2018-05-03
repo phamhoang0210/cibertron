@@ -29,7 +29,7 @@ export function fetchPrices(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingPrices())
     authRequest
-      .fetchEntities(`${NAUH_BASE_URL}${PRICES_API_PATH}`, params)
+      .fetchEntities(`${NAUH_BASE_URL}${PRICES_API_PATH}`, null)
       .then(res => dispatch(fetchPricesSuccess(res.data)))
       .catch(error => dispatch(fetchPricesFailure(error)))
   }

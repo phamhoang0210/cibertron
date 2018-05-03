@@ -9,33 +9,18 @@ export const appLocale = {
     ...commontAntdVi,
     attrs: {
       id: {
-        // attrs.id.label
         label: 'Id',
       },
-      created_at: {
-        // attrs.created_at.label
-        label: 'Ngày tạo',
+      name_course: {
+        label: 'Tên khóa học',
       },
-      lead: {
-        // attrs.lead.label
-        label: 'Lead',
+      min_price: {
+        label: 'Giá thấp nhất',
       },
-      campaign: {
-        // attrs.campaign.label
-        label: 'Campaign',
-        errors: {
-          // attrs.campaign.errors.required
-          required: 'Campaign là trường bắt buộc!'
-        },
-        placeholder: {
-          select: {
-            // attrs.campaign.placeholder.select.single
-            single: 'Chọn campaign'
-          }
-        }
+      max_price: {
+        label: 'Giá cao nhất',
       },
       order_level_code: {
-        // attrs.order_level_code.label
         label: 'Level',
       },
       order_level_id: {
@@ -148,7 +133,7 @@ export const appLocale = {
         tools: {
           search: {
             // index.orders_table.tools.search.placeholder
-            placeholder: 'Tìm theo email..'
+            placeholder: 'Tìm theo tên khóa học...'
           }
         }
       },
@@ -165,11 +150,11 @@ export const appLocale = {
     },
     new: {
       // new.title
-      title: 'Tạo mới đơn hàng',
+      title: 'Tạo mới giá',
     },
     edit: {
       // edit.title
-      title: 'Cập nhật đơn hàng',
+      title: 'Cập nhật giá',
     },
   }),
   antd: antdVi,
