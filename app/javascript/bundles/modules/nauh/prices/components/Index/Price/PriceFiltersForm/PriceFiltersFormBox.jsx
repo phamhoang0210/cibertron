@@ -101,7 +101,7 @@ class PriceFiltersFormBox extends React.Component {
     const isFetchingPrices = indexState.get('isFetchingPrices')
     const campaigns = sharedState.get('campaigns')
     const users = sharedState.get('users')
-    const priceLevels = sharedState.get('priceLevels')
+    const orderLevels = sharedState.get('orderLevels')
     const paymentMethods = sharedState.get('paymentMethods')
     const recordTotal = indexState.getIn(['priceFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
