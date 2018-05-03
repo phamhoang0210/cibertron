@@ -33,6 +33,14 @@ export const appLocale = {
                 }
             }
         },
+        source_contact: {
+            label: 'Nguồn',
+            placeholder: {
+                select: {
+                    none: '-- Tất cả --'
+                }
+            }
+        },
         lead_care: {
             label: 'Quan tâm',
         },
@@ -271,6 +279,10 @@ export const appLocale = {
       interest: {
         // attrs.interest.label
         label: 'Quan tâm',
+      },
+      source_url: {
+        // attrs.interest.source_url
+        label: 'Link sp',
       },
       note: {
         // attrs.note.label
