@@ -46,6 +46,17 @@ class PricesTableBox extends React.Component {
         dataIndex: 'max_price',
         key: 'max_price',
     }, {
+        title: intl.formatMessage({id: 'attrs.is_sale.label'}),
+        dataIndex: 'is_sale',
+        key: 'is_sale',
+        render: value => {
+          if (value == '0'){
+            return 'Không'
+          }else{
+            return 'Có'
+          }
+        },
+    }, {
       title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',

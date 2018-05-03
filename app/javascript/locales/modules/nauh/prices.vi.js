@@ -20,6 +20,9 @@ export const appLocale = {
       max_price: {
         label: 'Giá cao nhất',
       },
+        is_sale: {
+            label: 'Được bán?',
+        },
       order_level_code: {
         label: 'Level',
       },

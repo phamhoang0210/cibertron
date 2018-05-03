@@ -48,17 +48,15 @@ class PriceNewForm extends React.Component {
 
   formatFormData(values) {
     const {newState} = this.props
-    const lead = newState.get('lead')
 
     let params = values
     const product = params.product
 
     if(product && product.length == 2) {
-      params.target = product[0]
+      params.name = product[0]
       params.course_id = product[1]
     }
 
-    params.lead_id = lead.get('id')
     params = {...params, ...params[params['method_payment']]}
 
     return params
@@ -93,127 +91,61 @@ class PriceNewForm extends React.Component {
     ]
   }
 
+
+
   render() {
     const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
-    const alert = newState.get('alert')
     const isCreatingPrice = newState.get('isCreatingPrice')
-    const isFetchingLead = newState.get('isFetchingLead')
-    const campaigns = sharedState.get('campaigns')
-    const lead = newState.get('lead')
-    const paymentMethods = newState.get('paymentMethods')
-    const productCascaderOptions = this.getProductCascaderOptions()
+      const productCascaderOptions = this.getProductCascaderOptions()
     
     return (
       <div className="main-content-form-box">
-        {alert && !alert.isEmpty() && (
-          <Row className="main-content-form-box-alert-box">
-            <Col span={12}>
-              <AlertBox
-                messages={alert.get('messages')}
-                type={alert.get('type')}
-              />
-            </Col>
-          </Row>
-        )}
-        {isFetchingLead && (
-          <div className="main-content-form-box-loading-box">
-            <Spin />
-          </div>
-        )}
-          {lead && !lead.isEmpty() && (
+          {(
             <Row gutter={16}>
               <Form onSubmit={this.handleSubmit} layout="horizontal">
                 <Col span={12}>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.name.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('name', {
-                      rules: [
-                        { required: true, message: intl.formatMessage({id: 'attrs.name.errors.required'}) }
-                      ],
-                      initialValue: lead.get('name'),
-                    })(<Input/>)}
-                  </FormItem>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.email.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('email', {
-                      rules: [
-                        { required: true, message: intl.formatMessage({id: 'attrs.email.errors.required'}) }
-                      ],
-                      initialValue: lead.get('email'),
-                    })(<Input/>)}
-                  </FormItem>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.mobile.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('mobile', {
-                      rules: [
-                        { required: true, message: intl.formatMessage({id: 'attrs.mobile.errors.required'}) }
-                      ],
-                      initialValue: lead.get('mobile'),
-                    })(<Input/>)}
-                  </FormItem>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.product.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('product', {
-                      rules: [
-                        { required: true, message: intl.formatMessage({id: 'attrs.product.errors.required'}) }
-                      ],
-                    })(
-                      <Cascader
-                        options={productCascaderOptions}
-                        placeholder={intl.formatMessage({id: 'attrs.product.placeholder.select.single'})}
-                        showSearch
-                      />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.promotion_price.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('promotion_price', {
-                      rules: [{ required: true, message: intl.formatMessage({id: 'attrs.promotion_price.errors.required'}) }],
-                    })(
-                      <Input/>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.coupon_code.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('coupon_code')(
-                      <Input/>
-                    )}
-                  </FormItem>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.campaign.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('campaign_id', {
-                      rules: [
-                        { required: true, message: intl.formatMessage({id: 'attrs.campaign.errors.required'}) }
-                      ],
-                    })(
-                      <Select
-                        showSearch
-                        filterOption={selectFilterOption}
-                        placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.single'})}
-                      >
-                        {campaigns.map(campaign => (
-                          <Option value={`${campaign.get('id')}`} key={campaign.get('id')}>
-                            {campaign.get('code')}
-                          </Option>
-                        ))}
-                      </Select>
-                    )}
-                  </FormItem>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.product.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('product', {
+                            rules: [
+                                { required: true, message: intl.formatMessage({id: 'attrs.product.errors.required'}) }
+                            ],
+                        })(
+                            <Cascader
+                                options={productCascaderOptions}
+                                placeholder={intl.formatMessage({id: 'attrs.product.placeholder.select.single'})}
+                                showSearch
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.min_price.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('min_price')(
+                            <Input/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.max_price.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('max_price')(
+                            <Input/>
+                        )}
+                    </FormItem>
+                    <FormItem {...DEFAULT_FORM_TAIL_LAYOUT}>
+                        {getFieldDecorator('is_sale', {
+                            valuePropName: 'checked',
+                            initialValue: true,
+                        })(
+                            <Checkbox>Cho phép bán?</Checkbox>
+                        )}
+                    </FormItem>
+
                   <FormItem
                      {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                     <Button
@@ -227,28 +159,6 @@ class PriceNewForm extends React.Component {
                       Back
                     </Button>*/}
                   </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    label={intl.formatMessage({id: 'attrs.method_payment.label'})}
-                    {...DEFAULT_FORM_ITEM_LAYOUT}
-                  >
-                    {getFieldDecorator('method_payment', {
-                      rules: [
-                        { required: true, message: intl.formatMessage({id: 'attrs.method_payment.errors.required'}) }
-                      ],
-                      initialValue: "COD",
-                    })(
-                      <RadioGroup>
-                        {paymentMethods.map(method => (
-                          <RadioButton value={method.get('value')} key={method.get('value')}>
-                            {method.get('title')}
-                          </RadioButton>
-                        ))}
-                      </RadioGroup>
-                    )}
-                  </FormItem>
-                  {this.renderPaymentDetails()}
                 </Col>
               </Form>
             </Row>
