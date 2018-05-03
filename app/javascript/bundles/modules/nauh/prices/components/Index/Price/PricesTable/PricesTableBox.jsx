@@ -51,9 +51,9 @@ class PricesTableBox extends React.Component {
         key: 'is_sale',
         render: value => {
           if (value == '0'){
-            return 'Không'
+            return 'Không được bán'
           }else{
-            return 'Có'
+            return 'Được bán'
           }
         },
     }, {

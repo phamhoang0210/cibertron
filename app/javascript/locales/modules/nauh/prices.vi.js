@@ -15,13 +15,13 @@ export const appLocale = {
         label: 'Tên khóa học',
       },
       min_price: {
-        label: 'Giá thấp nhất',
+        label: 'Giá sàn',
       },
       max_price: {
-        label: 'Giá cao nhất',
+        label: 'Giá trần',
       },
         is_sale: {
-            label: 'Được bán?',
+            label: 'Trạng thái',
         },
       order_level_code: {
         label: 'Level',
