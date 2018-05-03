@@ -280,6 +280,10 @@ export const appLocale = {
         // attrs.interest.label
         label: 'Quan tâm',
       },
+      source_url: {
+        // attrs.interest.source_url
+        label: 'Link sp',
+      },
       note: {
         // attrs.note.label
         label: 'Ghi chú',

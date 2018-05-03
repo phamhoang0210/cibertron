@@ -14,7 +14,7 @@ class LeadAssignFormBox extends React.Component {
     _.bindAll(this, [
       'handleSubmit',
     ])
-    this.state = {is_recovery:false}
+    this.state = {is_recovery:[false,null]}
     this.onCheckCheckbox = this.onCheckCheckbox.bind(this)
   }
 
@@ -35,7 +35,7 @@ class LeadAssignFormBox extends React.Component {
         actions.fetchLeadReport({fillter:{is_recovery:true}})
     } else {
       this.state.is_recovery = false;
-      actions.fetchLeadReport()
+      actions.fetchLeadReport({fillter:{is_recovery:[false,null]}})
     }
 
   }
