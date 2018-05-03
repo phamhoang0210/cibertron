@@ -34,101 +34,22 @@ class PricesTableBox extends React.Component {
     this.initialValues = this.getInitialValues()
 
     this.columns = [{
-      title: intl.formatMessage({id: 'attrs.lead.label'}),
-      dataIndex: 'lead',
-      key: 'lead',
-      width: '20%',
-      render: value => {
-        if(value) {
-          return (
-            <div>
-              <b>{value.name}</b><br/>
-              <span>{`• ${value.email}`}</span><br/>
-              <span>{`• ${value.mobile}`}</span><br/>
-            </div>
-          )
-        }
-      }
+        title: intl.formatMessage({id: 'Tên khóa học'}),
+        dataIndex: 'name',
+        key: 'name',
     }, {
-      title: intl.formatMessage({id: 'attrs.order_level_code.label'}),
-      dataIndex: 'order_level.code',
-      key: 'order_level_code',
-      width: '15%',
-      render: (value, record) => (
-        <div>
-          <Tag color={LEVEL_COLOR_MAPPINGS[value]}>{value}</Tag>
-          <br/>
-          <p style={{padding: "4px 0px"}}>
-            <i>{record.payment && record.payment.status}</i>
-          </p>
-        </div>
-      )
+      title: intl.formatMessage({id: 'Giá thấp nhất'}),
+      dataIndex: 'min_price',
+      key: 'min_price',
     }, {
-      title: intl.formatMessage({id: 'attrs.product.label'}),
-      dataIndex: 'product_id',
-      key: 'product_id',
-      width: '20%',
-      render: (value, record) => {
-        const {sharedState} = this.props
-        let product = null
-
-        if(record.product_type == 'course') {
-          product = sharedState.getIn(['courseSourceIdMappings', `${value}`])
-        } else if (record.product_type == 'combo') {
-          product = sharedState.getIn(['comboSourceIdMappings', `${value}`])
-        }
-
-        if(product) {
-          return (
-            <div>
-              <b>{product.get('code')}</b><br/>
-              <i>{product.get('name')}</i>
-            </div>
-          )
-        }
-      }
-    }, {
-      title: intl.formatMessage({id: 'attrs.promotion_price.label'}),
-      dataIndex: 'promotion_price',
-      key: 'promotion_price',
-    }, {
-      title: intl.formatMessage({id: 'attrs.payment_method.label'}),
-      dataIndex: 'payment.payment_method.name',
-      key: 'payment_method_name',
-    },{
-      title: intl.formatMessage({id: 'attrs.campaign.label'}),
-      dataIndex: 'campaign_code',
-      key: 'campaign_code',
+        title: intl.formatMessage({id: 'Giá cao nhất'}),
+        dataIndex: 'max_price',
+        key: 'max_price',
     }, {
       title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
-    }, {
-      title: intl.formatMessage({id: 'attrs.actions.label'}),
-      key: 'actions',
-      width: 100,
-      render: (cell, row) => {
-        return (
-          <div className="text-align--right">
-            <Button
-              icon="edit"
-              type="primary"
-              className="button-margin--top--default width--full"
-              onClick={(e) => this.handleEdit(row.id)}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
-            </Button>
-            <Button
-              icon="export"
-              className="button-margin--top--default width--full"
-              onClick={(e) => this.handleOpenOnEros(row.source_id)}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.eros.text'})}
-            </Button>
-          </div>
-        )
-      },
     }];
   }
 

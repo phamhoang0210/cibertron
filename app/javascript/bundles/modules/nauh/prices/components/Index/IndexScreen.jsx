@@ -32,7 +32,6 @@ class IndexScreen extends React.Component {
           </h1>
         </div>
         <div className="box-body">
-          <PriceFiltersFormBox {...this.props}/>
           <PricesTableBox {...this.props}/>
         </div>
       </div>

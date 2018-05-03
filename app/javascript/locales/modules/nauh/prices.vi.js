@@ -137,8 +137,8 @@ export const appLocale = {
     },
     index: {
       // index.title
-      title: 'Đơn hàng',
-      orders_table: {
+      title: 'Quản lý giá',
+      prices_table: {
         actions: {
           button: {
             // index.orders_table.actions.button.view_on_eros
