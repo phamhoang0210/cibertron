@@ -61,6 +61,11 @@ export const initialState = Immutable.fromJS({
         { value: 'dagoi', title: 'Đã gọi'},
         { value: 'chuagoi', title: 'Chưa gọi'}
     ],
+    source: [
+        { value: '1', title: 'Marketing'},
+        { value: '2', title: 'CC'},
+        { value: '3', title: 'Khác'}
+    ],
 })
 
 export default function sharedReducer($$state = initialState, action = null) {

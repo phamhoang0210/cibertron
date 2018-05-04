@@ -96,6 +96,7 @@ class LeadFiltersFormBox extends React.Component {
     const otherFilters = sharedState.get('otherFilters')
     const calls = sharedState.get('calls')
     const report = sharedState.get('report')
+    const source = sharedState.get('source')
     const users = sharedState.get('users')
     const recordTotal = indexState.getIn(['leadFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
@@ -266,16 +267,6 @@ class LeadFiltersFormBox extends React.Component {
               </Col>
               <Col span={8}>
                   <FormItem
-                      label={intl.formatMessage({id: 'attrs.lead_care.label'})}
-                      {...FILTER_FORM_ITEM_LAYOUT}
-                  >
-                      {getFieldDecorator('lead_care', {
-                          ...this.initialValues.lead_care,
-                      })(<Input/>)}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                  <FormItem
                       label={intl.formatMessage({id: 'attrs.report.label'})}
                       {...FILTER_FORM_ITEM_LAYOUT}
                   >
@@ -293,6 +284,31 @@ class LeadFiltersFormBox extends React.Component {
                               {report.toJS().map(report => (
                                   <Option value={`${report.value}`} key={report.value}>
                                       {report.title}
+                                  </Option>
+                              ))}
+                          </Select>
+                      )}
+                  </FormItem>
+              </Col>
+              <Col span={8}>
+                  <FormItem
+                      label={intl.formatMessage({id: 'attrs.source_contact.label'})}
+                      {...FILTER_FORM_ITEM_LAYOUT}
+                  >
+                      {getFieldDecorator('source', {
+                          rules: [{ type: 'array' }],
+                          ...this.initialValues.source,
+                      })(
+                          <Select
+                              showSearch
+                              filterOption={selectFilterOption}
+                              mode="multiple"
+                              placeholder={intl.formatMessage({id: 'attrs.source_contact.placeholder.select.none'})}
+                              allowClear={true}
+                          >
+                              {source.toJS().map(source => (
+                                  <Option value={`${source.value}`} key={source.value}>
+                                      {source.title}
                                   </Option>
                               ))}
                           </Select>

@@ -92,6 +92,10 @@ export const menuData = [
         path: '/nauh/leads',
         title: 'Leads',
       } , {
+        type: 'link',
+        path: '/nauh/prices',
+        title: 'Config Prices',
+      } ,{
         type: 'link', 
         path: '/nauh/orders',
         title: 'Orders',
