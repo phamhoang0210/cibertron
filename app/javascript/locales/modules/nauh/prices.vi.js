@@ -21,7 +21,7 @@ export const appLocale = {
         label: 'Giá trần',
       },
         is_sale: {
-            label: 'Trạng thái',
+            label: 'Được bán',
         },
       order_level_code: {
         label: 'Level',

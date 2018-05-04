@@ -134,30 +134,26 @@ class PriceNewForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem
-                        label={intl.formatMessage({id: 'attrs.min_price.label'})}
+                        label={intl.formatMessage({id: 'attrs.is_sale.label'})}
                         {...DEFAULT_FORM_ITEM_LAYOUT}
                     >
-                        {getFieldDecorator('min_price')(
-                            <Input/>
-                        )}
-                    </FormItem>
-                    <FormItem
-                        label={intl.formatMessage({id: 'attrs.max_price.label'})}
-                        {...DEFAULT_FORM_ITEM_LAYOUT}
-                    >
-                        {getFieldDecorator('max_price')(
-                            <Input/>
-                        )}
-                    </FormItem>
-                    <FormItem {...DEFAULT_FORM_TAIL_LAYOUT}>
                         {getFieldDecorator('is_sale', {
-                            valuePropName: 'checked',
-                            initialValue: true,
+                            rules: [
+                                { required: true }
+                            ],
+                            initialValue: '1',
                         })(
-                            <Checkbox>Cho phép bán?</Checkbox>
+                            <RadioGroup>
+                                <RadioButton value='1' key='1'>
+                                    Có
+                                </RadioButton>
+                                <RadioButton value='0' key='0'>
+                                    Không
+                                </RadioButton>
+                            </RadioGroup>
                         )}
                     </FormItem>
-
+                    {this.renderPricesDetails()}
                   <FormItem
                      {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                     <Button
@@ -178,6 +174,40 @@ class PriceNewForm extends React.Component {
       </div>
     );
   }
+    renderPricesDetails() {
+        const {newState, sharedState, form, intl} = this.props
+        const { getFieldDecorator, getFieldValue } = form
+        const is_sale = getFieldValue('is_sale')
+
+        if(is_sale == '1') {
+            return (
+                <div>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.min_price.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('min_price')(
+                            <Input/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.max_price.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('max_price')(
+                            <Input/>
+                        )}
+                    </FormItem>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+
+                </div>
+            )
+        }
+    }
 }
 
 export default Form.create()(injectIntl(PriceNewForm))
