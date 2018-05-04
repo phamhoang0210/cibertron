@@ -4,7 +4,7 @@ import {
   LEAD_LEVELS_API_PATH, CATEGORIES_API_PATH, COURSES_API_PATH,
   USERS_API_PATH, LEAD_STATUSES_API_PATH, COMBOS_API_PATH,
   LEADS_API_PATH, CAMPAIGNS_API_PATH, PAYMENT_METHODS_API_PATH,
-  PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH, SEXES_API_PATH
+  PROVINCES_API_PATH, LEAD_CARE_STATUSES_API_PATH, SEXES_API_PATH, PRICES_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -141,6 +141,37 @@ export function fetchCampaigns(params = {}) {
       .then(res => dispatch(fetchCampaignsSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignsFailure(error)))
   }
+}
+
+function setIsFetchingPrices() {
+    return {
+        type: actionTypes.SET_IS_FETCHING_PRICES,
+    }
+}
+
+function fetchPricesSuccess({records, filters}) {
+    return {
+        type: actionTypes.FETCH_PRICES_SUCCESS,
+        records,
+        filters,
+    }
+}
+
+function fetchPricesFailure(error) {
+    return {
+        type: actionTypes.FETCH_PRICES_FAILURE,
+        error,
+    }
+}
+
+export function fetchPrices(params = {}) {
+    return dispatch => {
+        dispatch(setIsFetchingPrices())
+        authRequest
+            .fetchEntities(`${NAUH_BASE_URL}${PRICES_API_PATH}`, params)
+            .then(res => dispatch(fetchPricesSuccess(res.data)))
+            .catch(error => dispatch(fetchPricesFailure(error)))
+    }
 }
 
 function setIsFetchingPaymentMethods() {
