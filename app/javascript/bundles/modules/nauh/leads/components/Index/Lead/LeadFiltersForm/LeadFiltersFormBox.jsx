@@ -267,16 +267,6 @@ class LeadFiltersFormBox extends React.Component {
               </Col>
               <Col span={8}>
                   <FormItem
-                      label={intl.formatMessage({id: 'attrs.lead_care.label'})}
-                      {...FILTER_FORM_ITEM_LAYOUT}
-                  >
-                      {getFieldDecorator('lead_care', {
-                          ...this.initialValues.lead_care,
-                      })(<Input/>)}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                  <FormItem
                       label={intl.formatMessage({id: 'attrs.report.label'})}
                       {...FILTER_FORM_ITEM_LAYOUT}
                   >
