@@ -159,6 +159,13 @@ export const appLocale = {
       // edit.title
       title: 'Cập nhật giá',
     },
+      popconfirm: {
+          delete: {
+              title: 'Are you sure delete this course?',
+              ok_text: 'Yes',
+              cancel_text: 'No'
+          }
+      },
   }),
   antd: antdVi,
   locale: 'en-US',

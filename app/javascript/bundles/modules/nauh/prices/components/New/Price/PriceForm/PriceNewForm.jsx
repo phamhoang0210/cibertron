@@ -97,11 +97,22 @@ class PriceNewForm extends React.Component {
   render() {
     const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
+    const alert = newState.get('alert')
     const isCreatingPrice = newState.get('isCreatingPrice')
-      const productCascaderOptions = this.getProductCascaderOptions()
+    const productCascaderOptions = this.getProductCascaderOptions()
     
     return (
       <div className="main-content-form-box">
+          {alert && !alert.isEmpty() && (
+              <Row className="main-content-form-box-alert-box">
+                  <Col span={12}>
+                      <AlertBox
+                          messages={alert.get('messages')}
+                          type={alert.get('type')}
+                      />
+                  </Col>
+              </Row>
+          )}
           {(
             <Row gutter={16}>
               <Form onSubmit={this.handleSubmit} layout="horizontal">
@@ -156,9 +167,9 @@ class PriceNewForm extends React.Component {
                     >
                       {intl.formatMessage({id: 'form.form_item.button.create.text'})}
                     </Button>
-                    {/*<Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
-                      Back
-                    </Button>*/}
+                    {<Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
+                      Trở lại
+                    </Button>}
                   </FormItem>
                 </Col>
               </Form>

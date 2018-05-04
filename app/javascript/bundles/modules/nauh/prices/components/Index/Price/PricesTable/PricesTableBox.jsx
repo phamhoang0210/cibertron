@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import Immutable from 'immutable'
-import { Table, Icon, Button, Row, Col, Input, Tag, Pagination } from 'antd'
+import { Table, Icon, Popconfirm, Button, Row, Col, Input, Tag, Pagination } from 'antd'
 import {
   getFilterParamsAndSyncUrl, getFilterParams, mergeDeep, getDefaultTablePagination,
   getInitialValueForSearch, getDefaultTableTitlePagination, generateErosOrderLink
@@ -37,6 +37,7 @@ class PricesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.name_course.label'}),
         dataIndex: 'name',
         key: 'name',
+        width: 450,
     }, {
       title: intl.formatMessage({id: 'attrs.min_price.label'}),
       dataIndex: 'min_price',
@@ -61,6 +62,33 @@ class PricesTableBox extends React.Component {
       dataIndex: 'created_at',
       key: 'created_at',
       render: value => moment(value).format(LONG_DATETIME_FORMAT),
+    }, {
+        title: '',
+        key: 'action',
+        width: 140,
+        render: (cell, row) => {
+            return (
+                <div className="text-align--center">
+                    <Button
+                        className="button-margin--left--default"
+                        onClick={(e) => this.handleEdit(row.id)}
+                    >
+                        {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
+                    </Button>
+                    <Popconfirm
+                        placement="topLeft"
+                        title={intl.formatMessage({id: 'popconfirm.delete.title'})}
+                        onConfirm={() => this.handleDelete(row.id)}
+                        okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+                        cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
+                    >
+                        <Button type="danger" loading={row.isDeleting}>
+                            {intl.formatMessage({id: 'form.form_item.button.delete.text'})}
+                        </Button>
+                    </Popconfirm>
+                </div>
+            )
+        },
     }];
   }
 
@@ -124,6 +152,11 @@ class PricesTableBox extends React.Component {
       <div style={{marginTop: '8px'}}>
         <Row style={{marginBottom: '8px'}}>
           <Col span={18}>
+              <Button
+                  onClick={this.handleAdd}
+              >
+                  {intl.formatMessage({id: 'form.form_item.button.add.text'})}
+              </Button>
           </Col>
           <Col span={6} style={{ textAlign: 'right' }}>
             <Search
