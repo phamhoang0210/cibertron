@@ -27,9 +27,9 @@ const IconText = ({ type, text }) => (
 );
 const content = (
   <div>
-    <p><IconText type="check" text="Email Sent" /> </p>
+    <p><IconText type="check" text="Email Sent" /></p>
     <p><IconText type="eye" text="Email Open" /></p>
-    <p><IconText type="select" text="Click Link" /></p>
+    <p><IconText type="star" text="Cost" /></p>
     <p><IconText type="dislike" text="Unsubscribe" /></p>
   </div>
 );
@@ -76,10 +76,11 @@ class CampaignsTableBox extends React.Component {
               
               <b>{row.name}</b><br/>
               <Popover content={content}>
-                {(<IconText type="check" text={(row.amount || row.amount >= 0)  ? row.amount : (<Icon type="loading" />)} />)}
-                {(<IconText type="eye" text={(row.opened || row.opened >= 0) ? row.opened : (<Icon type="loading" />)} />)}
-                <IconText type="dislike" text={(row.unsubscribed || row.unsubscribed >= 0) ? row.unsubscribed : (<Icon type="loading" />)} />
-                <IconText type="select" text="0" /><br/>
+                {row.amount != 0 && (<IconText type="check" text={(row.amount || row.amount >= 0)  ? row.amount : (<Icon type="loading" />)} />)}
+                {row.amount != 0 && (<IconText type="eye" text={(row.opened || row.opened >= 0) ? row.opened : (<Icon type="loading" />)} />)}
+                {row.amount != 0 && <IconText type="dislike" text={(row.unsubscribed || row.unsubscribed >= 0) ? row.unsubscribed : (<Icon type="loading" />)} />}
+                {row.amount != 0 && (<IconText type="star" text={(row.amount || row.amount > 0)  ? _.round(row.amount*0.00045, 2) + '$' : (<Icon type="loading" />)} />)}
+                <br/>
               </Popover>
             </div>
           )
