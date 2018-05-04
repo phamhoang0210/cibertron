@@ -50,6 +50,7 @@ class RecommendBox extends React.Component {
     this.props.actions.fetchRecommendation(email, 10)
     this.props.actions.fetchRecommendationNauh(lead_id)
     actions.fetchCampaigns({per_page: 'infinite'})
+    actions.fetchPrices({per_page: 'infinite'})
       //actions.fetchUser(lead.staff_id, {fields: 'basic_profile{}'})
   }
 
@@ -239,7 +240,7 @@ class RecommendBox extends React.Component {
 
     const Option = Select.Option
 
-
+    let prices = sharedState.get('prices')
     let allCourses = sharedState.get("courses")
 
     let recCourses = editState.get('recCourses')
@@ -379,6 +380,13 @@ class RecommendBox extends React.Component {
 
                 </Col>
               </Row>
+                <Row>
+                    <Col span={12}>
+                    </Col>
+                    <Col span={8} className="text-align--left">
+                        {this.renderPrices()}
+                    </Col>
+                </Row>
               <Row>
                 <Col span={16}>
                 </Col>
@@ -399,6 +407,19 @@ class RecommendBox extends React.Component {
       </div>
     );
   }
+    renderPrices() {
+        const {newState, sharedState, form, intl} = this.props
+        const { getFieldDecorator, getFieldValue } = form
+
+        if(true) {
+            return (
+                <div>
+                    <div>Giá sàn:</div>
+                    <div>Giá trần:</div>
+                </div>
+            )
+        }
+    }
 }
 
 export default Form.create()(injectIntl(RecommendBox))
