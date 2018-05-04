@@ -139,7 +139,7 @@ class PriceNewForm extends React.Component {
                     >
                         {getFieldDecorator('is_sale', {
                             rules: [
-                                { required: true, message: intl.formatMessage({id: 'attrs.is_sale.errors.required'}) }
+                                { required: true }
                             ],
                             initialValue: '1',
                         })(
