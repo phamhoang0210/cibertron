@@ -240,9 +240,7 @@ class RecommendBox extends React.Component {
 
     const Option = Select.Option
 
-    let prices = sharedState.get('prices')
     let allCourses = sharedState.get("courses")
-
     let recCourses = editState.get('recCourses')
     //recCourses.mergeDeep(allCourses);
 
@@ -381,7 +379,7 @@ class RecommendBox extends React.Component {
                 </Col>
               </Row>
                 <Row>
-                    <Col span={12}>
+                    <Col span={4}>
                     </Col>
                     <Col span={8} className="text-align--left">
                         {this.renderPrices()}
@@ -410,12 +408,25 @@ class RecommendBox extends React.Component {
     renderPrices() {
         const {newState, sharedState, form, intl} = this.props
         const { getFieldDecorator, getFieldValue } = form
-
+        let prices = sharedState.get('prices')
+        var listselected = this.state.selectCoursesId
+        var listPrice = []
+        listselected.map(function (select) {
+            prices.map(function (price) {
+              var priceid = price.get('course_id')
+              if(select == priceid) {
+                var min = price.get('min_price')
+                var max = price.get('max_price')
+                  listPrice.push(min, max)
+              }
+            })
+        })
+        listPrice.sort()
         if(true) {
             return (
                 <div>
-                    <div>Giá sàn:</div>
-                    <div>Giá trần:</div>
+                    <div>Giá sàn: <b>{listPrice[0]}</b></div>
+                    <div>Giá trần: <b>{listPrice[listPrice.length-1]}</b></div>
                 </div>
             )
         }
