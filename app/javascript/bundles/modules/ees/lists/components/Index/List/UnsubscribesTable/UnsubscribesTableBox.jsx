@@ -10,7 +10,6 @@ import {
   getDefaultTableTitlePagination, getFilterParams, getInitialValueForSearch,
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
-import { LISTS_URL } from '../../../../constants/paths'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
 import moment from 'moment'
@@ -111,8 +110,8 @@ class UnsubscribesTableBox extends React.Component {
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
-    let listParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location, {full_search: keyword})
-    actions.fetchLists(listParams)
+    let unsubscribeParams = getFilterParamsAndSyncUrl(indexState.get('listFilters'), location, {full_search: keyword})
+    actions.fetchUnsubscribes(unsubscribeParams)
   }
 
   handleImportUnsubscribe() {
@@ -145,6 +144,12 @@ class UnsubscribesTableBox extends React.Component {
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">
+            <Search
+              enterButton
+              defaultValue={this.initialValues.search}
+              placeholder="name"
+              onSearch={this.handleSearch}
+            />
           </Col>
         </Row>
         <Table
