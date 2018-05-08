@@ -2,6 +2,7 @@ import React from 'react'
 import ReportTableBox from './ReportTable/ReportTableBox'
 import { notification } from 'antd'
 import { injectIntl } from 'react-intl'
+import { getFilterParams } from 'helpers/applicationHelper'
 
 class ReportScreen extends React.Component {
   constructor(props) {
@@ -9,8 +10,9 @@ class ReportScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions} = this.props
-    actions.fetchLeadReport({})
+    const {actions, reportState} = this.props
+    const sourceParams = getFilterParams(reportState.get('reportFilters'))
+    actions.fetchReport(sourceParams)
     actions.fetchUsers({per_page: 'infinite'})
   }
 

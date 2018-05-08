@@ -5,7 +5,10 @@ import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_T
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { injectIntl } from 'react-intl'
-
+import {
+    getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
+    getInitialValue,
+} from 'helpers/applicationHelper'
 const RangePicker = DatePicker.RangePicker
 const FormItem = Form.Item
 const Option = Select.Option
@@ -15,19 +18,34 @@ class LeadReportFormBox extends React.Component {
     super(props)
 
     _.bindAll(this, [
-      'handleSubmit',
+      'handleFilter',
     ])
   }
 
-  handleSubmit(e) {
+    handleFilter(e) {
     e.preventDefault()
-    const {form, actions} = this.props
+    const {form, actions, reportState} = this.props
     form.validateFields((err, values) => {
       if (!err) {
-        actions.reportLeads(values)
+          actions.fetchReport(mergeDeep([{}, this.formatFormData(values)]))
       }
     })
   }
+
+    formatFormData(values) {
+        let formatedValues = values
+        const timerangeFields = ['date']
+        let compconds = {}
+
+        timerangeFields.forEach(field => {
+            const timeRange = formatedValues[field] || []
+            compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+            compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+            delete formatedValues[field]
+        })
+
+        return mergeDeep([formatedValues, compconds])
+    }
 
   render() {
     const {actions, reportState, sharedState, intl} = this.props
@@ -35,11 +53,11 @@ class LeadReportFormBox extends React.Component {
     const isReportingLeads = reportState.get('isReportingLeads')
     const { getFieldDecorator } = this.props.form
     return (
-        <Form layout="inline" onSubmit={this.handleSubmit}>
+        <Form layout="inline" onSubmit={this.handleFilter}>
             <FormItem
                 label="Chọn ngày"
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('fillter')(
+                {getFieldDecorator('date')(
                     <RangePicker
                         style={{width: '100%'}}
                         format={LONG_DATETIME_FORMAT}
