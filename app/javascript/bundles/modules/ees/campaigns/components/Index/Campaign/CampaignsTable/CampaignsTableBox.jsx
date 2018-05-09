@@ -3,7 +3,8 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select, Modal, Icon, Popover, Progress
+  Tag, Tabs, Badge, Select, Modal, Icon, Popover, Progress,
+  Alert
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -259,6 +260,9 @@ class CampaignsTableBox extends React.Component {
               <Progress percent={percent} status="active" />
             </Popover>
           </Col>
+        </Row>
+        <Row className="main-content-table-box-tools">
+          <Alert message="Hệ thống Email đang trong quá trình nâng cấp. Sẽ tạm ngừng hoạt động trong một thời gian ngắn. Đội kỹ thuật sẽ thống khi hệ thống hoạt động trở lại" type="error" />
         </Row>
         
         {campaigns && (<Table
