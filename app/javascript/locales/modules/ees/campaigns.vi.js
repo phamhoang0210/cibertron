@@ -72,6 +72,10 @@ export const appLocale = {
         // attrs.test_emails.tool_tip
         tool_tip: 'Các email cách nhau bằng dấu ;'
       },
+      open_percent: {
+        // attrs.open.label
+        label: 'Mở(%)',
+      },
     },
 
     actions: {
