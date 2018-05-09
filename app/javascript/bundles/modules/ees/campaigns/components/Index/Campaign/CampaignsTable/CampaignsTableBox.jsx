@@ -262,7 +262,7 @@ class CampaignsTableBox extends React.Component {
           </Col>
         </Row>
         <Row className="main-content-table-box-tools">
-          <Alert message="Hệ thống Email đang trong quá trình nâng cấp. Sẽ tạm ngừng hoạt động trong một thời gian ngắn. Đội kỹ thuật sẽ thống khi hệ thống hoạt động trở lại" type="error" />
+          <Alert message="Hệ thống Email đang trong quá trình nâng cấp. Sẽ tạm ngừng hoạt động trong một thời gian ngắn. Đội kỹ thuật sẽ thông báo khi hệ thống hoạt động trở lại" type="error" />
         </Row>
         
         {campaigns && (<Table
