@@ -59,6 +59,38 @@ class CampaignsTableBox extends React.Component {
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
+      title: intl.formatMessage({id: 'attrs.open_percent.label'}),
+      dataIndex: 'name',
+      key: 'open',
+      width: '7%',
+      render: (cell, row) => {
+        var amount = row.amount
+        var opened = row.opened
+        var status = ""
+        var open_percent = 0
+        if (row.amount > 0) {
+          open_percent = _.round(opened/(amount/100),2)
+        }
+
+        if (open_percent >= 10) {
+          status = "success"
+        } else if (open_percent < 10) {
+          status = "exception"
+        }
+        
+        if (row.amount == 0) {
+          return (
+            <Progress width={60} status="active" type="circle" format={percent => `${'?'}`} />
+          )
+        } else {
+          return (
+            <Progress width={60} status={status} type="circle" percent={open_percent} format={percent => `${percent}`} />
+          )
+        }
+        
+      },
+    },
+      {
         title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
         width: '50%',
