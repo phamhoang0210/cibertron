@@ -379,10 +379,8 @@ class RecommendBox extends React.Component {
                 </Col>
               </Row>
                 <Row>
-                    <Col span={4}>
-                    </Col>
-                    <Col span={8} className="text-align--left">
-                        {this.renderPrices()}
+                    <Col span={12} className="text-align--left" id="prices-box">
+                        <div dangerouslySetInnerHTML={{ __html: this.renderPrices() }} />
                     </Col>
                 </Row>
               <Row>
@@ -409,27 +407,24 @@ class RecommendBox extends React.Component {
         const {newState, sharedState, form, intl} = this.props
         const { getFieldDecorator, getFieldValue } = form
         let prices = sharedState.get('prices')
-        var listselected = this.state.selectCoursesId
+        var listSelectCourses = this.state.selectCourses
         var listPrice = []
-        listselected.map(function (select) {
+        listSelectCourses.map(function (course) {
             prices.map(function (price) {
               var priceid = price.get('course_id')
-              if(select == priceid) {
+              if(course.id == priceid) {
                 var min = price.get('min_price')
-                var max = price.get('max_price')
-                  listPrice.push(min, max)
+                var name = course.name
+                  listPrice.push([min, name])
               }
             })
         })
-        listPrice.sort()
-        if(true) {
-            return (
-                <div>
-                    <div>Giá sàn: <b>{listPrice[0]}</b></div>
-                    <div>Giá trần: <b>{listPrice[listPrice.length-1]}</b></div>
-                </div>
-            )
+        var arrayLength = listPrice.length;
+        var html = '<b>CÁC KHÓA HỌC BỊ GIỚI HẠN GIÁ ĐÃ CHỌN:</b><br>'
+        for (var i = 0; i < arrayLength; i++) {
+            html += listPrice[i][1] + ': <b>' + listPrice[i][0] + '</b><br>';
         }
+        return (html)
     }
 }
 
