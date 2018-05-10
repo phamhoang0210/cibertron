@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Checkbox, Row, Col, Button, Select, Alert, Spin, Cascader } from 'antd'
+import { Form, Input, Checkbox, Row, Col, Button, Select, Alert, Spin, Cascader, Radio } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 import {Map} from "immutable";
@@ -11,6 +11,8 @@ import {Map} from "immutable";
 const FormItem = Form.Item
 const { TextArea } = Input
 const { Option } = Select
+const RadioButton = Radio.Button
+const RadioGroup = Radio.Group
 
 class PriceEditForm extends React.Component {
   constructor(props) {
@@ -75,8 +77,7 @@ class PriceEditForm extends React.Component {
     const isUpdatingPrice = editState.get('isUpdatingPrice')
     const isFetchingPrice = editState.get('isFetchingPrice')
     const productCascaderOptions = this.getProductCascaderOptions()
-    const users = sharedState.get('users')
-    
+
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -114,30 +115,28 @@ class PriceEditForm extends React.Component {
                           />
                       )}
                   </FormItem>
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.min_price.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('min_price', {
-                    initialValue: `${price.get('min_price')}`,
-                  })(<Input />)}
-                </FormItem>
                   <FormItem
-                      label={intl.formatMessage({id: 'attrs.max_price.label'})}
+                      label={intl.formatMessage({id: 'attrs.is_sale.label'})}
                       {...DEFAULT_FORM_ITEM_LAYOUT}
                   >
-                      {getFieldDecorator('max_price', {
-                          initialValue: `${price.get('max_price')}`,
-                      })(<Input />)}
-                  </FormItem>
-                  <FormItem {...DEFAULT_FORM_TAIL_LAYOUT}>
                       {getFieldDecorator('is_sale', {
-                          valuePropName: 'checked', 
-                          initialValue: true,
+                          rules: [
+                              { required: true }
+                          ],
+                          initialValue: `${price.get('is_sale')}`,
                       })(
-                          <Checkbox>Cho phép bán?</Checkbox>
+                          <RadioGroup>
+                              <RadioButton value='1' key='1'>
+                                  Có
+                              </RadioButton>
+                              <RadioButton value='0' key='0'>
+                                  Không
+                              </RadioButton>
+                          </RadioGroup>
                       )}
                   </FormItem>
+                  {this.renderPricesDetails()}
+
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingPrice}>
                     {intl.formatMessage({id: 'form.form_item.button.update.text'})}
@@ -153,6 +152,52 @@ class PriceEditForm extends React.Component {
       </div>
     );
   }
+    renderPricesDetails() {
+        const {editState, sharedState, intl} = this.props
+        const { getFieldDecorator, getFieldValue} = this.props.form
+        const price = editState.get('price')
+        const is_sale = price.get('is_sale')
+        const is_sale_select = getFieldValue('is_sale')
+        if(is_sale == '1' || is_sale_select == '1') {
+            if(is_sale_select == '0') {
+                return (
+                    <div>
+
+                    </div>
+                )
+            }
+            return (
+                <div>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.min_price.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('min_price', {
+                            initialValue: `${price.get('min_price')}`,
+                        })(
+                            <Input/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.max_price.label'})}
+                        {...DEFAULT_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('max_price', {
+                            initialValue: `${price.get('max_price')}`,
+                        })(
+                            <Input/>
+                        )}
+                    </FormItem>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+
+                </div>
+            )
+        }
+    }
 }
 
 export default Form.create()(injectIntl(PriceEditForm))

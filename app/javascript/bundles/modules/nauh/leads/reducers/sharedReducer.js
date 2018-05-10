@@ -11,6 +11,7 @@ export const initialState = Immutable.fromJS({
   combos: [],
   courses: [],
   provinces: [],
+  prices: [],
   leadCareStatuses: [],
   userIdMappings: {},
   leadCareStatusIdMappings: {},
@@ -25,6 +26,7 @@ export const initialState = Immutable.fromJS({
   isFetchingUsers: false,
   isFetchingLeadStatuses: false,
   isFetchingCampaigns: false,
+  isFetchingPrices: false,
   isFetchingPaymentMethods: false,
   isFetchingCombos: false,
   isFetchingCourses: false,
@@ -57,9 +59,10 @@ export const initialState = Immutable.fromJS({
         {value: '7', title: 'Trên 7 lần'},
     ],
     report: [
+        { value: 'duocgiao', title: 'Được giao'},
         { value: 'lichhen', title: 'Lịch hẹn'},
         { value: 'dagoi', title: 'Đã gọi'},
-        { value: 'chuagoi', title: 'Chưa gọi'}
+        { value: 'chuagoi', title: 'Chưa gọi'},
     ],
     source: [
         { value: '1', title: 'Marketing'},
@@ -153,6 +156,25 @@ export default function sharedReducer($$state = initialState, action = null) {
         isFetchingCampaigns: false,
       })
     }
+
+      case actionTypes.SET_IS_FETCHING_PRICES: {
+          return $$state.merge({
+              isFetchingPrices: true,
+          })
+      }
+
+      case actionTypes.FETCH_PRICES_SUCCESS: {
+          return $$state.merge({
+              isFetchingPrices: false,
+              prices: records,
+          })
+      }
+
+      case actionTypes.FETCH_PRICES_FAILURE: {
+          return $$state.merge({
+              isFetchingPrices: false,
+          })
+      }
 
     case actionTypes.SET_IS_FETCHING_PAYMENT_METHODS: {
       return $$state.merge({
