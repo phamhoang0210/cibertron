@@ -39,8 +39,8 @@ class LeadReportFormBox extends React.Component {
 
         timerangeFields.forEach(field => {
             const timeRange = formatedValues[field] || []
-            compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-            compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+            compconds[`${field}_from`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+            compconds[`${field}_to`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
             delete formatedValues[field]
         })
 
