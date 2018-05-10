@@ -1,9 +1,14 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
+import { defaultFilters } from 'app/constants/initialState'
 export const initialState = Immutable.fromJS({
   leadReporting: [],
   reportResults: {},
+    reportFilters: {
+        ...defaultFilters,
+        fields: ''
+    },
   isFetchingLeadReporting: false,
   isReportingLeads: false,
   alert: null,
@@ -23,6 +28,7 @@ export default function reportReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingLeadReporting: false,
           leadReporting: leadReporting,
+          reportFilters: filters,
       })
     }
 
