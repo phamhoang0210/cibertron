@@ -371,7 +371,7 @@ class CustomerInfo extends React.Component {
               label={intl.formatMessage({id: 'attrs.source_url.label'})}
               {...DEFAULT_FORM_ITEM_LAYOUT}
             >
-              <a href={lead.get('source_url')} target="_blank"> {lead.get('source_url')} </a>
+              <a href={lead.get('source_url')} target="_blank" > Link source </a>
             </FormItem>
           </Col>
           <Col span={12}>
