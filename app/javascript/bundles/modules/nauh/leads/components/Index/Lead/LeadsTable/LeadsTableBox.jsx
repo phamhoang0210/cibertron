@@ -155,6 +155,10 @@ class LeadsTableBox extends React.Component {
               <Tooltip title={intl.formatMessage({id: 'attrs.imported_at.label'})}>
                 <Tag style={{ marginTop: '10px' }} color="#87d068">{moment(row.imported_at).format(SHORT_DATETIME_FORMAT)}</Tag>
               </Tooltip>  : ''}
+              {(row.last_lead_care_history && row.last_lead_care_history.schedule_at) ?
+              <Tooltip title={intl.formatMessage({id: 'attrs.schedule_at.label'})}>
+                <Tag style={{ marginTop: '10px' }} color="#FF6A6A">{moment(row.last_lead_care_history.schedule_at).format(SHORT_DATETIME_FORMAT)}</Tag>
+              </Tooltip>  : ''}
           </div>
         )
       }
