@@ -312,6 +312,14 @@ export const appLocale = {
           required: 'Ngày import là trường bắt buộc'
         }
       },
+      schedule_at: {
+        // attrs.schedule_at.label
+        label: 'Ngày hẹn gần nhất',
+        errors: {
+          // attrs.schedule_at.errors.required
+          required: ''
+        }
+      },
       date: {
         // attrs.date.label
         label: 'Ngày'
