@@ -273,11 +273,13 @@ class LeadFiltersFormBox extends React.Component {
                       {...FILTER_FORM_ITEM_LAYOUT}
                   >
                       {getFieldDecorator('report', {
+                          rules: [{ type: 'array' }],
                           ...this.initialValues.report,
                       })(
                           <Select
                               showSearch
                               filterOption={selectFilterOption}
+                              mode="multiple"
                               placeholder={intl.formatMessage({id: 'attrs.report.placeholder.select.none'})}
                               allowClear={true}
                           >
