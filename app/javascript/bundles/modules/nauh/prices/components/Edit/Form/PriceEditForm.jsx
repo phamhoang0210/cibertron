@@ -107,6 +107,7 @@ class PriceEditForm extends React.Component {
                           rules: [
                               { required: true, message: intl.formatMessage({id: 'attrs.product.errors.required'}) }
                           ],
+                          initialValue: ['course', `${price.get('course_id')}@${price.get('name')}`]
                       })(
                           <Cascader
                               options={productCascaderOptions}
