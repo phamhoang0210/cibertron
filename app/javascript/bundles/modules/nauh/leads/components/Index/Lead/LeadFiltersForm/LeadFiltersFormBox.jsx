@@ -36,8 +36,10 @@ class LeadFiltersFormBox extends React.Component {
     const {indexState, location} = this.props
     const currentLeadFilters = Immutable.fromJS(getFilterParams(indexState.get('leadFilters'), location))
     return {
-      imported_at: getInitialValueForRangePicker({}, currentLeadFilters, ['imported_at.gte'], ['imported_at.lt']),
+      imported_at: getInitialValueForRangePicker({}, currentLeadFilters, ['c'], ['imported_at.lt']),
       assigned_at: getInitialValueForRangePicker({}, currentLeadFilters, ['assigned_at.gte'], ['assigned_at.lt']),
+      care_date: getInitialValueForRangePicker({}, currentLeadFilters, ['care_date.gte'], ['care_date.lt']),
+      report_date: getInitialValueForRangePicker({}, currentLeadFilters, ['report_date.gte'], ['report_date.lt']),
       lead_level_id: getInitialValue({}, currentLeadFilters, ['compconds', 'lead_level_id.in']),
       staff_id: getInitialValue({}, currentLeadFilters, ['compconds', 'staff_id.in']),
       lead_status_id: getInitialValue({}, currentLeadFilters, ['compconds', 'lead_status_id.in']),
@@ -63,7 +65,7 @@ class LeadFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
     const inCompFields = ['lead_level_id', 'staff_id']
-    const timerangeFields = ['imported_at', 'assigned_at']
+    const timerangeFields = ['imported_at', 'assigned_at', 'care_date', 'report_date']
     const lead_status_code = formatedValues['lead_status_code']
     let compconds = {}
     inCompFields.forEach(field => {
@@ -246,13 +248,11 @@ class LeadFiltersFormBox extends React.Component {
                       {...FILTER_FORM_ITEM_LAYOUT}
                   >
                       {getFieldDecorator('calls', {
-                          rules: [{ type: 'array' }],
                           ...this.initialValues.calls,
                       })(
                           <Select
                               showSearch
                               filterOption={selectFilterOption}
-                              mode="multiple"
                               placeholder={intl.formatMessage({id: 'attrs.calls.placeholder.select.none'})}
                               allowClear={true}
                           >
@@ -271,13 +271,11 @@ class LeadFiltersFormBox extends React.Component {
                       {...FILTER_FORM_ITEM_LAYOUT}
                   >
                       {getFieldDecorator('report', {
-                          rules: [{ type: 'array' }],
                           ...this.initialValues.report,
                       })(
                           <Select
                               showSearch
                               filterOption={selectFilterOption}
-                              mode="multiple"
                               placeholder={intl.formatMessage({id: 'attrs.report.placeholder.select.none'})}
                               allowClear={true}
                           >
@@ -289,6 +287,9 @@ class LeadFiltersFormBox extends React.Component {
                           </Select>
                       )}
                   </FormItem>
+              </Col>
+              <Col span={8}>
+                  {this.renderDateFilter()}
               </Col>
               <Col span={8}>
                   <FormItem
@@ -315,6 +316,23 @@ class LeadFiltersFormBox extends React.Component {
                       )}
                   </FormItem>
               </Col>
+              <Col span={10}>
+                  <FormItem
+                      label={intl.formatMessage({id: 'attrs.care_date.label'})}
+                      {...FILTER_FORM_ITEM_LAYOUT}
+                  >
+                      {getFieldDecorator('care_date', {
+                          ...this.initialValues.care_date,
+                      })(
+                          <RangePicker
+                              style={{width: '100%'}}
+                              format={LONG_DATETIME_FORMAT}
+                              showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                          />
+                      )}
+                  </FormItem>
+              </Col>
+
           </Row>
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
@@ -343,6 +361,38 @@ class LeadFiltersFormBox extends React.Component {
       </div>
     )
   }
+    renderDateFilter()
+    {
+        const {indexState, sharedState, form, intl} = this.props
+        const { getFieldDecorator, getFieldValue } = form
+        const report = getFieldValue('report')
+        if(typeof report !== 'undefined' && report.length > 0) {
+            return(
+                <div>
+                    <FormItem
+                        label={intl.formatMessage({id: 'attrs.report_date.label'})}
+                        {...FILTER_FORM_ITEM_LAYOUT}
+                    >
+                        {getFieldDecorator('report_date', {
+                            ...this.initialValues.report_date,
+                        })(
+                            <RangePicker
+                                style={{width: '100%'}}
+                                format={LONG_DATETIME_FORMAT}
+                                showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
+                            />
+                        )}
+                    </FormItem>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+
+                </div>
+            )
+        }
+    }
 }
 
 export default Form.create()(injectIntl(LeadFiltersFormBox))
