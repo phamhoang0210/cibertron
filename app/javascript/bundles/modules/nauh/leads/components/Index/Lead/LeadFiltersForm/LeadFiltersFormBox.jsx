@@ -248,11 +248,13 @@ class LeadFiltersFormBox extends React.Component {
                       {...FILTER_FORM_ITEM_LAYOUT}
                   >
                       {getFieldDecorator('calls', {
+                          rules: [{ type: 'array' }],
                           ...this.initialValues.calls,
                       })(
                           <Select
                               showSearch
                               filterOption={selectFilterOption}
+                              mode="multiple"
                               placeholder={intl.formatMessage({id: 'attrs.calls.placeholder.select.none'})}
                               allowClear={true}
                           >
