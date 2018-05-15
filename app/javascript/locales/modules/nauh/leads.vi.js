@@ -161,6 +161,14 @@ export const appLocale = {
         // attrs.imported_in.label
         label: 'Ngày tạo',
       },
+        care_date: {
+            // attrs.imported_in.label
+            label: 'Ngày chăm sóc',
+        },
+        report_date: {
+            // attrs.imported_in.label
+            label: 'Ngày lọc',
+        },
       assigned_in: {
         // attrs.assigned_in.label
         label: 'Ngày giao tvts',
