@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
-import { IZZY_BASE_URL } from '../../../../constants/paths'
+import { CAMPAIGNS_EXPORT_API_PATH } from '../../../../constants/paths'
 import {
   getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
   getInitialValue,
@@ -73,7 +73,7 @@ class CampaignFiltersFormBox extends React.Component {
     const {actions, indexState, location} = this.props
     let campaignParams = getFilterParams(indexState.get('campaignFilters'), location)
     const query = qs.stringify({...campaignParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
-    window.open(`${A3_STORAGE_BASE_URL}${CONTACTA3S_EXPORT_API_PATH}?=${query}`, '_blank')
+    window.open(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_EXPORT_API_PATH}?=${query}`, '_blank')
   }
   render() {
     const {indexState, form, sharedState,location, intl} = this.props
