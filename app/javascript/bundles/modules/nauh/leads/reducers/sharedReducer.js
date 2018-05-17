@@ -59,7 +59,6 @@ export const initialState = Immutable.fromJS({
         {value: '7', title: 'Trên 7 lần'},
     ],
     report: [
-        { value: 'duocgiao', title: 'Được giao'},
         { value: 'lichhen', title: 'Lịch hẹn'},
         { value: 'dagoi', title: 'Đã gọi'},
         { value: 'chuagoi', title: 'Chưa gọi'},
