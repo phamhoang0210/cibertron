@@ -20,7 +20,7 @@ import { injectIntl } from 'react-intl'
 const { Search } = Input
 const { TabPane } = Tabs
 
-class TemplatesTableBox extends React.Component {
+class MarketingTableBox extends React.Component {
   constructor(props) {
     super(props)
 
@@ -29,18 +29,13 @@ class TemplatesTableBox extends React.Component {
     this.initialValues = this.getInitialValues()
 
     _.bindAll(this, [
-      'handleMarketingTableChange',
-      'handleMarketingSearch',
-      'handleTransactionalTableChange',
-      'handleTransactionalSearch',
+      'handleTableChange',
+      'handleSearch',
       'handleDelete',
       'handleEdit',
       'handleAdd',
       'handleShowTemplateModal',
       'handleCancelTemplateModal',
-      'handleTabChange',
-      'renderMarketingTemplates',
-      'renderTransactionalTemplates',
     ])
 
     this.columns = [
@@ -146,7 +141,7 @@ class TemplatesTableBox extends React.Component {
     browserHistory.push(`${TEMPLATES_URL}/new`)
   }
 
-  handleMarketingTableChange(pagination, filters, sorter) {
+  handleTableChange(pagination, filters, sorter) {
     const {actions, indexState, location} = this.props
     const {current, pageSize, total} = pagination
 
@@ -165,94 +160,10 @@ class TemplatesTableBox extends React.Component {
     actions.fetchMarketingTemplates(templateParams)
   }
 
-  handleMarketingSearch(keyword) {
+  handleSearch(keyword) {
     const {actions, indexState, location} = this.props
     let templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, {full_search: keyword})
     actions.fetchMarketingTemplates(templateParams)
-  }
-
-  handleTransactionalTableChange(pagination, filters, sorter) {
-    const {actions, indexState, location} = this.props
-    const {current, pageSize, total} = pagination
-
-    let templateParams = {}
-    if(current != templateParams.page) {
-      templateParams.page = current
-    }
-
-    if(sorter.field) {
-      templateParams.orders = [`${sorter.field}.${FILTER_ORDER_MAPPINGS[sorter.order]}`]
-    }
-
-
-    templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, templateParams)
-
-    actions.fetchTransactionalTemplates(templateParams)
-  }
-
-  handleTransactionalSearch(keyword) {
-    const {actions, indexState, location} = this.props
-    let templateParams = getFilterParamsAndSyncUrl(indexState.get('templateFilters'), location, {full_search: keyword})
-    actions.fetchTransactionalTemplates(templateParams)
-  }
-
-  handleTabChange(tabKey) {
-    if(tabKey == 'marketing') {
-      const {actions, intl} = this.props
-      actions.fetchMarketingTemplates()
-    }
-    if(tabKey == 'transactional') {
-      const {actions, intl} = this.props
-      actions.fetchTransactionalTemplates()
-    }
-  }
-
-  renderMarketingTemplates() {
-    const {indexState, sharedState, actions, intl} = this.props
-    const selectedTemplateKeys = indexState.get('selectedTemplateKeys')
-    const templates = indexState.get('templates')
-    const paging = indexState.getIn(['templateFilters', 'paging'])
-    const isFetchingTemplates = indexState.get('isFetchingTemplates')
-
-    return (
-      <div>
-        <Table
-          bordered
-          size="middle"
-          columns={this.columns}
-          dataSource={templates.toJS()}
-          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-          rowClassName={rowClassName}
-          rowKey="created_at"
-          onChange={this.handleMarketingTableChange}
-          loading={isFetchingTemplates}
-        />
-      </div>
-    )
-  }
-
-  renderTransactionalTemplates() {
-    const {indexState, sharedState, actions, intl} = this.props
-    const selectedTemplateKeys = indexState.get('selectedTemplateKeys')
-    const templates = indexState.get('templates')
-    const paging = indexState.getIn(['templateFilters', 'paging'])
-    const isFetchingTemplates = indexState.get('isFetchingTemplates')
-
-    return (
-      <div>
-        <Table
-          bordered
-          size="middle"
-          columns={this.columns}
-          dataSource={templates.toJS()}
-          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-          rowClassName={rowClassName}
-          rowKey="created_at"
-          onChange={this.handleTransactionTableChange}
-          loading={isFetchingTemplates}
-        />
-      </div>
-    )
   }
 
   render() {
@@ -284,17 +195,20 @@ class TemplatesTableBox extends React.Component {
         >
           <p dangerouslySetInnerHTML={{__html: this.state.modalContent}} />
         </Modal>
-        <Tabs defaultActiveKey="marketing" size="large" onChange={this.handleTabChange}>
-          <TabPane tab="Marketing Template" key="marketing">
-            {this.renderMarketingTemplates()}
-          </TabPane>
-          <TabPane tab="Transaction Template" key="transactional">
-            {this.renderTransactionalTemplates()}
-          </TabPane>
-        </Tabs>
+        <Table
+          bordered
+          size="middle"
+          columns={this.columns}
+          dataSource={templates.toJS()}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+          rowClassName={rowClassName}
+          rowKey="created_at"
+          onChange={this.handleTableChange}
+          loading={isFetchingTemplates}
+        />
       </div>
     )
   }
 }
 
-export default injectIntl(TemplatesTableBox)
+export default injectIntl(MarketingTableBox)
