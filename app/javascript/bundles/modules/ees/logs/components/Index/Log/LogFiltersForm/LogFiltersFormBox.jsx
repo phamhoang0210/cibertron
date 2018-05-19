@@ -78,7 +78,7 @@ class LogFiltersFormBox extends React.Component {
     const logs = sharedState.get('logs')
     const totalPage = (tabKey=="emails") ? indexState.getIn(['emailFilters', 'paging', 'record_total']) : indexState.getIn(['logFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
-    const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"}]
+    const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"},{id: 4, name: "OPENED"}]
     const groups = indexState.get('groups')
     const campaigns = indexState.get('campaigns')
     return (
