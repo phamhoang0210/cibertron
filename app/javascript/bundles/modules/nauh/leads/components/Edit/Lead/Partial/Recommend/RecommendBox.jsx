@@ -8,6 +8,7 @@ import {
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { selectFilterOption } from 'helpers/antdHelper'
+import { MD5 } from 'helpers/md5Helper'
 
 
 const FormItem = Form.Item
@@ -247,6 +248,7 @@ class RecommendBox extends React.Component {
 
     const recommendNauh = editState.get('recommendNauh')
     let defaultCampaign = "";
+    let recommendId = null;
     let defaultCupon = "";
     let coursesRecommend = []
 
@@ -254,6 +256,7 @@ class RecommendBox extends React.Component {
       var temp = recommendNauh.get("product_ids")
       var tempConfig = recommendNauh.get("config")
       defaultCampaign = recommendNauh.get("campaign_code")
+      recommendId = recommendNauh.get("id")
       defaultCupon = recommendNauh.get("coupon_code")
 
       if (temp) {
@@ -381,6 +384,13 @@ class RecommendBox extends React.Component {
                 <Row>
                     <Col span={12} className="text-align--left" id="prices-box">
                         <div dangerouslySetInnerHTML={{ __html: this.renderPrices() }} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                    </Col>
+                    <Col span={8} className="text-align--left" id="prices-box">
+                        <b>LINK:</b> <a href={recommendId ? "http://baogia.edumall.vn/?id=" + recommendId + '@' + MD5(recommendId.toString()) : "#"} target="_blank">Trang báo giá</a>
                     </Col>
                 </Row>
               <Row>
