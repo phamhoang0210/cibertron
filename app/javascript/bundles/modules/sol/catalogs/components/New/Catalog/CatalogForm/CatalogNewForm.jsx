@@ -57,7 +57,7 @@ class CatalogNewForm extends React.Component {
     const courses = sharedState.get('courses').map(course => (
       Map({
         value: `${course.get('id')}`,
-        label: `${course.get('code')} - ${course.get('price')} - ${course.get('name')}`
+        label: `${course.get('code').toLowerCase()} - ${course.get('price')} - ${course.get('name').toLowerCase()}`
       })
     ))
 
@@ -169,6 +169,16 @@ class CatalogNewForm extends React.Component {
               <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('code', {
                   rules: [{ required: true, message: 'Code is required!' }],
+                })(<Input style={{ width: '60%' }}/>)}
+              </FormItem>
+
+              <FormItem label="Banner" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('banner', {
+                })(<Input style={{ width: '60%' }}/>)}
+              </FormItem>
+
+              <FormItem label="Direct link" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('direct_link', {
                 })(<Input style={{ width: '60%' }}/>)}
               </FormItem>
 
