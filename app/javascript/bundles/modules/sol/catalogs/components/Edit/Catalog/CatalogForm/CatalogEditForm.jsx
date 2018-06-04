@@ -217,6 +217,19 @@ class CatalogEditForm extends React.Component {
                     initialValue: [catalog.get('code')],
                   })(<Input style={{ width: '60%' }}/>)}
                 </FormItem>
+
+                <FormItem label="Banner" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('banner', {
+                    initialValue: [catalog.get('banner')],
+                  })(<Input style={{ width: '60%' }}/>)}
+                </FormItem>
+
+                <FormItem label="Direct link" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('direct_link', {
+                    initialValue: [catalog.get('direct_link')],
+                  })(<Input style={{ width: '60%' }}/>)}
+                </FormItem>
+
                 {oldItems}
                 {formItems}
 
