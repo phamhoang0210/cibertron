@@ -160,7 +160,7 @@ class LandingPageNewForm extends React.Component {
               </FormItem>
 
               <FormItem
-                label={'Link design: '}
+                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               > 
                 {getFieldDecorator('link_custom', {
