@@ -55,7 +55,7 @@ export const appLocale = {
       },
       link_custom: {
         // attrs.ga_code.label
-        label: 'Link custom',
+        label: 'Link Design',
       },
       ga_code: {
         // attrs.ga_code.label
