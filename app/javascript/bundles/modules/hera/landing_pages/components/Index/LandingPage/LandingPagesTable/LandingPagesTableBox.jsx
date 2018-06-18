@@ -97,19 +97,21 @@ class LandingPagesTableBox extends React.Component {
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
           return (
-            <div>
+            <div style={{ padding: '26px 16px 16px' }}>
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
-              <a href={`http://${value.name}`} target="_blank">{value.name}</a>
+              <a href={`http://${value.name}`} target="_blank">{value.name}</a><br/>
               {requestErrors.map(error => (
                 <div key={error}>
                   <small style={{color: 'red'}}>- {error}</small>
                 </div>
               ))}
+              <Button type="primary" href={record.link_custom} target="blank" size="small" type="primary" ghost ><i>Design LP</i></Button>
             </div>
           )
         }
       }
-    }, {
+    },
+     {
       title: intl.formatMessage({id: 'attrs.discount_id.label'}),
       dataIndex: 'discount_id',
       key: 'discount',
@@ -126,7 +128,6 @@ class LandingPagesTableBox extends React.Component {
             </div>
           )
         }
-
       }
     }, {
       title: intl.formatMessage({id: 'attrs.product.label'}),
