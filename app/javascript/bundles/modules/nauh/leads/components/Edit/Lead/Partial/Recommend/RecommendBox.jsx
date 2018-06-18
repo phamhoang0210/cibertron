@@ -26,11 +26,13 @@ class RecommendBox extends React.Component {
     _.bindAll(this, [
       'handleSubmit',
     ])
-    const key = new Date().getTime()
+    var key1 = new Date().getTime()
+    var key2 = key1 + 5
+    var key3 = key1 + 10
     this.state = {
       selectCourses: [],
       selectCoursesId: [],
-      configs:[{key:key, quantity:1,price:0}]
+      configs:[{key:key1, quantity:1,price:0}, {key:key2, quantity:1,price:0}, {key:key3, quantity:1,price:0}]
     }
 
     this.onCheckCheckbox = this.onCheckCheckbox.bind(this)
@@ -367,7 +369,7 @@ class RecommendBox extends React.Component {
 
                           </FormItem>
                         </Col>
-                        <Col span={2} style={{ margin: '10px auto' }}>
+                        <Col span={2} style={{ margin: '10px auto' }} hidden="true" >
                           {(configLength === index + 1) ? (
                               <Icon key={config.key} type="plus" onClick={this.onCickPlusConfig}/>
                             ) : (
