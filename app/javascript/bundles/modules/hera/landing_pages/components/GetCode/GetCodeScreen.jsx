@@ -16,7 +16,7 @@ class GetCodeScreen extends React.Component {
     const {actions, getCodeState, params} = this.props
     if(params && params.id) {
       actions.fetchLandingPageCodes(params.id)
-      actions.fetchLandingPagePagespeedInsights(params.id)
+      // actions.fetchLandingPagePagespeedInsights(params.id)
     }
   }
 
