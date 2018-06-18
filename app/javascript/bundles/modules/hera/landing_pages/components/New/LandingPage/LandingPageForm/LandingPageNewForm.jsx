@@ -158,6 +158,15 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
+
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              > 
+                {getFieldDecorator('link_custom', {
+                })(<Input />)}
+              </FormItem>
+
               <FormItem
                 label={intl.formatMessage({id: 'attrs.ga_code.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
