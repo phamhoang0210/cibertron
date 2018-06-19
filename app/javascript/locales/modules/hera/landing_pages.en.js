@@ -53,6 +53,10 @@ export const appLocale = {
           required: 'Strategy is required'
         },
       },
+      link_custom: {
+        // attrs.ga_code.label
+        label: 'Link Design',
+      },
       ga_code: {
         // attrs.ga_code.label
         label: 'Ga code',

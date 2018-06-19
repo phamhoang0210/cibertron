@@ -57,6 +57,10 @@ export const appLocale = {
           required: 'Strategy là trường bắt buộc'
         },
       },
+      link_custom: {
+        // attrs.ga_code.label
+        label: 'Link Design',
+      },
       ga_code: {
         // attrs.ga_code.label
         label: 'Ga code',

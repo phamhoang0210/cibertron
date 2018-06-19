@@ -177,6 +177,25 @@ class LandingPageEditForm extends React.Component {
                     initialValue: landingPage.get('ga_code'),
                   })(<Input />)}
                 </FormItem>
+                
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.link_custom.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('link_custom', {
+                    initialValue: landingPage.get('link_custom'),
+                  })(<Input />)}
+                </FormItem>
+
+
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.ga_code.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('ga_code', {
+                    initialValue: landingPage.get('ga_code'),
+                  })(<Input />)}
+                </FormItem>
                 <FormItem
                   label={intl.formatMessage({id: 'attrs.thankyou_page_url.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
