@@ -53,45 +53,45 @@ class LandingPagesTableBox extends React.Component {
         )
       }
     }, 
-    {
-      title: intl.formatMessage({id: 'attrs.score.label'}),
-      dataIndex: 'domain',
-      key: 'score',
-      width: '7%',
-      render: (value) => {
-        var status = ""
-        var score = 0
-        try {
-          score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
-        }
-        catch(err) {
-          console.log(err.message)
-        }
+    // {
+    //   title: intl.formatMessage({id: 'attrs.score.label'}),
+    //   dataIndex: 'domain',
+    //   key: 'score',
+    //   width: '7%',
+    //   render: (value) => {
+    //     var status = ""
+    //     var score = 0
+    //     try {
+    //       score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
+    //     }
+    //     catch(err) {
+    //       console.log(err.message)
+    //     }
 
-        if (score >= 80) {
-          status = "success"
-        } else if (score < 60) {
-          status = "exception"
-        } else {
-          status = "active"
-        }
-        if (score == 0) {
-          return (
-            <Progress width={60} status={status} type="circle" percent={score} />
-          )
-        } else {
-          return (
-            <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
-          )
-        }
+    //     if (score >= 80) {
+    //       status = "success"
+    //     } else if (score < 60) {
+    //       status = "exception"
+    //     } else {
+    //       status = "active"
+    //     }
+    //     if (score == 0) {
+    //       return (
+    //         <Progress width={60} status={status} type="circle" percent={score} />
+    //       )
+    //     } else {
+    //       return (
+    //         <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
+    //       )
+    //     }
         
-      },
-    },
+    //   },
+    // },
     {
       title: intl.formatMessage({id: 'attrs.domain_id.label'}),
       dataIndex: 'domain',
       key: 'domain_name',
-      width: '15%',
+      width: '23%',
       render: (value, record) => {
         if(value && value.name) {
           const pagespeedInsight = value.pagespeed_insight
