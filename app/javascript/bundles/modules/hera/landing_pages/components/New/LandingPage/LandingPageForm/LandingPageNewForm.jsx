@@ -55,7 +55,6 @@ class LandingPageNewForm extends React.Component {
     const facebookApps = sharedState.get('facebookApps')
     const facebookPixelCodes = sharedState.get('facebookPixelCodes')
     const logics = sharedState.get('logics')
-    const landingPageTypes = sharedState.get('landingPageTypes')
     const strategies = sharedState.get('strategies')
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == getFieldValue('discount_id')
@@ -197,7 +196,7 @@ class LandingPageNewForm extends React.Component {
                     filterOption={selectFilterOption}
                   >
                     {logics.map(type => (
-                      <Option value={`${type.get('id')}`} key={type.get('id')}>
+                      <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
                         {type.get('landing_page_type')}
                       </Option>
                     ))}
