@@ -56,7 +56,7 @@ class LandingPageEditForm extends React.Component {
     const domains = sharedState.get('domains')
     const facebookApps = sharedState.get('facebookApps')
     const facebookPixelCodes = sharedState.get('facebookPixelCodes')
-    const contactTypes = sharedState.get('contactTypes')
+    const logics = sharedState.get('logics')
     const strategies = sharedState.get('strategies')
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == (getFieldValue('discount_id') || (landingPage && landingPage.get('discount_id')))
@@ -200,9 +200,9 @@ class LandingPageEditForm extends React.Component {
                       showSearch
                       filterOption={selectFilterOption}
                     >
-                      {contactTypes.map(type => (
+                      {logics.map(type => (
                         <Option value={`${type.get('id')}`} key={type.get('id')}>
-                          {type.get('title')}
+                          {type.get('landing_page_type')}
                         </Option>
                       ))}
                     </Select>
