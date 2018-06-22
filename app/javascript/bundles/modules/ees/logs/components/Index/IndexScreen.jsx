@@ -55,7 +55,7 @@ class IndexScreen extends React.Component {
         tabKey: tabKey
       })
       actions.fetchLogs(logParams)
-      actions.fetchGroups({"fields": "id, name"})
+      actions.fetchGroups({"fields": "id, name", per_page: 'infinite'})
     }
     if(tabKey == 'emails') {
       const {actions, indexState, railsContextState, location} = this.props
