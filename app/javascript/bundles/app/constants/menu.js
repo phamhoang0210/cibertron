@@ -157,6 +157,10 @@ export const menuData = [
         type: 'link', 
         path: '/hera/domains',
         title: 'Domains',
+      }, {
+        type: 'link', 
+        path: '/hera/budgets',
+        title: 'Budgets',
       }
     ]
   }, {
