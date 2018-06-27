@@ -42,7 +42,7 @@ class LandingPagesTableBox extends React.Component {
         const user = userIdMappings.get(`${record.user_id}`)
         var name = "unknow"
         if (user) {
-          name = user.get('username')
+          name = user.get('nickname')
         }
         return (
           <div>
