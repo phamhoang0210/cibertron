@@ -1,3 +1,3 @@
-export function filterInput(inputString) {
+export function removeSpaceInput(inputString) {
   return inputString.replace(/\s/g, '')
 }

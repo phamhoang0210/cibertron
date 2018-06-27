@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
-import { filterInput } from 'helpers/inputHelper'
+import { removeSpaceInput } from 'helpers/inputHelper'
 import { browserHistory } from 'react-router'
 import { DOMAINS_URL } from '../../../../constants/paths'
 import { injectIntl } from 'react-intl'
@@ -104,7 +104,7 @@ class DomainsTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
-    keyword = filterInput(keyword)
+    keyword = removeSpaceInput(keyword)
     const {actions, indexState} = this.props
     let domainParams = getFilterParams(indexState.get('domainFilters'))
     actions.fetchDomains(mergeDeep([domainParams, {compconds: {'name.like': `%${keyword}%`}}]))
