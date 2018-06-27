@@ -34,6 +34,9 @@ export const appLocale = {
       domain_id: {
         // attrs.domain_id.label
         label: 'Domain',
+        errors: {
+          required: 'Domain is required'
+        }
       },
       discount_id: {
         // attrs.discount_id.label
