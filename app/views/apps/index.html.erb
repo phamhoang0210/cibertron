@@ -1,1 +1,13 @@
-<%= render template: "apps/#{params[:code]}" rescue render :file => 'public/404.html', :status => :not_found, :layout => false %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Adnode Front</title>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <%= stylesheet_link_tag "#{FrontComponentDist.where(name: 'bnode-front-antd').limit(1).pluck(:file_url).join('')}" %>
+    <%= stylesheet_link_tag "#{FrontComponentDist.where(name: 'bnode-front').limit(1).pluck(:file_url).join('')}" %>
+    <%= javascript_include_tag "#{FrontComponentDist.where(name: 'bnode-front').limit(1).pluck(:file_url).join('')}" %>
+  </body>
+</html>
