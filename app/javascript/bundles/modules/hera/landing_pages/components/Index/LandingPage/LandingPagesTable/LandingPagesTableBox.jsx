@@ -5,6 +5,7 @@ import {
   Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge, Progress, Tag
 } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
+import { removeSpaceInput } from 'helpers/inputHelper'
 import { browserHistory } from 'react-router'
 import { LANDING_PAGES_URL } from '../../../../constants/paths'
 import moment from 'moment'
@@ -228,6 +229,7 @@ class LandingPagesTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
+    keyword = removeSpaceInput(keyword)
     const {actions, indexState} = this.props
     let landingPageParams = getFilterParams(indexState.get('landingPageFilters'))
     actions.fetchLandingPages(mergeDeep([landingPageParams, {compconds: {'name.like': `%${keyword}%`}}]))
@@ -255,6 +257,7 @@ class LandingPagesTableBox extends React.Component {
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
+              enterButton
               placeholder={intl.formatMessage({id: 'index.landing_pages_table.search.placeholder'})}
               onSearch={this.handleSearch}
             />
