@@ -95,6 +95,7 @@ Rails.application.routes.draw do
         end
       end
       option.resources :domains
+      option.resources :budgets
     end
   end
 

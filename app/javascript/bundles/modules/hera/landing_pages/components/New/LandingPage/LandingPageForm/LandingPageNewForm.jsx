@@ -3,14 +3,17 @@ import _ from 'lodash'
 import { Map } from 'immutable'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
-import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const FormItem = Form.Item
-
+const DEFAULT_FORM_ITEM_LAYOUT = {
+  labelCol: { span: 4},
+  wrapperCol: {span: 12}
+}
 class LandingPageNewForm extends React.Component {
   constructor(props) {
     super(props)
@@ -54,8 +57,7 @@ class LandingPageNewForm extends React.Component {
     const domains = sharedState.get('domains')
     const facebookApps = sharedState.get('facebookApps')
     const facebookPixelCodes = sharedState.get('facebookPixelCodes')
-    const contactTypes = sharedState.get('contactTypes')
-    const landingPageTypes = sharedState.get('landingPageTypes')
+    const logics = sharedState.get('logics')
     const strategies = sharedState.get('strategies')
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == getFieldValue('discount_id')
@@ -65,7 +67,7 @@ class LandingPageNewForm extends React.Component {
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
           <Row className="main-content-form-box-alert-box">
-            <Col span={10}>
+            <Col span={15}>
               <AlertBox
                 messages={alert.get('messages')}
                 type={alert.get('type')}
@@ -74,7 +76,7 @@ class LandingPageNewForm extends React.Component {
           </Row>
         )}
         <Row>
-          <Col span={10}>
+          <Col span={27}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
               <FormItem
                 label={intl.formatMessage({id: 'attrs.name.label'})}
@@ -93,7 +95,12 @@ class LandingPageNewForm extends React.Component {
                 label={intl.formatMessage({id: 'attrs.domain_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('domain_id')(
+                {getFieldDecorator('domain_id', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.domain_id.errors.required'}),
+                  }],
+                })(
                   <Select
                     showSearch
                     allowClear
@@ -111,12 +118,7 @@ class LandingPageNewForm extends React.Component {
                 label={intl.formatMessage({id: 'attrs.discount_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('discount_id', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage({id: 'attrs.discount_id.errors.required'}),
-                  }],
-                })(
+                {getFieldDecorator('discount_id')(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
@@ -158,6 +160,15 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
+
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              > 
+                {getFieldDecorator('link_custom', {
+                })(<Input />)}
+              </FormItem>
+
               <FormItem
                 label={intl.formatMessage({id: 'attrs.ga_code.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -187,9 +198,9 @@ class LandingPageNewForm extends React.Component {
                     showSearch
                     filterOption={selectFilterOption}
                   >
-                    {contactTypes.map(type => (
-                      <Option value={`${type.get('id')}`} key={type.get('id')}>
-                        {type.get('title')}
+                    {logics.map(type => (
+                      <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
+                        {type.get('landing_page_type')}
                       </Option>
                     ))}
                   </Select>

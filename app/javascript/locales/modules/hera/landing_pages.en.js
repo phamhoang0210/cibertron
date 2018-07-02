@@ -30,6 +30,9 @@ export const appLocale = {
       domain_id: {
         // attrs.domain_id.label
         label: 'Domain',
+        errors: {
+          required: 'Domain is required'
+        }
       },
       discount_id: {
         // attrs.discount_id.label
@@ -52,6 +55,10 @@ export const appLocale = {
           // attrs.strategy.errors.required
           required: 'Strategy is required'
         },
+      },
+      link_custom: {
+        // attrs.ga_code.label
+        label: 'Link Design',
       },
       ga_code: {
         // attrs.ga_code.label

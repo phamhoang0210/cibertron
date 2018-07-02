@@ -2,7 +2,8 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   PROVIDERS_API_PATH, CATEGORIES_API_PATH, DISCOUNT_API_PATH,
-  COMBOS_API_PATH, USERS_API_PATH, DOMAINS_API_PATH,
+  COMBOS_API_PATH, AUTH_API_PATH, DOMAINS_API_PATH,
+  LOGICS_API_PATH,
   FACEBOOK_APPS_API_PATH, FACEBOOK_PIXEL_CODES_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
@@ -49,7 +50,7 @@ function fetchUsersSuccess({records, filters}) {
   return {
     type: actionTypes.FETCH_USERS_SUCCESS,
     records,
-    filters,
+    filters,    
   }
 }
 
@@ -64,7 +65,7 @@ export function fetchUsers(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingUsers())
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTH_API_PATH}`, params)
       .then(res => dispatch(fetchUsersSuccess(res.data)))
       .catch(error => dispatch(fetchUsersFailure(error)))
   }
@@ -160,5 +161,36 @@ export function fetchFacebookPixelCodes(params = {}) {
       .fetchEntities(`${HERA_BASE_URL}${FACEBOOK_PIXEL_CODES_API_PATH}`, params)
       .then(res => dispatch(fetchFacebookPixelCodesSuccess(res.data)))
       .catch(error => dispatch(fetchFacebookPixelCodesFailure(error)))
+  }
+}
+
+function setIsFetchingLogics() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_LOGICS,
+  }
+}
+
+function fetchLogicsSuccess({records, filters}) {
+  return {
+    type: actionTypes.FETCH_LOGICS_SUCCESS,
+    records,
+    filters,
+  }
+}
+
+function fetchLogicsFailure(error) {
+  return {
+    type: actionTypes.FETCH_LOGICS_FAILURE,
+    error,
+  }
+}
+
+export function fetchLogics(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingLogics())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${LOGICS_API_PATH}`, params)
+      .then(res => dispatch(fetchLogicsSuccess(res.data)))
+      .catch(error => dispatch(fetchLogicsFailure(error)))
   }
 }
