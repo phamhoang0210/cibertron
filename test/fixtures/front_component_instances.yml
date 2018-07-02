@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  status_gid: MyString
+  version: MyString
+  scope_gid: MyString
+  file_url: MyString
+
+two:
+  code: MyString
+  status_gid: MyString
+  version: MyString
+  scope_gid: MyString
+  file_url: MyString

@@ -106,4 +106,14 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :apps, path: '/', only: [] do
+    collection do
+      get 'apps/*path', to: 'apps#index'
+      get 'apps', to: 'apps#index'
+
+      get 'namitl/*path', to: 'apps#namitl'
+      get 'namitl', to: 'apps#namitl'
+    end
+  end
 end
