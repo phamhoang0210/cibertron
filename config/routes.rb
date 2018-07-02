@@ -107,11 +107,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :apps, only: [] do
+  resources :apps, path: '/', only: [] do
     collection do
-      get '/', to: 'apps#index'
-      get ':code/*path', to: 'apps#index'
-      get ':code', to: 'apps#index'
+      get 'apps/*path', to: 'apps#index'
+      get 'apps', to: 'apps#index'
+
+      get 'namitl/*path', to: 'apps#namitl'
+      get 'namitl', to: 'apps#namitl'
     end
   end
 end
