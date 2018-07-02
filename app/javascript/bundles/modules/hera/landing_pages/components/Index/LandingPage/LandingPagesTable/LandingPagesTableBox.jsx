@@ -41,9 +41,9 @@ class LandingPagesTableBox extends React.Component {
         const {sharedState} = this.props
         const userIdMappings = sharedState.get('userIdMappings')
         const user = userIdMappings.get(`${record.user_id}`)
-        var name = "unknow"
+        var name = "unknown"
         if (user) {
-          name = user.get('username')
+          name = user.get('nickname')
         }
         return (
           <div>
