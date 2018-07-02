@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Form, Input, Select, Button } from 'antd'
+import { Form, Input, Select, Button, Checkbox } from 'antd'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { injectIntl } from 'react-intl'
 
@@ -14,6 +14,8 @@ class LeadAssignFormBox extends React.Component {
     _.bindAll(this, [
       'handleSubmit',
     ])
+    this.state = {is_recovery:[false,null]}
+    this.onCheckCheckbox = this.onCheckCheckbox.bind(this)
   }
 
   handleSubmit(e) {
@@ -21,9 +23,21 @@ class LeadAssignFormBox extends React.Component {
     const {form, actions} = this.props
     form.validateFields((err, values) => {
       if (!err) {
+        values.is_recovery = this.state.is_recovery
         actions.assignLeads(values)
       }
     })
+  }
+  onCheckCheckbox(e) {
+    const {form, actions} = this.props
+    if (e.target.checked == true) {
+        this.state.is_recovery = true;
+        actions.fetchLeadReport({fillter:{is_recovery:true}})
+    } else {
+      this.state.is_recovery = false;
+      actions.fetchLeadReport({fillter:{is_recovery:[false,null]}})
+    }
+
   }
 
   render() {
@@ -34,6 +48,10 @@ class LeadAssignFormBox extends React.Component {
 
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
+        <FormItem>
+          <Checkbox onChange={(e) => this.onCheckCheckbox(e)}>{'Contact Thu hồi'}</Checkbox>
+        </FormItem>
+
         <FormItem label={intl.formatMessage({id: 'assign.leads_form.form_item.numbers.label'})}>
           {getFieldDecorator('numbers')(
             <Input

@@ -23,7 +23,7 @@ export default flattenMessages({
         },
         delete: {
           // form.form_item.button.delete.text
-          text: 'Xóa', 
+          text: 'Xóa',
         },
         edit: {
           // form.form_item.button.edit.text
@@ -48,6 +48,14 @@ export default flattenMessages({
         assign: {
           // form.form_item.button.assign.text
           text: 'Phân chia',
+        },
+        report: {
+          // form.form_item.button.assign.text
+          text: 'Báo cáo năng suất',
+        },
+        recovery: {
+          // form.form_item.button.assign.text
+          text: 'Thu hồi',
         },
         get_code: {
           // form.form_item.button.get_code.text

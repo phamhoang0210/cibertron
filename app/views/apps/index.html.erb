@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Adnode Front</title>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <%= stylesheet_link_tag "#{FrontComponentDist.where(name: 'bnode-front-css-antd').limit(1).pluck(:file_url).join('')}" %>
+    <%= stylesheet_link_tag "#{FrontComponentDist.where(name: 'bnode-front-css').limit(1).pluck(:file_url).join('')}" %>
+    <%= javascript_include_tag "#{FrontComponentDist.where(name: 'bnode-front-js').limit(1).pluck(:file_url).join('')}" %>
+  </body>
+</html>

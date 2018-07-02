@@ -63,11 +63,11 @@ export function assignLeads(params) {
       .submitEntity(`${NAUH_BASE_URL}${LEAD_ASSIGN_API_PATH}`, params)
       .then(res => {
         dispatch(assignLeadsSuccess(res.data))
-        dispatch(fetchLeadReport())
+        dispatch(fetchLeadReport(params))
       })
       .catch(error => {
         dispatch(assignLeadsFailure(error))
-        dispatch(fetchLeadReport())
+        dispatch(fetchLeadReport(params))
       })
   }
 }

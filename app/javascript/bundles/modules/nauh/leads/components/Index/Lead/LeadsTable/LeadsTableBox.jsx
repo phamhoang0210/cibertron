@@ -35,6 +35,7 @@ class LeadsTableBox extends React.Component {
 
     this.state = {
       showImportModal: false,
+      selectedRowKeys:[]
     }
 
     this.initialValues = this.getInitialValues()
@@ -51,8 +52,9 @@ class LeadsTableBox extends React.Component {
       'handleSelectionChange',
       'renderTableTitle',
       'renderLeadDetail',
+      'handleRecovery'
     ])
-
+    const resource = ['','MKT','CC','Other']
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.info.label'}),
       dataIndex: 'name',
@@ -63,11 +65,17 @@ class LeadsTableBox extends React.Component {
           <b>{record.name}</b><br/>
           <span>{`• ${record.email}`}</span><br/>
           <span>{`• ${record.mobile}`}</span><br/>
+          <b>{`• Nguồn: ${resource[record.type_lead]}`}</b><br/>
           {record.is_duplicated && (
             <Tag color="red">
               {intl.formatMessage({id: 'attrs.info.duplicated'})}
             </Tag>
-          )} 
+          )}
+          {record.is_recovery && (
+            <Tag color="red">
+              {intl.formatMessage({id: 'attrs.info.recovery'})}
+            </Tag>
+          )}
         </div>
       )
     }, {
@@ -88,7 +96,7 @@ class LeadsTableBox extends React.Component {
             {record.utm && record.utm.details.utm_campaign && <Tag color="purple">{`${record.utm.details.utm_campaign}`}</Tag>}
           </Tooltip>
         </div>
-        
+
       )
     }, /*{
       title: intl.formatMessage({id: 'attrs.note.label'}),
@@ -105,6 +113,12 @@ class LeadsTableBox extends React.Component {
         />
       )
     }, */
+    {
+      title: intl.formatMessage({id: 'attrs.count_lead_care_history.label'}),
+      dataIndex: 'count_lead_care_history',
+      key: 'count_lead_care_history',
+      width: '10%'
+    },
     {
       title: intl.formatMessage({id: 'attrs.last_lead_care_history.label'}),
       dataIndex: 'last_lead_care_history',
@@ -133,13 +147,17 @@ class LeadsTableBox extends React.Component {
       render: (value, row) => {
         return (
           <div>
-            {value ? 
+            {value ?
               <Tooltip title={intl.formatMessage({id: 'attrs.assigned_at.label'})}>
                 <Tag color="#2db7f5">{moment(value).format(SHORT_DATETIME_FORMAT)}</Tag>
               </Tooltip> : ''}
-            {row.imported_at ? 
+            {row.imported_at ?
               <Tooltip title={intl.formatMessage({id: 'attrs.imported_at.label'})}>
                 <Tag style={{ marginTop: '10px' }} color="#87d068">{moment(row.imported_at).format(SHORT_DATETIME_FORMAT)}</Tag>
+              </Tooltip>  : ''}
+              {(row.last_lead_care_history && row.last_lead_care_history.schedule_at) ?
+              <Tooltip title={intl.formatMessage({id: 'attrs.schedule_at.label'})}>
+                <Tag style={{ marginTop: '10px' }} color="#FF6A6A">{moment(row.last_lead_care_history.schedule_at).format(SHORT_DATETIME_FORMAT)}</Tag>
               </Tooltip>  : ''}
           </div>
         )
@@ -294,6 +312,7 @@ class LeadsTableBox extends React.Component {
   }
 
   handleSelectionChange(selectedRowKeys, selectedRows) {
+    this.state.selectedRowKeys = selectedRowKeys
     const {actions, indexState} = this.props
     actions.updateSelectedLeadKeys(selectedRowKeys)
   }
@@ -308,11 +327,21 @@ class LeadsTableBox extends React.Component {
     browserHistory.push(`${LEADS_URL}/assign`)
   }
 
+  handleReport() {
+    browserHistory.push(`${LEADS_URL}/report`)
+  }
+
   handleUpdateAttrs(id, values) {
     const {actions} = this.props
     actions.updateLeadAttrs(id, {fields: 'lead_level{},lead_status{}', record: values})
   }
 
+  handleRecovery() {
+    const {actions, indexState, location} = this.props
+    console.log(this.state.selectedRowKeys)
+    actions.recoveryLeads({ids: this.state.selectedRowKeys})
+
+  }
 
   render() {
     const {indexState, sharedState, actions, intl} = this.props
@@ -346,6 +375,18 @@ class LeadsTableBox extends React.Component {
               onClick={this.handleAssign}
             >
               {intl.formatMessage({id: 'form.form_item.button.assign.text'})}
+            </Button>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleReport}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.report.text'})}
+            </Button>
+            <Button
+              className="button-margin--left--default"
+              onClick={this.handleRecovery}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.recovery.text'})}
             </Button>
           </Col>
           <Col span={6} className="main-content-table-box-tools-search-box">

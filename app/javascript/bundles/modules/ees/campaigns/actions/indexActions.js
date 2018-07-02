@@ -2,7 +2,7 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   CAMPAIGNS_API_PATH,
-  AUTHS_API_PATH
+  AUTHS_API_PATH  
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'

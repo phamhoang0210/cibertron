@@ -92,6 +92,10 @@ export const menuData = [
         path: '/nauh/leads',
         title: 'Leads',
       } , {
+        type: 'link',
+        path: '/nauh/prices',
+        title: 'Config Prices',
+      } ,{
         type: 'link', 
         path: '/nauh/orders',
         title: 'Orders',
@@ -153,6 +157,10 @@ export const menuData = [
         type: 'link', 
         path: '/hera/domains',
         title: 'Domains',
+      }, {
+        type: 'link', 
+        path: '/hera/budgets',
+        title: 'Budgets',
       }
     ]
   }, {

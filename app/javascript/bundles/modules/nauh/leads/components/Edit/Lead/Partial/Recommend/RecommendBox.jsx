@@ -8,6 +8,7 @@ import {
 import moment from 'moment'
 import { injectIntl } from 'react-intl'
 import { selectFilterOption } from 'helpers/antdHelper'
+import { MD5 } from 'helpers/md5Helper'
 
 
 const FormItem = Form.Item
@@ -25,11 +26,13 @@ class RecommendBox extends React.Component {
     _.bindAll(this, [
       'handleSubmit',
     ])
-    const key = new Date().getTime()
+    var key1 = new Date().getTime()
+    var key2 = key1 + 5
+    var key3 = key1 + 10
     this.state = {
       selectCourses: [],
       selectCoursesId: [],
-      configs:[{key:key, quantity:1,price:0}]
+      configs:[{key:key1, quantity:1,price:0}, {key:key2, quantity:1,price:0}, {key:key3, quantity:1,price:0}]
     }
 
     this.onCheckCheckbox = this.onCheckCheckbox.bind(this)
@@ -50,6 +53,7 @@ class RecommendBox extends React.Component {
     this.props.actions.fetchRecommendation(email, 10)
     this.props.actions.fetchRecommendationNauh(lead_id)
     actions.fetchCampaigns({per_page: 'infinite'})
+    actions.fetchPrices({per_page: 'infinite'})
       //actions.fetchUser(lead.staff_id, {fields: 'basic_profile{}'})
   }
 
@@ -239,15 +243,14 @@ class RecommendBox extends React.Component {
 
     const Option = Select.Option
 
-
     let allCourses = sharedState.get("courses")
-
     let recCourses = editState.get('recCourses')
     //recCourses.mergeDeep(allCourses);
 
 
     const recommendNauh = editState.get('recommendNauh')
     let defaultCampaign = "";
+    let recommendId = null;
     let defaultCupon = "";
     let coursesRecommend = []
 
@@ -255,6 +258,7 @@ class RecommendBox extends React.Component {
       var temp = recommendNauh.get("product_ids")
       var tempConfig = recommendNauh.get("config")
       defaultCampaign = recommendNauh.get("campaign_code")
+      recommendId = recommendNauh.get("id")
       defaultCupon = recommendNauh.get("coupon_code")
 
       if (temp) {
@@ -299,21 +303,14 @@ class RecommendBox extends React.Component {
                         </Row>
                   )}
                   <Row>
-                    <FormItem
-                      label={intl.formatMessage({id: 'attrs.order.attrs.coupon_code.label'})}
-                      {...DEFAULT_FORM_ITEM_LAYOUT}
-                    >
-                      {getFieldDecorator('record.coupon_code', {initialValue: defaultCupon})(
-                        <Input/>
-                      )}
-                    </FormItem>
+
                     <FormItem
                       label={intl.formatMessage({id: 'attrs.order.attrs.campaign.label'})}
                       {...DEFAULT_FORM_ITEM_LAYOUT}
                     >
                       {getFieldDecorator('record.campaign_code', {
                         rules: [
-                          { required: true, message: intl.formatMessage({id: 'attrs.order.attrs.campaign.errors.required'}) }
+                          { required: false, message: intl.formatMessage({id: 'attrs.order.attrs.campaign.errors.required'}) }
                         ],
                         initialValue: defaultCampaign
                       })(
@@ -359,7 +356,7 @@ class RecommendBox extends React.Component {
                               label='Số khóa'
                               {...DEFAULT_FORM_ITEM_LAYOUT}
                             >
-                                <Input className='quantity' key={config.key} defaultValue={config.quantity} onChange={(e) => this.onChangeQuantity(e, config.key)}/>
+                                <Input className='quantity' type="number" key={config.key} defaultValue={config.quantity} onChange={(e) => this.onChangeQuantity(e, config.key)}/>
 
                           </FormItem>
                         </Col>
@@ -368,11 +365,11 @@ class RecommendBox extends React.Component {
                               label='Giá'
                               {...DEFAULT_FORM_ITEM_LAYOUT}
                             >
-                                <Input className='price' key={config.key} onChange={(e) => this.onChangePrice(e, config.key)} defaultValue={config.price}/>
+                                <Input className='price' type="number" key={config.key} onChange={(e) => this.onChangePrice(e, config.key)} defaultValue={config.price}/>
 
                           </FormItem>
                         </Col>
-                        <Col span={2} style={{ margin: '10px auto' }}>
+                        <Col span={2} style={{ margin: '10px auto' }} hidden="true" >
                           {(configLength === index + 1) ? (
                               <Icon key={config.key} type="plus" onClick={this.onCickPlusConfig}/>
                             ) : (
@@ -386,6 +383,18 @@ class RecommendBox extends React.Component {
 
                 </Col>
               </Row>
+                <Row>
+                    <Col span={12} className="text-align--left" id="prices-box">
+                        <div dangerouslySetInnerHTML={{ __html: this.renderPrices() }} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                    </Col>
+                    <Col span={8} className="text-align--left" id="prices-box">
+                        <b>LINK:</b> <a href={recommendId ? "http://baogia.edumall.vn/?id=" + recommendId + '@' + MD5(recommendId.toString()) : "#"} target="_blank">Trang báo giá</a>
+                    </Col>
+                </Row>
               <Row>
                 <Col span={16}>
                 </Col>
@@ -406,6 +415,29 @@ class RecommendBox extends React.Component {
       </div>
     );
   }
+    renderPrices() {
+        const {newState, sharedState, form, intl} = this.props
+        const { getFieldDecorator, getFieldValue } = form
+        let prices = sharedState.get('prices')
+        var listSelectCourses = this.state.selectCourses
+        var listPrice = []
+        listSelectCourses.map(function (course) {
+            prices.map(function (price) {
+              var priceid = price.get('course_id')
+              if(course.id == priceid) {
+                var min = price.get('min_price')
+                var name = course.name
+                  listPrice.push([min, name])
+              }
+            })
+        })
+        var arrayLength = listPrice.length;
+        var html = '<b>CÁC KHÓA HỌC BỊ GIỚI HẠN GIÁ ĐÃ CHỌN:</b><br>'
+        for (var i = 0; i < arrayLength; i++) {
+            html += listPrice[i][1] + ': <b>' + listPrice[i][0] + '</b><br>';
+        }
+        return (html)
+    }
 }
 
 export default Form.create()(injectIntl(RecommendBox))

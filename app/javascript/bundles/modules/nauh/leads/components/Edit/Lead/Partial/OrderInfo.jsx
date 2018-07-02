@@ -38,7 +38,7 @@ class OrderInfo extends React.Component {
     const leadStatuses = sharedState.get('leadStatuses')
     const users = sharedState.get('users')
     const user = users.find(u => u.get('id') == lead.get('staff_id'))
-    
+    const resource = ['','MKT','CC','Other']
     return (
       <div className="box">
         <div className="box-header">
@@ -51,6 +51,7 @@ class OrderInfo extends React.Component {
             <Row gutter={8} className="order-info-update-form-item">
               <Col span={6}>
                 {intl.formatMessage({id: 'attrs.lead_level_id.label'})}
+
               </Col>
               <Col span={18}>
                 <SelectEditable
@@ -74,8 +75,10 @@ class OrderInfo extends React.Component {
                     })
                   ))}
                 />
+                
               </Col>
             </Row>
+
             <Row gutter={8} className="order-info-update-form-item">
               <Col span={6}>
                 {intl.formatMessage({id: 'attrs.lead_status_id.label'})}
@@ -105,7 +108,7 @@ class OrderInfo extends React.Component {
                   <Tag color="red">
                     {intl.formatMessage({id: 'attrs.info.duplicated'})}
                   </Tag>
-                )} 
+                )}
               </Col>
             </Row>
             <Row gutter={8} className="order-info-update-form-item">
@@ -130,6 +133,14 @@ class OrderInfo extends React.Component {
                     })
                   ))}
                 />
+              </Col>
+            </Row>
+            <Row gutter={8} className="order-info-update-form-item">
+              <Col span={6}>
+                  {'Nguồn'}
+              </Col>
+              <Col span={18}>
+                <b>{`${resource[lead.get('type_lead')]}`}</b><br/>
               </Col>
             </Row>
           </div>

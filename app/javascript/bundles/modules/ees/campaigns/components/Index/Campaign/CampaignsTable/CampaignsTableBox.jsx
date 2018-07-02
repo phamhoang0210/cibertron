@@ -3,7 +3,8 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import {
   Table, Button, Popconfirm, Input, Row, Col, Pagination,
-  Tag, Tabs, Badge, Select, Modal, Icon, Popover, Progress
+  Tag, Tabs, Badge, Select, Modal, Icon, Popover, Progress,
+  Alert
 } from 'antd'
 import {
   getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
@@ -27,9 +28,9 @@ const IconText = ({ type, text }) => (
 );
 const content = (
   <div>
-    <p><IconText type="check" text="Email Sent" /> </p>
+    <p><IconText type="check" text="Email Sent" /></p>
     <p><IconText type="eye" text="Email Open" /></p>
-    <p><IconText type="select" text="Click Link" /></p>
+    <p><IconText type="star" text="Cost" /></p>
     <p><IconText type="dislike" text="Unsubscribe" /></p>
   </div>
 );
@@ -59,6 +60,38 @@ class CampaignsTableBox extends React.Component {
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
+      title: intl.formatMessage({id: 'attrs.open_percent.label'}),
+      dataIndex: 'name',
+      key: 'open',
+      width: '7%',
+      render: (cell, row) => {
+        var amount = row.amount
+        var opened = row.opened
+        var status = ""
+        var open_percent = 0
+        if (row.amount > 0) {
+          open_percent = _.round(opened/(amount/100),2)
+        }
+
+        if (open_percent >= 10) {
+          status = "success"
+        } else if (open_percent < 10) {
+          status = "exception"
+        }
+        
+        if (row.amount == 0) {
+          return (
+            <Progress width={60} status="active" type="circle" format={percent => `${'?'}`} />
+          )
+        } else {
+          return (
+            <Progress width={60} status={status} type="circle" percent={open_percent} format={percent => `${percent}`} />
+          )
+        }
+        
+      },
+    },
+      {
         title: intl.formatMessage({id: 'attrs.name.label'}),
         dataIndex: 'name',
         width: '50%',
@@ -76,10 +109,11 @@ class CampaignsTableBox extends React.Component {
               
               <b>{row.name}</b><br/>
               <Popover content={content}>
-                {(<IconText type="check" text={(row.amount || row.amount >= 0)  ? row.amount : (<Icon type="loading" />)} />)}
-                {(<IconText type="eye" text={(row.opened || row.opened >= 0) ? row.opened : (<Icon type="loading" />)} />)}
-                <IconText type="dislike" text={(row.unsubscribed || row.unsubscribed >= 0) ? row.unsubscribed : (<Icon type="loading" />)} />
-                <IconText type="select" text="0" /><br/>
+                {row.amount != 0 && (<IconText type="check" text={(row.amount || row.amount >= 0)  ? row.amount : (<Icon type="loading" />)} />)}
+                {row.amount != 0 && (<IconText type="eye" text={(row.opened || row.opened >= 0) ? row.opened : (<Icon type="loading" />)} />)}
+                {row.amount != 0 && <IconText type="dislike" text={(row.unsubscribed || row.unsubscribed >= 0) ? row.unsubscribed : (<Icon type="loading" />)} />}
+                {row.amount != 0 && (<IconText type="star" text={(row.amount || row.amount > 0)  ? _.round(row.amount*0.00045, 2) + '$' : (<Icon type="loading" />)} />)}
+                <br/>
               </Popover>
             </div>
           )
@@ -229,16 +263,16 @@ class CampaignsTableBox extends React.Component {
         </Row>
         
         {campaigns && (<Table
-                          bordered
-                          size="middle"
-                          columns={this.columns}
-                          dataSource={campaigns.toJS()}
-                          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
-                          rowClassName={rowClassName}
-                          rowKey="id"
-                          onChange={this.handleTableChange}
-                          loading={isFetchingCampaigns}
-                        />)}
+          bordered
+          size="middle"
+          columns={this.columns}
+          dataSource={campaigns.toJS()}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
+          rowClassName={rowClassName}
+          rowKey="id"
+          onChange={this.handleTableChange}
+          loading={isFetchingCampaigns}
+        />)}
       </div>
     )
   }

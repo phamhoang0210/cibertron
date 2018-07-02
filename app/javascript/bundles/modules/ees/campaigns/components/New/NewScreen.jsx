@@ -10,8 +10,8 @@ class NewScreen extends React.Component {
   componentDidMount() {
     const {actions} = this.props
     actions.fetchSenders({per_page: 'infinite'})
-    actions.fetchTemplates({per_page: 'infinite'})
-    actions.fetchLists({per_page: 'infinite'})
+    actions.fetchTemplates({per_page: 'infinite',fields: 'name,code,id'})
+    actions.fetchLists({per_page: 'infinite',fields: 'name,id'})
   }
 
   render() {

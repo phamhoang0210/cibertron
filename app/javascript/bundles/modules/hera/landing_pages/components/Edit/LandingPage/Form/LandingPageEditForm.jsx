@@ -56,7 +56,7 @@ class LandingPageEditForm extends React.Component {
     const domains = sharedState.get('domains')
     const facebookApps = sharedState.get('facebookApps')
     const facebookPixelCodes = sharedState.get('facebookPixelCodes')
-    const contactTypes = sharedState.get('contactTypes')
+    const logics = sharedState.get('logics')
     const strategies = sharedState.get('strategies')
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == (getFieldValue('discount_id') || (landingPage && landingPage.get('discount_id')))
@@ -177,6 +177,25 @@ class LandingPageEditForm extends React.Component {
                     initialValue: landingPage.get('ga_code'),
                   })(<Input />)}
                 </FormItem>
+                
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.link_custom.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('link_custom', {
+                    initialValue: landingPage.get('link_custom'),
+                  })(<Input />)}
+                </FormItem>
+
+
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.ga_code.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('ga_code', {
+                    initialValue: landingPage.get('ga_code'),
+                  })(<Input />)}
+                </FormItem>
                 <FormItem
                   label={intl.formatMessage({id: 'attrs.thankyou_page_url.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -200,9 +219,9 @@ class LandingPageEditForm extends React.Component {
                       showSearch
                       filterOption={selectFilterOption}
                     >
-                      {contactTypes.map(type => (
+                      {logics.map(type => (
                         <Option value={`${type.get('id')}`} key={type.get('id')}>
-                          {type.get('title')}
+                          {type.get('landing_page_type')}
                         </Option>
                       ))}
                     </Select>

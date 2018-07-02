@@ -35,17 +35,34 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_name.label'}),
         dataIndex: 'lead_care_status.name',
         key: 'lead_care_status_name',
-        width: '25%',
-      }, {
+        width: '20%',
+      },
+      {
+        title: 'Level',
+        dataIndex: 'lead_care_status.lead_sub_status_id',
+        key: 'lead_sub_status_id',
+        width: '5%',
+      },{
+        title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.lead_care_status_name_2.label'}),
+        dataIndex: 'lead_care_status.lead_status.name',
+        key: 'lead_status_care_name_2',
+        width: '10%',
+      },{
+        title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.schedule_at.label'}),
+        dataIndex: 'schedule_at',
+        key: 'schedule_at',
+        width: '10%',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : '',
+      },{
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.result_note.label'}),
         dataIndex: 'result_note',
         key: 'result_note',
-        width: '25%',
+        width: '10%',
       }, {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.user_id.label'}),
         dataIndex: 'user_id',
         key: 'user_id',
-        width: '15%',
+        width: '10%',
         render: value => {
           const {sharedState} = this.props
           return sharedState.getIn(['userIdMappings', `${value}`, 'username'])
@@ -54,7 +71,7 @@ class LeadCareHistoriesTableBox extends React.Component {
         title: intl.formatMessage({id: 'attrs.lead_care_history.attrs.call_log_audio.label'}),
         dataIndex: 'call_log',
         key: 'call_log',
-        width: '20%',
+        width: '10%',
         render: (value, record) => {
           if(value) {
             if(value.audio_link) {
@@ -114,7 +131,7 @@ class LeadCareHistoriesTableBox extends React.Component {
     const leadCareHistories = editState.get('leadCareHistories')
     const paging = editState.getIn(['leadCareHistoryFilters', 'paging'])
     const isFetchingLeadCareHistories = editState.get('isFetchingLeadCareHistories')
-    
+
     return (
       <div className="box box-with-border box-with-shadow">
         <div className="box-header">

@@ -66,6 +66,23 @@ export const appLocale = {
         // attrs.template.placeholder
         placeholder: 'Chọn template',
       },
+      test_emails: {
+        // attrs.test_emails.label
+        label: 'Email test',
+        // attrs.test_emails.tool_tip
+        tool_tip: 'Các email cách nhau bằng dấu ;'
+      },
+      open_percent: {
+        // attrs.open.label
+        label: 'Mở(%)',
+      },
+    },
+
+    actions: {
+      send_test: {
+        // actions.send_test.label
+        label: 'Send test'
+      }
     },
     popconfirm: {
       delete: {

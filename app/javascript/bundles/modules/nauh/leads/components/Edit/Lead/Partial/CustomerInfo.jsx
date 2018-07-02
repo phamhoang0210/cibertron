@@ -241,7 +241,7 @@ class CustomerInfo extends React.Component {
     const {editState, sharedState, intl} = this.props
     const lead = editState.get('lead')
     const isFetchingLead = editState.get('isFetchingLead')
-    
+
     return (
       <div className="box">
         <div className="box-body">
@@ -292,7 +292,7 @@ class CustomerInfo extends React.Component {
         sourceDetails += `${key} : ${value} \n`
       ))
     }
-    
+
 
     const sexOptions = [];
     sexes.map(sex => (
@@ -366,6 +366,12 @@ class CustomerInfo extends React.Component {
               {getFieldDecorator('interest', {
                 initialValue: lead.get('interest'),
               })(<TextArea/>)}
+            </FormItem>
+            <FormItem
+              label={intl.formatMessage({id: 'attrs.source_url.label'})}
+              {...DEFAULT_FORM_ITEM_LAYOUT}
+            >
+              <a href={lead.get('source_url')} target="_blank" > Link source </a>
             </FormItem>
           </Col>
           <Col span={12}>

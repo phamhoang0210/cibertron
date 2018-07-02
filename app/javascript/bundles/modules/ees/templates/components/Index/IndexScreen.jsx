@@ -1,13 +1,19 @@
 import React from 'react'
 import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper'
-import TemplatesTableBox from './Template/TemplatesTable/TemplatesTableBox'
+import MarketingTableBox from './Template/MarketingTable/MarketingTableBox'
+import TransactionalTableBox from './Template/TransactionalTable/TransactionalTableBox'
 import TemplateFiltersFormBox from './Template/TemplateFiltersForm/TemplateFiltersFormBox'
-import { notification } from 'antd'
+import { notification, Tabs } from 'antd'
 import { injectIntl } from 'react-intl'
+
+const { TabPane } = Tabs
 
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
+    _.bindAll(this, [
+      'handleTabChange'
+    ])
   }
 
   componentDidMount() {
@@ -29,6 +35,17 @@ class IndexScreen extends React.Component {
     }
   }
 
+  handleTabChange(tabKey) {
+    if(tabKey == 'marketing') {
+      const {actions, intl} = this.props
+      actions.fetchMarketingTemplates()
+    }
+    if(tabKey == 'transactional') {
+      const {actions, intl} = this.props
+      actions.fetchTransactionalTemplates()
+    }
+  }
+
   render() {
     const {indexState, intl} = this.props
     return (
@@ -40,7 +57,14 @@ class IndexScreen extends React.Component {
         </div>
         <div className="box-body">
           <TemplateFiltersFormBox {...this.props}/>
-          <TemplatesTableBox {...this.props}/>
+          <Tabs defaultActiveKey="templates" size="large" onChange={this.handleTabChange}>
+            <TabPane tab="Marketing" key="marketing">
+              <MarketingTableBox {...this.props}/>
+            </TabPane>
+            <TabPane tab="Transactional" key="transactional">
+              <TransactionalTableBox {...this.props}/>
+            </TabPane>
+          </Tabs>
         </div>
       </div>
     )

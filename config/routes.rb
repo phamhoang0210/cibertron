@@ -63,10 +63,12 @@ Rails.application.routes.draw do
       option.resources :leads do
         collection do
           get 'assign', to: 'leads#assign'
+          get 'report', to: 'leads#report'
         end
       end
       option.resources :orders
       option.resources :sources
+      option.resources :prices
       option.namespace :settings do
         resources :ipphones
       end
@@ -93,6 +95,7 @@ Rails.application.routes.draw do
         end
       end
       option.resources :domains
+      option.resources :budgets
     end
   end
 
@@ -101,6 +104,14 @@ Rails.application.routes.draw do
       with_options only: [:index, :show, :create, :update, :destroy] do |option|
         option.resources :service_infos
       end
+    end
+  end
+
+  resources :apps, only: [] do
+    collection do
+      get '/', to: 'apps#index'
+      get ':code/*path', to: 'apps#index'
+      get ':code', to: 'apps#index'
     end
   end
 end

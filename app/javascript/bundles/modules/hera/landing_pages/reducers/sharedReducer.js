@@ -21,12 +21,7 @@ export const initialState = Immutable.fromJS({
     {id: 'trial', title: 'trial'},
     {id: 'crosssell', title: 'crosssell'},
   ],
-  contactTypes: [
-    {id: 'c3_cod', title: 'c3_cod'},
-    {id: 'c3_crosssell', title: 'c3_crosssell'},
-    {id: 'c3_teacher', title: 'c3_teacher'},
-    {id: 'c3_tuyendung', title: 'c3_tuyendung'},
-  ],
+  logics: [],
   landingPageTypes: [
     {id: 'instapage', title: 'Instapage'},
     {id: 'custom', title: 'Custom (edumall.vn)'},
@@ -166,6 +161,26 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_FACEBOOK_PIXEL_CODES_FAILURE: {
       return $$state.merge({
         isFetchingFacebookPixelCodes: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_LOGICS: {
+      return $$state.merge({
+        isFetchingLogics: true,
+      })
+    }
+
+    case actionTypes.FETCH_LOGICS_SUCCESS: {
+      return $$state.merge({
+        isFetchingLogics: false,
+        logics: records,
+        logicIdMappings: recordIdMappings,
+      })
+    }
+
+    case actionTypes.FETCH_LOGICS_FAILURE: {
+      return $$state.merge({
+        isFetchingLogics: false,
       })
     }
 

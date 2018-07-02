@@ -1,6 +1,7 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
+import { defaultFilters } from 'app/constants/initialState'
 export const initialState = Immutable.fromJS({
   leadLevels: [],
   leadStatuses: [],
@@ -10,9 +11,14 @@ export const initialState = Immutable.fromJS({
   combos: [],
   courses: [],
   provinces: [],
+  prices: [],
   leadCareStatuses: [],
   userIdMappings: {},
   leadCareStatusIdMappings: {},
+  leadCareStatusFilter: {
+    ...defaultFilters,
+    fields: 'lead_status{}'
+  },
   comboSourceIdMappings: {},
   courseSourceIdMappings: {},
   sexes: [],
@@ -20,6 +26,7 @@ export const initialState = Immutable.fromJS({
   isFetchingUsers: false,
   isFetchingLeadStatuses: false,
   isFetchingCampaigns: false,
+  isFetchingPrices: false,
   isFetchingPaymentMethods: false,
   isFetchingCombos: false,
   isFetchingCourses: false,
@@ -38,8 +45,29 @@ export const initialState = Immutable.fromJS({
     { value: 'add_2', title: '58/10 Thành Thái, Phường 12, Quận 10, HCM'},
   ],
   otherFilters: [
-    { value: 'duplicated', title: 'Trùng'}
+    { value: 'duplicated', title: 'Trùng'},
+    { value: 'unduplicated', title: 'Không Trùng'},
+    { value: 'recovery', title: 'Thu hồi'}
   ],
+    calls: [
+        {value: '1', title: '1 lần'},
+        {value: '2', title: '2 lần'},
+        {value: '3', title: '3 lần'},
+        {value: '4', title: '4 lần'},
+        {value: '5', title: '5 lần'},
+        {value: '6', title: '6 lần'},
+        {value: '7', title: 'Trên 7 lần'},
+    ],
+    report: [
+        { value: 'lichhen', title: 'Lịch hẹn'},
+        { value: 'dagoi', title: 'Đã gọi'},
+        { value: 'chuagoi', title: 'Chưa gọi'},
+    ],
+    source: [
+        { value: '1', title: 'Marketing'},
+        { value: '2', title: 'CC'},
+        { value: '3', title: 'Khác'}
+    ],
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -49,7 +77,7 @@ export default function sharedReducer($$state = initialState, action = null) {
   if(records) {
     records.forEach(record => recordIdMappings[record.id] = record)
   }
-  
+
   switch (type) {
     case actionTypes.SET_IS_FETCHING_LEAD_LEVELS: {
       return $$state.merge({
@@ -128,6 +156,25 @@ export default function sharedReducer($$state = initialState, action = null) {
       })
     }
 
+      case actionTypes.SET_IS_FETCHING_PRICES: {
+          return $$state.merge({
+              isFetchingPrices: true,
+          })
+      }
+
+      case actionTypes.FETCH_PRICES_SUCCESS: {
+          return $$state.merge({
+              isFetchingPrices: false,
+              prices: records,
+          })
+      }
+
+      case actionTypes.FETCH_PRICES_FAILURE: {
+          return $$state.merge({
+              isFetchingPrices: false,
+          })
+      }
+
     case actionTypes.SET_IS_FETCHING_PAYMENT_METHODS: {
       return $$state.merge({
         isFetchingPaymentMethods: true,
@@ -198,14 +245,14 @@ export default function sharedReducer($$state = initialState, action = null) {
         isFetchingProvinces: true,
       })
     }
-    
+
     case actionTypes.FETCH_PROVINCES_SUCCESS: {
       return $$state.merge({
         isFetchingProvinces: false,
         provinces: records,
       })
     }
-    
+
     case actionTypes.FETCH_PROVINCES_FAILURE: {
       return $$state.merge({
         isFetchingProvinces: false,
@@ -222,7 +269,7 @@ export default function sharedReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingLeadCareStatuses: false,
         leadCareStatuses: records,
-        leadCareStatusIdMappings: recordIdMappings,
+        leadCareStatusIdMappings: recordIdMappings
       })
     }
 
@@ -250,7 +297,7 @@ export default function sharedReducer($$state = initialState, action = null) {
         isFetchingSexes: false,
       })
     }
-    
+
     default: {
       return $$state
     }

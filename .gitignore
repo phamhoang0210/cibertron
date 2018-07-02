@@ -9,6 +9,9 @@
 
 # Ignore database config
 /config/authservice_jwt.pub
+/db/schema.rb
+
+# Ignore database infomations
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -27,6 +30,7 @@
 =======
 .env
 .env.production
+.env.development
 .env.review
 .env.staging
 .env.canary

@@ -18,6 +18,7 @@ const FormItem = Form.Item
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker
 const InputGroup = Input.Group
+const dateFormat = 'YYYY/MM/DD'
 
 class LogFiltersFormBox extends React.Component {
   constructor(props) {
@@ -26,24 +27,33 @@ class LogFiltersFormBox extends React.Component {
     _.bindAll(this, [
       'handleFilter',
       'formatFormData',
+      'handleExport',
     ])
 
   }
 
   handleFilter(e) {
     e.preventDefault()
+    const {tabKey} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const {actions, indexState, location} = this.props
-        let logParams = getFilterParams(indexState.get('logFilters'))
-        actions.fetchLogs(mergeDeep([logParams, this.formatFormData(values)]))
+        if(tabKey=="logs"){
+          let logParams = getFilterParams(indexState.get('logFilters'))
+          actions.fetchLogs(mergeDeep([logParams, this.formatFormData(values)]))
+        }else{
+          let emailParams = getFilterParams(indexState.get('emailFilters'))
+          actions.fetchEmails(mergeDeep([emailParams, this.formatFormData(values)]))
+        }
       }
     })
   }
+  handleExport() {
 
+  }
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['status', 'group_id']
+    const inCompFields = ['status', 'group_id', 'campaign_id']
     const timerangeFields = ['created_at']
     
     let compconds = {}
@@ -59,19 +69,18 @@ class LogFiltersFormBox extends React.Component {
       compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    
     return mergeDeep([formatedValues, compconds])
   }
 
   render() {
-    const {indexState, form, sharedState} = this.props
-    const isFetchingLogs = indexState.get('isFetchingLogs')
+    const {indexState, form, sharedState, tabKey} = this.props
+    const isFetchingLogs = (tabKey=="emails") ? indexState.get('isFetchingEmailLogs') : indexState.get('isFetchingLogs')
     const logs = sharedState.get('logs')
-    const totalPage = indexState.getIn(['logFilters', 'paging', 'record_total'])
+    const totalPage = (tabKey=="emails") ? indexState.getIn(['emailFilters', 'paging', 'record_total']) : indexState.getIn(['logFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
-    const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"}]
+    const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"},{id: 4, name: "OPENED"}]
     const groups = indexState.get('groups')
-
+    const campaigns = indexState.get('campaigns')
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -84,7 +93,9 @@ class LogFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at')(
+                {getFieldDecorator('created_at',{
+                  initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]
+                })(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}
@@ -128,6 +139,7 @@ class LogFiltersFormBox extends React.Component {
                   rules: [{ type: 'array' }],
                 })(
                   <Select
+                    disabled={(tabKey=="emails") ? true : false}
                     showSearch
                     filterOption={selectFilterOption}
                     mode="multiple"
@@ -145,9 +157,42 @@ class LogFiltersFormBox extends React.Component {
             </Col>
             
           </Row>
-
+          <Row gutter={40}>
+            <Col span={8}>
+              <FormItem
+                label="Campaign"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('campaign_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    disabled={(tabKey=="emails") ? false : true}
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder="-- All --"
+                    allowClear={true}
+                  >
+                    {campaigns && campaigns.toJS().map(campaign => (
+                      <Option key={campaign.id} value={campaign.id}>
+                        {campaign.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+          </Row>
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              className="button-margin--right--default"
+              onClick={this.handleExport}
+              disabled={isFetchingLogs}
+            >
+              {`Export (${totalPage})`}
+            </Button>
               <Button type="primary" htmlType="submit" loading={isFetchingLogs}>
                 Filter
               </Button>

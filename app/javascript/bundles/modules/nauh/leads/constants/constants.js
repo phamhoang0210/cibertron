@@ -16,4 +16,5 @@ export const BADGE_STATUS_MAPPINGS = {
   'processing': 'processing',
   'done': 'success',
   'cancelled': 'default',
+  'undefine': 'undefine',
 }

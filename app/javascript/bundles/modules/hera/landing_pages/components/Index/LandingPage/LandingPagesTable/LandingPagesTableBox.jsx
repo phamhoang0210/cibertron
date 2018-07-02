@@ -40,9 +40,9 @@ class LandingPagesTableBox extends React.Component {
         const {sharedState} = this.props
         const userIdMappings = sharedState.get('userIdMappings')
         const user = userIdMappings.get(`${record.user_id}`)
-        var name = "unknow"
+        var name = "unknown"
         if (user) {
-          name = user.get('username')
+          name = user.get('nickname')
         }
         return (
           <div>
@@ -53,63 +53,65 @@ class LandingPagesTableBox extends React.Component {
         )
       }
     }, 
-    {
-      title: intl.formatMessage({id: 'attrs.score.label'}),
-      dataIndex: 'domain',
-      key: 'score',
-      width: '7%',
-      render: (value) => {
-        var status = ""
-        var score = 0
-        try {
-          score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
-        }
-        catch(err) {
-          console.log(err.message)
-        }
+    // {
+    //   title: intl.formatMessage({id: 'attrs.score.label'}),
+    //   dataIndex: 'domain',
+    //   key: 'score',
+    //   width: '7%',
+    //   render: (value) => {
+    //     var status = ""
+    //     var score = 0
+    //     try {
+    //       score = value.pagespeed_insight.formatted_results.rule_groups.SPEED.score
+    //     }
+    //     catch(err) {
+    //       console.log(err.message)
+    //     }
 
-        if (score >= 80) {
-          status = "success"
-        } else if (score < 60) {
-          status = "exception"
-        } else {
-          status = "active"
-        }
-        if (score == 0) {
-          return (
-            <Progress width={60} status={status} type="circle" percent={score} />
-          )
-        } else {
-          return (
-            <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
-          )
-        }
+    //     if (score >= 80) {
+    //       status = "success"
+    //     } else if (score < 60) {
+    //       status = "exception"
+    //     } else {
+    //       status = "active"
+    //     }
+    //     if (score == 0) {
+    //       return (
+    //         <Progress width={60} status={status} type="circle" percent={score} />
+    //       )
+    //     } else {
+    //       return (
+    //         <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
+    //       )
+    //     }
         
-      },
-    },
+    //   },
+    // },
     {
       title: intl.formatMessage({id: 'attrs.domain_id.label'}),
       dataIndex: 'domain',
       key: 'domain_name',
-      width: '15%',
+      width: '23%',
       render: (value, record) => {
         if(value && value.name) {
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
           return (
-            <div>
+            <div style={{ padding: '26px 16px 16px' }}>
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
-              <a href={`http://${value.name}`} target="_blank">{value.name}</a>
+              <a href={`http://${value.name}`} target="_blank">{value.name}</a><br/>
               {requestErrors.map(error => (
                 <div key={error}>
                   <small style={{color: 'red'}}>- {error}</small>
                 </div>
               ))}
+              <Button type="primary" href={record.link_custom} target="blank" size="small" type="primary" ghost ><i>Design LP</i></Button>
             </div>
           )
         }
       }
-    }, {
+    },
+     {
       title: intl.formatMessage({id: 'attrs.discount_id.label'}),
       dataIndex: 'discount_id',
       key: 'discount',
@@ -126,7 +128,6 @@ class LandingPagesTableBox extends React.Component {
             </div>
           )
         }
-
       }
     }, {
       title: intl.formatMessage({id: 'attrs.product.label'}),

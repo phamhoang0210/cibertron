@@ -10,11 +10,12 @@ export const initialState = Immutable.fromJS({
   selectedLeadKeys: [],
   leadFilters: {
     ...defaultFilters,
-    fields: 'lead_level{},lead_status{}, utm{},last_lead_care_history'
+    fields: 'lead_level{},lead_status{}, utm{},last_lead_care_history,count_lead_care_history'
   },
   isFetchingLeads: false,
   isImportingLeads: false,
   isUpdatingLeads: false,
+  isRecoveringLeads: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
@@ -22,7 +23,7 @@ export default function indexReducer($$state = initialState, action = null) {
     type, record, records, filters, error, leadId,
     lead, importResult, leadKeys,
   } = action
-  
+
   switch (type) {
     case actionTypes.SET_IS_FETCHING_LEADS: {
       return $$state.merge({
@@ -324,6 +325,24 @@ export default function indexReducer($$state = initialState, action = null) {
           )
         ))
       ))
+    }
+
+    case actionTypes.SET_IS_RECOVERING_LEADS: {
+      return $$state.merge({
+        isRecoveringLeads: true,
+      })
+    }
+
+    case actionTypes.RECOVERING_LEADS_SUCCESS: {
+      return $$state.merge({
+        isRecoveringLeads: false,
+      })
+    }
+
+    case actionTypes.RECOVERING_LEADS_FAILURE: {
+      return $$state.merge({
+        isRecoveringLeads: false,
+      })
     }
 
     default: {
