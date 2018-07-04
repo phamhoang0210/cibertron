@@ -5,6 +5,7 @@ import {
   Table, Icon, Button, Popconfirm, Row, Col, Input, Tabs, Badge, Progress, Tag
 } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
+import { removeSpaceInput } from 'helpers/inputHelper'
 import { browserHistory } from 'react-router'
 import { LANDING_PAGES_URL } from '../../../../constants/paths'
 import moment from 'moment'
@@ -96,6 +97,7 @@ class LandingPagesTableBox extends React.Component {
         if(value && value.name) {
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
+          const landing_page_error = record.landing_page_error
           return (
             <div style={{ padding: '26px 16px 16px' }}>
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
@@ -106,6 +108,11 @@ class LandingPagesTableBox extends React.Component {
                 </div>
               ))}
               <Button type="primary" href={record.link_custom} target="blank" size="small" type="primary" ghost ><i>Design LP</i></Button>
+              {landing_page_error.map(lp_error => (
+                <div key={lp_error.error.id}>
+                  <small style={{color: 'red'}}>- {lp_error.error.content}</small>
+                </div>
+              ))}
             </div>
           )
         }
@@ -228,6 +235,7 @@ class LandingPagesTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
+    keyword = removeSpaceInput(keyword)
     const {actions, indexState} = this.props
     let landingPageParams = getFilterParams(indexState.get('landingPageFilters'))
     actions.fetchLandingPages(mergeDeep([landingPageParams, {compconds: {'name.like': `%${keyword}%`}}]))
@@ -242,7 +250,6 @@ class LandingPagesTableBox extends React.Component {
     const landingPages = indexState.get('landingPages')
     const paging = indexState.getIn(['landingPageFilters', 'paging'])
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
-
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
@@ -255,6 +262,7 @@ class LandingPagesTableBox extends React.Component {
           </Col>
           <Col span={6}  className="main-content-table-box-tools-search-box">
             <Search
+              enterButton
               placeholder={intl.formatMessage({id: 'index.landing_pages_table.search.placeholder'})}
               onSearch={this.handleSearch}
             />
