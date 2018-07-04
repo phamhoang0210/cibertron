@@ -97,6 +97,7 @@ class LandingPagesTableBox extends React.Component {
         if(value && value.name) {
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
+          const landing_page_error = record.landing_page_error
           return (
             <div style={{ padding: '26px 16px 16px' }}>
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
@@ -107,6 +108,11 @@ class LandingPagesTableBox extends React.Component {
                 </div>
               ))}
               <Button type="primary" href={record.link_custom} target="blank" size="small" type="primary" ghost ><i>Design LP</i></Button>
+              {landing_page_error.map(lp_error => (
+                <div key={lp_error.error.id}>
+                  <small style={{color: 'red'}}>- {lp_error.error.content}</small>
+                </div>
+              ))}
             </div>
           )
         }
@@ -244,7 +250,6 @@ class LandingPagesTableBox extends React.Component {
     const landingPages = indexState.get('landingPages')
     const paging = indexState.getIn(['landingPageFilters', 'paging'])
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
-
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
