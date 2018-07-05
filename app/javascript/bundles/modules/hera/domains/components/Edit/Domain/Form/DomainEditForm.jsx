@@ -18,6 +18,7 @@ class DomainEditForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'handleAssign',
     ])
   }
 
@@ -37,6 +38,18 @@ class DomainEditForm extends React.Component {
     })
   }
 
+  handleAssign(e){
+    e.preventDefault()
+    const {actions, editState} = this.props
+    const domain = editState.get('domain')
+    
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        actions.assignDomain(domain.get('id'), {record: values})
+      }
+    })
+  }
+
   render() {
     const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
@@ -46,7 +59,6 @@ class DomainEditForm extends React.Component {
     const isFetchingDomain = editState.get('isFetchingDomain')
     const providers = sharedState.get('providers')
     const categories = sharedState.get('categories')
-    
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -87,6 +99,11 @@ class DomainEditForm extends React.Component {
                   <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                     {intl.formatMessage({id: 'form.form_item.button.back.text'})}
                   </Button>
+                  {!domain.get('user_id') && (
+                    <Button type="default" className="button-margin--left--default" onClick={this.handleAssign}>
+                    Assign
+                    </Button>
+                  )}
                 </FormItem>
               </Form>
             )} 
