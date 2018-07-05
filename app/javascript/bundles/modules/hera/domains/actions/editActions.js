@@ -65,3 +65,36 @@ export function updateDomain(domainId, params = {}) {
       .catch(error => dispatch(updateDomainFailure(error, domainId)))
   }
 }
+
+//Assign domain
+function setIsAssigningDomain(domainId) {
+  return {
+    type: actionTypes.SET_IS_ASSIGNING_DOMAIN,
+    domainId,
+  }
+}
+
+function assignDomainSuccess(record) {
+  return {
+    type: actionTypes.ASSIGNING_DOMAIN_SUCCESS,
+    record,
+  }
+}
+
+function assignDomainFailure(error, domainId) {
+  return {
+    type: actionTypes.ASSIGNING_DOMAIN_FAILURE,
+    error,
+    domainId,
+  }
+}
+
+export function assignDomain(domainId, params = {}) {
+  return dispatch => {
+    dispatch(setIsUpdatingDomain(domainId))
+    authRequest
+      .putEntity(`${HERA_BASE_URL}${DOMAINS_API_PATH}/${domainId}/assign`, params)
+      .then(res => dispatch(assignDomainSuccess(res.data)))
+      .catch(error => dispatch(assignDomainFailure(error, domainId)))
+  }
+}
