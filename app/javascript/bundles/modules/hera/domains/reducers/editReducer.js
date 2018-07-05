@@ -55,6 +55,30 @@ export default function editReducer($$state = initialState, action = null) {
         alert: parseError(error)
       })
     }
+
+    //Assign domain
+    case actionTypes.SET_IS_ASSIGNING_DOMAIN: {
+      return $$state.merge({
+        isUpdatingDomain: true,
+      })
+    }
+
+    case actionTypes.ASSIGNING_DOMAIN_SUCCESS: {
+      return $$state.merge({
+        isUpdatingDomain: false,
+        alert: createSuccessAlert('Domain was successfully updated'),
+      }).update('domain', domainItem => (
+        domainItem.merge(record)
+      ))
+    }
+
+    case actionTypes.ASSIGNING_DOMAIN_FAILURE: {
+      return $$state.merge({
+        isUpdatingDomain: false,
+        alert: parseError(error)
+      })
+    }
+
     default: {
       return $$state
     }
