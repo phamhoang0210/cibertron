@@ -39,6 +39,7 @@ class DomainEditForm extends React.Component {
 
   render() {
     const {editState, sharedState, intl} = this.props
+    const domainDnsServers = sharedState.get('domainDnsServers')
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const domain = editState.get('domain')
@@ -79,6 +80,30 @@ class DomainEditForm extends React.Component {
                     }],
                     initialValue: domain.get('name'),
                   })(<Input />)}
+                </FormItem>
+
+                <FormItem
+                  label={intl.formatMessage({id: 'attrs.dns_server.label'})}
+                  {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('dns_server', {
+                    rules: [{
+                      required: true,
+                      message: intl.formatMessage({id: 'attrs.dns_server.errors.required'})
+                    }],
+                    initialValue: domain.get('dns_server'),
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                    >
+                      {domainDnsServers.map(server => (
+                        <Option value={`${server.get('id')}`} key={server.get('id')}>
+                          {server.get('title')}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
                 </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingDomain}>
