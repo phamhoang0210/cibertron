@@ -19,6 +19,10 @@ export const appLocale = {
           required: 'Domain is required',
         },
       },
+      username: {
+        // attrs.user_id.label
+        label: 'Owner',
+      },
       dns_server: {
         // attrs.dns_server.label
         label: 'Target server',

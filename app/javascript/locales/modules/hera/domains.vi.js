@@ -27,6 +27,10 @@ export const appLocale = {
           required: 'Target server là trường bắt buộc'
         },
       },
+      username: {
+        // attrs.user_id.label
+        label: 'Sở hữu',
+      },
       landing_page_name: {
         // attrs.landing_page_name.label
         label: 'Tên landing page',
