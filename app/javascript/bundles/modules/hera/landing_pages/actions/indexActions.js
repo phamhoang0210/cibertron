@@ -104,3 +104,39 @@ export function deleteLandingPage(landingPageId) {
       .catch(error => dispatch(deleteLandingPageFailure(error, landingPageId)))
   }
 }
+
+//Action for reload landingpage
+function setIsReloadingLandingPage(landingPageId) {
+  return {
+    type: actionTypes.SET_IS_RELOADING_LANDING_PAGE,
+    landingPageId,
+  }
+}
+
+function reloadLandingPageSuccess(record) {
+  return {
+    type: actionTypes.RELOAD_LANDING_PAGE_SUCCESS,
+    record,
+  }
+}
+
+function reloadLandingPageFailure(error, landingPageId) {
+  return {
+    type: actionTypes.RELOAD_LANDING_PAGE_FAILURE,
+    error,
+    landingPageId,
+  }
+}
+
+export function reloadLandingPage(landingPageId, landingPageParams, params = {}) {
+  return dispatch => {
+    dispatch(setIsReloadingLandingPage(landingPageId))
+    authRequest
+      .putEntity(`${HERA_BASE_URL}${LANDING_PAGES_API_PATH}/${landingPageId}/reload`, params)
+      .then(res => {
+        dispatch(reloadLandingPageSuccess(res.data))
+        dispatch(fetchLandingPages(landingPageParams))
+      })
+      .catch(error => dispatch(reloadLandingPageFailure(error, landingPageId)))
+  }
+}
