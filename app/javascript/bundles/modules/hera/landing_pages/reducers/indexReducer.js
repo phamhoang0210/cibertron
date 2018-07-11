@@ -138,6 +138,57 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
+    case actionTypes.SET_IS_RELOADING_LANDING_PAGE: {
+      return $$state.withMutations(state => (
+        state.update('landingPages', landingPages => (
+          landingPages.update(
+            landingPages.findIndex(c => c.get('id') == landingPageId),
+            landingPageItem => (
+              landingPageItem.merge({
+                isReloading: true,
+              })
+            )
+          )
+        )).merge({
+          alert: null,
+        })
+      ))
+    }
+
+    case actionTypes.RELOAD_LANDING_PAGE_SUCCESS: {
+      return $$state.withMutations(state => (
+        state.update('landingPages', landingPages => (
+          landingPages.update(
+            landingPages.findIndex(c => c.get('id') == landingPageId),
+            landingPageItem => (
+              landingPageItem.merge({
+                isReloading: false,
+              })
+            )
+          )
+        )).merge({
+          alert: null,
+        })
+      ))
+    }
+
+    case actionTypes.RELOAD_LANDING_PAGE_FAILURE: {
+      return $$state.withMutations(state => (
+        state.update('landingPages', landingPages => (
+          landingPages.update(
+            landingPages.findIndex(c => c.get('id') == landingPageId),
+            landingPageItem => (
+              landingPageItem.merge({
+                isReloading: false,
+              })
+            )
+          )
+        )).merge({
+          alert: parseError(error),
+        })
+      ))
+    }
+
     default: {
       return $$state
     }
