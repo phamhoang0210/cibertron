@@ -30,6 +30,7 @@ class LandingPagesTableBox extends React.Component {
       'handleAdd',
       'handleSearch',
       'handleGetCode',
+      'handleReload',
     ])
 
     this.columns = [{
@@ -186,6 +187,14 @@ class LandingPagesTableBox extends React.Component {
             >
               {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
+            <Button
+              icon="edit"
+              size="small"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleReload(row.id)}
+            >
+              Reload
+            </Button>
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -245,6 +254,19 @@ class LandingPagesTableBox extends React.Component {
     browserHistory.push(`${LANDING_PAGES_URL}/${landingPageId}/get_code`)
   }
 
+  handleReload(landingPageId){
+    const {actions, indexState} = this.props
+    const paging = indexState.getIn(['landingPageFilters', 'paging'])
+    const landingPageParams = getFilterParams(indexState.get('landingPageFilters'))
+    const pagination = getDefaultTablePagination(paging.get('page'), paging.get('record_total'))
+    const {current, pageSize, total} = pagination
+
+    if(current != landingPageParams.page) {
+      landingPageParams.page = current
+    }
+    actions.reloadLandingPage(landingPageId, landingPageParams)
+    // actions.fetchLandingPages(landingPageParams)
+  }
   render() {
     const {indexState, actions, sharedState, intl} = this.props
     const landingPages = indexState.get('landingPages')
