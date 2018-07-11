@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input } from 'antd'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input, Tag } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { removeSpaceInput } from 'helpers/inputHelper'
 import { browserHistory } from 'react-router'
@@ -31,7 +31,14 @@ class DomainsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.name.label'}),
       dataIndex: 'name',
       key: 'name',
-      render: value => (<a href={`http://${value}`} target="_blank">{value}</a>),
+      render: (cell, row) => (
+        <div>
+        <a href={`http://${row.name}`} target="_blank">{row.name}</a><br/>
+        {row.status == 'DELETED' && (<Tag style={{ marginTop: 5 }} color="red">DELETED</Tag>)}
+        {row.status == 'PUBLISHED' && (<Tag style={{ marginTop: 5 }} color="green">PUBLISHED</Tag>)}
+        {row.status == 'ACTIVE' && (<Tag style={{ marginTop: 5 }} color="blue">PENDING</Tag>)}
+        </div>
+        ),
     },{
       title: intl.formatMessage({id: 'attrs.username.label'}),
       dataIndex: 'username',
