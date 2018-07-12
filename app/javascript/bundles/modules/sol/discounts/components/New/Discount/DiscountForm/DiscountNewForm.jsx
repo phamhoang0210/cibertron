@@ -105,26 +105,38 @@ class DiscountNewForm extends React.Component {
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
 
-              <FormItem label="Product" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Sản phẩm" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('product')(
                   <Cascader
                     options={productCascaderOptions}
-                    placeholder="Please select product"
+                    placeholder="Chọn sản phẩm"
                     showSearch
                   />
                 )}
               </FormItem>
 
-              <FormItem label="Old price" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Giá cũ" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('old_price', {
                   rules: [{ required: true, message: 'Old price is required!' }],
-                })(<Input />)}
+                })(<Input placeholder="200000"/>)}
+              </FormItem>
+              <Row>
+              <FormItem label="Hiển thị giá cũ" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('old_price_display', {
+                  rules: [{ required: true, message: 'Old price is required!' }],
+                })(<Input placeholder="200.000 VNĐ" />)}
               </FormItem>
 
-              <FormItem label="New price" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Giá mới" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('new_price', {
                   rules: [{ required: true, message: 'New price is required!' }],
-                })(<Input />)}
+                })(<Input placeholder="200000" />)}
+              </FormItem>
+              </Row>
+              <FormItem label="Hiển thị giá mới" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('new_price_display', {
+                  rules: [{ required: true, message: 'New price is required!' }],
+                })(<Input placeholder="200.000 VNĐ" />)}
               </FormItem>
 
               <FormItem label="Reduce(%)" {...DEFAULT_FORM_ITEM_LAYOUT}>
