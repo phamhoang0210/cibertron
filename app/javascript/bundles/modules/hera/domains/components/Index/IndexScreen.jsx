@@ -1,6 +1,7 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import DomainsTableBox from './Domain/DomainsTable/DomainsTableBox'
+import DomainsFiltersFormBox from './Domain/DomainsFiltersForm/DomainsFiltersFormBox'
 import { notification } from 'antd'
 import { injectIntl } from 'react-intl'
 
@@ -37,6 +38,7 @@ class IndexScreen extends React.Component {
           </h1>
         </div>
         <div className="box-body">
+          <DomainsFiltersFormBox {...this.props}/>
           <DomainsTableBox {...this.props}/>
         </div>
       </div>
