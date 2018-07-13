@@ -130,13 +130,13 @@ class DiscountNewForm extends React.Component {
               <FormItem label="Giá mới" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('new_price', {
                   rules: [{ required: true, message: 'New price is required!' }],
-                })(<Input placeholder="200000" />)}
+                })(<Input placeholder="100000" />)}
               </FormItem>
               </Row>
               <FormItem label="Hiển thị giá mới" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('new_price_display', {
                   rules: [{ required: true, message: 'New price is required!' }],
-                })(<Input placeholder="200.000 VNĐ" />)}
+                })(<Input placeholder="100.000 VNĐ" />)}
               </FormItem>
 
               <FormItem label="Reduce(%)" {...DEFAULT_FORM_ITEM_LAYOUT}>
