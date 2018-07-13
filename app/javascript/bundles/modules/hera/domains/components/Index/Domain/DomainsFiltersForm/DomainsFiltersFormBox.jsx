@@ -42,6 +42,7 @@ class DomainsFiltersFormBox extends React.Component {
       }
     })
   }
+  
   handleExport() {
 
   }
@@ -72,7 +73,7 @@ class DomainsFiltersFormBox extends React.Component {
     const { getFieldDecorator } = form
     const totalPage = indexState.getIn(['domainFilters', 'paging', 'record_total'])
     const isFetchingDomains = indexState.get('isFetchingDomains')
-    const logstatuses = [{id: 1, name: "ACTIVE"},{id: 2, name: "DELETED"},{id: 3, name: "PUBLISHED"},{id: 4, name: "PENDING"}]
+    const logstatuses = [{id: 1, name: "ACTIVE"},{id: 2, name: "DELETED"},{id: 3, name: "PENDING"}]
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
