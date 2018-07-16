@@ -25,6 +25,7 @@ class BudgetNewForm extends React.Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault()
     const {actions} = this.props
 
     this.props.form.validateFields((err, values) => {
