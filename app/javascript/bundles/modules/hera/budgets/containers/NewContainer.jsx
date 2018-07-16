@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import NewScreen from '../components/New/NewScreen'
 import * as actions from '../actions/newActions'
 
-const NewContainer = ({ actions, newState, sharedState }) => {
+const NewContainer = ({ actions, newState, sharedState, location }) => {
   return (
-    <NewScreen {...{actions, newState, sharedState }} />
+    <NewScreen {...{actions, newState, sharedState, location }} />
   );
 }
 

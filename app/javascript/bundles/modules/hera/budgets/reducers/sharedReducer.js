@@ -1,9 +1,14 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
+import { defaultFilters } from 'app/constants/initialState'
 export const initialState = Immutable.fromJS({
   allusers: [],
   isFetchingAllUsers: false,
+  userFilters: {
+    ...defaultFilters,
+    fields: ''
+  },
   userIdMappings: {},
 })
 
