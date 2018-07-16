@@ -16,6 +16,7 @@ class BudgetNewForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'handleSearch',
     ])
   }
 
@@ -24,7 +25,6 @@ class BudgetNewForm extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault()
     const {actions} = this.props
 
     this.props.form.validateFields((err, values) => {
@@ -33,6 +33,10 @@ class BudgetNewForm extends React.Component {
       }
     })
   }
+  handleSearch(value) {
+    const {actions} = this.props
+    actions.fetchAllUsers({keyword: value})
+  }
   render() {
     const {newState, sharedState, intl} = this.props
     const BudgetDnsServers = sharedState.get('BudgetDnsServers')
@@ -40,7 +44,7 @@ class BudgetNewForm extends React.Component {
     const alert = newState.get('alert')
     const isCreatingBudget = newState.get('isCreatingBudget')
     const users = sharedState.get('allusers')
-    
+
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -68,6 +72,7 @@ class BudgetNewForm extends React.Component {
                     filterOption={selectFilterOption}
                     placeholder="Email"
                     allowClear={true}
+                    onSearch={this.handleSearch}
                   >
                     {users.toJS().map(user => (
                       <Option value={`${user.email}`} key={user.id}>
