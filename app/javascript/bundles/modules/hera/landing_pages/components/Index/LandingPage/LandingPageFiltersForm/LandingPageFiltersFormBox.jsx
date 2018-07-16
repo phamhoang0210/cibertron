@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Map } from 'immutable'
+import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
@@ -39,7 +40,7 @@ class LandingPageFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
 
-    const inCompFields = ['discount_id']
+    const inCompFields = ['discount_id', 'user_id']
     const timerangeFields = ['created_at', 'updated_at']
     
     let compconds = {}
@@ -61,10 +62,11 @@ class LandingPageFiltersFormBox extends React.Component {
   render() {
     const {indexState, form, sharedState, intl} = this.props
     const discounts = sharedState.get('discounts')
+    const users = sharedState.get('users')
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
     const totalPage = indexState.getIn(['landingPageFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
-
+    //debugger
     return (
       <Form
         className="box box-with-boder"
@@ -121,6 +123,29 @@ class LandingPageFiltersFormBox extends React.Component {
               )}
             </FormItem>
           </Col>
+            <Col span={8}>
+              <FormItem
+                label="User"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('user_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    allowClear={true}
+                  >
+                    {users.toJS().map(user => (
+                      <Option value={`${user.id}`} key={user.id}>
+                        {user.nickname}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
