@@ -115,33 +115,47 @@ class DiscountEditForm extends React.Component {
             {discount && !discount.isEmpty() && (
             <Form onSubmit={this.handleSubmit} layout="horizontal">
 
-              <FormItem label="Product" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Sản phẩm" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('product', {
                   initialValue: [discount.get('product_type'), `${discount.get('product_id')}`]
                 })(
                   <Cascader
                     options={productCascaderOptions}
-                    placeholder="Please select product"
+                    placeholder="Chọn sản phẩm"
                     showSearch
                   />
                 )}
               </FormItem>
 
-              <FormItem label="Old price" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Giá cũ" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('old_price', {
                   rules: [{ required: true, message: 'Old price is required!' }],
                   initialValue: [discount.get('old_price')],
-                })(<Input />)}
+                })(<Input placeholder="200000" />)}
               </FormItem>
 
-              <FormItem label="New price" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Hiển thị giá cũ" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('old_price_display', {
+                  rules: [{ required: true, message: 'Old price is required!' }],
+                  initialValue: [discount.get('old_price')],
+                })(<Input placeholder="200.000 VNĐ" />)}
+              </FormItem>
+
+              <FormItem label="Giá mới" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('new_price', {
                   rules: [{ required: true, message: 'New price is required!' }],
                   initialValue: [discount.get('new_price')],
-                })(<Input />)}
+                })(<Input placeholder="100000" />)}
               </FormItem>
 
-              <FormItem label="Reduce(%)" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Hiển thị giá mới" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('new_price_display', {
+                  rules: [{ required: true, message: 'New price is required!' }],
+                  initialValue: [discount.get('new_price_display')],
+                })(<Input placeholder="100.000 VNĐ" />)}
+              </FormItem>
+
+              <FormItem label="Giảm giá(%)" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('reduce_percent', {
                   rules: [{ required: true, message: 'Reduce is required!' }],
                   initialValue: [discount.get('reduce_percent')],

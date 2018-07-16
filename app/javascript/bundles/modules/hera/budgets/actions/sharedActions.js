@@ -25,11 +25,16 @@ function fetchAllUsersFailure(error) {
 }
 
 export function fetchAllUsers(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword']
+  }
   return dispatch => {
     dispatch(setIsFetchingAllUsers())
     authRequest
-      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'full_search': keyword})
       .then(res => dispatch(fetchAllUsersSuccess(res.data)))
       .catch(error => dispatch(fetchAllUsersFailure(error)))
   }
 }
+
