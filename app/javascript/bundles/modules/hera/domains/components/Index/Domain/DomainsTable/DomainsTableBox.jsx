@@ -35,8 +35,8 @@ class DomainsTableBox extends React.Component {
         <div>
         <a href={`http://${row.name}`} target="_blank">{row.name}</a><br/>
         {row.status == 'DELETED' && (<Tag style={{ marginTop: 5 }} color="red">DELETED</Tag>)}
-        {row.status == 'PENDING' && (<Tag style={{ marginTop: 5 }} color="green">PENDING</Tag>)}
-        {row.status == 'ACTIVE' && (<Tag style={{ marginTop: 5 }} color="blue">ACTIVE</Tag>)}
+        {row.status == 'PENDING' && (<Tag style={{ marginTop: 5 }} color="blue">PENDING</Tag>)}
+        {row.status == 'ACTIVE' && (<Tag style={{ marginTop: 5 }} color="green">ACTIVE</Tag>)}
         </div>
         ),
     },{

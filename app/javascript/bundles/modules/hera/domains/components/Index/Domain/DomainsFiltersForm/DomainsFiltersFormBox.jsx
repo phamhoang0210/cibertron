@@ -49,7 +49,7 @@ class DomainsFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['status']
+    const inCompFields = ['status', 'dns_server']
     const timerangeFields = ['created_at']
     
     let compconds = {}
@@ -74,6 +74,7 @@ class DomainsFiltersFormBox extends React.Component {
     const totalPage = indexState.getIn(['domainFilters', 'paging', 'record_total'])
     const isFetchingDomains = indexState.get('isFetchingDomains')
     const logstatuses = [{id: 1, name: "ACTIVE"},{id: 2, name: "DELETED"},{id: 3, name: "PENDING"}]
+    const domainDnsServers = sharedState.get('domainDnsServers')
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -116,6 +117,31 @@ class DomainsFiltersFormBox extends React.Component {
                     {logstatuses && logstatuses.map(status => (
                       <Option key={status.id} value={status.name}>
                         {status.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+
+            <Col span={8}>
+              <FormItem
+                label="DNS Server"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('dns_server', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder="-- All --"
+                    allowClear={true}
+                  >
+                    {domainDnsServers && domainDnsServers.map(dns_server => (
+                      <Option value={`${dns_server.get('id')}`} key={dns_server.get('id')}>
+                        {dns_server.get('title')}
                       </Option>
                     ))}
                   </Select>
