@@ -1,7 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
 import { Map } from 'immutable'
-import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
@@ -66,7 +65,6 @@ class LandingPageFiltersFormBox extends React.Component {
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
     const totalPage = indexState.getIn(['landingPageFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
-    //debugger
     return (
       <Form
         className="box box-with-boder"

@@ -10,6 +10,7 @@ export const initialState = Immutable.fromJS({
     ...defaultFilters,
     fields: ''
   },
+  users: [],
   isFetchingBudgets: false,
 })
 
@@ -86,6 +87,26 @@ export default function indexReducer($$state = initialState, action = null) {
           alert: parseError(error),
         })
       ))
+    }
+
+    // Fetch users
+    case actionTypes.SET_IS_FETCHING_USERS: {
+      return $$state.merge({
+        isFetchingUsers: true,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_SUCCESS: {
+      return $$state.merge({
+        isFetchingUsers: false,
+        users: records,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_FAILURE: {
+      return $$state.merge({
+        isFetchingUsers: false,
+      })
     }
 
     default: {
