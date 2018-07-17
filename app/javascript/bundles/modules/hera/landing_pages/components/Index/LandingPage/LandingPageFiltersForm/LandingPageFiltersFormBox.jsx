@@ -140,6 +140,7 @@ class LandingPageFiltersFormBox extends React.Component {
                         {user.nickname}
                       </Option>
                     ))}
+                    <Option value={null}>Not user</Option>
                   </Select>
                 )}
               </FormItem>
