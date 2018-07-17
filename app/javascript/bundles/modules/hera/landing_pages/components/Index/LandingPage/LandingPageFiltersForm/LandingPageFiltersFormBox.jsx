@@ -39,7 +39,7 @@ class LandingPageFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
 
-    const inCompFields = ['discount_id', 'user_id']
+    const inCompFields = ['discount_id', 'user_id', 'domain_id']
     const timerangeFields = ['created_at', 'updated_at']
     
     let compconds = {}
@@ -62,6 +62,7 @@ class LandingPageFiltersFormBox extends React.Component {
     const {indexState, form, sharedState, intl} = this.props
     const discounts = sharedState.get('discounts')
     const users = sharedState.get('users')
+    const domains = sharedState.get('domains')
     const isFetchingLandingPages = indexState.get('isFetchingLandingPages')
     const totalPage = indexState.getIn(['landingPageFilters', 'paging', 'record_total'])
     const { getFieldDecorator } = form
@@ -121,7 +122,10 @@ class LandingPageFiltersFormBox extends React.Component {
               )}
             </FormItem>
           </Col>
-            <Col span={8}>
+        </Row>
+
+        <Row gutter={24}>
+          <Col span={8}>
               <FormItem
                 label="User"
                 {...FILTER_FORM_ITEM_LAYOUT}
@@ -140,21 +144,43 @@ class LandingPageFiltersFormBox extends React.Component {
                         {user.nickname}
                       </Option>
                     ))}
+                    <Option value={null}>Not user</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
-        </Row>
-        <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={isFetchingLandingPages}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
-            </Button>
-          </Col>
+            <Col span={8}>
+              <FormItem
+                label="Domains"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('domain_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    allowClear={true}
+                  >
+                    {domains.toJS().map(domain => (
+                      <Option value={`${domain.id}`} key={domain.id}>
+                        {domain.name}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+            <Col span={8} style={{ textAlign: 'right' }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={isFetchingLandingPages}
+              >
+                {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
+              </Button>
+            </Col>
         </Row>
       </Form>
     )
