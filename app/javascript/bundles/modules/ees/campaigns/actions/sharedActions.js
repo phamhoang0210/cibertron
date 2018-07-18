@@ -1,8 +1,8 @@
-import authRequest from 'libs/requests/authRequest'
+  import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
   LISTS_API_PATH, SENDERS_API_PATH, TEMPLATES_API_PATH, USERS_API_PATH,
-  BUDGETS_API_PATH, BUDGET_API_PATH, USED_EMAILS_API_PATH
+  BUDGETS_API_PATH, BUDGET_API_PATH, USED_EMAILS_API_PATH, AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -92,10 +92,14 @@ function fetchAllUsersFailure(error) {
 }
 
 export function fetchAllUsers(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword']
+  }
   return dispatch => {
     dispatch(setIsFetchingAllUsers())
     authRequest
-      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'full_search': keyword})
       .then(res => dispatch(fetchAllUsersSuccess(res.data)))
       .catch(error => dispatch(fetchAllUsersFailure(error)))
   }
