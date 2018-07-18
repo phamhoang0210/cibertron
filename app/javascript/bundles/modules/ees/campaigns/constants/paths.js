@@ -11,6 +11,7 @@ export const BUDGETS_API_PATH = '/api/secure/v1/budgets'
 export const BUDGET_API_PATH = '/api/secure/v1/budgets/personal'
 export const USED_EMAILS_API_PATH = '/api/secure/v1/campaigns/personal'
 export const CAMPAIGNS_EXPORT_API_PATH = '/api/secure/v1/campaigns/export'
+export const CAMPAIGNS_EXPORT_WITH_USER_API_PATH = '/api/secure/v1/campaigns/export_user'
 
 export const TEMPLATES_API_PATH = '/api/secure/v1/templates'
 export const AUTHS_API_PATH = '/api/v01/accounts'
