@@ -51,18 +51,6 @@ class LogFiltersFormBox extends React.Component {
     })
   }
   handleExport() {
-    const {actions, indexState, location} = this.props
-    const {tabKey} = this.props
-    if(tabKey=="logs"){
-      let logParams = getFilterParams(indexState.get('logFilters'), location)
-      const query = qs.stringify({...logParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
-      // window.open(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_EXPORT_API_PATH}?=${query}`, '_blank')
-    }else{
-      let emailParams = getFilterParams(indexState.get('emailFilters'), location)
-      const query = qs.stringify({...emailParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
-      window.open(`${FURION_INTERNAL_BASE_URL}${EMAILS_EXPORT_API_PATH}?=${query}`, '_blank')
-    }
-    
   }
   handleSearchUsers(value) {
     const {actions} = this.props
