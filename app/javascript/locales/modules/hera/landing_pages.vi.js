@@ -145,7 +145,7 @@ export const appLocale = {
       landing_pages_table: {
         search: {
           // index.landing_pages_table.search.placeholder
-          placeholder: 'Tìm kiếm theo tên..',
+          placeholder: 'Tìm kiếm theo tên domain..',
         },
         expanded_row: {
           tabs: {
