@@ -220,7 +220,7 @@ class LandingPageEditForm extends React.Component {
                       filterOption={selectFilterOption}
                     >
                       {logics.map(type => (
-                        <Option value={`${type.get('id')}`} key={type.get('id')}>
+                        <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
                           {type.get('landing_page_type')}
                         </Option>
                       ))}
