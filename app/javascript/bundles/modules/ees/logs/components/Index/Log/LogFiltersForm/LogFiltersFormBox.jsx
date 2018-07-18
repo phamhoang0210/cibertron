@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import { Form, Row, Col, Input, Select, DatePicker, Button } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
+import { EMAILS_EXPORT_API_PATH } from '../../../../constants/paths'
 import {
   getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
   getInitialValue,
@@ -28,6 +29,7 @@ class LogFiltersFormBox extends React.Component {
       'handleFilter',
       'formatFormData',
       'handleExport',
+      'handleSearchUsers'
     ])
 
   }
@@ -42,18 +44,33 @@ class LogFiltersFormBox extends React.Component {
           let logParams = getFilterParams(indexState.get('logFilters'))
           actions.fetchLogs(mergeDeep([logParams, this.formatFormData(values)]))
         }else{
-          let emailParams = getFilterParams(indexState.get('emailFilters'))
-          actions.fetchEmails(mergeDeep([emailParams, this.formatFormData(values)]))
+          let emailParams = getFilterParamsAndSyncUrl(indexState.get('emailFilters'), location, this.formatFormData(values))
+          actions.fetchEmails(emailParams)
         }
       }
     })
   }
   handleExport() {
-
+    const {actions, indexState, location} = this.props
+    const {tabKey} = this.props
+    if(tabKey=="logs"){
+      let logParams = getFilterParams(indexState.get('logFilters'), location)
+      const query = qs.stringify({...logParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
+      // window.open(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_EXPORT_API_PATH}?=${query}`, '_blank')
+    }else{
+      let emailParams = getFilterParams(indexState.get('emailFilters'), location)
+      const query = qs.stringify({...emailParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
+      window.open(`${FURION_INTERNAL_BASE_URL}${EMAILS_EXPORT_API_PATH}?=${query}`, '_blank')
+    }
+    
+  }
+  handleSearchUsers(value) {
+    const {actions} = this.props
+    actions.fetchUsers({keyword: value})
   }
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['status', 'group_id', 'campaign_id']
+    const inCompFields = ['status', 'group_id', 'campaign_id', 'user_id']
     const timerangeFields = ['created_at']
     
     let compconds = {}
@@ -81,6 +98,7 @@ class LogFiltersFormBox extends React.Component {
     const logstatuses = [{id: 1, name: "REQUESTED"},{id: 2, name: "SUCCESS"},{id: 3, name: "SEND FAILED"},{id: 4, name: "OPENED"}]
     const groups = indexState.get('groups')
     const campaigns = indexState.get('campaigns')
+    const users = sharedState.get('users')
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -183,7 +201,35 @@ class LogFiltersFormBox extends React.Component {
                 )}
               </FormItem>
             </Col>
+            <Col span={8}>
+              <FormItem
+                label="User"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('user_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    allowClear={true}
+                    placeholder="-- All --"
+                    onSearch={this.handleSearchUsers}
+                  >
+                    {users.toJS().map(user => (
+                      <Option value={`${user.id}`} key={user.id}>
+                        {user.email}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
           </Row>
+
+          
+
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
             <Button

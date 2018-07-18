@@ -4,7 +4,7 @@ import Immutable from 'immutable'
 import { Form, Row, Col, Input, Button, Select, DatePicker } from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
-import { CAMPAIGNS_EXPORT_API_PATH } from '../../../../constants/paths'
+import { CAMPAIGNS_EXPORT_API_PATH, CAMPAIGNS_EXPORT_WITH_USER_API_PATH } from '../../../../constants/paths'
 import {
   getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
   getInitialValue,
@@ -26,6 +26,8 @@ class CampaignFiltersFormBox extends React.Component {
       'handleFilter',
       'formatFormData',
       'handleExport',
+      'handleExportWithUser',
+      'handleSearchUsers',
     ])
     this.initialValues = this.getInitialValues()
   }
@@ -75,6 +77,18 @@ class CampaignFiltersFormBox extends React.Component {
     const query = qs.stringify({...campaignParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
     window.open(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_EXPORT_API_PATH}?=${query}`, '_blank')
   }
+
+  handleExportWithUser() {
+    const {actions, indexState, location} = this.props
+    let campaignParams = getFilterParams(indexState.get('campaignFilters'), location)
+    const query = qs.stringify({...campaignParams, ...getCredentials()}, { arrayFormat: 'brackets' }) 
+    window.open(`${FURION_INTERNAL_BASE_URL}${CAMPAIGNS_EXPORT_WITH_USER_API_PATH}?=${query}`, '_blank')
+  }
+
+  handleSearchUsers(value) {
+    const {actions} = this.props
+    actions.fetchAllUsers({keyword: value})
+  }
   render() {
     const {indexState, form, sharedState,location, intl} = this.props
     const isFetchingCampaigns = indexState.get('isFetchingCampaigns')
@@ -119,10 +133,12 @@ class CampaignFiltersFormBox extends React.Component {
                     mode="multiple"
                     placeholder="Nhân viên"
                     allowClear={true}
+                    placeholder="-- All --"
+                    onSearch={this.handleSearchUsers}
                   >
                     {users.toJS().map(user => (
                       <Option value={`${user.id}`} key={user.id}>
-                        {user.username}
+                        {user.nickname}
                       </Option>
                     ))}
                   </Select>
@@ -138,6 +154,13 @@ class CampaignFiltersFormBox extends React.Component {
               disabled={isFetchingCampaigns}
             >
               {`Export (${totalPage})`}
+            </Button>
+            <Button
+              className="button-margin--right--default"
+              onClick={this.handleExportWithUser}
+              disabled={isFetchingCampaigns}
+            >
+              {`Export with users (${totalPage})`}
             </Button>
             <Button type="primary" htmlType="submit" loading={isFetchingCampaigns}>
               Filter
