@@ -137,7 +137,7 @@ export const appLocale = {
       landing_pages_table: {
         search: {
           // index.landing_pages_table.search.placeholder
-          placeholder: 'Search by name..',
+          placeholder: 'Search by name domain..',
         },
         expanded_row: {
           tabs: {

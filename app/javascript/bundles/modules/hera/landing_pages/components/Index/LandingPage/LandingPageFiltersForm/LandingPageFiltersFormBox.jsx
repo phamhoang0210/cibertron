@@ -121,7 +121,10 @@ class LandingPageFiltersFormBox extends React.Component {
               )}
             </FormItem>
           </Col>
-            <Col span={8}>
+        </Row>
+
+        <Row gutter={24}>
+          <Col span={8}>
               <FormItem
                 label="User"
                 {...FILTER_FORM_ITEM_LAYOUT}
@@ -140,22 +143,20 @@ class LandingPageFiltersFormBox extends React.Component {
                         {user.nickname}
                       </Option>
                     ))}
-                    <Option value={null}>Not user</Option>
+                    <Option value={null}>No user</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
-        </Row>
-        <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={isFetchingLandingPages}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
-            </Button>
-          </Col>
+            <Col span={16} style={{ textAlign: 'right' }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={isFetchingLandingPages}
+              >
+                {intl.formatMessage({id: 'form.form_item.button.filter.text'})}
+              </Button>
+            </Col>
         </Row>
       </Form>
     )
