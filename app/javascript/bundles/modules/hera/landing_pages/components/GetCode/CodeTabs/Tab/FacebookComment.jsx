@@ -18,10 +18,10 @@ class FacebookComment extends React.Component {
         {facebookCommentLogics && !facebookCommentLogics.isEmpty() && logicItemKeys.map(key => (
           <div key={key.get('key')}>
             <h2 dangerouslySetInnerHTML={{__html: facebookCommentLogics.getIn([key.get('key'), 'title'])}}/>
-            <div dangerouslySetInnerHTML={{__html: `Tạo một phần Custom HTML ở vị trí mong muốn hiển thị Facebook comment, sau đó copy đoạn mã dưới vào`}}/>
+            <div dangerouslySetInnerHTML={{__html: `Tạo một phần Custom HTML ở vị trí mong muốn hiển thị Facebook comment, thay thế link "http://test.edumall.vn" bằng landingpage của mình, sau đó copy đoạn mã dưới vào`}}/>
             <SyntaxHighlighter language='html' style={tomorrowNightEighties}>
               {`<div id="fb-root"></div>
-<div class="fb-comments row" data-href="http://testcar.edumall.vn" data-numposts="5" data-width="100%"></div>`}
+<div class="fb-comments row" data-href="http://test.edumall.vn" data-numposts="5" data-width="100%"></div>`}
             </SyntaxHighlighter>
 
             <div dangerouslySetInnerHTML={{__html: `Chèn đoạn code sau vào phần Javascript:`}}/>
