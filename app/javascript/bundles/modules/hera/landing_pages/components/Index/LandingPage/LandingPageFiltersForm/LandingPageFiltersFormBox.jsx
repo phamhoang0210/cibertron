@@ -123,7 +123,7 @@ class LandingPageFiltersFormBox extends React.Component {
           </Col>
         </Row>
 
-        <Row gutter={24}>
+        <Row gutter={40}>
           <Col span={8}>
               <FormItem
                 label="User"
