@@ -137,7 +137,7 @@ class DiscountEditForm extends React.Component {
               <FormItem label="Hiển thị giá cũ" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('old_price_display', {
                   rules: [{ required: true, message: 'Old price is required!' }],
-                  initialValue: [discount.get('old_price')],
+                  initialValue: [discount.get('old_price_display')],
                 })(<Input placeholder="200.000 VNĐ" />)}
               </FormItem>
 
