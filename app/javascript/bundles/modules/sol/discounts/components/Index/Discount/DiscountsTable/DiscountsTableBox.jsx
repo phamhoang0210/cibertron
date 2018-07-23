@@ -6,6 +6,8 @@ import { Table, Icon, Button, Popconfirm, Row, Col, Input} from 'antd'
 import { DISCOUNTS_URL} from '../../../../constants/paths'
 import { getFilterParams, mergeDeep, rowClassName, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
+import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import moment from 'moment'
 
 const { Search } = Input
 
@@ -59,10 +61,17 @@ class DiscountsTableBox extends React.Component {
 
     const columns = [{
       title: 'Name',
+      width: '30%',
       dataIndex: 'name',
-    } , {
+    }, {
+      title: 'User',
+      width: '10%',
+      dataIndex: 'username',
+      key: 'user',
+    }, {
       title: 'Date',
       dataIndex: 'created_at',
+      render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
     }, {
       title: 'Old price',
       dataIndex: 'old_price',
