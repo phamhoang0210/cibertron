@@ -28,10 +28,14 @@ function fetchCoursesFailure(error) {
 }
 
 export function fetchCourses(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword']
+  }
   return dispatch => {
     dispatch(setIsFetchingCourses())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${COURSES_API_PATH}`, params)
+      .fetchEntities(`${SOL_BASE_URL}${COURSES_API_PATH}`, {'full_search': keyword})
       .then(res => dispatch(fetchCoursesSuccess(res.data)))
       .catch(error => dispatch(fetchCoursesFailure(error)))
   }
@@ -59,10 +63,14 @@ function fetchCombosFailure(error) {
 }
 
 export function fetchCombos(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword']
+  }
   return dispatch => {
     dispatch(setIsFetchingCombos())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${COMBOS_API_PATH}`, params)
+      .fetchEntities(`${SOL_BASE_URL}${COMBOS_API_PATH}`, {'full_search': keyword})
       .then(res => dispatch(fetchCombosSuccess(res.data)))
       .catch(error => dispatch(fetchCombosFailure(error)))
   }
