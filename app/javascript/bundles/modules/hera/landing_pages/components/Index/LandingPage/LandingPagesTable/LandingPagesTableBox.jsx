@@ -109,11 +109,14 @@ class LandingPagesTableBox extends React.Component {
                 </div>
               ))}
               <Button type="primary" href={record.link_custom} target="blank" size="small" type="primary" ghost ><i>Design LP</i></Button>
-              {landing_page_error.map(lp_error => (
-                <div key={lp_error.error.id}>
-                  <small style={{color: 'red'}}>- {lp_error.error.content}</small>
-                </div>
-              ))}
+              {landing_page_error.map(lp_error => 
+                {return lp_error.status==false ?
+                  (<div key={lp_error.error.id}>
+                    <small style={{color: 'red'}}>- {lp_error.error.content}</small>
+                  </div>)
+                  : null
+                }
+              )}
             </div>
           )
         }
