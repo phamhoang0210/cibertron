@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  DISCOUNTS_API_PATH
+  DISCOUNTS_API_PATH, AUTHS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -32,7 +32,10 @@ export function fetchDiscounts(params = {}) {
     dispatch(setIsFetchingDiscounts())
     authRequest
       .fetchEntities(`${SOL_BASE_URL}${DISCOUNTS_API_PATH}`, params)
-      .then(res => dispatch(fetchDiscountsSuccess(res.data)))
+      .then(res => {
+        dispatch(fetchDiscountsSuccess(res.data))
+        dispatch(fetchUsers(res.data))
+      })
       .catch(error => dispatch(fetchDiscountsFailure(error)))
   }
 }
@@ -70,5 +73,58 @@ export function deleteDiscount(discountId) {
         dispatch(fetchDiscounts(filterParams))
       })
       .catch(error => dispatch(deleteDiscountFailure(error, discountId)))
+  }
+}
+
+
+// Fetch users
+function setIsFetchingUsers() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_USERS,
+  }
+}
+
+function fetchUsersSuccess() {
+  return {
+    type: actionTypes.FETCH_USERS_SUCCESS,
+  }
+}
+
+function fetchUsersFailure(error) {
+  return {
+    type: actionTypes.FETCH_USERS_FAILURE,
+    error,
+  }
+}
+
+export function fetchUsers(data) {
+  return dispatch => {
+    dispatch(setIsFetchingUsers())
+    var list_user_id = []
+
+    if(data.records){
+      data.records.map(record => {
+        list_user_id.push(record.user_id)
+      })
+    }
+    authRequest
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .then(res => {
+        var users = res.data.records
+        const users_array = {}
+        if(users) {
+          users.map(user => {
+            users_array[user.id] = user.nickname
+          })
+        }
+        if(data.records && users_array){
+          data.records.map(discount => {
+            discount["username"] = users_array[discount.user_id]
+          })
+        }
+        dispatch(fetchDiscountsSuccess(data))
+        dispatch(fetchUsersSuccess())
+      })
+      .catch(error => dispatch(fetchUsersFailure(error)))
   }
 }

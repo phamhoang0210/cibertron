@@ -5,8 +5,10 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   courses: [],
   combos: [],
+  users: [],
   isFetchingCourses: false,
   isFetchingCombos: false,
+  isFetchingUsers: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -48,6 +50,24 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_COMBOS_FAILURE: {
       return $$state.merge({
         isFetchingCombos: false,
+      })
+    }
+    case actionTypes.SET_IS_FETCHING_USERS: {
+      return $$state.merge({
+        isFetchingUsers: true,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_SUCCESS: {
+      return $$state.merge({
+        isFetchingUsers: false,
+        users: records,
+      })
+    }
+
+    case actionTypes.FETCH_USERS_FAILURE: {
+      return $$state.merge({
+        isFetchingUsers: false,
       })
     }
     default: {
