@@ -49,7 +49,7 @@ class DomainsFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['status', 'dns_server']
+    const inCompFields = ['status', 'dns_server', 'user_id']
     const timerangeFields = ['created_at']
     
     let compconds = {}
@@ -75,6 +75,7 @@ class DomainsFiltersFormBox extends React.Component {
     const isFetchingDomains = indexState.get('isFetchingDomains')
     const logstatuses = [{id: 1, name: "ACTIVE"},{id: 2, name: "DELETED"},{id: 3, name: "PENDING"}]
     const domainDnsServers = sharedState.get('domainDnsServers')
+    const users = sharedState.get('allusers')
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -144,14 +145,40 @@ class DomainsFiltersFormBox extends React.Component {
                         {dns_server.get('title')}
                       </Option>
                     ))}
+                    <Option value={null}>No user</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
-            
+              
           </Row>
-          <Row>
-            <Col span={24} style={{ textAlign: 'right' }}>
+          <Row gutter={40}>
+            <Col span={8}>
+                <FormItem
+                  label="User"
+                  {...FILTER_FORM_ITEM_LAYOUT}
+                >
+                  {getFieldDecorator('user_id', {
+                    rules: [{ type: 'array' }],
+                  })(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                      mode="multiple"
+                      placeholder="Nhân viên"
+                      allowClear={true}
+                    >
+                      {users.toJS().map(user => (
+                        <Option value={`${user.id}`} key={user.id}>
+                          {user.nickname}
+                        </Option>
+                      ))}
+                      <Option value={null}>No user</Option>
+                    </Select>
+                  )}
+                </FormItem>
+              </Col>
+            <Col span={16} style={{ textAlign: 'right' }}>
             <Button
               className="button-margin--right--default"
               onClick={this.handleExport}
