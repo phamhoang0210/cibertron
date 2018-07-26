@@ -35,7 +35,7 @@ export function fetchCourses(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCourses())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${COURSES_API_PATH}`, {'full_search': keyword})
+      .fetchEntities(`${SOL_BASE_URL}${COURSES_API_PATH}`, params)
       .then(res => dispatch(fetchCoursesSuccess(res.data)))
       .catch(error => dispatch(fetchCoursesFailure(error)))
   }
@@ -70,7 +70,7 @@ export function fetchCombos(params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCombos())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${COMBOS_API_PATH}`, {'full_search': keyword})
+      .fetchEntities(`${SOL_BASE_URL}${COMBOS_API_PATH}`, params)
       .then(res => dispatch(fetchCombosSuccess(res.data)))
       .catch(error => dispatch(fetchCombosFailure(error)))
   }
