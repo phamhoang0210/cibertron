@@ -194,6 +194,7 @@ class LandingPagesTableBox extends React.Component {
               icon="edit"
               size="small"
               className="button-margin--top--default width--full"
+              loading={row.isReloading}
               onClick={(e) => this.handleReload(row.id)}
             >
               Reload
