@@ -21,7 +21,7 @@ build:
   script:
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./config/authservice_jwt.pub.encrypted > ./config/authservice_jwt.pub
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./.ssh/id_rsa.encrypted > ./.ssh/id_rsa
-    - build_image web Dockerfile .
+    - build_image web -f Dockerfile .
   only:
     - branches
 
