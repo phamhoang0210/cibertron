@@ -28,6 +28,10 @@ function fetchCoursesFailure(error) {
 }
 
 export function fetchCourses(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword']
+  }
   return dispatch => {
     dispatch(setIsFetchingCourses())
     authRequest
@@ -59,6 +63,10 @@ function fetchCombosFailure(error) {
 }
 
 export function fetchCombos(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword']
+  }
   return dispatch => {
     dispatch(setIsFetchingCombos())
     authRequest
