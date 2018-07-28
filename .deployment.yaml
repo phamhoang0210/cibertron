@@ -1,0 +1,13 @@
+containers:
+  - name: default
+    externalConfig: true
+    resources: {}
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+  - internal: 80
+    external: 80
+ingress:
+  enabled: true
+  servicePort: 80
