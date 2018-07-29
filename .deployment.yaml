@@ -1,5 +1,5 @@
 containers:
-  - name: default
+  - name: web
     externalConfig: true
     resources: {}
 service:
