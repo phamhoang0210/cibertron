@@ -1,4 +1,4 @@
-image: registry.edumall.io/sys/reza-image:latest
+image: registry.edumall.io/sys/reza-image:new_namespaces_v2
 
 variables:
   PUBLIC_DOMAIN: edumall.io
@@ -21,7 +21,7 @@ build:
   script:
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./config/authservice_jwt.pub.encrypted > ./config/authservice_jwt.pub
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./.ssh/id_rsa.encrypted > ./.ssh/id_rsa
-    - build_image
+    - build_image web -f Dockerfile .
   only:
     - branches
 
@@ -41,14 +41,14 @@ package:
   stage: package
   script:
     - registry_login
-    - push_image
+    - push_image web
   only:
     - branches
 
 review:
   stage: review
   script:
-    - deploy review 1
+    - deploy review web 1
   environment:
     name: review/$CI_COMMIT_REF_NAME
     url: http://$CI_PROJECT_PATH_SLUG-$CI_ENVIRONMENT_SLUG.$PUBLIC_DOMAIN
@@ -66,7 +66,7 @@ stop_review:
   variables:
     GIT_STRATEGY: none
   script:
-    - delete review
+    - delete_v2 review web
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
@@ -82,7 +82,7 @@ stop_review:
 staging:
   stage: staging
   script:
-    - deploy staging 1
+    - deploy staging web 1
   environment:
     name: staging
     url: http://$CI_PROJECT_NAME-staging.$PUBLIC_DOMAIN
@@ -95,7 +95,7 @@ stop_staging:
   variables:
     GIT_STRATEGY: none
   script:
-    - delete staging
+    - delete_v2 staging web
   environment:
     name: staging
     action: stop
@@ -103,34 +103,34 @@ stop_staging:
   only:
     - develop@tcs/gaia
 
-canary:
-  stage: canary
-  script:
-    - deploy canary 1
-  environment:
-    name: canary
-    url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
-  only:
-    - master@tcs/gaia
+# canary:
+#   stage: canary
+#   script:
+#     - deploy canary web 1
+#   environment:
+#     name: canary
+#     url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
+#   only:
+#     - master@tcs/gaia
 
-stop_canary:
-  stage: cleanup
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - delete canary
-  environment:
-    name: canary
-    action: stop
-  when: manual
-  only:
-    - master@tcs/gaia
+# stop_canary:
+#   stage: cleanup
+#   variables:
+#     GIT_STRATEGY: none
+#   script:
+#     - delete_v2 canary web
+#   environment:
+#     name: canary
+#     action: stop
+#   when: manual
+#   only:
+#     - master@tcs/gaia
 
 production:
   stage: production
   script:
     - deploy production 3
-    - delete canary
+    # - delete_v2 canary web
   environment:
     name: production
     url: https://apps.edumall.io
