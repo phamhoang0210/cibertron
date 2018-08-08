@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edumall apps - Captain</title>
+    <%= csrf_meta_tags %>
+    <%= render 'layouts/dotenv' %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'captain' %>
+    <%= stylesheet_pack_tag 'captain' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
