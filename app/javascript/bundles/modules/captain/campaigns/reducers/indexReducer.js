@@ -73,7 +73,7 @@ export default function indexReducer($$state = initialState, action = null) {
           campaigns.update(
             campaigns.findIndex(c => c.get('id') == campaignId),
             campaignItem => (
-              campaigntem.merge({
+              campaignItem.merge({
                 isDeleting: false,
               })
             )
