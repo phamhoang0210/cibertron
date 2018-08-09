@@ -182,7 +182,7 @@ class LandingPageNewForm extends React.Component {
               >
                 {getFieldDecorator('thankyou_page_url', {
                   initialValue: '/thankyou'
-                })(<Input />)}
+                })(<Input disabled={true}/>)}
               </FormItem>
               <FormItem
                 label={intl.formatMessage({id: 'attrs.landing_page_type.label'})}
