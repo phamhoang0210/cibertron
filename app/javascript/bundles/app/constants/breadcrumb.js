@@ -217,6 +217,18 @@ export const breadcrumbData = Immutable.fromJS({
           title: 'Create'
         }
       }
+    },
+    // Home > CAMPAIGNS
+    captain: {
+      title: 'CAMPAIGNS',
+      // Home > CAMPAIGNS > Campaigns
+      campaigns: {
+        title: 'Campaigns',
+        // Home > CAMPAIGNS > Campaigns > Create
+        new: {
+          title: 'Create'
+        }
+      }
     }
   }
 })

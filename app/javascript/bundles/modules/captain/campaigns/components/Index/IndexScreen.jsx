@@ -1,6 +1,6 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import PromosTableBox from './Promo/PromosTable/PromosTableBox'
+import CampaignsTableBox from './Campaign/CampaignsTable/CampaignsTableBox'
 
 class IndexScreen extends React.Component {
   constructor(props) {
@@ -9,21 +9,21 @@ class IndexScreen extends React.Component {
 
   componentDidMount() {
     const {actions, indexState} = this.props
-    const promoParams = getFilterParams(indexState.get('promoFilters'))
-    actions.fetchPromos(promoParams)
+    const campaignParams = getFilterParams(indexState.get('campaignFilters'))
+    actions.fetchCampaigns(campaignParams)
   }
 
   render() {
     const {indexState} = this.props
     return (
-      <div className="main-content sol--promos box">
+      <div className="main-content captain--campaigns box">
         <div className="box-header">
           <h1 className="box-title">
-            Promos
+            Campaigns
           </h1>
         </div>
         <div className="box-body">
-          <PromosTableBox {...this.props}/>
+          <CampaignsTableBox {...this.props}/>
         </div>
       </div>
     )
