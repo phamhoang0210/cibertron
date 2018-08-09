@@ -1,71 +1,71 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {PROMOS_API_PATH} from '../constants/paths'
+import {CAMPAIGNS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
-function setIsFetchingPromos() {
+function setIsFetchingCampaigns() {
   return {
-    type: actionTypes.SET_IS_FETCHING_PROMOS,
+    type: actionTypes.SET_IS_FETCHING_CAMPAIGNS,
   }
 }
 
-function fetchPromosSuccess({records, filters}) {
+function fetchCampaignsSuccess({records, filters}) {
   return {
-    type: actionTypes.FETCH_PROMOS_SUCCESS,
+    type: actionTypes.FETCH_CAMPAIGNS_SUCCESS,
     records,
     filters,
   }
 }
 
-function fetchPromosFailure(error) {
+function fetchCampaignsFailure(error) {
   return {
-    type: actionTypes.FETCH_PROMOS_FAILURE,
+    type: actionTypes.FETCH_CAMPAIGNS_FAILURE,
     error,
   }
 }
 
-export function fetchPromos(params = {}) {
+export function fetchCampaigns(params = {}) {
   return dispatch => {
-    dispatch(setIsFetchingPromos())
+    dispatch(setIsFetchingCampaigns())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${PROMOS_API_PATH}`, params)
-      .then(res => dispatch(fetchPromosSuccess(res.data)))
-      .catch(error => dispatch(fetchPromosFailure(error)))
+      .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
+      .then(res => dispatch(fetchCampaignsSuccess(res.data)))
+      .catch(error => dispatch(fetchCampaignsFailure(error)))
   }
 }
 
-function setIsDeletingPromo(promoId) {
+function setIsDeletingCampaign(campaignId) {
   return {
-    type: actionTypes.SET_IS_DELETING_PROMO,
-    promoId,
+    type: actionTypes.SET_IS_DELETING_CAMPAIGN,
+    campaignId,
   }
 }
 
-function deletePromoSuccess(record) {
+function deleteCampaignSuccess(record) {
   return {
-    type: actionTypes.DELETE_PROMO_SUCCESS,
+    type: actionTypes.DELETE_CAMPAIGN_SUCCESS,
     record,
   }
 }
 
-function deletePromoFailure(error, promoId) {
+function deleteCampaignFailure(error, campaignId) {
   return {
-    type: actionTypes.DELETE_PROMO_FAILURE,
+    type: actionTypes.DELETE_CAMPAIGN_FAILURE,
     error,
   }
 }
 
-export function deletePromo(promoId) {
+export function deleteCampaign(campaignId) {
   return (dispatch, getStore) => {
-    dispatch(setIsDeletingPromo(promoId))
+    dispatch(setIsDeletingCampaign(campaignId))
     authRequest
-      .deleteEntity(`${SOL_BASE_URL}${PROMOS_API_PATH}/${promoId}`)
+      .deleteEntity(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
       .then(res => {
-        dispatch(deletePromoSuccess(res.data))
-        const filterParams = getFilterParams(getStore().indexState.get('promoFilters'))
-        dispatch(fetchPromos(filterParams))
+        dispatch(deleteCampaignSuccess(res.data))
+        const filterParams = getFilterParams(getStore().indexState.get('campaignFilters'))
+        dispatch(fetchCampaigns(filterParams))
       })
-      .catch(error => dispatch(deletePromoFailure(error, promoId)))
+      .catch(error => dispatch(deleteCampaignFailure(error, campaignId)))
   }
 }
