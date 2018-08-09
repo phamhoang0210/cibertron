@@ -5,45 +5,45 @@ import { defaultFilters } from 'app/constants/initialState'
 
 export const initialState = Immutable.fromJS({
   alert: null,
-  promos: [],
-  promoFilters: {
+  campaigns: [],
+  campaignFilters: {
     ...defaultFilters,
     fields: ''
   },
-  isFetchingPromos: false,
+  isFetchingCampaigns: false,
 })
 
 export default function indexReducer($$state = initialState, action = null) {
-  const { type, record, records, filters, error, promoId } = action
+  const { type, record, records, filters, error, campaignId } = action
   
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_PROMOS: {
+    case actionTypes.SET_IS_FETCHING_CAMPAIGNS: {
       return $$state.merge({
-        isFetchingPromos: true,
+        isFetchingCampaigns: true,
       })
     }
 
-    case actionTypes.FETCH_PROMOS_SUCCESS: {
+    case actionTypes.FETCH_CAMPAIGNS_SUCCESS: {
       return $$state.merge({
-        isFetchingPromos: false,
-        promos: records,
-        promoFilters: filters,
+        isFetchingCampaigns: false,
+        campaigns: records,
+        campaignFilters: filters,
       })
     }
 
-    case actionTypes.FETCH_PROMOS_FAILURE: {
+    case actionTypes.FETCH_CAMPAIGNS_FAILURE: {
       return $$state.merge({
-        isFetchingPromos: false,
+        isFetchingCampaigns: false,
       })
     }
 
-    case actionTypes.SET_IS_DELETING_PROMO: {
+    case actionTypes.SET_IS_DELETING_CAMPAIGN: {
       $$state.withMutations(state => (
-        state.update('promos', promos => (
-          promos.update(
-            promos.findIndex(c => c.get('id') == promoId),
-            promoItem => (
-              promoItem.merge({
+        state.update('campaigns', campaigns => (
+          campaigns.update(
+            campaigns.findIndex(c => c.get('id') == campaignId),
+            campaignItem => (
+              campaignItem.merge({
                 isDeleting: true,
               })
             )
@@ -52,13 +52,13 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
-    case actionTypes.DELETE_PROMO_SUCCESS: {
+    case actionTypes.DELETE_CAMPAIGN_SUCCESS: {
       $$state.withMutations(state => (
-        state.update('promos', promos => (
-          promos.update(
-            promos.findIndex(c => c.get('id') == promoId),
-            promoItem => (
-              promoItem.merge({
+        state.update('campaigns', campaigns => (
+          campaigns.update(
+            campaigns.findIndex(c => c.get('id') == campaignId),
+            campaignItem => (
+              campaignItem.merge({
                 isDeleting: false,
               })
             )
@@ -67,13 +67,13 @@ export default function indexReducer($$state = initialState, action = null) {
       ))
     }
 
-    case actionTypes.DELETE_PROMO_FAILURE: {
+    case actionTypes.DELETE_CAMPAIGN_FAILURE: {
       $$state.withMutations(state => (
-        state.update('promos', promos => (
-          promos.update(
-            promos.findIndex(c => c.get('id') == promoId),
-            promoItem => (
-              promoItem.merge({
+        state.update('campaigns', campaigns => (
+          campaigns.update(
+            campaigns.findIndex(c => c.get('id') == campaignId),
+            campaignItem => (
+              campaigntem.merge({
                 isDeleting: false,
               })
             )

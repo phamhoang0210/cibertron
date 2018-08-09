@@ -10,9 +10,9 @@ import 'styles/app/layouts/sol/sol_layout'
 
 const { Sider, Content } = Layout
 const { ItemGroup, SubMenu } = Menu
-const SIDER_COLLAPSED_KEY = 'sol_layout_sider_collapsed'
+const SIDER_COLLAPSED_KEY = 'captain_layout_sider_collapsed'
 
-class CaptainCampaigns extends React.Component {
+class CaptainLayout extends React.Component {
   constructor(props, context) {
     super(props, context)
 
@@ -65,7 +65,7 @@ class CaptainCampaigns extends React.Component {
     ))
     
     return (
-      <Layout className="layout-wraper sol-layout">
+      <Layout className="layout-wraper captain-layout">
         <Sider
           width={230}
           className="layout-sider"
@@ -110,4 +110,4 @@ class CaptainCampaigns extends React.Component {
   }
 }
 
-export default CaptainCampaigns
+export default CaptainLayout
