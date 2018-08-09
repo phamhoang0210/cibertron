@@ -1,7 +1,7 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import PromosTableBox from './Promo/PromosTable/PromosTableBox'
-
+import { injectIntl } from 'react-intl'
+import IndexCampaigns from './Campaigns/IndexCampaigns';
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -19,15 +19,15 @@ class IndexScreen extends React.Component {
       <div className="main-content sol--promos box">
         <div className="box-header">
           <h1 className="box-title">
-            Promos
+            Campaigns
           </h1>
         </div>
         <div className="box-body">
-          <PromosTableBox {...this.props}/>
+         <IndexCampaigns {...this.props}/>
         </div>
       </div>
     )
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)

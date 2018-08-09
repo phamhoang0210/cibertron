@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
-import Layout from 'app/layouts/sol/SolLayout'
+import Layout from 'app/layouts/captain/CaptainLayout'
 import IndexContainer from '../containers/IndexContainer'
 import {PROMOS_URL} from '../constants/paths'
 

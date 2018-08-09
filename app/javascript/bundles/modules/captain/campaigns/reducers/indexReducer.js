@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError } from 'helpers/applicationHelper'
 import { defaultFilters } from 'app/constants/initialState'
 
-export const initialState = Immutable.fromJS({
+/*export const initialState = Immutable.fromJS({
   alert: null,
   promos: [],
   promoFilters: {
@@ -11,7 +11,41 @@ export const initialState = Immutable.fromJS({
     fields: ''
   },
   isFetchingPromos: false,
-})
+})*/
+export const initialState = {
+  "records":[
+    {
+      key: '1',
+      name: 'Flash sale thứ 7',
+      type: 'Action',
+      user: 'topica',
+      deal: 10,
+      date_create: '20/10/2018',
+      date_over:  '20/11/2018'
+
+    },
+    {
+      key: '2',
+      name: 'Flash sale thứ 6',
+      type: 'Dection',
+      user: 'huyenpn',
+      deal: 8,
+      date_create: '23/6/2018',
+      date_over:  '24/6/2018'
+
+    },
+    {
+      key: '3',
+      name: 'Flash sale thứ 5',
+      type: 'Action',
+      user: 'Khangpt',
+      deal: 6,
+      date_create: '30/11/2018',
+      date_over:  '30/12/2018'
+
+    }
+  ]
+}
 
 export default function indexReducer($$state = initialState, action = null) {
   const { type, record, records, filters, error, promoId } = action
