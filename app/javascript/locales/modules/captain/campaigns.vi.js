@@ -65,6 +65,46 @@ export const appLocale = {
           }
         }
       },
+    },
+    new: {
+      campaign:{
+        label: 'TÊN CHIẾN DỊCH',
+        placeholder: {
+          select: {
+              none: '-- Nhập tên chiến dịch --'
+          }
+        }
+      },
+      time_start:{
+        label: 'Thời gian bắt đầu',
+        placeholder: {
+          select: {
+              none: '-- Thời gian bắt đầu --'
+          }
+        }
+      },
+      time_end:{
+        label: 'Thời gian kết thúc',
+        placeholder: {
+          select: {
+              none: '-- Thời gian kết thúc --'
+          }
+        }
+      },
+      status: {
+        label: 'Status'
+      },
+      show:{
+        label: 'Hiển thị'
+      },
+      link_tracking: {
+        label: 'Link Tracking',
+        placeholder: {
+          select: {
+            none: '-- Nhập link tracking --'
+          }
+        }
+      }
     }
   }),
   antd: antdVi,
