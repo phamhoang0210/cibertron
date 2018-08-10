@@ -92,6 +92,7 @@ class LeadFiltersFormBox extends React.Component {
 
   render() {
     const {indexState, form, sharedState, location, intl} = this.props
+    console.log('test',sharedState.toJS())
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')

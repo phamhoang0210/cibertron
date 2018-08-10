@@ -1,7 +1,7 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import CampaignsTableBox from './Campaign/CampaignsTable/CampaignsTableBox'
-
+import { injectIntl } from 'react-intl'
+import IndexCampaigns from './Campaigns/IndexCampaigns';
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -23,11 +23,11 @@ class IndexScreen extends React.Component {
           </h1>
         </div>
         <div className="box-body">
-          <CampaignsTableBox {...this.props}/>
+         <IndexCampaigns {...this.props}/>
         </div>
       </div>
     )
   }
 }
 
-export default IndexScreen
+export default injectIntl(IndexScreen)
