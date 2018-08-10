@@ -4,13 +4,15 @@ import Immutable from 'immutable'
 import {Form, Row, Col, Select, RangePicker, DatePicker, Button} from 'antd'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 const FormItem = Form.Item;
+const Option = Select.Option
 class CampaignsFilter extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
-    const {intl} = this.props
-    console.log('huyen',intl)
+    const {intl,sharedState} = this.props
+    const list_campaign = sharedState['campaigns']
+    console.log('huyen', this.props)
     return (
       <div className="box box-with-shadow box-with-border">
         <Form className="box-body">
@@ -18,9 +20,10 @@ class CampaignsFilter extends React.Component {
             <Col span={8}> 
               <FormItem label={intl.formatMessage({id: 'index.campaigns.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                  <Select placeholder={intl.formatMessage({id: 'index.campaigns.placeholder.select.none'})} >
-                    <Option value="china">China</Option>
-                    <Option value="use">U.S.A</Option>
+                  <Select placeholder={intl.formatMessage({id: 'index.campaigns.placeholder.select.none'})}  >
+                    { list_campaign.map(campaign=> (
+                        <Option value = {campaign.id} key = {campaign.id}>{campaign.name}</Option>
+                    ))}
                   </Select>
               </FormItem>
             </Col>

@@ -60,13 +60,7 @@ Rails.application.routes.draw do
   namespace :captain do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
-      option.resources :discounts
-      option.resources :catalogs
       option.resources :campaigns
-      option.resources :courses
-      option.resources :combos
-      option.resources :targets
-      option.resources :prizes
     end
   end
 

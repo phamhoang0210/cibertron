@@ -9,14 +9,14 @@ class IndexScreen extends React.Component {
 
   componentDidMount() {
     const {actions, indexState} = this.props
-    const promoParams = getFilterParams(indexState.get('promoFilters'))
-    actions.fetchPromos(promoParams)
+    const campaignParams = getFilterParams(indexState.get('campaignFilters'))
+    actions.fetchCampaigns(campaignParams)
   }
 
   render() {
     const {indexState} = this.props
     return (
-      <div className="main-content sol--promos box">
+      <div className="main-content captain--campaigns box">
         <div className="box-header">
           <h1 className="box-title">
             Campaigns
