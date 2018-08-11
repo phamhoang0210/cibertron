@@ -73,7 +73,8 @@ export const appLocale = {
           select: {
               none: '-- Nhập tên chiến dịch --'
           }
-        }
+        },
+        required: '"TÊN CHIẾN DỊCH" là trường bắt buộc'
       },
       time_start:{
         label: 'Thời gian bắt đầu',
@@ -81,7 +82,8 @@ export const appLocale = {
           select: {
               none: '-- Thời gian bắt đầu --'
           }
-        }
+        },
+        required: '"Thời gian bắt đầu" là trường bắt buộc'
       },
       time_end:{
         label: 'Thời gian kết thúc',
@@ -89,13 +91,16 @@ export const appLocale = {
           select: {
               none: '-- Thời gian kết thúc --'
           }
-        }
+        },
+        required: '"Thời gian kết thúc" là trường bắt buộc'
       },
       status: {
-        label: 'Status'
+        label: 'Status',
+        required: '"Status" là trường bắt buộc'
       },
       show:{
-        label: 'Hiển thị'
+        label: 'Hiển thị',
+        required: '"Hiển thị" là trường bắt buộc'
       },
       link_tracking: {
         label: 'Link Tracking',
@@ -103,7 +108,8 @@ export const appLocale = {
           select: {
             none: '-- Nhập link tracking --'
           }
-        }
+        },
+        required: '"Link Tracking" là trường bắt buộc'
       }
     }
   }),
