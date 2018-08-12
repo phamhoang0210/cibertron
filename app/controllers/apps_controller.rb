@@ -14,4 +14,12 @@ class AppsController < ApplicationController
 
     render :index
   end
+
+  def myaccount
+    @app_css_antd = 'myaccount-front-css-antd'
+    @app_css = 'myaccount-front-css'
+    @app_js = 'myaccount-front-js'
+
+    render :index
+  end
 end
