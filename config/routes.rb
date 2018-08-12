@@ -114,6 +114,9 @@ Rails.application.routes.draw do
 
       get 'namitl/*path', to: 'apps#namitl'
       get 'namitl', to: 'apps#namitl'
+
+      get 'myaccount/*path', to: 'apps#myaccount'
+      get 'myaccount', to: 'apps#myaccount'
     end
   end
 end
