@@ -1,5 +1,7 @@
 import React from 'react'
+import { browserHistory } from 'react-router';
 import {Form, Row, Col, Select, RangePicker, DatePicker, Button, Input, Icon, Radio} from 'antd'
+import { CAMPAIGNS_URL } from '../../../constants/paths'
 import { formItemLayout } from 'app/constants/form'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
@@ -14,12 +16,27 @@ class NewCampaign extends React.Component {
 	
 	handleSubmit = (e) => {
     e.preventDefault();
+    const {actions} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+      	var val = {};
+      	val['name'] = values.name;
+      	val['start_time'] = values.start_time._d;
+      	val['end_time'] = values.end_time._d;
+      	val['status'] = values.status;
+      	val['display'] = values.display;
+      	val['link_tracking'] = values.link_tracking;
+        console.log('Received values of form: ', val);
+        actions.createCampaign(val)
+
+				browserHistory.push(`${CAMPAIGNS_URL}`)        
       }
     });
   }
+
+  handleBack(e) {
+	  browserHistory.push(`${CAMPAIGNS_URL}`)
+	}
 
 	render(){
 		const {intl,sharedState}  = this.props
@@ -28,7 +45,7 @@ class NewCampaign extends React.Component {
 			<Form onSubmit={this.handleSubmit}>
 				<Row>
 					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.campaign.label'})} >
-						{getFieldDecorator('nameCampaign', {
+						{getFieldDecorator('name', {
 	            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},) }],
 	          })(
 	            <Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
@@ -39,19 +56,19 @@ class NewCampaign extends React.Component {
 				<Row>
 					<Col span={8}>
 		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_start.label'})} >
-		        	{getFieldDecorator('startTime', {
+		        	{getFieldDecorator('start_time', {
 		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'},) }],
 		          })(
-		            <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
+		            <DatePicker showTime format="YYYY-MM-DD HH:mm" style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})} />
 		          )}
 		        </FormItem>
 		      </Col>
 	        <Col span={8}>
 		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_end.label'})} >
-		        	{getFieldDecorator('endTime', {
+		        	{getFieldDecorator('end_time', {
 		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'},) }],
 		          })(
-		            <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
+		            <DatePicker showTime format="YYYY-MM-DD HH:mm" style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} />
 		          )}
 		        </FormItem>
 		      </Col>
@@ -66,20 +83,20 @@ class NewCampaign extends React.Component {
 		            <RadioGroup>
 					        <Radio value={1}>On</Radio>
 					        <br />
-					        <Radio value={2}>Off</Radio>
+					        <Radio value={0}>Off</Radio>
 					      </RadioGroup>
 		          )}
 		        </FormItem>
 		      </Col>
 		      <Col span={8}>
 		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.show.label'})} >
-		       		{getFieldDecorator('show', {
+		       		{getFieldDecorator('display', {
 		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.show.required'},) }],
 		          })(
 		            <RadioGroup>
 					        <Radio value={1}>On</Radio>
 					        <br />
-					        <Radio value={2}>Off</Radio>
+					        <Radio value={0}>Off</Radio>
 					      </RadioGroup>
 		          )}
 		        </FormItem>
@@ -88,7 +105,7 @@ class NewCampaign extends React.Component {
 
 		    <Row>
 					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})} >
-						{getFieldDecorator('linkTracking', {
+						{getFieldDecorator('link_tracking', {
 	            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},) }],
 	          })(
 	            <Input placeholder={intl.formatMessage({id: 'attrs.link_tracking.placeholder.select.none'})} />
@@ -98,8 +115,8 @@ class NewCampaign extends React.Component {
 
 				<Row>
           <Col span={24} style={{ textAlign: 'center' }}>
-            <Button style={{marginRight:10}}>Hủy bỏ</Button>
             <Button type="primary" htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
+            <Button onClick={this.handleBack} style={{marginRight:10}}>Hủy bỏ</Button>
           </Col>
         </Row>
       </Form>

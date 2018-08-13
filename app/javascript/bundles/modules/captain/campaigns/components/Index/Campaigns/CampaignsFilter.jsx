@@ -1,14 +1,21 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import {Form, Row, Col, Select, RangePicker, DatePicker, Button} from 'antd'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
+import { CAMPAIGNS_URL } from '../../../constants/paths'
 const FormItem = Form.Item;
 const Option = Select.Option
 class CampaignsFilter extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  handleAdd(e) {
+   browserHistory.push(`${CAMPAIGNS_URL}/new`)
+ }
+
   render() {
     const {intl,sharedState} = this.props
     const list_campaign = sharedState['campaigns']
@@ -72,14 +79,14 @@ class CampaignsFilter extends React.Component {
                   </Select>
               </FormItem>
             </Col>
-          </Row>
-          <Row>
-            <Col span={24} style={{ textAlign: 'right' }}>
-              <Button style={{marginRight:10}} >Tạo chiến dịch mới</Button>
-              <Button style={{marginRight:10}} type="primary">Lọc</Button>
-              <Button>Clear</Button>
-            </Col>
-          </Row>
+            </Row>
+            <Row>
+              <Col span={24} style={{ textAlign: 'right' }}>
+                <Button onClick={this.handleAdd} style={{marginRight:10}} >Tạo chiến dịch mới</Button>
+                <Button style={{marginRight:10}} type="primary">Lọc</Button>
+                <Button>Clear</Button>
+              </Col>
+            </Row>
         </Form>
       </div>
     );
