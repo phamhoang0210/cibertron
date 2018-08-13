@@ -37,7 +37,7 @@ class CampaignsFilter extends React.Component {
             <Col span={8}> 
               <FormItem label={intl.formatMessage({id: 'index.create_date.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                   <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'index.create_date.placeholder.select.none'})} />
+                   <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'index.create_date.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
               </FormItem>
             </Col>
             <Col span={8}> 
@@ -61,13 +61,13 @@ class CampaignsFilter extends React.Component {
             <Col span={8}> 
               <FormItem label={intl.formatMessage({id: 'index.time_start.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                   <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'index.time_start.placeholder.select.none'})} />
+                   <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'index.time_start.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
               </FormItem>
             </Col>
             <Col span={8}> 
               <FormItem label={intl.formatMessage({id: 'index.time_over.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                   <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'index.time_over.placeholder.select.none'})} />
+                   <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'index.time_over.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
               </FormItem>
             </Col>
             <Col span={8}> 

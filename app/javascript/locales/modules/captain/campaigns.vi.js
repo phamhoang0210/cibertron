@@ -66,7 +66,7 @@ export const appLocale = {
         }
       },
     },
-    new: {
+    attrs: {
       campaign:{
         label: 'TÊN CHIẾN DỊCH',
         placeholder: {
@@ -111,6 +111,31 @@ export const appLocale = {
         },
         required: '"Link Tracking" là trường bắt buộc'
       }
+    },
+    edit: {
+      campaign_info:{
+        label: 'Thông tin chiến dịch'
+      },
+      manage_deal:{
+        label: 'Quản lý deal (khóa học)'
+      },
+      select_courses:{
+        label: 'Chọn khóa học'
+      },
+      list_selected_courses:{
+        label: 'Danh sách khóa được chọn'
+      },
+      search_courses_by:{
+        label: 'Tìm khóa học theo',
+        placeholder: {
+          select: {
+            none: '-- Chọn khóa học --'
+          }
+        }
+      },
+      condition:{
+        label: 'Điều kiện',
+      },
     }
   }),
   antd: antdVi,
