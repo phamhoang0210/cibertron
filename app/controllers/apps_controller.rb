@@ -22,4 +22,12 @@ class AppsController < ApplicationController
 
     render :index
   end
+
+  def business
+    @app_css_antd = 'business-front-css-antd'
+    @app_css = 'business-front-css'
+    @app_js = 'business-front-js'
+
+    render :index
+  end
 end

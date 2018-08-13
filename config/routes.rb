@@ -117,6 +117,9 @@ Rails.application.routes.draw do
 
       get 'myaccount/*path', to: 'apps#myaccount'
       get 'myaccount', to: 'apps#myaccount'
+
+      get 'business/*path', to: 'apps#business'
+      get 'business', to: 'apps#business'
     end
   end
 end
