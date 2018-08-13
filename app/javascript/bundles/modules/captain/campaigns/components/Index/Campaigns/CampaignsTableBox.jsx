@@ -51,8 +51,7 @@ class CampaignsTableBox extends React.Component {
           <div>
             <Button style={{marginRight:10}}>Edit</Button>
             <Button type="danger">Delete</Button>
-          </div>
-          
+          </div>          
         )
       }
     ];
@@ -62,11 +61,11 @@ class CampaignsTableBox extends React.Component {
     console.log('data',data)
     return (
       <Table
-          className="components-table-demo-nested"
-          columns={columns}
-          dataSource={data}
-          bordered
-        />
+        className="components-table-demo-nested"
+        columns={columns}
+        dataSource={data}
+        bordered
+      />
     );
   }
 

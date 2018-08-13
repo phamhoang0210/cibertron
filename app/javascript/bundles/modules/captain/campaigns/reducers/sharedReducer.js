@@ -9,11 +9,11 @@ export const initialState = {
   "campaigns":[
     {
       'name': 'Flash sale thứ 7',
-      'id': 78
+      'id': 68
     },
     {
       'name': 'Flash sale thứ 6',
-      'id': 80
+      'id': 88
     }
   ]
 }

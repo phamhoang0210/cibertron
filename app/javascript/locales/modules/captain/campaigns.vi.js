@@ -65,6 +65,77 @@ export const appLocale = {
           }
         }
       },
+    },
+    attrs: {
+      campaign:{
+        label: 'TÊN CHIẾN DỊCH',
+        placeholder: {
+          select: {
+              none: '-- Nhập tên chiến dịch --'
+          }
+        },
+        required: '"TÊN CHIẾN DỊCH" là trường bắt buộc'
+      },
+      time_start:{
+        label: 'Thời gian bắt đầu',
+        placeholder: {
+          select: {
+              none: '-- Thời gian bắt đầu --'
+          }
+        },
+        required: '"Thời gian bắt đầu" là trường bắt buộc'
+      },
+      time_end:{
+        label: 'Thời gian kết thúc',
+        placeholder: {
+          select: {
+              none: '-- Thời gian kết thúc --'
+          }
+        },
+        required: '"Thời gian kết thúc" là trường bắt buộc'
+      },
+      status: {
+        label: 'Status',
+        required: '"Status" là trường bắt buộc'
+      },
+      show:{
+        label: 'Hiển thị',
+        required: '"Hiển thị" là trường bắt buộc'
+      },
+      link_tracking: {
+        label: 'Link Tracking',
+        placeholder: {
+          select: {
+            none: '-- Nhập link tracking --'
+          }
+        },
+        required: '"Link Tracking" là trường bắt buộc'
+      }
+    },
+    edit: {
+      campaign_info:{
+        label: 'Thông tin chiến dịch'
+      },
+      manage_deal:{
+        label: 'Quản lý deal (khóa học)'
+      },
+      select_courses:{
+        label: 'Chọn khóa học'
+      },
+      list_selected_courses:{
+        label: 'Danh sách khóa được chọn'
+      },
+      search_courses_by:{
+        label: 'Tìm khóa học theo',
+        placeholder: {
+          select: {
+            none: '-- Chọn khóa học --'
+          }
+        }
+      },
+      condition:{
+        label: 'Điều kiện',
+      },
     }
   }),
   antd: antdVi,
