@@ -36,3 +36,17 @@ export const formDate = {
 	labelCol: { span: 12 },
 	wrapperCol: { span: 11 },
 }
+export const DEFAULT_TITLE_LAYOUT = {
+  labelCol: { span: 3 },
+  wrapperCol: { span: 3 },
+}
+export const DEFAULT_SUBTITLE_LAYOUT = {
+  labelCol: { span: 12 },
+}
+export const FORM_SELECT_COURSES = {
+  labelCol: { span: 7 },
+  wrapperCol: { span: 10 },
+}
+export const LIST_SELECTED_COURSES = {
+  labelCol: { span: 12 },
+}

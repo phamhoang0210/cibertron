@@ -12,7 +12,7 @@ class NewScreen extends React.Component{
       <div className="main-content captain--campaigns box">
         <div className="box-header">
           <h1 className="box-title">
-            Tạo chiến dịch
+            TẠO CHIẾN  DỊCH
           </h1>
         </div>
         <div className="box-body">

@@ -17,32 +17,29 @@ export const initialState = {
     {
       key: '1',
       name: 'Flash sale thứ 7',
-      type: 'Action',
-      user: 'topica',
+      type: 'Active',
+      user: 'Topica',
       deal: 10,
       date_create: '20/10/2018',
       date_over:  '20/11/2018'
-
     },
     {
       key: '2',
       name: 'Flash sale thứ 6',
-      type: 'Dection',
-      user: 'huyenpn',
+      type: 'Deactive',
+      user: 'HuyenPN',
       deal: 8,
       date_create: '23/6/2018',
       date_over:  '24/6/2018'
-
     },
     {
       key: '3',
       name: 'Flash sale thứ 5',
-      type: 'Action',
-      user: 'Khangpt',
+      type: 'Active',
+      user: 'KhangPT',
       deal: 6,
       date_create: '30/11/2018',
       date_over:  '30/12/2018'
-
     }
   ]
 }

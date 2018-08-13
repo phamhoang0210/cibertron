@@ -27,31 +27,31 @@ class NewCampaign extends React.Component {
 		return(
 			<Form onSubmit={this.handleSubmit}>
 				<Row>
-					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'new.campaign.label'})} >
+					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.campaign.label'})} >
 						{getFieldDecorator('nameCampaign', {
-	            rules: [{ required: true,message: intl.formatMessage({id: 'new.campaign.required'},) }],
+	            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},) }],
 	          })(
-	            <Input placeholder={intl.formatMessage({id: 'new.campaign.placeholder.select.none'})} />
+	            <Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
 	          )}
 					</FormItem>
 				</Row>
 
 				<Row>
 					<Col span={8}>
-		        <FormItem {...formDate} label={intl.formatMessage({id: 'new.time_start.label'})} >
+		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_start.label'})} >
 		        	{getFieldDecorator('startTime', {
-		            rules: [{ required: true,message: intl.formatMessage({id: 'new.time_start.required'},) }],
+		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'},) }],
 		          })(
-		            <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'new.time_start.placeholder.select.none'})} />
+		            <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
 		          )}
 		        </FormItem>
 		      </Col>
 	        <Col span={8}>
-		        <FormItem {...formDate} label={intl.formatMessage({id: 'new.time_end.label'})} >
+		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_end.label'})} >
 		        	{getFieldDecorator('endTime', {
-		            rules: [{ required: true,message: intl.formatMessage({id: 'new.time_end.required'},) }],
+		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'},) }],
 		          })(
-		            <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'new.time_end.placeholder.select.none'})} />
+		            <DatePicker  style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm:ss"/>
 		          )}
 		        </FormItem>
 		      </Col>
@@ -59,9 +59,9 @@ class NewCampaign extends React.Component {
 
 		    <Row>
 		      <Col span={8}>
-		        <FormItem {...formDate} label={intl.formatMessage({id: 'new.status.label'})} >
+		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.status.label'})} >
 		        	{getFieldDecorator('status', {
-		            rules: [{ required: true,message: intl.formatMessage({id: 'new.status.required'},) }],
+		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.status.required'},) }],
 		          })(
 		            <RadioGroup>
 					        <Radio value={1}>On</Radio>
@@ -72,9 +72,9 @@ class NewCampaign extends React.Component {
 		        </FormItem>
 		      </Col>
 		      <Col span={8}>
-		        <FormItem {...formDate} label={intl.formatMessage({id: 'new.show.label'})} >
+		        <FormItem {...formDate} label={intl.formatMessage({id: 'attrs.show.label'})} >
 		       		{getFieldDecorator('show', {
-		            rules: [{ required: true,message: intl.formatMessage({id: 'new.show.required'},) }],
+		            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.show.required'},) }],
 		          })(
 		            <RadioGroup>
 					        <Radio value={1}>On</Radio>
@@ -87,19 +87,19 @@ class NewCampaign extends React.Component {
 		    </Row>
 
 		    <Row>
-					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'new.link_tracking.label'})} >
+					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})} >
 						{getFieldDecorator('linkTracking', {
-	            rules: [{ required: true,message: intl.formatMessage({id: 'new.link_tracking.required'},) }],
+	            rules: [{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},) }],
 	          })(
-	            <Input placeholder={intl.formatMessage({id: 'new.link_tracking.placeholder.select.none'})} />
+	            <Input placeholder={intl.formatMessage({id: 'attrs.link_tracking.placeholder.select.none'})} />
 	          )}
 					</FormItem>
 				</Row>
 
 				<Row>
           <Col span={24} style={{ textAlign: 'center' }}>
-            <Button type="primary" htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
             <Button style={{marginRight:10}}>Hủy bỏ</Button>
+            <Button type="primary" htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
           </Col>
         </Row>
       </Form>
@@ -108,4 +108,3 @@ class NewCampaign extends React.Component {
 }
 
 export default Form.create()(injectIntl(NewCampaign))
-
