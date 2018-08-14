@@ -115,8 +115,8 @@ class NewCampaign extends React.Component {
 
 				<Row>
           <Col span={24} style={{ textAlign: 'center' }}>
-            <Button type="primary" htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
             <Button onClick={this.handleBack} style={{marginRight:10}}>Hủy bỏ</Button>
+            <Button type="primary" htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
           </Col>
         </Row>
       </Form>

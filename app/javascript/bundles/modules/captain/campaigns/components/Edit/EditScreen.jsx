@@ -1,5 +1,6 @@
 import React from 'react'
 import CampaignEditForm from './Campaign/CampaignForm/CampaignEditForm'
+import DetailCampaignEditForm from './Campaign/CampaignForm/DetailCampaignEditForm'
 import { injectIntl } from 'react-intl'
 
 class EditScreen extends React.Component {
@@ -24,6 +25,9 @@ class EditScreen extends React.Component {
         </div>
         <div className="box-body">
           <CampaignEditForm {...this.props}/>
+          <br />
+          <hr />
+          <DetailCampaignEditForm {...this.props}/>
         </div>
       </div>
     )
