@@ -21,6 +21,7 @@ class CampaignsTableBox extends React.Component {
     browserHistory.push(`${CAMPAIGNS_URL}/${record.id}/edit`)
   }
   handleDelete(record) {
+    console.log('xoa')
     const campaignId = record.id
     const {actions, indexState} = this.props
     actions.deleteCampaign(campaignId)
@@ -77,7 +78,7 @@ class CampaignsTableBox extends React.Component {
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
-              onConfirm={()=>this.handleDelete.bind(this, record)}
+              onConfirm={()=>this.handleDelete(record)}
               okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
               cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
