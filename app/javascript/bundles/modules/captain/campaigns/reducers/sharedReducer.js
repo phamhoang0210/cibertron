@@ -14,6 +14,7 @@ export const initialState = {
     {
       name: 'Flash sale thứ 6',
       id: 80
+
     }
   ],
   "users":[

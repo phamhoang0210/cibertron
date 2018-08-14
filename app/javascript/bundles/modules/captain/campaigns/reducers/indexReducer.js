@@ -17,7 +17,6 @@ export const initialState = Immutable.fromJS({
   // isUpdatingLeads: false,
   // isRecoveringLeads: false,
 })
-
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, campaignId,

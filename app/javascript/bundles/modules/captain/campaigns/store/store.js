@@ -8,6 +8,7 @@ export default (props, railsContext) => {
   const {railsContextState, indexState, newState, editState} = initialStates
   const initialState = {
     indexState,
+    editState,
     railsContextState: railsContextState.merge(railsContext),
   }
 

@@ -1,16 +1,17 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import _ from 'lodash'
 import Immutable from 'immutable'
 import { injectIntl } from 'react-intl'
-import { browserHistory } from 'react-router'
 import { CAMPAIGNS_URL } from '../../../constants/paths'
-import {Form, Row, Col, Select, RangePicker, DatePicker, Button} from 'antd'
+import {Form, Row, Col, Select, DatePicker, Button} from 'antd'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
 import {
   getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
   getInitialValue,
 } from 'helpers/applicationHelper'
+
 const FormItem = Form.Item;
 const Option = Select.Option
 class CampaignsFilter extends React.Component {
@@ -24,7 +25,7 @@ class CampaignsFilter extends React.Component {
     ])
     //this.initialValues = this.getInitialValues()
   }
-  
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -52,10 +53,6 @@ class CampaignsFilter extends React.Component {
     browserHistory.push(`${CAMPAIGNS_URL}/new`)
   }
 
-  handleEdit(e,id) {
-    browserHistory.push(`${CAMPAIGNS_URL}/${id}/edit`)
-  }
-  
   handleReset() {
     this.props.form.resetFields()
   }
@@ -109,6 +106,7 @@ class CampaignsFilter extends React.Component {
                     showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                   />
                 )}
+
               </FormItem>
             </Col>
             <Col span={8}> 
@@ -151,6 +149,7 @@ class CampaignsFilter extends React.Component {
                       showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                       placeholder={intl.formatMessage({id: 'index.time_start.placeholder.select.none'})} />
                  )}
+
               </FormItem>
             </Col>
             <Col span={8}> 
@@ -163,6 +162,7 @@ class CampaignsFilter extends React.Component {
                     showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                     placeholder={intl.formatMessage({id: 'index.time_over.placeholder.select.none'})} />
                 )}
+
               </FormItem>
             </Col>
             <Col span={8}> 
@@ -182,6 +182,7 @@ class CampaignsFilter extends React.Component {
             </Row>
             <Row>
               <Col span={24} style={{ textAlign: 'right' }}>
+
                 <Button onClick = { this.handleAdd } style={{marginRight:10}} >Tạo chiến dịch mới</Button>
                 <Button type htmlType="submit" loading={isFetchingCampaigns}  style={{marginRight:10}} type="primary">Lọc</Button>
                 <Button onClick ={ this.handleReset }>Clear</Button>

@@ -84,18 +84,17 @@ class CampaignsTableBox extends React.Component {
             <Button type="danger">Delete</Button>
             </Popconfirm>
           </div>
-          
         )
       }
     ];
     console.log('huyenpn',this.props.indexState.toJS())
     return (
       <Table
-          className="components-table-demo-nested"
-          columns={columns}
-          dataSource={data}
-          bordered
-        />
+        className="components-table-demo-nested"
+        columns={columns}
+        dataSource={data}
+        bordered
+      />
     );
   }
 
