@@ -131,8 +131,8 @@ class CampaignsFilter extends React.Component {
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.type.placeholder.select.none'})}
                   >
-                    { type.map((item,index) => (
-                        <Option value = {item.value} key={index} >{item.title}</Option>
+                    { type.map(item => (
+                        <Option value = {item.title} key={item.id} >{item.title}</Option>
                     ))}
                   </Select>
                 )}

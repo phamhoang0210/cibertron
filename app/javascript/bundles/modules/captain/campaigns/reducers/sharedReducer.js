@@ -30,11 +30,13 @@ export const initialState = {
   "type":[
     {
       title: "Action",
-      value: 0
+      id: 12,
+      value: true
     },
     {
-      title: "Dection",
-      value: 1
+      title: "Deactive",
+      id: 14,
+      value: false
     }
   ],
   "status":[

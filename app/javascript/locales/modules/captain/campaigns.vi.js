@@ -66,6 +66,24 @@ export const appLocale = {
         }
       },
     },
+    popconfirm: {
+      delete: {
+        // popconfirm.delete.title
+        title: 'Bạn có chắc muốn xóa contact này?',
+        // popconfirm.delete.ok_text
+        ok_text: 'Ok',
+        // popconfirm.delete.cancel_text
+        cancel_text: 'Cancel',
+      },
+      send: {
+        // popconfirm.send.title
+        title: 'Bạn có chắc muốn gửi?',
+        // popconfirm.send.ok_text
+        ok_text: 'Ok',
+        // popconfirm.send.cancel_text
+        cancel_text: 'Cancel',
+      }
+    },
     attrs: {
       campaign:{
         label: 'TÊN CHIẾN DỊCH',
