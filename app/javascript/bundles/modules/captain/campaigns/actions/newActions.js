@@ -29,7 +29,7 @@ export function createCampaign(params = {}) {
     dispatch(setIsCreatingCampaign())
 
     return authRequest
-      .submitEntity(`${CAMPAIGNS_API_PATH}`, params)
+      .submitEntity(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
       .then(res => dispatch(createCampaignSucces(res.data)))
       .catch(error => dispatch(createCampaignFailure(error)))
   }

@@ -19,48 +19,61 @@ class CampaignsFilter extends React.Component {
     super(props)
     _.bindAll(this, [
       'handleFilter',
-      //'formatFormData',
+      'formatFormData',
       'handleAdd',
       'handleReset',
     ])
-    //this.initialValues = this.getInitialValues()
+    this.initialValues = this.getInitialValues()
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentCampaignsFilters = Immutable.fromJS(getFilterParams(indexState.get('campaignsFilters'), location))
+    return {
+      campaign: getInitialValue({}, currentCampaignsFilters, ['compconds', 'campaign']),
+      created_at: getInitialValue({}, currentCampaignsFilters, ['compconds', 'created_at']),
 
-    this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        return;
+    }
+  }
+
+  handleFilter(e) {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const {actions, indexState, location} = this.props
+        let campaignsParams = getFilterParamsAndSyncUrl(indexState.get('campaignsFilters'), location, this.formatFormData(values))
+        actions.fetchCampaigns(campaignsParams)
       }
-      const values = {
-        ...fieldsValue,
-        'campaign': fieldsValue,
-        'create_date_picker': fieldsValue,
-        'users' : users,
-        'type'  : type,
-        'time_start' : time_start,
-        'time_over' : time_over,
-        'status'  : status
-
-
-      };
-      console.log('Received values of form: ', values);
-    });
+    })
   }
-  
+
+  formatFormData(values) {
+    let formatedValues = values
+    const inCompFields = ['lead_level_id', 'staff_id']
+    const timerangeFields = ['imported_at', 'assigned_at', 'care_date', 'report_date']
+    const lead_status_code = formatedValues['lead_status_code']
+    let compconds = {}
+    inCompFields.forEach(field => {
+      compconds[`${field}.in`] = formatedValues[field]
+      delete formatedValues[field]
+    })
+
+    timerangeFields.forEach(field => {
+      const timeRange = formatedValues[field] || []
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      delete formatedValues[field]
+    })
+
+    return mergeDeep([formatedValues, {compconds: compconds}, {lead_status_code_filters: lead_status_code}])
+  }
+
   handleAdd(e) {
     browserHistory.push(`${CAMPAIGNS_URL}/new`)
   }
 
   handleReset() {
     this.props.form.resetFields()
-  }
-
-  handleFilter(e) {
-    e.preventDefault()
-    console.log('filter')
-    
   }
 
   render() {
@@ -72,7 +85,7 @@ class CampaignsFilter extends React.Component {
     const { getFieldDecorator } = form
     const isFetchingCampaigns = indexState.isFetchingCampaigns
     const data = indexState.toJS().campaign
-    console.log('data',data)
+    console.log('data',this.props.indexState.toJS())
     return (
       <div className="box box-with-shadow box-with-border">
         <Form className="box-body"
@@ -84,7 +97,9 @@ class CampaignsFilter extends React.Component {
                 label={intl.formatMessage({id: 'index.campaigns.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                { getFieldDecorator('campaign')(
+                { getFieldDecorator('campaign',{
+                  ...this.initialValues.campaign
+                })(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.campaigns.placeholder.select.none'})}  >
                     { data.map(item => (
@@ -98,7 +113,9 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.create_date.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('create_date_picker')(
+                {getFieldDecorator('created_at',{
+                  ...this.initialValues.created_at
+                })(
                    <DatePicker
                     style={{width: '100%'}} 
                     placeholder={intl.formatMessage({id: 'index.create_date.placeholder.select.none'})}
@@ -113,11 +130,13 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.user.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('users')(
+                { getFieldDecorator('users',{
+                  ...this.initialValues.users
+                })(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.user.placeholder.select.none'})} >
-                    { users.map(user => (
-                        <Option value = {user.id} key = {user.id}>{user.first_name}</Option>
+                    { data.map(item => (
+                        <Option value = {item.creator} key = {item.id}>{item.creator}</Option>
                     ))}
                   </Select>
                 )}
@@ -127,7 +146,9 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.type.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('type')(
+                { getFieldDecorator('type',{
+                  ...this.initialValues.type
+                })(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.type.placeholder.select.none'})}
                   >
@@ -142,7 +163,10 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.time_start.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                 { getFieldDecorator('time_start')(
+                 { getFieldDecorator('time_start',{
+                  ...this.initialValues.time_start
+                }
+                 )(
                    <DatePicker  
                       style={{width: '100%'}} 
                       format= {LONG_DATETIME_FORMAT}
@@ -156,7 +180,9 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.time_over.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('time_over')(
+                { getFieldDecorator('time_over',{
+                  ...this.initialValues.time_over
+                })(
                   <DatePicker  style={{width: '100%'}} 
                     format= {LONG_DATETIME_FORMAT}
                     showTime={TIME_PICKER_DEFAULT_SHOW_TIME}

@@ -7,10 +7,10 @@ export const initialState = Immutable.fromJS({
   alert: null,
   campaign: [],
   importCampaignsResults: [],
-  selectedLeadKeys: [],
+  selectedCampaignsKeys: [],
   campaignsFilters: {
     ...defaultFilters,
-    fields: 'campaign_name{},campaign_status{}, utm{},last_lead_care_history,count_lead_care_history'
+    fields: 'name{},status{},creator{},start_time{},end_time{},display{},campaign_courses{}'
   },
   isFetchingCampaigns: false,
   // isImportingLeads: false,
