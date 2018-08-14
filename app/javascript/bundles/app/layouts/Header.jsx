@@ -23,8 +23,8 @@ class Header extends React.Component {
               <Dropdown
                 overlay={(
                   <Menu>
-                    <Menu.Item key="myprofile">
-                      <a href="/myprofile">Your Profile</a>
+                    <Menu.Item key="myaccount">
+                      <a href="/myaccount">Your Account</a>
                     </Menu.Item>
                     <Menu.Item key="sign_out">
                       <a href="/auth/sign_out">Sign out</a>
