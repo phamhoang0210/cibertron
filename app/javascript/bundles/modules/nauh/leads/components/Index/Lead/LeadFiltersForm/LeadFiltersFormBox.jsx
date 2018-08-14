@@ -92,7 +92,6 @@ class LeadFiltersFormBox extends React.Component {
 
   render() {
     const {indexState, form, sharedState, location, intl} = this.props
-    console.log('test',sharedState.toJS())
     const isFetchingLeads = indexState.get('isFetchingLeads')
     const leadLevels = sharedState.get('leadLevels')
     const leadStatuses = sharedState.get('leadStatuses')
@@ -148,10 +147,7 @@ class LeadFiltersFormBox extends React.Component {
                 label={intl.formatMessage({id: 'attrs.lead_level_id.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('lead_level_id', {
-                  rules: [{ type: 'array' }],
-                  ...this.initialValues.lead_level_id,
-                })(
+                {getFieldDecorator('lead_level_id')(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}

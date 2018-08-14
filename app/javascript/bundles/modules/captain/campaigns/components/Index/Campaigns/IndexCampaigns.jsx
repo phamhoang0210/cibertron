@@ -1,6 +1,7 @@
 import React from 'react'
 import CampaignsTableBox from './CampaignsTableBox';
 import CampaignsFilter from './CampaignsFilter';
+import './Campaigns.scss'
 class IndexCampaigns extends React.Component {
   constructor(props) {
     super(props)

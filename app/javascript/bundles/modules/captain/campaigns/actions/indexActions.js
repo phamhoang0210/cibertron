@@ -30,7 +30,7 @@ export function fetchCampaigns(params = {}) {
     dispatch(setIsFetchingCampaigns())
     authRequest
       .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
-      .then(res => dispatch(fetchCampaignsSuccess(res.data)))
+      .then(res => {dispatch(fetchCampaignsSuccess(res.data)); console.log('res', res)})
       .catch(error => dispatch(fetchCampaignsFailure(error)))
   }
 }
@@ -63,7 +63,7 @@ export function deleteCampaign(campaignId) {
       .deleteEntity(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
       .then(res => {
         dispatch(deleteCampaignSuccess(res.data))
-        const filterParams = getFilterParams(getStore().indexState.get('campaignFilters'))
+        const filterParams = getFilterParams(getStore().indexState.get('campaignsFilters'))
         dispatch(fetchCampaigns(filterParams))
       })
       .catch(error => dispatch(deleteCampaignFailure(error, campaignId)))

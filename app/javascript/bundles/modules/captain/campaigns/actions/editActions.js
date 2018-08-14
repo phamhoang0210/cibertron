@@ -28,7 +28,7 @@ export function fetchCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaign())
     authRequest
-      .fetchEntities(`${SOL_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
       .then(res => dispatch(fetchCampaignSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignFailure(error)))
   }
@@ -60,7 +60,7 @@ export function updateCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsUpdatingCampaign(campaignId))
     authRequest
-      .putEntity(`${SOL_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .putEntity(`${CAMPAIGNS_API_PATH}/${campaignId}`, params)
       .then(res => dispatch(updateCampaignSuccess(res.data)))
       .catch(error => dispatch(updateCampaignFailure(error, campaignId)))
   }
