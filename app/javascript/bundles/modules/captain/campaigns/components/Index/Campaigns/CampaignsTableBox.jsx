@@ -1,7 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
+import { browserHistory } from 'react-router'
+import { CAMPAIGNS_URL } from '../../../constants/paths'
 import { Table, Icon, Button, Popconfirm, Divider} from 'antd'
 import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
+import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME, SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import moment from 'moment';
+import { injectIntl } from 'react-intl'
 // import { browserHistory } from 'react-router'
 // import { PROMOS_URL } from '../../../../constants/paths'
 // import { Badge, Menu, Dropdown } from 'antd';
@@ -9,10 +14,21 @@ import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationH
 class CampaignsTableBox extends React.Component {
   constructor(props) {
     super(props)
+    _.bindAll(this, [
+    ])
   }
-
+  handleEdit(record) {
+    browserHistory.push(`${CAMPAIGNS_URL}/${record.id}/edit`)
+  }
+  handleDelete(record) {
+    const campaignId = record.id
+    const {actions, indexState} = this.props
+    actions.deleteCampaign(campaignId)
+  }
+  
   render() {
-    console.log('abc',this.props)
+    const {indexState, intl} = this.props
+    const data = indexState.toJS().campaign
     const columns = [
       {
         title: 'Tên chiến dịch',
@@ -26,40 +42,53 @@ class CampaignsTableBox extends React.Component {
       },
       {
         title: 'Người tạo',
-        dataIndex: 'user',
-        key: 'user',
+        dataIndex: 'creator',
+        key: 'creator',
       },
       {
         title: 'Số lượng deal',
-        dataIndex: 'deal',
-        key: 'deal',
+        dataIndex: 'course_number',
+        key: 'course_number',
       },
       {
         title: 'Ngày tạo',
-        dataIndex: 'date_create',
-        key: 'date_create',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
+      {
+        title: 'Ngày bắt đầu',
+        dataIndex: 'start_time',
+        key: 'start_time',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
         title: 'Ngày kết thúc',
-        dataIndex: 'date_over',
-        key: 'date_over',
+        dataIndex: 'end_time',
+        key: 'end_time',
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
           <div>
-            <Button style={{marginRight:10}}>Edit</Button>
+            <Button onClick = {this.handleEdit.bind(this, record)} style={{marginRight:10}}>Edit</Button>
+            <Popconfirm
+              placement="topLeft"
+              title={intl.formatMessage({id: 'popconfirm.delete.title'})}
+              onConfirm={()=>this.handleDelete.bind(this, record)}
+              okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
+              cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
+            >
             <Button type="danger">Delete</Button>
+            </Popconfirm>
           </div>
           
         )
       }
     ];
-
-    const {indexState} = this.props
-    const data = indexState['records']
-    console.log('data',data)
+    console.log('huyenpn',this.props.indexState.toJS())
     return (
       <Table
           className="components-table-demo-nested"
@@ -71,4 +100,4 @@ class CampaignsTableBox extends React.Component {
   }
 
 }
-export default CampaignsTableBox
+export default injectIntl(CampaignsTableBox)
