@@ -18,6 +18,7 @@ function fetchCampaignSuccess(record) {
 }
 
 function fetchCampaignFailure(error) {
+  console.log('error',error)
   return {
     type: actionTypes.FETCH_CAMPAIGN_FAILURE,
     error,
@@ -25,10 +26,14 @@ function fetchCampaignFailure(error) {
 }
 
 export function fetchCampaign(campaignId, params = {}) {
+  // console.log('Url:',`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/detail/${campaignId}`)
+  // console.log('campaignId:',campaignId)
+  // console.log('params',params)
   return dispatch => {
     dispatch(setIsFetchingCampaign())
+    console.log('actionTypes',setIsFetchingCampaign())
     authRequest
-      .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/detail/${campaignId}`, params)
       .then(res => dispatch(fetchCampaignSuccess(res.data)))
       .catch(error => dispatch(fetchCampaignFailure(error)))
   }
@@ -42,6 +47,7 @@ function setIsUpdatingCampaign(campaignId) {
 }
 
 function updateCampaignSuccess(record) {
+  console.log('record:',record)
   return {
     type: actionTypes.UPDATE_CAMPAIGN_SUCCESS,
     record,
@@ -49,6 +55,8 @@ function updateCampaignSuccess(record) {
 }
 
 function updateCampaignFailure(error, campaignId) {
+  console.log('error',error)
+  console.log('campaignId',campaignId)
   return {
     type: actionTypes.UPDATE_CAMPAIGN_FAILURE,
     error,
@@ -57,10 +65,13 @@ function updateCampaignFailure(error, campaignId) {
 }
 
 export function updateCampaign(campaignId, params = {}) {
+  console.log('Url:',`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`)
+  console.log('campaignId:',campaignId)
+  console.log('params',params)
   return dispatch => {
     dispatch(setIsUpdatingCampaign(campaignId))
     authRequest
-      .putEntity(`${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .putEntity(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
       .then(res => dispatch(updateCampaignSuccess(res.data)))
       .catch(error => dispatch(updateCampaignFailure(error, campaignId)))
   }

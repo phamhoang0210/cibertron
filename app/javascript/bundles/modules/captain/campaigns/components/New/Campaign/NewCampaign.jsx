@@ -29,7 +29,7 @@ class NewCampaign extends React.Component {
         console.log('Received values of form: ', val);
         actions.createCampaign(val)
 
-				browserHistory.push(`${CAMPAIGNS_URL}`)        
+				browserHistory.push(`${CAMPAIGNS_URL}`)
       }
     });
   }

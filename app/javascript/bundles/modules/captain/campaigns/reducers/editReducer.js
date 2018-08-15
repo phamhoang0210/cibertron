@@ -1,12 +1,12 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
-export const initialState = {
+export const initialState = Immutable.fromJS({
   alert: null,
   campaign: null,
   isFetchingCampaign: false,
   isUpdatingCampaign: false,
-  "left_records":[
+  left_records:[
     {
       key: '1',
       course_name: 'Khóa A',
@@ -26,7 +26,7 @@ export const initialState = {
       price: '399000'
     }
   ],
-  "right_records":[
+  right_records:[
     {
       key: '1',
       course_code: 'course_01',
@@ -43,10 +43,10 @@ export const initialState = {
       price: '399000'
     }
   ],
-}
+})
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, records, filters, error, campaignId } = action
+  const { type, record, filters, error, campaignId } = action
   
   switch (type) {
     case actionTypes.SET_IS_FETCHING_CAMPAIGN: {
@@ -60,7 +60,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_CAMPAIGN_SUCCESS: {
       return $$state.merge({
         isFetchingCampaign: false,
-        campaign: records,
+        campaign: record,
       })
     }
 
