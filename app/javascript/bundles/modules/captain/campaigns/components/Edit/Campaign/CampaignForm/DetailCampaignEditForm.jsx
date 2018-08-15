@@ -3,7 +3,6 @@ import { browserHistory } from 'react-router'
 import {Table, Form, Row, Col, Select, Button, Input, Checkbox, Radio} from 'antd'
 import { DEFAULT_TITLE_LAYOUT, DEFAULT_SUBTITLE_LAYOUT, FORM_SELECT_COURSES, LIST_SELECTED_COURSES } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
-import { CAMPAIGNS_URL } from '../../../../constants/paths'
 
 const FormItem = Form.Item;
 const Search = Input.Search
@@ -27,13 +26,14 @@ class DetailCampaignEditForm extends React.Component {
   }
 
   handleBack(e) {
-    browserHistory.push(`${CAMPAIGNS_URL}`)
+    browserHistory.goBack()
   }
 
   render(){
-    const {intl,editState,sharedState} = this.props
-    const left_data = editState['left_records']
-    const right_data = editState['right_records']
+    const { intl, editState, sharedState } = this.props
+    const left_data = editState.get('left_records')
+    const right_data = editState.get('right_records')
+
     const { getFieldDecorator } = this.props.form
     const left_columns = [
       {
@@ -127,7 +127,7 @@ class DetailCampaignEditForm extends React.Component {
               <Table
                 className="components-table-demo-nested"
                 columns={left_columns}
-                dataSource={left_data}
+                dataSource={left_data.toJS()}
                 bordered
               />
             </Col>
@@ -139,7 +139,7 @@ class DetailCampaignEditForm extends React.Component {
               <Table
                 className="components-table-demo-nested"
                 columns={right_columns}
-                dataSource={right_data}
+                dataSource={right_data.toJS()}
                 bordered
               />
             </Col>

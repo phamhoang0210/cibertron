@@ -30,7 +30,7 @@ class NewCampaign extends React.Component {
       	val['creator'] = user_name[0];
         actions.createCampaign(val)
 
-				browserHistory.push(`${CAMPAIGNS_URL}`)        
+				browserHistory.push(`${CAMPAIGNS_URL}`)
       }
     });
   }

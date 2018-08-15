@@ -19,48 +19,48 @@ class CampaignsFilter extends React.Component {
     super(props)
     _.bindAll(this, [
       'handleFilter',
-      //'formatFormData',
+      'formatFormData',
       'handleAdd',
       'handleReset',
     ])
-    //this.initialValues = this.getInitialValues()
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        return;
+  handleFilter(e) {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const {actions, indexState, location} = this.props
+        let campaignsParams = getFilterParams(indexState.get('campaignsFilters'))
+        var a = this.formatFormData(values)
+        console.log('huyen',mergeDeep([campaignsParams, a]))
+        actions.fetchCampaigns(mergeDeep([campaignsParams, a]))
+        
+        
       }
-      const values = {
-        ...fieldsValue,
-        'campaign': fieldsValue,
-        'create_date_picker': fieldsValue,
-        'users' : users,
-        'type'  : type,
-        'time_start' : time_start,
-        'time_over' : time_over,
-        'status'  : status
-
-
-      };
-      console.log('Received values of form: ', values);
-    });
+    })
   }
   
+  formatFormData(values) {
+    let formatedValues = values
+    const inCompFields = ['name', 'created_at', 'creator', 'display', 'start_time', 'end_time', 'status','campaign_courses']
+
+    let compconds = {}
+    inCompFields.forEach(field => {
+      compconds[field] = {in: formatedValues[field]}
+      delete formatedValues[field]
+    })
+    
+
+    return mergeDeep([formatedValues, {compconds: compconds}])
+    
+  }
+
   handleAdd(e) {
     browserHistory.push(`${CAMPAIGNS_URL}/new`)
   }
 
   handleReset() {
     this.props.form.resetFields()
-  }
-
-  handleFilter(e) {
-    e.preventDefault()
-    console.log('filter')
-    
   }
 
   render() {
@@ -72,7 +72,7 @@ class CampaignsFilter extends React.Component {
     const { getFieldDecorator } = form
     const isFetchingCampaigns = indexState.isFetchingCampaigns
     const data = indexState.toJS().campaign
-    console.log('data',data)
+    console.log('data',this.props.indexState.toJS())
     return (
       <div className="box box-with-shadow box-with-border">
         <Form className="box-body"
@@ -84,11 +84,11 @@ class CampaignsFilter extends React.Component {
                 label={intl.formatMessage({id: 'index.campaigns.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                { getFieldDecorator('campaign')(
+                { getFieldDecorator('name')(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.campaigns.placeholder.select.none'})}  >
                     { data.map(item => (
-                        <Option value = {item.id} key = {item.id}>{item.name}</Option>
+                        <Option value = {item.name} key = {item.id}>{item.name}</Option>
                     ))}
                   </Select>
                  )}
@@ -98,7 +98,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.create_date.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('create_date_picker')(
+                {getFieldDecorator('created_at')(
                    <DatePicker
                     style={{width: '100%'}} 
                     placeholder={intl.formatMessage({id: 'index.create_date.placeholder.select.none'})}
@@ -113,11 +113,11 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.user.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('users')(
+                { getFieldDecorator('creator')(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.user.placeholder.select.none'})} >
-                    { users.map(user => (
-                        <Option value = {user.id} key = {user.id}>{user.first_name}</Option>
+                    { data.map(item => (
+                        <Option value = {item.creator} key = {item.id}>{item.creator}</Option>
                     ))}
                   </Select>
                 )}
@@ -127,7 +127,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.type.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('type')(
+                { getFieldDecorator('display')(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.type.placeholder.select.none'})}
                   >
@@ -142,7 +142,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.time_start.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                 { getFieldDecorator('time_start')(
+                 { getFieldDecorator('start_time')(
                    <DatePicker  
                       style={{width: '100%'}} 
                       format= {LONG_DATETIME_FORMAT}
@@ -156,7 +156,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.time_over.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('time_over')(
+                { getFieldDecorator('end_time')(
                   <DatePicker  style={{width: '100%'}} 
                     format= {LONG_DATETIME_FORMAT}
                     showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
