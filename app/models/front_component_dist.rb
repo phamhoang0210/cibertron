@@ -4,4 +4,12 @@ class FrontComponentDist < ApplicationRecord
 
   # Define constraints
   validates :name, presence: true
+
+  def is_css?
+    !!(self.file_url =~ /.\.(css)$/)
+  end
+
+  def is_js?
+    !!(self.file_url =~ /.\.(js)$/)
+  end
 end

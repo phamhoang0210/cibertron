@@ -108,19 +108,21 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :internal, defaults: { format: :json } do
+    namespace :v01 do
+      with_options only: [:index, :show] do |option|
+        option.resources :front_components
+      end
+    end
+  end
+
   resources :apps, path: '/', only: [] do
     collection do
-      get 'apps/*path', to: 'apps#index'
-      get 'apps', to: 'apps#index'
-
-      get 'nami/*path', to: 'apps#nami'
-      get 'nami', to: 'apps#nami'
-
       get 'myaccount/*path', to: 'apps#myaccount'
       get 'myaccount', to: 'apps#myaccount'
 
-      get 'business/*path', to: 'apps#business'
-      get 'business', to: 'apps#business'
+      get ':code/*path', to: 'apps#index'
+      get ':code', to: 'apps#index'
     end
   end
 end
