@@ -5,6 +5,7 @@ class FrontComponentInstance < ApplicationRecord
 
   # Define constraints
   validates :code, presence: true
+  validates :code, uniqueness: { scope: :front_component_id }
 
   class << self
     def compcond_columns
