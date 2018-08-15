@@ -21,12 +21,16 @@ class CampaignsTableBox extends React.Component {
     browserHistory.push(`${CAMPAIGNS_URL}/${record.id}/edit`)
   }
   handleDelete(record) {
-    console.log('xoa')
     const campaignId = record.id
     const {actions, indexState} = this.props
     actions.deleteCampaign(campaignId)
   }
-  
+  type(record){
+    if(record.display === true){
+      return 'Action'
+    }
+    return 'Deactive'
+  }
   render() {
     const {indexState, intl} = this.props
     const data = indexState.toJS().campaign
@@ -38,8 +42,11 @@ class CampaignsTableBox extends React.Component {
       },
       {
         title: 'Type',
-        dataIndex: 'type',
-        key: 'type',
+        key: 'display',
+        render: (text, record) => (
+          <span>{this.type(record)}</span>
+        )
+        
       },
       {
         title: 'Người tạo',
@@ -50,6 +57,9 @@ class CampaignsTableBox extends React.Component {
         title: 'Số lượng deal',
         dataIndex: 'course_number',
         key: 'course_number',
+        render: (text, record) => (
+          <span>{record.campaign_courses.length}</span>
+        )
       },
       {
         title: 'Ngày tạo',
@@ -72,6 +82,7 @@ class CampaignsTableBox extends React.Component {
       {
         title: 'Action',
         key: 'action',
+        width: 180,
         render: (text, record) => (
           <div>
             <Button onClick = {this.handleEdit.bind(this, record)} style={{marginRight:10}}>Edit</Button>
@@ -88,7 +99,6 @@ class CampaignsTableBox extends React.Component {
         )
       }
     ];
-    console.log('huyenpn',this.props.indexState.toJS())
     return (
       <Table
         className="components-table-demo-nested"
