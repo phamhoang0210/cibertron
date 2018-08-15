@@ -20,8 +20,8 @@ class Internalv01Controller < ApplicationController
     #@records = standard_index_filter(policy_scope(@entity_model))
     @records = core_index_filter(@entity_model)
 
-    # render json: { filters: filter_jsons, records: records_as_json(@records) }
-    render json: records_as_json(@records)
+    render json: { filters: filter_jsons, records: records_as_json(@records) }
+    # render json: records_as_json(@records)
   end
 
   # GET /api/v01/entity_names(s)/1
