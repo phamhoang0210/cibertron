@@ -9,13 +9,15 @@ class EditScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, params} = this.props
-    actions.fetchCourses({per_page: 'infinite'})
-    actions.fetchCombos({per_page: 'infinite'})
+    const {actions, editState, params} = this.props
     actions.fetchCampaign(params.id)
   }
 
   render() {
+    const { editState } = this.props
+    const leftData = editState.get('left_records')
+    const rightData = editState.get('right_records')
+
     return (
       <div className="main-content captain--campaigns--edit box">
         <div className="box-header">
