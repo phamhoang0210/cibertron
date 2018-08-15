@@ -21,13 +21,11 @@ class CampaignsTableBox extends React.Component {
     browserHistory.push(`${CAMPAIGNS_URL}/${record.id}/edit`)
   }
   handleDelete(record) {
-    console.log('xoa')
     const campaignId = record.id
     const {actions, indexState} = this.props
     actions.deleteCampaign(campaignId)
   }
   type(record){
-    console.log('abc',record)
     if(record.display === true){
       return 'Action'
     }
@@ -101,7 +99,6 @@ class CampaignsTableBox extends React.Component {
         )
       }
     ];
-    console.log('huyenpn',this.props.indexState.toJS())
     return (
       <Table
         className="components-table-demo-nested"

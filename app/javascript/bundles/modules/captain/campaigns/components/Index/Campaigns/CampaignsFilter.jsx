@@ -23,17 +23,6 @@ class CampaignsFilter extends React.Component {
       'handleAdd',
       'handleReset',
     ])
-    this.initialValues = this.getInitialValues()
-  }
-
-  getInitialValues() {
-    const {indexState, location} = this.props
-    const currentCampaignsFilters = Immutable.fromJS(getFilterParams(indexState.get('campaignsFilters'), location))
-    return {
-      campaign: getInitialValue({}, currentCampaignsFilters, ['compconds', 'campaign']),
-      created_at: getInitialValue({}, currentCampaignsFilters, ['compconds', 'created_at']),
-
-    }
   }
 
   handleFilter(e) {
@@ -41,31 +30,29 @@ class CampaignsFilter extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const {actions, indexState, location} = this.props
-        let campaignsParams = getFilterParamsAndSyncUrl(indexState.get('campaignsFilters'), location, this.formatFormData(values))
-        actions.fetchCampaigns(campaignsParams)
+        let campaignsParams = getFilterParams(indexState.get('campaignsFilters'))
+        var a = this.formatFormData(values)
+        console.log('huyen',mergeDeep([campaignsParams, a]))
+        actions.fetchCampaigns(mergeDeep([campaignsParams, a]))
+        
+        
       }
     })
   }
-
+  
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['lead_level_id', 'staff_id']
-    const timerangeFields = ['imported_at', 'assigned_at', 'care_date', 'report_date']
-    const lead_status_code = formatedValues['lead_status_code']
+    const inCompFields = ['name', 'created_at', 'creator', 'display', 'start_time', 'end_time', 'status','campaign_courses']
+
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[`${field}.in`] = formatedValues[field]
+      compconds[field] = {in: formatedValues[field]}
       delete formatedValues[field]
     })
+    
 
-    timerangeFields.forEach(field => {
-      const timeRange = formatedValues[field] || []
-      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
-      delete formatedValues[field]
-    })
-
-    return mergeDeep([formatedValues, {compconds: compconds}, {lead_status_code_filters: lead_status_code}])
+    return mergeDeep([formatedValues, {compconds: compconds}])
+    
   }
 
   handleAdd(e) {
@@ -97,13 +84,11 @@ class CampaignsFilter extends React.Component {
                 label={intl.formatMessage({id: 'index.campaigns.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                { getFieldDecorator('campaign',{
-                  ...this.initialValues.campaign
-                })(
+                { getFieldDecorator('name')(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.campaigns.placeholder.select.none'})}  >
                     { data.map(item => (
-                        <Option value = {item.id} key = {item.id}>{item.name}</Option>
+                        <Option value = {item.name} key = {item.id}>{item.name}</Option>
                     ))}
                   </Select>
                  )}
@@ -113,9 +98,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.create_date.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('created_at',{
-                  ...this.initialValues.created_at
-                })(
+                {getFieldDecorator('created_at')(
                    <DatePicker
                     style={{width: '100%'}} 
                     placeholder={intl.formatMessage({id: 'index.create_date.placeholder.select.none'})}
@@ -130,9 +113,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.user.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('users',{
-                  ...this.initialValues.users
-                })(
+                { getFieldDecorator('creator')(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.user.placeholder.select.none'})} >
                     { data.map(item => (
@@ -146,9 +127,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.type.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('type',{
-                  ...this.initialValues.type
-                })(
+                { getFieldDecorator('display')(
                   <Select 
                     placeholder={intl.formatMessage({id: 'index.type.placeholder.select.none'})}
                   >
@@ -163,10 +142,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.time_start.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                 { getFieldDecorator('time_start',{
-                  ...this.initialValues.time_start
-                }
-                 )(
+                 { getFieldDecorator('start_time')(
                    <DatePicker  
                       style={{width: '100%'}} 
                       format= {LONG_DATETIME_FORMAT}
@@ -180,9 +156,7 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.time_over.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('time_over',{
-                  ...this.initialValues.time_over
-                })(
+                { getFieldDecorator('end_time')(
                   <DatePicker  style={{width: '100%'}} 
                     format= {LONG_DATETIME_FORMAT}
                     showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
