@@ -26,6 +26,7 @@ function fetchCampaignsFailure(error) {
 }
 
 export function fetchCampaigns(params = {}) {
+  console.log('params',params)
   return dispatch => {
     dispatch(setIsFetchingCampaigns())
     authRequest
