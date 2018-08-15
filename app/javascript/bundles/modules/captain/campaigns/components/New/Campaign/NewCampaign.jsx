@@ -26,7 +26,8 @@ class NewCampaign extends React.Component {
       	val['status'] = values.status;
       	val['display'] = values.display;
       	val['link_tracking'] = values.link_tracking;
-        console.log('Received values of form: ', val);
+      	var user_name = localStorage.getItem('gaia-uid').split("@");
+      	val['creator'] = user_name[0];
         actions.createCampaign(val)
 
 				browserHistory.push(`${CAMPAIGNS_URL}`)        
