@@ -7,10 +7,10 @@ class AppsController < ApplicationController
     @app_js ||= 'app-front-js'
   end
 
-  def namitl
-    @app_css_antd = 'namitl-front-css-antd'
-    @app_css = 'namitl-front-css'
-    @app_js = 'namitl-front-js'
+  def nami
+    @app_css_antd = 'nami-front-css-antd'
+    @app_css = 'nami-front-css'
+    @app_js = 'nami-front-js'
 
     render :index
   end
