@@ -151,7 +151,7 @@ class DetailCampaignEditForm extends React.Component {
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <Button onClick={this.handleBack} style={{marginRight:10}}>Hủy bỏ</Button>
-            <Button type="primary" htmlType="submit" style={{marginRight:10}}>Lưu lại</Button>
+            <Button type="primary" loading={editState.get('isUpdatingCampaign')} htmlType="submit" style={{marginRight:10}}>Lưu lại</Button>
           </Col>
         </Row>
       </Form>
