@@ -26,9 +26,6 @@ function fetchCampaignFailure(error) {
 }
 
 export function fetchCampaign(campaignId, params = {}) {
-  // console.log('Url:',`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/detail/${campaignId}`)
-  // console.log('campaignId:',campaignId)
-  // console.log('params',params)
   return dispatch => {
     dispatch(setIsFetchingCampaign())
     console.log('actionTypes',setIsFetchingCampaign())
