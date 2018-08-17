@@ -46,6 +46,7 @@ class CampaignsFilter extends React.Component {
   }
 
   formatFormData(values) {
+    console.log(values,'values')
     let formatedValues = values
     const inCompFields = ['name', 'creator', 'display', 'status','campaign_courses']
     const inCompCreatedAtFields = ['created_at']
@@ -57,17 +58,17 @@ class CampaignsFilter extends React.Component {
       delete formatedValues[field]
     })
     inCompCreatedAtFields.forEach(field => {
-      compconds[`${field}.gte`] = (formatedValues[field]!==undefined) ? formatedValues[field].format(MYSQL_DATE_FORMAT) : formatedValues[field]
-      compconds[`${field}.lt`] = (formatedValues[field]!==undefined) ? formatedValues[field].format(MYSQL_DATE_FORMAT) + 1 : formatedValues[field]
+      console.log('a1',field)
+      console.log('a2',formatedValues[field])
+      compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT) + 1
       delete formatedValues[field]
     })
     inCompStartTimeFields.forEach(field => {
-      compconds[`${field}.gte`] = (formatedValues[field]!==undefined) ? formatedValues[field].format(MYSQL_DATE_FORMAT) : formatedValues[field]
-      delete formatedValues[field]
+      compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
     })
     inCompEndTimeFields.forEach(field => {
-        compconds[`${field}.lt`] = (formatedValues[field]!==undefined) ? formatedValues[field].format(MYSQL_DATE_FORMAT) : formatedValues[field]
-      delete formatedValues[field]
+      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
     })
     return mergeDeep([formatedValues, {compconds: compconds}])
     

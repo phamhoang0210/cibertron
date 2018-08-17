@@ -2,6 +2,8 @@ import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { injectIntl } from 'react-intl'
 import IndexCampaigns from './Campaigns/IndexCampaigns';
+import { notification } from 'antd'
+
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -14,7 +16,7 @@ class IndexScreen extends React.Component {
     actions.fetchAllCampaigns()
     actions.fetchAllUsers()
   }
-
+  
   render() {
     const {indexState} = this.props
     return (

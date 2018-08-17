@@ -11,6 +11,7 @@ export default (props, railsContext) => {
     editState,
     newState,
     railsContextState: railsContextState.merge(railsContext),
+    newState,
   }
 
   const reducer = combineReducers({

@@ -2,7 +2,7 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import {Form, Row, Col, Select, DatePicker, Button, Input, Radio} from 'antd'
 import { formItemLayout, DEFAULT_TITLE_LAYOUT } from 'app/constants/form'
-import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME, SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
+import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import moment from 'moment'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
@@ -15,33 +15,70 @@ class CampaignEditForm extends React.Component {
     super(props)
 
     _.bindAll(this, [
+      'handleChange',
       'handleSubmit',
     ])
+
+    this.timeData = {
+      start_time: null,
+      end_time: null
+    }
   }
 
-  state = {
-    radioValue: 1,
+  handleChange(date, id) {
+    const valueOfInput = date.format(SHORT_DATETIME_FORMAT)
+    // if (editState.get('campaign') && editState.get('campaign').get('campaign').get(id)) {
+    //   editState.get('campaign').get('campaign').get(id) = 'valueOfInput'
+    //   console.log('campaign:', editState.get('campaign').get('campaign'))
+    //   console.log('T1:', editState.get('campaign').get('campaign').get(id))
+    //   console.log('T2:', valueOfInput)
+    // }
+    // const timeState = {}
+    this.timeData[id] = valueOfInput
+    // this.setState(timeState)
+
+    // console.log('editState:', editState)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // const { editState } = nextProps
+
+    // if (editState.get('campaign')) {
+    //   this.timeData = {
+    //     start_time: editState.get('campaign').get('campaign').get('start_time'),
+    //     end_time: editState.get('campaign').get('campaign').get('end_time'),
+    //   }
+    // }
+    // this.setState({campaign: this.props.editState.get('campaign')})
+    // console.log('campaign', this.props.editState.get('campaign'));
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    console.log('Ahihi', this.props)
     const {actions, editState} = this.props
-    console.log('editState', editState)
     var campaignId = this.props.params.id
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
         var record = {}
-        record['name'] = values.name;
-        record['start_time'] = values.start_time._i;
-        record['end_time'] = values.end_time._i;
+        // console.log('start_time:', editState.get('campaign').get('campaign').get('start_time'))
+        // console.log('end_time:', editState.get('campaign').get('campaign').get('end_time'))
+
+        if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
+          record['name'] = values.name;
+        }
+        if (this.timeData.start_time) {
+          record['start_time'] = this.timeData.start_time;
+        }
+        if (this.timeData.end_time) {
+          record['end_time'] = this.timeData.end_time;  
+        }
         record['status'] = (values.status == 1) ? true : false;
         record['display'] = (values.display == 1) ? true : false;
         record['link_tracking'] = values.link_tracking;
-        console.log('campaignId1', campaignId)
-        console.log('values', values)
-        actions.updateCampaign(campaignId, record)
         console.log('Received values of form: ', record);
+
+        actions.updateCampaign(campaignId, record);
       }
     })
   } 
@@ -51,7 +88,7 @@ class CampaignEditForm extends React.Component {
   }
 
   render(){
-    const {intl, editState, sharedState} = this.props
+    const {intl, actions, editState, sharedState} = this.props
     const { getFieldDecorator } = this.props.form
     const campaign = editState.get('campaign')
     
@@ -81,7 +118,7 @@ class CampaignEditForm extends React.Component {
                   rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'},) }],
                   initialValue: moment(campaign.get('campaign').get('start_time'))
                 })(
-                  <DatePicker style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm"/>
+                  <DatePicker onChange={(date) => this.handleChange(date, 'start_time')} style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm"/>
                 )}
               </FormItem>
             </Col>
@@ -93,7 +130,7 @@ class CampaignEditForm extends React.Component {
                   rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'},) }],
                   initialValue: moment(campaign.get('campaign').get('end_time'))
                 })(
-                  <DatePicker style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm"/>
+                  <DatePicker onChange={(date) => this.handleChange(date, 'end_time')} style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm"/>
                 )}
               </FormItem>
             </Col>
@@ -151,7 +188,7 @@ class CampaignEditForm extends React.Component {
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <Button style={{marginRight:10}} onClick={this.handleBack} >Hủy bỏ</Button>
-            <Button type="primary" htmlType="submit" style={{marginRight:10}}>Update</Button>
+            <Button type="primary" loading={editState.get('isUpdatingCampaign')} htmlType="submit" style={{marginRight:10}}>Update</Button>
           </Col>
         </Row>
       </Form>
