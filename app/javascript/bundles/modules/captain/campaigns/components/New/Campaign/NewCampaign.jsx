@@ -1,6 +1,6 @@
 import React from 'react'
 import { browserHistory } from 'react-router';
-import {Form, Row, Col, Select, RangePicker, DatePicker, Button, Input, Icon, Radio} from 'antd'
+import {Form, Row, Col, Select, RangePicker, DatePicker, Button, Input, Icon, Radio, message} from 'antd'
 import { CAMPAIGNS_URL } from '../../../constants/paths'
 import { formItemLayout } from 'app/constants/form'
 import { formDate } from 'app/constants/form'
@@ -19,6 +19,7 @@ class NewCampaign extends React.Component {
     const {actions} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
+      	message.success('Campaign tạo mới thành công');
       	var val = {};
       	val['name'] = values.name;
       	val['start_time'] = values.start_time._d;
@@ -28,9 +29,10 @@ class NewCampaign extends React.Component {
       	val['link_tracking'] = values.link_tracking;
       	var user_name = localStorage.getItem('gaia-uid').split("@");
       	val['creator'] = user_name[0];
+      	val['creator_email'] = localStorage.getItem('gaia-uid');
         actions.createCampaign(val)
 
-				browserHistory.push(`${CAMPAIGNS_URL}`)
+        browserHistory.push(`${CAMPAIGNS_URL}`)
       }
     });
   }
