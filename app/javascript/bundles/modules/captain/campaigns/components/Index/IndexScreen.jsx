@@ -2,6 +2,8 @@ import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { injectIntl } from 'react-intl'
 import IndexCampaigns from './Campaigns/IndexCampaigns';
+import { notification } from 'antd'
+
 class IndexScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -12,6 +14,18 @@ class IndexScreen extends React.Component {
     const campaignParams = getFilterParams(indexState.get('campaignsFilters'))
     actions.fetchCampaigns(campaignParams)
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const alert = this.props.newState.get('alert')
+  //   const nextAlert = nextProps.newState.get('alert')
+  //   if(nextAlert && !nextAlert.equals(alert)) {
+  //     nextAlert.get('messages').forEach(message => {
+  //       notification[nextAlert.get('type')]({
+  //         message: message,
+  //       })
+  //     })
+  //   }
+  // }
 
   render() {
     const {indexState} = this.props

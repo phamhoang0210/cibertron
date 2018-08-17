@@ -94,6 +94,11 @@ export default function indexReducer($$state = initialState, action = null) {
         })
       ))
     }
+      
+    case actionTypes.CREATE_CAMPAIGN_SUCCESS: {
+      window.location.reload();
+    }
+
     default: {
       return $$state
     }

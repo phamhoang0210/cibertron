@@ -10,6 +10,7 @@ export default (props, railsContext) => {
     indexState,
     editState,
     railsContextState: railsContextState.merge(railsContext),
+    newState,
   }
 
   const reducer = combineReducers({
