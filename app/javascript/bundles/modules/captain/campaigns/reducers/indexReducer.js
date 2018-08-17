@@ -10,37 +10,33 @@ export const initialState = Immutable.fromJS({
   selectedCampaignsKeys: [],
   campaignsFilters: {
     ...defaultFilters,
-    fields: 'name{},created_at{},creator{},display{},start_time{},end_time{},status{},campaign_courses{}'
+    fields: 'name{},campaign_courses{}'
   },
-  isFetchingCampaigns: false,
-  // isImportingLeads: false,
-  // isUpdatingLeads: false,
-  // isRecoveringLeads: false,
+  isFetchingCampaigns: false
 })
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, campaignId,
-    lead, importResult, leadKeys,
   } = action
 
   switch (type) {
     case actionTypes.SET_IS_FETCHING_CAMPAIGNS: {
       return $$state.merge({
-        isFetchingLeads: true,
+        isFetchingCampaigns: true,
       })
     }
 
     case actionTypes.FETCH_CAMPAIGNS_SUCCESS: {
       return $$state.merge({
-        isFetchingLeads: false,
+        isFetchingCampaigns: false,
         campaign: records,
         filters: filters,
       })
     }
 
-    case actionTypes.FETCH_LEADS_FAILURE: {
+    case actionTypes.FETCH_CAMPAIGNS_FAILURE: {
       return $$state.merge({
-        isFetchingLeads: false,
+        isFetchingCampaigns: false,
       })
     }
 
@@ -73,7 +69,7 @@ export default function indexReducer($$state = initialState, action = null) {
             )
           )
         )).merge({
-          alert: null,
+          alert: 'delete',
         })
       ))
     }

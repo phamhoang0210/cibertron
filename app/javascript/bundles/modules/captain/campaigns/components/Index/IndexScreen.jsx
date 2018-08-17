@@ -8,9 +8,11 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState} = this.props
-    const campaignParams = getFilterParams(indexState.get('campaignsFilters'))
+    const {actions, indexState, sharedState} = this.props
+    const campaignParams = getFilterParams(indexState.get('campaignsFilters'),location)
     actions.fetchCampaigns(campaignParams)
+    actions.fetchAllCampaigns()
+    actions.fetchAllUsers()
   }
 
   render() {

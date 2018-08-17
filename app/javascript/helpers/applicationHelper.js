@@ -36,6 +36,7 @@ export function createSuccessAlert(message) {
 }
 
 export function getFilterParams(filters, location = null) {
+  
   let filterParams = {}
   const page = filters.getIn(['paging', 'page'])
   const orders = filters.get('orders')
@@ -170,6 +171,14 @@ export function getInitialValue(options, filters, field) {
   const initialValue = filters.getIn(field)
   if(initialValue) {
     options.initialValue = initialValue.toJS()
+  }
+  return options
+}
+
+export function getInitial(options, filters, field) {
+  const initialValue = filters.getIn(field)
+  if(initialValue) {
+    options.initialValue = initialValue
   }
   return options
 }
