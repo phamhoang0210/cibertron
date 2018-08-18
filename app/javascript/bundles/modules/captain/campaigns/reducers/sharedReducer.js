@@ -7,30 +7,28 @@ export const initialState = Immutable.fromJS({
   alert: null,
   campaigns : [],
   users: [],
-  type:[
-    {
-      title: "Active",
-      id: 12,
-      value: 1
-    },
-    {
-      title: "Deactive",
-      id: 14,
-      value: 0
-    }
+  type:[{
+    title: "Active",
+    id: 12,
+    value: 1
+  },
+  {
+    title: "Deactive",
+    id: 14,
+    value: 0
+  }
   ],
   status:[
-    {
-      title: "On",
-      id: 65,
-      value: 1
-    },
-    {
-      title: "Off",
-      id: 30,
-      value: 0
-    }
-  ],
+  {
+    title: "On",
+    id: 65,
+    value: 1
+  },
+  {
+    title: "Off",
+    id: 30,
+    value: 0
+  }],
 })
 
 export default function sharedReducer($$state = initialState, action = null) {

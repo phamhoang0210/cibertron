@@ -6,14 +6,25 @@ import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item;
 const Search = Input.Search
+const Option = Select.Option
 
 class DetailCampaignEditForm extends React.Component {
   constructor(props) {
     super(props)
+
+    _.bindAll(this, [
+      'handleChange',
+      'handleSubmit',
+    ])
+  }
+
+  handleDelete(record) {
+    const { editState, actions } = this.props
+    actions.deleteCourseData(record)
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -21,8 +32,10 @@ class DetailCampaignEditForm extends React.Component {
     });
   }
 
-  onChange = (e) => {
-    console.log('checked = ${e.target.checked}');
+  handleChange(e) {
+    const { editState, actions } = this.props
+
+    actions.updateViewDealCourse(e)
   }
 
   handleBack(e) {
@@ -30,70 +43,60 @@ class DetailCampaignEditForm extends React.Component {
   }
 
   render(){
-    const { intl, editState, sharedState } = this.props
-    const left_data = editState.get('left_records')
-    const right_data = editState.get('right_records')
-
+    const { intl, editState, actions } = this.props
+    const deal = editState.get('deal').toJS()
+    const dealColumns = editState.get('dealColumns').toJS()
+    const courseData = editState.get('courseData').toJS()
     const { getFieldDecorator } = this.props.form
-    const left_columns = [
-      {
-        title: 'Select',
-        key: 'select',
-        render: (text, record) => (
-          <Checkbox onChange={this.onChange}></Checkbox>
-        )
+    const findCoursesBy = editState.toJS().findCoursesBy
+    const courseDataColumns = [{
+      title: 'Khóa',
+      dataIndex: 'course_code',
+      key: 'course_code',
+    },
+    {
+      title: 'Giá gốc',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Giá giảm',
+      dataIndex: 'promotion_price',
+      key: 'promotion_price',
+      render: (text, record) => (
+        <Input placeholder="" />
+      )
+    },
+    {
+      title: '% giảm',
+      dataIndex: '10',
+      key: '10',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <div>
+          <Button onClick = {this.handleDelete.bind(this, record)} type="danger">Xóa</Button>
+        </div>
+      )
+    }]
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        for (var i = 0; i < selectedRows.length; i++) {
+          if (!courseData.keys.includes(selectedRows[i]['key'])) {
+            actions.addCoursesData(selectedRows[i])
+          }
+          else {
+            var removeItems = courseData.records.filter(function(item){ return !selectedRowKeys.includes(item.key) })
+            for (var j = 0; j < removeItems.length; j++) {
+              actions.deleteCourseData(removeItems[j]);
+            }
+          }
+        }
       },
-      {
-        title: 'Mã khóa',
-        dataIndex: 'course_code',
-        key: 'course_code',
-      },
-      {
-        title: 'Tên khóa',
-        dataIndex: 'course_name',
-        key: 'course_name',
-      },
-      {
-        title: 'Giá gốc',
-        dataIndex: 'price',
-        key: 'price',
-      }
-    ];
-    const right_columns = [
-      {
-        title: 'Khóa',
-        dataIndex: 'course_code',
-        key: 'course_code',
-      },
-      {
-        title: 'Giá gốc',
-        dataIndex: 'price',
-        key: 'price',
-      },
-      {
-        title: 'Giá giảm',
-        dataIndex: 'promotion_price',
-        key: 'promotion_price',
-        render: (text, record) => (
-          <Input placeholder="" />
-        )
-      },
-      {
-        title: '% giảm',
-        dataIndex: '10',
-        key: '10',
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <div>
-            <Button style={{marginRight:10}} type="primary">Sửa</Button>
-            <Button type="danger">Xóa</Button>
-          </div>
-        )
-      }
-    ];
+    };
+
     return(
       <Form onSubmit={this.handleSubmit}>
 
@@ -107,39 +110,33 @@ class DetailCampaignEditForm extends React.Component {
             <Col span={24}>
               <FormItem label={intl.formatMessage({id: 'edit.search_courses_by.label'})}
                 {...FORM_SELECT_COURSES}>
-                  <Select placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
-                    <Option value="category">Category</Option>
-                    <Option value="teacher">Thầy</Option>
-                    <Option value="price">Giá bán</Option>
-                    <Option value="course_code">Mã khóa</Option>
+                  <Select onChange={this.handleChange} placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
+                    {findCoursesBy.map(item => (
+                      <Option value={item.value} key={item.id} >{item.title}</Option>
+                    ))}
                   </Select>
               </FormItem>
             </Col>
-            <Col span={24}>
-              <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
-                {...FORM_SELECT_COURSES}>
-                  <Search
-                    enterButton
-                  />
-              </FormItem>
-            </Col>
+            {this.renderViewDealCourse()}
             <Col span={23}>
               <Table
+                pagination={{ pageSize: 3 }}
+                rowSelection={rowSelection}
                 className="components-table-demo-nested"
-                columns={left_columns}
-                dataSource={left_data.toJS()}
+                columns={dealColumns}
+                dataSource={deal}
                 bordered
               />
             </Col>
           </Col>
-
           <Col span={12}>
             <FormItem {...DEFAULT_SUBTITLE_LAYOUT} style={{marginLeft:15}} label={intl.formatMessage({id: 'edit.list_selected_courses.label'})} ></FormItem>
             <Col span={24}>
               <Table
+                pagination={{ pageSize: 3 }}
                 className="components-table-demo-nested"
-                columns={right_columns}
-                dataSource={right_data.toJS()}
+                columns={courseDataColumns}
+                dataSource={courseData.records}
                 bordered
               />
             </Col>
@@ -156,6 +153,36 @@ class DetailCampaignEditForm extends React.Component {
         </Row>
       </Form>
     )
+  }
+
+  renderViewDealCourse() {
+    const { editState, intl } = this.props
+    
+    if (editState.get('viewDealCourseComponent')) {
+      if (['category', 'teacher'].includes(editState.get('viewDealCourseComponent'))) {
+        return (
+          <Col span={24}>
+            <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
+              {...FORM_SELECT_COURSES}>
+                <Select >
+                  <Option value='Ahihi'>KhangPT</Option>
+                </Select>
+            </FormItem>
+          </Col>
+        )
+      } else {
+        return (
+          <Col span={24}>
+            <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
+              {...FORM_SELECT_COURSES}>
+                <Search
+                  enterButton
+                />
+            </FormItem>
+          </Col>
+        )
+      }
+    }
   }
 }
 

@@ -71,8 +71,6 @@ class CampaignsFilter extends React.Component {
       compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
     })
     return mergeDeep([formatedValues, {compconds: compconds}])
-    
-    
   }
 
   handleAdd(e) {
