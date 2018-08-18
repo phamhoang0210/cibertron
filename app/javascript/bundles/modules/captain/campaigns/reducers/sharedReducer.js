@@ -29,7 +29,7 @@ export const initialState = {
   ],
   "type":[
     {
-      title: "Action",
+      title: "Active",
       id: 12,
       value: true
     },
@@ -51,7 +51,6 @@ export const initialState = {
       value: false
     }
   ],
-  
 }
 export default function sharedReducer($$state = initialState, action = null) {
   const { type, record, records, filters, error } = action

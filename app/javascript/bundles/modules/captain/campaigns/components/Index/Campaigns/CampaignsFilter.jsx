@@ -34,8 +34,6 @@ class CampaignsFilter extends React.Component {
         var a = this.formatFormData(values)
         console.log('huyen',mergeDeep([campaignsParams, a]))
         actions.fetchCampaigns(mergeDeep([campaignsParams, a]))
-        
-        
       }
     })
   }
@@ -50,9 +48,7 @@ class CampaignsFilter extends React.Component {
       delete formatedValues[field]
     })
     
-
     return mergeDeep([formatedValues, {compconds: compconds}])
-    
   }
 
   handleAdd(e) {

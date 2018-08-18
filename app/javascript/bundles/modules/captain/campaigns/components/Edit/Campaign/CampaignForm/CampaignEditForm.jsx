@@ -1,8 +1,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import {Form, Row, Col, Select, DatePicker, Button, Input, Radio} from 'antd'
+import {Form, Row, Col, Select, DatePicker, Button, Input, Radio, message} from 'antd'
 import { formItemLayout, DEFAULT_TITLE_LAYOUT } from 'app/constants/form'
-import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import moment from 'moment'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
@@ -26,43 +25,19 @@ class CampaignEditForm extends React.Component {
   }
 
   handleChange(date, id) {
-    const valueOfInput = date.format(SHORT_DATETIME_FORMAT)
-    // if (editState.get('campaign') && editState.get('campaign').get('campaign').get(id)) {
-    //   editState.get('campaign').get('campaign').get(id) = 'valueOfInput'
-    //   console.log('campaign:', editState.get('campaign').get('campaign'))
-    //   console.log('T1:', editState.get('campaign').get('campaign').get(id))
-    //   console.log('T2:', valueOfInput)
-    // }
-    // const timeState = {}
+    const valueOfInput = date.format()
     this.timeData[id] = valueOfInput
-    // this.setState(timeState)
-
-    // console.log('editState:', editState)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // const { editState } = nextProps
-
-    // if (editState.get('campaign')) {
-    //   this.timeData = {
-    //     start_time: editState.get('campaign').get('campaign').get('start_time'),
-    //     end_time: editState.get('campaign').get('campaign').get('end_time'),
-    //   }
-    // }
-    // this.setState({campaign: this.props.editState.get('campaign')})
-    // console.log('campaign', this.props.editState.get('campaign'));
   }
 
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
+    const alert = editState.toJS().alert
     var campaignId = this.props.params.id
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
         var record = {}
-        // console.log('start_time:', editState.get('campaign').get('campaign').get('start_time'))
-        // console.log('end_time:', editState.get('campaign').get('campaign').get('end_time'))
 
         if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
           record['name'] = values.name;
@@ -79,6 +54,10 @@ class CampaignEditForm extends React.Component {
         console.log('Received values of form: ', record);
 
         actions.updateCampaign(campaignId, record);
+        console.log('Alert:', alert);
+        if (alert != null) {
+          message.success(alert);
+        }
       }
     })
   } 
@@ -88,7 +67,7 @@ class CampaignEditForm extends React.Component {
   }
 
   render(){
-    const {intl, actions, editState, sharedState} = this.props
+    const {intl, actions, editState} = this.props
     const { getFieldDecorator } = this.props.form
     const campaign = editState.get('campaign')
     
