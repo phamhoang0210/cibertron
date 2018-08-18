@@ -9,7 +9,7 @@ export default {
   editState: editReducer,
   sharedState: sharedReducer,
   railsContextState: railsContextReducer,
-  newState: newReducer,
+  newState: newReducer
 }
 
 export const initialStates = {
@@ -17,5 +17,5 @@ export const initialStates = {
   editState,
   sharedState,
   railsContextState,
-  newState,
+  newState
 }
