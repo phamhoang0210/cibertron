@@ -6,11 +6,9 @@ import { injectIntl } from 'react-intl'
 import { CAMPAIGNS_URL } from '../../../constants/paths'
 import {Form, Row, Col, Select, DatePicker, Button} from 'antd'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
-import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME } from 'app/constants/datatime'
-import {
-  getFilterParams, getFilterParamsAndSyncUrl, mergeDeep, getInitialValueForRangePicker,
-  getInitialValue,
-} from 'helpers/applicationHelper'
+import { selectFilterOption } from 'helpers/antdHelper'
+import { MYSQL_DATE_FORMAT } from 'app/constants/datatime'
+import { getFilterParamsAndSyncUrl, getInitial, mergeDeep, getFilterParams,} from 'helpers/applicationHelper'
 
 const FormItem = Form.Item;
 const Option = Select.Option
@@ -22,7 +20,18 @@ class CampaignsFilter extends React.Component {
       'formatFormData',
       'handleAdd',
       'handleReset',
+      
     ])
+    this.initialValues = this.getInitialValues()
+  }
+
+  getInitialValues() {
+    const {indexState, location} = this.props
+    const currentCampaignsFilters = Immutable.fromJS(getFilterParams(indexState.get('campaignsFilters'), location))
+    return {
+      name: getInitial({}, currentCampaignsFilters, ['compconds','name']),
+      creator: getInitial({}, currentCampaignsFilters, ['compconds','creator'])
+    }
   }
 
   handleFilter(e) {
@@ -30,28 +39,39 @@ class CampaignsFilter extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const {actions, indexState, location} = this.props
-        let campaignsParams = getFilterParams(indexState.get('campaignsFilters'))
-        var a = this.formatFormData(values)
-        console.log('huyen',mergeDeep([campaignsParams, a]))
-        actions.fetchCampaigns(mergeDeep([campaignsParams, a]))
-        
-        
+        let campaignsParams = getFilterParamsAndSyncUrl(indexState.get('campaignsFilters'), location, this.formatFormData(values))
+        actions.fetchCampaigns(campaignsParams)
       }
     })
   }
-  
-  formatFormData(values) {
-    let formatedValues = values
-    const inCompFields = ['name', 'created_at', 'creator', 'display', 'start_time', 'end_time', 'status','campaign_courses']
 
+  formatFormData(values) {
+    console.log(values,'values')
+    let formatedValues = values
+    const inCompFields = ['name', 'creator', 'display', 'status','campaign_courses']
+    const inCompCreatedAtFields = ['created_at']
+    const inCompStartTimeFields = ['start_time']
+    const inCompEndTimeFields = ['end_time']
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[field] = {in: formatedValues[field]}
+      compconds[`${field}`] = formatedValues[field]
       delete formatedValues[field]
     })
-    
-
+    inCompCreatedAtFields.forEach(field => {
+      console.log('a1',field)
+      console.log('a2',formatedValues[field])
+      compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT) + 1
+      delete formatedValues[field]
+    })
+    inCompStartTimeFields.forEach(field => {
+      compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+    })
+    inCompEndTimeFields.forEach(field => {
+      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+    })
     return mergeDeep([formatedValues, {compconds: compconds}])
+    
     
   }
 
@@ -65,14 +85,13 @@ class CampaignsFilter extends React.Component {
 
   render() {
     const {intl,sharedState,form, indexState, location} = this.props
-    const list_campaign = sharedState['campaigns']
-    const users = sharedState['users']
-    const type = sharedState['type']
-    const status = sharedState['status']
+    const type = sharedState.toJS().type
+    const status = sharedState.toJS().status
     const { getFieldDecorator } = form
     const isFetchingCampaigns = indexState.isFetchingCampaigns
-    const data = indexState.toJS().campaign
-    console.log('data',this.props.indexState.toJS())
+    let campaigns = sharedState.toJS().campaigns
+    let users = sharedState.toJS().users
+    console.log('gia tri cu',this.initialValues)
     return (
       <div className="box box-with-shadow box-with-border">
         <Form className="box-body"
@@ -84,11 +103,18 @@ class CampaignsFilter extends React.Component {
                 label={intl.formatMessage({id: 'index.campaigns.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}
                 >
-                { getFieldDecorator('name')(
-                  <Select 
+                { getFieldDecorator('name', {
+                  ...this.initialValues.name,
+                })(
+                  <Select
+                  filterOption={selectFilterOption}
+                    allowClear={true}
+                    showArrow = {false}
+                    showSearch
+                    filterOption={selectFilterOption}
                     placeholder={intl.formatMessage({id: 'index.campaigns.placeholder.select.none'})}  >
-                    { data.map(item => (
-                        <Option value = {item.name} key = {item.id}>{item.name}</Option>
+                    { campaigns.map((item, index) => (
+                      <Option value = {item.name} key = {index}>{item.name}</Option>
                     ))}
                   </Select>
                  )}
@@ -102,8 +128,6 @@ class CampaignsFilter extends React.Component {
                    <DatePicker
                     style={{width: '100%'}} 
                     placeholder={intl.formatMessage({id: 'index.create_date.placeholder.select.none'})}
-                    format= {LONG_DATETIME_FORMAT}
-                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                   />
                 )}
 
@@ -113,11 +137,15 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.user.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('creator')(
-                  <Select 
+                { getFieldDecorator('creator',{
+                  ...this.initialValues.creator
+                })(
+                  <Select
+                    allowClear={true}
+                    showArrow = {false}
                     placeholder={intl.formatMessage({id: 'index.user.placeholder.select.none'})} >
-                    { data.map(item => (
-                        <Option value = {item.creator} key = {item.id}>{item.creator}</Option>
+                    { users.map((item, index) => (
+                        <Option value = {item.creator} key = {index}>{item.creator}</Option>
                     ))}
                   </Select>
                 )}
@@ -127,12 +155,16 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.type.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('display')(
+                { getFieldDecorator('display',{
+                  ...this.initialValues.display
+                })(
                   <Select 
+                    allowClear={true}
+                    showArrow = {false}
                     placeholder={intl.formatMessage({id: 'index.type.placeholder.select.none'})}
                   >
                     { type.map(item => (
-                        <Option value = {item.title} key={item.id} >{item.title}</Option>
+                        <Option value = {item.value} key={item.id} >{item.title}</Option>
                     ))}
                   </Select>
                 )}
@@ -145,8 +177,6 @@ class CampaignsFilter extends React.Component {
                  { getFieldDecorator('start_time')(
                    <DatePicker  
                       style={{width: '100%'}} 
-                      format= {LONG_DATETIME_FORMAT}
-                      showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                       placeholder={intl.formatMessage({id: 'index.time_start.placeholder.select.none'})} />
                  )}
 
@@ -158,8 +188,6 @@ class CampaignsFilter extends React.Component {
                 {...FILTER_FORM_ITEM_LAYOUT}>
                 { getFieldDecorator('end_time')(
                   <DatePicker  style={{width: '100%'}} 
-                    format= {LONG_DATETIME_FORMAT}
-                    showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                     placeholder={intl.formatMessage({id: 'index.time_over.placeholder.select.none'})} />
                 )}
 
@@ -169,11 +197,15 @@ class CampaignsFilter extends React.Component {
               <FormItem 
                 label={intl.formatMessage({id: 'index.status.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
-                { getFieldDecorator('status')(
+                { getFieldDecorator('status',{
+                  ...this.initialValues.status
+                })(
                   <Select 
+                    allowClear={true}
+                    showArrow = {false}
                     placeholder={intl.formatMessage({id: 'index.status.placeholder.select.none'})} >
                     { status.map(item => (
-                        <Option value = {item.title} key={item.id} >{item.title}</Option>
+                        <Option value = {item.value} key={item.id} >{item.title}</Option>
                     ))}
                   </Select>
                 )}
@@ -182,7 +214,6 @@ class CampaignsFilter extends React.Component {
             </Row>
             <Row>
               <Col span={24} style={{ textAlign: 'right' }}>
-
                 <Button onClick = { this.handleAdd } style={{marginRight:10}} >Tạo chiến dịch mới</Button>
                 <Button type htmlType="submit" loading={isFetchingCampaigns}  style={{marginRight:10}} type="primary">Lọc</Button>
                 <Button onClick ={ this.handleReset }>Clear</Button>
