@@ -124,7 +124,7 @@ export const appLocale = {
         label: 'Link Tracking',
         placeholder: {
           select: {
-            none: '-- Nhập link tracking --'
+            none: 'vd: ?utm_source=ECM_MKT&utm_medium=11h_12h_0308&'
           }
         },
         required: '"Link Tracking" là trường bắt buộc'

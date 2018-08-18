@@ -42,7 +42,7 @@ class NewCampaign extends React.Component {
 	}
 
 	render(){
-		const {intl,sharedState}  = this.props
+		const {intl, newState, sharedState}  = this.props
 		const { getFieldDecorator } = this.props.form
 		return(
 			<Form onSubmit={this.handleSubmit}>
@@ -119,7 +119,7 @@ class NewCampaign extends React.Component {
 				<Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <Button onClick={this.handleBack} style={{marginRight:10}}>Hủy bỏ</Button>
-            <Button type="primary" htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
+            <Button type="primary" loading={newState.get('isCreatingCampaign')} htmlType="submit" style={{marginRight:10}} >Tạo chiến dịch</Button>
           </Col>
         </Row>
       </Form>
