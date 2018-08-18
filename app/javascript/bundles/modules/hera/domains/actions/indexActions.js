@@ -31,8 +31,7 @@ export function fetchDomains(params = {}) {
     dispatch(setIsFetchingDomains())
     authRequest
       .fetchEntities(`${HERA_BASE_URL}${DOMAINS_API_PATH}`, params)
-      .then(res => {
-        dispatch(fetchUsers(res.data))
+      .then(res => {dispatch(fetchUsers(res.data))
       })
       .catch(error => dispatch(fetchDomainsFailure(error)))
   }

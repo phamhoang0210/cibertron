@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux'
 import IndexScreen from '../components/Index/IndexScreen'
 import * as actions from '../actions/indexActions'
 
-const IndexContainer = ({ actions, indexState, sharedState, railsContextState, location, newState}) => {
+const IndexContainer = ({ actions, indexState, sharedState, railsContextState, newState, location }) => {
   return (
-    <IndexScreen {...{actions, indexState, sharedState, railsContextState, location, newState}} />
+    <IndexScreen {...{actions, indexState, sharedState, newState, railsContextState, location }} />
   );
 }
 
@@ -16,7 +16,7 @@ function mapStateToProps(state) {
     indexState: state.indexState,
     sharedState: state.sharedState,
     railsContextState: state.railsContextState,
-    newState: state.newState,
+    newState: state.newState
   };
 }
 

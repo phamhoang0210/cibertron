@@ -15,8 +15,9 @@ class EditScreen extends React.Component {
 
   render() {
     const { editState } = this.props
-    const leftData = editState.get('left_records')
-    const rightData = editState.get('right_records')
+    const alert = editState.get('alert')
+    // const deal = editState.get('deal')
+    // const courseData = editState.get('courseData')
 
     return (
       <div className="main-content captain--campaigns--edit box">

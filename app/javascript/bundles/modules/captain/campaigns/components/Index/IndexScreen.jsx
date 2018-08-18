@@ -10,23 +10,13 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState} = this.props
-    const campaignParams = getFilterParams(indexState.get('campaignsFilters'))
+    const {actions, indexState, sharedState} = this.props
+    const campaignParams = getFilterParams(indexState.get('campaignsFilters'),location)
     actions.fetchCampaigns(campaignParams)
+    actions.fetchAllCampaigns()
+    actions.fetchAllUsers()
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const alert = this.props.newState.get('alert')
-  //   const nextAlert = nextProps.newState.get('alert')
-  //   if(nextAlert && !nextAlert.equals(alert)) {
-  //     nextAlert.get('messages').forEach(message => {
-  //       notification[nextAlert.get('type')]({
-  //         message: message,
-  //       })
-  //     })
-  //   }
-  // }
-
+  
   render() {
     const {indexState} = this.props
     return (

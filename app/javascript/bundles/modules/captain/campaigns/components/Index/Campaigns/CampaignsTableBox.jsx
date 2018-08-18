@@ -2,14 +2,10 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { CAMPAIGNS_URL } from '../../../constants/paths'
-import { Table, Icon, Button, Popconfirm, Divider} from 'antd'
-import { getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
+import { Table, Icon, Button, Popconfirm, message} from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME, SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import moment from 'moment';
 import { injectIntl } from 'react-intl'
-// import { browserHistory } from 'react-router'
-// import { PROMOS_URL } from '../../../../constants/paths'
-// import { Badge, Menu, Dropdown } from 'antd';
 
 class CampaignsTableBox extends React.Component {
   constructor(props) {
@@ -23,14 +19,19 @@ class CampaignsTableBox extends React.Component {
   handleDelete(record) {
     const campaignId = record.id
     const {actions, indexState} = this.props
+    alert = indexState.toJS().alert
     actions.deleteCampaign(campaignId)
+    if(alert !== ''){
+      message.success('Xóa thành công');
+    }
   }
   type(record){
     if(record.display === true){
-      return 'Action'
+      return 'Active'
     }
     return 'Deactive'
   }
+  
   render() {
     const {indexState, intl} = this.props
     const data = indexState.toJS().campaign
@@ -100,12 +101,16 @@ class CampaignsTableBox extends React.Component {
       }
     ];
     return (
-      <Table
-        className="components-table-demo-nested"
-        columns={columns}
-        dataSource={data}
-        bordered
-      />
+      <div>
+        <Table
+          pagination={{ pageSize: 8 }}
+          className="components-table-demo-nested"
+          columns={columns}
+          dataSource={data}
+          bordered
+        />
+      </div>
+      
     );
   }
 

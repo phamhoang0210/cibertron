@@ -5,16 +5,15 @@ import { bindActionCreators } from 'redux'
 import EditScreen from '../components/Edit/EditScreen'
 import * as actions from '../actions/editActions'
 
-const EditContainer = ({ actions, editState, params, sharedState, location }) => {
+const EditContainer = ({ actions, editState, params, location }) => {
   return (
-    <EditScreen {...{actions, editState, params, sharedState, location }} />
+    <EditScreen {...{actions, editState, params, location }} />
   );
 }
 
 function mapStateToProps(state) {
   return { 
     editState: state.editState,
-    sharedState: state.sharedState,
   };
 }
 
