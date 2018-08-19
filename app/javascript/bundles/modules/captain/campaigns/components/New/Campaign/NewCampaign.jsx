@@ -84,7 +84,7 @@ class NewCampaign extends React.Component {
 	}
 
 	handleBack(e) {
-		browserHistory.push(`${CAMPAIGNS_URL}`)
+		browserHistory.goBack()
 	}
 
 	render(){
@@ -109,13 +109,15 @@ class NewCampaign extends React.Component {
 							{getFieldDecorator('start_time', {
 								rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'},) }],
 							})(
-								<DatePicker showTime format="YYYY-MM-DD HH:mm" 
-											style={{width: '100%'}} 
-											placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})}
-											disabledDate={this.disabledStartDate}
-											value={startValue}
-											onChange={this.onStartChange}
-											onOpenChange={this.handleStartOpenChange} />
+								<DatePicker
+									showTime format="YYYY-MM-DD HH:mm:ss" 
+									style={{width: '100%'}} 
+									placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})}
+									disabledDate={this.disabledStartDate}
+									// value={startValue}
+									onChange={this.onStartChange}
+									onOpenChange={this.handleStartOpenChange}
+								/>
 							)}
 						</FormItem>
 					</Col>
@@ -124,15 +126,16 @@ class NewCampaign extends React.Component {
 							{getFieldDecorator('end_time', {
 								rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'},) }],
 							})(
-								<DatePicker showTime format="YYYY-MM-DD HH:mm" 
-											style={{width: '100%'}} 
-											placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} 
-											disabledDate={this.disabledEndDate}
-						          value={endValue}
-						          onChange={this.onEndChange}
-						          open={endOpen}
-						          onOpenChange={this.handleEndOpenChange}
-											/>
+								<DatePicker
+									showTime format="YYYY-MM-DD HH:mm:ss" 
+									style={{width: '100%'}} 
+									placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} 
+									disabledDate={this.disabledEndDate}
+				          // value={endValue}
+				          onChange={this.onEndChange}
+				          open={endOpen}
+				          onOpenChange={this.handleEndOpenChange}
+								/>
 							)}
 						</FormItem>
 					</Col>

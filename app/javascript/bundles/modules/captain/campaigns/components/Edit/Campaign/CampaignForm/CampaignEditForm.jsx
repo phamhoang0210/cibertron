@@ -6,8 +6,8 @@ import moment from 'moment'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
 
-const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+const FormItem = Form.Item
+const RadioGroup = Radio.Group
 
 class CampaignEditForm extends React.Component {
   constructor(props) {
@@ -40,27 +40,33 @@ class CampaignEditForm extends React.Component {
         var record = {}
 
         if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
-          record['name'] = values.name;
+          record['name'] = values.name
         }
-        if (this.timeData.start_time) {
-          record['start_time'] = this.timeData.start_time;
-        }
-        if (this.timeData.end_time) {
-          record['end_time'] = this.timeData.end_time;  
-        }
-        record['status'] = (values.status == 1) ? true : false;
-        record['display'] = (values.display == 1) ? true : false;
-        record['link_tracking'] = values.link_tracking;
-        console.log('Received values of form: ', record);
+        record['start_time'] = this.timeData.start_time ? this.timeData.start_time : values.start_time
+        record['end_time'] = this.timeData.end_time ? this.timeData.end_time : values.end_time
+        record['status'] = (values.status == 1) ? true : false
+        record['display'] = (values.display == 1) ? true : false
+        record['link_tracking'] = values.link_tracking
+        console.log('Received values of form: ', record)
 
-        actions.updateCampaign(campaignId, record);
-        console.log('Alert:', alert);
+        actions.updateCampaign(campaignId, record)
+        console.log('Alert:', alert)
         if (alert != null) {
-          message.success(alert);
+          switch(alert) {
+            case 'Campaign was successfully updated':
+              message.success(alert)
+              break
+            case 'Something went wrong':
+              message.error(alert)
+              break
+            default:
+              message.warning('Something else')
+              break
+          }
         }
       }
     })
-  } 
+  }
 
   handleBack(e) {
     browserHistory.goBack()

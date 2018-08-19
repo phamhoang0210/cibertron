@@ -1,10 +1,10 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import {Table, Form, Row, Col, Select, Button, Input, Checkbox, Radio} from 'antd'
+import {Table, Form, Row, Col, Select, Button, Input, Checkbox, Radio, message} from 'antd'
 import { DEFAULT_TITLE_LAYOUT, DEFAULT_SUBTITLE_LAYOUT, FORM_SELECT_COURSES, LIST_SELECTED_COURSES } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
 
-const FormItem = Form.Item;
+const FormItem = Form.Item
 const Search = Input.Search
 const Option = Select.Option
 
@@ -23,13 +23,44 @@ class DetailCampaignEditForm extends React.Component {
     actions.deleteCourseData(record)
   }
 
-  handleSubmit = (e) => {
+  handleSubmit(e) {
     e.preventDefault()
+    const {actions, editState} = this.props
+    const alert = editState.toJS().alert
+    var campaignId = this.props.params.id
+    console.log('this.props:', this.props)
+    console.log('editState:', editState.toJS().courseData.records[0].course_code)
+    const records = editState.toJS().courseData.records
+    console.log('records', records)
+    var campaign = {}
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        var courses = []
+        if (records && records.length > 0) {
+          for (var i = 0; i < records.length; i++) {
+            var course = {id: records[i]['key'], price: records[i]['promotion_price']}
+            courses.push(course)
+          }
+        }
+        campaign['courses'] = courses
+        console.log('courses', courses)
+        actions.updateCoursesInCampaign(campaignId, campaign)
+        console.log('Alert:', alert)
+        if (alert != null) {
+          switch(alert) {
+            case 'Courses in the campaign was successfully updated':
+              message.success(alert)
+              break
+            case 'Something went wrong':
+              message.error(alert)
+              break
+            default:
+              message.warning('Something else')
+          }
+        }
       }
-    });
+    })
   }
 
   handleChange(e) {
@@ -64,13 +95,16 @@ class DetailCampaignEditForm extends React.Component {
       dataIndex: 'promotion_price',
       key: 'promotion_price',
       render: (text, record) => (
-        <Input placeholder="" />
+        <Input placeholder="" defaultValue={record.promotion_price}/>
       )
     },
     {
       title: '% giảm',
       dataIndex: '10',
       key: '10',
+      render: (text, record) => (
+        <span>{record.discount_percent}</span>
+      )
     },
     {
       title: 'Action',
@@ -90,12 +124,12 @@ class DetailCampaignEditForm extends React.Component {
           else {
             var removeItems = courseData.records.filter(function(item){ return !selectedRowKeys.includes(item.key) })
             for (var j = 0; j < removeItems.length; j++) {
-              actions.deleteCourseData(removeItems[j]);
+              actions.deleteCourseData(removeItems[j])
             }
           }
         }
       },
-    };
+    }
 
     return(
       <Form onSubmit={this.handleSubmit}>
@@ -148,7 +182,7 @@ class DetailCampaignEditForm extends React.Component {
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
             <Button onClick={this.handleBack} style={{marginRight:10}}>Hủy bỏ</Button>
-            <Button type="primary" loading={editState.get('isUpdatingCampaign')} htmlType="submit" style={{marginRight:10}}>Lưu lại</Button>
+            <Button type="primary" loading={editState.get('isUpdatingCoursesInCampaign')} htmlType="submit" style={{marginRight:10}}>Lưu lại</Button>
           </Col>
         </Row>
       </Form>

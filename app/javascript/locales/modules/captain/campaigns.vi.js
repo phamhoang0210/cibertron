@@ -69,7 +69,7 @@ export const appLocale = {
     popconfirm: {
       delete: {
         // popconfirm.delete.title
-        title: 'Bạn có chắc muốn xóa contact này?',
+        title: 'Bạn có chắc muốn xóa chiến dịch này?',
         // popconfirm.delete.ok_text
         ok_text: 'Ok',
         // popconfirm.delete.cancel_text
@@ -124,7 +124,7 @@ export const appLocale = {
         label: 'Link Tracking',
         placeholder: {
           select: {
-            none: 'vd: ?utm_source=ECM_MKT&utm_medium=11h_12h_0308&'
+            none: 'VD: ?utm_source=ECM_MKT&utm_medium=11h_12h_0308&'
           }
         },
         required: '"Link Tracking" là trường bắt buộc'

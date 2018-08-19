@@ -6,6 +6,7 @@ export const initialState = Immutable.fromJS({
   campaign: null,
   isFetchingCampaign: false,
   isUpdatingCampaign: false,
+  isUpdatingCoursesInCampaign: false,
   viewDealCourseComponent: false,
   dealColumns: [{
     title: 'Mã khóa',
@@ -26,33 +27,41 @@ export const initialState = Immutable.fromJS({
     key: '5b4ff6ecce4b1455969a029f',
     course_name: 'Giải Tỏa Ách Tắc - Trầm Cảm - Sống Đời Hạnh Phúc',
     course_code: 'NhatHV.01',
-    price: 799000
+    price: 799000,
+    promotion_price: 799000,
+    discount_percent: 0
   },
   {
     key: '5b4c0f6fce4b14559899b4c2',
     course_name: 'Thiết kế bài giảng E.learning bằng phần mềm I.spring 9.0',
     course_code: 'HieuHB.01',
-    price: 699000
+    price: 699000,
+    promotion_price: 699000,
+    discount_percent: 0
   },
   {
     key: '5b3b85dcce4b14559698960e',
     course_name: 'ĐẬP TAN CHỨNG BIẾNG ĂN Ở TRẺ',
     course_code: 'CUONGDN.03',
-    price: 699000
+    price: 699000,
+    promotion_price: 699000,
+    discount_percent: 0
   },
   {
     key: '5b3994e7ce4b1455989869e8',
     course_name: 'GIÁO DỤC SỚM CHO TRẺ THEO PHƯƠNG PHÁP GLENN DOMAN: NHẬN BIẾT THẾ GIỚI XUNG QUANH',
     course_code: 'ThietNV.12',
-    price: 699000
+    price: 699000,
+    promotion_price: 699000,
+    discount_percent: 0
   },
   {
     key: '5b34b670ce4b145596982cb7',
     course_name: 'THIẾT KẾ ILLUSTRATOR TỪ SỐ 0 - THÀNH THẠO THIẾT KẾ CHO TỚI VẼ CONTENT',
     course_code: 'ThiDV.01',
     price: 599000,
-    promotion_price: 399000,
-    discount_percent: 20.5
+    promotion_price: 599000,
+    discount_percent: 0
   }],
   // courseDataColumns: [{
   //   title: 'Khóa',
@@ -121,7 +130,7 @@ export const initialState = Immutable.fromJS({
 })
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, filters, error, campaignId, coursesDelete, course } = action
+  const { type, record, filters, error, campaignId, coursesDelete, course, campaign } = action
   
   switch (type) {
     case actionTypes.SET_IS_FETCHING_CAMPAIGN: {
@@ -133,6 +142,7 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.FETCH_CAMPAIGN_SUCCESS: {
+      console.log('record',record)
       return $$state.merge({
         isFetchingCampaign: false,
         campaign: record,
@@ -153,7 +163,6 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_CAMPAIGN_SUCCESS: {
-      console.log('campaignItem:',$$state.toJS().campaign)
       return $$state.merge({
         isUpdatingCampaign: false,
         alert: 'Campaign was successfully updated',
@@ -241,6 +250,37 @@ export default function editReducer($$state = initialState, action = null) {
       //     records: records
       //   }
       // })
+    }
+
+    case actionTypes.SET_IS_UPDATING_COURSES_IN_CAMPAIGN: {
+      return $$state.merge({
+        isUpdatingCoursesInCampaign: true,
+      })
+    }
+
+    case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_SUCCESS: {
+      console.log('campaignItem:',$$state.toJS().campaign)
+      console.log('coursesItem:',$$state.toJS().campaign.campaign.courses)
+      console.log('record:',record)
+      console.log('$$state truoc:',$$state.toJS())
+      $$state.update('campaign', campaignItem => (
+        campaignItem.merge(record)
+      ))
+      console.log('$$state sau:',$$state.toJS())
+      return $$state.merge({
+        isUpdatingCoursesInCampaign: false,
+        alert: 'Courses in the campaign was successfully updated',
+      }).update('campaign', campaignItem => (
+        campaignItem.merge(record)
+      ))
+      // .updateIn(['courseData', 'records'], arr => arr.push($$state.toJS().campaign.courses))
+    }
+
+    case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_FAILURE: {
+      return $$state.merge({
+        isUpdatingCoursesInCampaign: false,
+        alert: 'Something went wrong',
+      })
     }
 
     default: {
