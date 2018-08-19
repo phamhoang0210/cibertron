@@ -44,6 +44,7 @@ function setIsUpdatingCampaign(campaignId) {
 }
 
 function updateCampaignSuccess(record) {
+  console.log('record',record)
   return {
     type: actionTypes.UPDATE_CAMPAIGN_SUCCESS,
     record,
@@ -51,8 +52,6 @@ function updateCampaignSuccess(record) {
 }
 
 function updateCampaignFailure(error, campaignId) {
-  console.log('error',error)
-  console.log('campaignId',campaignId)
   return {
     type: actionTypes.UPDATE_CAMPAIGN_FAILURE,
     error,
@@ -88,5 +87,39 @@ export function deleteCourseData(course) {
   return {
     type: actionTypes.DELETE_COURSE_DATA,
     course,
+  }
+}
+
+function setIsUpdatingCoursesInCampaign(campaignId) {
+  return {
+    type: actionTypes.SET_IS_UPDATING_COURSES_IN_CAMPAIGN,
+    campaignId,
+  }
+}
+
+function updateCoursesInCampaignSuccess(record) {
+  return {
+    type: actionTypes.UPDATE_COURSES_IN_CAMPAIGN_SUCCESS,
+    record,
+  }
+}
+
+function updateCoursesInCampaignFailure(error, campaignId) {
+  console.log('error',error)
+  console.log('campaignId',campaignId)
+  return {
+    type: actionTypes.UPDATE_COURSES_IN_CAMPAIGN_FAILURE,
+    error,
+    campaignId,
+  }
+}
+
+export function updateCoursesInCampaign(campaignId, params = {}) {
+  return dispatch => {
+    dispatch(setIsUpdatingCoursesInCampaign(campaignId))
+    authRequest
+      .putEntity(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/${campaignId}`, params)
+      .then(res => dispatch(updateCoursesInCampaignSuccess(res.data)))
+      .catch(error => dispatch(updateCoursesInCampaignFailure(error, campaignId)))
   }
 }
