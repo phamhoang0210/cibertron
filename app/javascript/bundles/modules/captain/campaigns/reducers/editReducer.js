@@ -63,42 +63,6 @@ export const initialState = Immutable.fromJS({
     promotion_price: 599000,
     discount_percent: 0
   }],
-  // courseDataColumns: [{
-  //   title: 'Khóa',
-  //   dataIndex: 'course_code',
-  //   key: 'course_code',
-  // },
-  // {
-  //   title: 'Giá gốc',
-  //   dataIndex: 'price',
-  //   key: 'price',
-  // },
-  // {
-  //   title: 'Giá giảm',
-  //   dataIndex: 'promotion_price',
-  //   key: 'promotion_price',
-  //   render: (text, record) => (
-  //     <Input placeholder="" />
-  //   )
-  // },
-  // {
-  //   title: '% giảm',
-  //   dataIndex: '10',
-  //   key: '10',
-  // },
-  // {
-  //   title: 'Action',
-  //   key: 'action',
-  //   render: (text, record) => (
-  //     <div>
-  //       <Button type="danger">Xóa</Button>
-  //     </div>
-  //   )
-  // }],
-  // courseData: {
-  //   keys: [],
-  //   records: []
-  // },
   courseData: {
     keys: [],
     records: []
@@ -143,10 +107,20 @@ export default function editReducer($$state = initialState, action = null) {
 
     case actionTypes.FETCH_CAMPAIGN_SUCCESS: {
       console.log('record',record)
+      var keys = []
+      var original_courses = []
+      var temp_courses = record.campaign.courses
+      if (temp_courses.length > 0) {
+        for (var i=0;i<temp_courses.length;i++) {
+          var courseItem = {key: temp_courses[i]['course_id'], course_code: '', price: temp_courses[i]['old_price'], promotion_price: temp_courses[i]['new_price'], discount_percent: (1 - (temp_courses[i]['new_price']/temp_courses[i]['old_price']))*100}
+          keys.push(temp_courses[i]['course_id'])
+          original_courses.push(courseItem)
+        }
+      }
       return $$state.merge({
         isFetchingCampaign: false,
         campaign: record,
-      })
+      }).updateIn(['courseData', 'keys'], arr => keys).updateIn(['courseData', 'records'], arr => original_courses)
     }
 
     case actionTypes.FETCH_CAMPAIGN_FAILURE: {
@@ -185,71 +159,22 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.ADD_COURSES_DATA: {
-      // console.log('course Data',$$state.toJS().courseData)
-      // console.log('course:',course)
-      // console.log('records:',records)
-      // for (var i = 0; i < coursesDelete.length; i++) {
-      //   while (keys.indexOf(coursesDelete[i]) !== -1) {
-      //     keys.splice(keys.indexOf(coursesDelete[i]), 1);
-      //   }
-      // }
-      // const { keys, records } = $$state.toJS().courseData
-      // keys.push(course['key'])
-      // records.push(course)
-      // for (var i = 0; i < courses.length; i++) {
-      //   if (!records.includes(courses[i])) {
-      //     records.push(courses[i])
-      //   }
-      // }
-      // return $$state.merge({
-      //   courseData: {
-      //     keys: keys,
-      //     records: records
-      //   }
-      // })
-      return $$state.updateIn(['courseData', 'keys'], arr => arr.push(course.key)).updateIn(['courseData', 'records'], arr => arr.push(course))
+      var keys = $$state.toJS().courseData.keys
+      var records = $$state.toJS().courseData.records
+      console.log('keys truoc:',keys)
+      console.log('records truoc:',records)
+      keys.push(course.key)
+      records.push(course)
+      console.log('keys sau:',keys)
+      console.log('records sau:',records)
+
+      return $$state.merge({
+        courseData: {keys,records}
+      })
     }
 
     case actionTypes.DELETE_COURSE_DATA: {
-      // console.log('course:',course)
-      // const { keys, records } = $$state.toJS().courseData
-      // console.log('keys truoc:',keys)
-      // console.log('records truoc:',records)
-      // while (keys.indexOf(course['key']) !== -1) {
-      //   keys.splice(keys.indexOf(course['key']), 1);
-      // }
-      // if (keys.length > 0) {
-      //   console.log('Vao')
-      //   for (var i = 0; i < keys.length; i++) {
-      //     for (var j = 0; j < records.length; j++) {
-      //       console.log('keys i:', keys[i])
-      //       console.log('records j:', records[j])
-      //       if (records[j]['key'] == keys[i]) {
-      //         console.log('OK')
-      //         records.splice(records[j])
-      //       }
-      //     }
-      //   }
-      // } else {
-      //   console.log('keys rong', keys)
-      //   console.log('records', records)
-      //   records: []
-      //   // for (var i = 0; i < records.length; i++) {
-      //   //   records.splice(records[i]);
-      //   // }
-      // }
-      // console.log('keys sau:',keys)
-      // console.log('records sau:',records)
-
-      // return $$state.set(['courseData', 'records'], $$state.get(['courseData', 'records']).filter(o => o.get('key') !== course.key))
       return $$state.updateIn(['courseData', 'keys'], arr => arr.filter(o => o !== course.key)).updateIn(['courseData', 'records'], arr => arr.filter(o => o.key !== course.key))
-      
-      // return $$state.merge({
-      //   courseData: {
-      //     keys: keys,
-      //     records: records
-      //   }
-      // })
     }
 
     case actionTypes.SET_IS_UPDATING_COURSES_IN_CAMPAIGN: {
@@ -259,21 +184,12 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_SUCCESS: {
-      console.log('campaignItem:',$$state.toJS().campaign)
-      console.log('coursesItem:',$$state.toJS().campaign.campaign.courses)
-      console.log('record:',record)
-      console.log('$$state truoc:',$$state.toJS())
-      $$state.update('campaign', campaignItem => (
-        campaignItem.merge(record)
-      ))
-      console.log('$$state sau:',$$state.toJS())
       return $$state.merge({
         isUpdatingCoursesInCampaign: false,
         alert: 'Courses in the campaign was successfully updated',
       }).update('campaign', campaignItem => (
         campaignItem.merge(record)
       ))
-      // .updateIn(['courseData', 'records'], arr => arr.push($$state.toJS().campaign.courses))
     }
 
     case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_FAILURE: {
