@@ -75,9 +75,10 @@ class DetailCampaignEditForm extends React.Component {
     browserHistory.goBack()
   }
   handleChangePromotion(e, record){
-    // this.setState({promotionPrice: e.target.value});
-    console.log('record',record)
+    const { editState, actions } = this.props
+    console.log(record,e.target.value)
   }
+
   render(){
     let {promotionPrice} = this.state
     console.log('huyen',promotionPrice)
@@ -102,7 +103,7 @@ class DetailCampaignEditForm extends React.Component {
       dataIndex: 'promotion_price',
       key: 'promotion_price',
       render: (text, record) => (
-        <Input onChange = {(e) => this.handleChangePromotion(e, record)}></Input>
+        <Input onMouseOut = {(e) => this.handleChangePromotion(e, record)}></Input>
       )
     },
     {
