@@ -30,10 +30,9 @@ class DetailCampaignEditForm extends React.Component {
     const {actions, editState} = this.props
     const alert = editState.toJS().alert
     var campaignId = this.props.params.id
-    console.log('this.props:', this.props)
-    console.log('editState:', editState.toJS().courseData.records[0].course_code)
+    // console.log('this.props:', this.props)
     const records = editState.toJS().courseData.records
-    console.log('records', records)
+    // console.log('records', records)
     var campaign = {}
 
     this.props.form.validateFields((err, values) => {
@@ -110,14 +109,14 @@ class DetailCampaignEditForm extends React.Component {
       //dataIndex: '10',
       key: '10',
       render: (text, record) => (
-        <span>{promotionPrice*100/record.price}</span>
+        <span>{record.discount_percent} %</span>
       )
     },
     {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <div>
+        <div style={{textAlign: 'center'}}>
           <Button onClick = {this.handleDelete.bind(this, record)} type="danger">Xóa</Button>
         </div>
       )

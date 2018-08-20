@@ -18,7 +18,6 @@ function fetchCampaignSuccess(record) {
 }
 
 function fetchCampaignFailure(error) {
-  console.log('error',error)
   return {
     type: actionTypes.FETCH_CAMPAIGN_FAILURE,
     error,
@@ -28,7 +27,6 @@ function fetchCampaignFailure(error) {
 export function fetchCampaign(campaignId, params = {}) {
   return dispatch => {
     dispatch(setIsFetchingCampaign())
-    console.log('actionTypes',setIsFetchingCampaign())
     authRequest
       .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}/detail/${campaignId}`, params)
       .then(res => dispatch(fetchCampaignSuccess(res.data)))
@@ -44,7 +42,6 @@ function setIsUpdatingCampaign(campaignId) {
 }
 
 function updateCampaignSuccess(record) {
-  console.log('record',record)
   return {
     type: actionTypes.UPDATE_CAMPAIGN_SUCCESS,
     record,
@@ -105,8 +102,6 @@ function updateCoursesInCampaignSuccess(record) {
 }
 
 function updateCoursesInCampaignFailure(error, campaignId) {
-  console.log('error',error)
-  console.log('campaignId',campaignId)
   return {
     type: actionTypes.UPDATE_COURSES_IN_CAMPAIGN_FAILURE,
     error,
