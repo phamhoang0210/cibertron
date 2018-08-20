@@ -15,7 +15,9 @@ class DetailCampaignEditForm extends React.Component {
     _.bindAll(this, [
       'handleChange',
       'handleSubmit',
+      'handleChangePromotion'
     ])
+    this.state = {promotionPrice: ''};
   }
 
   handleDelete(record) {
@@ -72,9 +74,14 @@ class DetailCampaignEditForm extends React.Component {
   handleBack(e) {
     browserHistory.goBack()
   }
-
+  handleChangePromotion(e, record){
+    // this.setState({promotionPrice: e.target.value});
+    console.log('record',record)
+  }
   render(){
-    const { intl, editState, actions } = this.props
+    let {promotionPrice} = this.state
+    console.log('huyen',promotionPrice)
+    const { intl, editState, actions} = this.props
     const deal = editState.get('deal').toJS()
     const dealColumns = editState.get('dealColumns').toJS()
     const courseData = editState.get('courseData').toJS()
@@ -95,15 +102,15 @@ class DetailCampaignEditForm extends React.Component {
       dataIndex: 'promotion_price',
       key: 'promotion_price',
       render: (text, record) => (
-        <Input placeholder="" defaultValue={record.promotion_price}/>
+        <Input onChange = {(e) => this.handleChangePromotion(e, record)}></Input>
       )
     },
     {
       title: '% giảm',
-      dataIndex: '10',
+      //dataIndex: '10',
       key: '10',
       render: (text, record) => (
-        <span>{record.discount_percent}</span>
+        <span>{promotionPrice*100/record.price}</span>
       )
     },
     {
