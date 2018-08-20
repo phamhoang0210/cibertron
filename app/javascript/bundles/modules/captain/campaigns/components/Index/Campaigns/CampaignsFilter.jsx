@@ -7,7 +7,7 @@ import { CAMPAIGNS_URL } from '../../../constants/paths'
 import {Form, Row, Col, Select, DatePicker, Button} from 'antd'
 import { FILTER_FORM_ITEM_LAYOUT } from 'app/constants/form'
 import { selectFilterOption } from 'helpers/antdHelper'
-import { MYSQL_DATE_FORMAT } from 'app/constants/datatime'
+import { MYSQL_DATE_FORMAT, MYSQL_DATETIME_FORMAT } from 'app/constants/datatime'
 import { getFilterParamsAndSyncUrl, getInitial, mergeDeep, getFilterParams,} from 'helpers/applicationHelper'
 
 const FormItem = Form.Item;
@@ -58,17 +58,19 @@ class CampaignsFilter extends React.Component {
       delete formatedValues[field]
     })
     inCompCreatedAtFields.forEach(field => {
-      console.log('a1',field)
-      console.log('a2',formatedValues[field])
       compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
       compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT) + 1
       delete formatedValues[field]
     })
     inCompStartTimeFields.forEach(field => {
       compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT) + 1
+      delete formatedValues[field]
     })
     inCompEndTimeFields.forEach(field => {
-      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+      compconds[`${field}.gte`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT)
+      compconds[`${field}.lt`] = (formatedValues[field]==undefined || formatedValues[field] == null) ? undefined : formatedValues[field].format(MYSQL_DATE_FORMAT) + 1
+      delete formatedValues[field]
     })
     return mergeDeep([formatedValues, {compconds: compconds}])
   }
