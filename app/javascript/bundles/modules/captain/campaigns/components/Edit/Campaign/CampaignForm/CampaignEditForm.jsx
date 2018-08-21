@@ -6,8 +6,8 @@ import moment from 'moment'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
 
-const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+const FormItem = Form.Item
+const RadioGroup = Radio.Group
 
 class CampaignEditForm extends React.Component {
   constructor(props) {
@@ -32,7 +32,6 @@ class CampaignEditForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
-    const alert = editState.toJS().alert
     var campaignId = this.props.params.id
 
     this.props.form.validateFields((err, values) => {
@@ -40,27 +39,22 @@ class CampaignEditForm extends React.Component {
         var record = {}
 
         if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
-          record['name'] = values.name;
+          record['name'] = values.name
         }
-        if (this.timeData.start_time) {
-          record['start_time'] = this.timeData.start_time;
-        }
-        if (this.timeData.end_time) {
-          record['end_time'] = this.timeData.end_time;  
-        }
-        record['status'] = (values.status == 1) ? true : false;
-        record['display'] = (values.display == 1) ? true : false;
-        record['link_tracking'] = values.link_tracking;
-        console.log('Received values of form: ', record);
-
-        actions.updateCampaign(campaignId, record);
-        console.log('Alert:', alert);
-        if (alert != null) {
-          message.success(alert);
+        record['start_time'] = this.timeData.start_time ? this.timeData.start_time : values.start_time
+        record['end_time'] = this.timeData.end_time ? this.timeData.end_time : values.end_time
+        record['status'] = (values.status == 1) ? true : false
+        record['display'] = (values.display == 1) ? true : false
+        record['link_tracking'] = values.link_tracking
+        console.log('Received values of form: ', record)
+        if (moment(record['end_time']).diff(moment(record['start_time'])) > 0) {
+          actions.updateCampaign(campaignId, record)
+        } else {
+          message.warning('End date must be greater than start date')
         }
       }
     })
-  } 
+  }
 
   handleBack(e) {
     browserHistory.goBack()
@@ -70,6 +64,7 @@ class CampaignEditForm extends React.Component {
     const {intl, actions, editState} = this.props
     const { getFieldDecorator } = this.props.form
     const campaign = editState.get('campaign')
+    const alert = editState.toJS().alert
     
     return(
       <Form onSubmit={this.handleSubmit}>
