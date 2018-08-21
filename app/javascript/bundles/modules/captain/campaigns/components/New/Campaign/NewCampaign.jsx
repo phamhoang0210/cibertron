@@ -5,6 +5,7 @@ import { CAMPAIGNS_URL } from '../../../constants/paths'
 import { formItemLayout } from 'app/constants/form'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
+import moment from 'moment'
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -65,7 +66,6 @@ class NewCampaign extends React.Component {
 		const {actions} = this.props
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-				message.success('Campaign tạo mới thành công');
 				var val = {};
 				val['name'] = values.name;
 				val['start_time'] = values.start_time._d;
@@ -76,8 +76,12 @@ class NewCampaign extends React.Component {
 				var user_name = localStorage.getItem('gaia-uid').split("@");
 				val['creator'] = user_name[0];
 				val['creator_email'] = localStorage.getItem('gaia-uid');
-				actions.createCampaign(val)
-
+				if (moment(val['end_time']).diff(moment(val['start_time'])) > 0) {
+					message.success('Campaign tạo mới thành công');
+          actions.createCampaign(val)
+        } else {
+          message.warning('End date must be greater than start date')
+        }
 				browserHistory.push(`${CAMPAIGNS_URL}`)
 			}
 		});
@@ -87,7 +91,16 @@ class NewCampaign extends React.Component {
 		browserHistory.goBack()
 	}
 
+	// checkLengthName = (rule, value, callback) => {
+ //    if (value.length > 60) {
+ //      callback();
+ //      return;
+ //    }
+ //    callback('Teen campaign khoong duoc vuot qua 60 ky tu');
+ //  }
+
 	render(){
+		console.log('this props laf laf :',this.props);
 		const {intl, newState, sharedState}  = this.props
 		const { getFieldDecorator } = this.props.form
 		const { startValue, endValue, endOpen } = this.state
@@ -96,7 +109,11 @@ class NewCampaign extends React.Component {
 				<Row>
 					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.campaign.label'})} >
 						{getFieldDecorator('name', {
-							rules: [{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},) }],
+							rules: [
+								{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},)},
+								{whitespace: true, message: 'Tên campaign không được chứa toàn khoảng trắng' }, 
+								{ max: 60, message: 'Tên campaign không được vượt quá 60 ký tự' }
+								],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
 						)}
@@ -173,7 +190,7 @@ class NewCampaign extends React.Component {
 				<Row>
 					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})} >
 						{getFieldDecorator('link_tracking', {
-							rules: [{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},) }],
+							rules: [{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},), whitespace: true }],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.link_tracking.placeholder.select.none'})} />
 						)}
