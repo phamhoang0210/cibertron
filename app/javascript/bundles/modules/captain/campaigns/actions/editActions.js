@@ -118,3 +118,10 @@ export function updateCoursesInCampaign(campaignId, params = {}) {
       .catch(error => dispatch(updateCoursesInCampaignFailure(error, campaignId)))
   }
 }
+
+export function updatePromotionPercent(data) {
+  return {
+    type: actionTypes.UPDATE_PROMOTION_PERCENT,
+    data,
+  }
+}

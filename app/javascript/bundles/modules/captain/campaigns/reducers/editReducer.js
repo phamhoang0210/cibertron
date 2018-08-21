@@ -94,7 +94,7 @@ export const initialState = Immutable.fromJS({
 })
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, filters, error, campaignId, coursesDelete, course, campaign } = action
+  const { type, record, filters, error, campaignId, coursesDelete, course, campaign, data } = action
   
   switch (type) {
     case actionTypes.SET_IS_FETCHING_CAMPAIGN: {
@@ -120,7 +120,7 @@ export default function editReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingCampaign: false,
         campaign: record,
-      }).updateIn(['courseData', 'keys'], arr => keys).updateIn(['courseData', 'records'], arr => original_courses)
+      }).updateIn(['courseData', 'keys'], arr => keys).updateIn(['courseData', 'records'], arr => Immutable.fromJS(original_courses))
     }
 
     case actionTypes.FETCH_CAMPAIGN_FAILURE: {
@@ -173,6 +173,24 @@ export default function editReducer($$state = initialState, action = null) {
       })
     }
 
+    case actionTypes.UPDATE_PROMOTION_PERCENT:{
+      const percent = (1 - (data.value / data.record.price)) * 100;
+      return $$state.withMutations(state => (
+        state.updateIn(['courseData', 'records'], courseData => (
+          courseData.update(
+            courseData.findIndex(courseItem => courseItem.get('key') == action.data.record.key),
+            courseItem => (
+              courseItem.merge({
+                discount_percent: percent,
+                promotion_price: data.value
+              })
+            )
+          )
+        ))
+      ))
+    }
+
+  
     case actionTypes.DELETE_COURSE_DATA: {
       return $$state.updateIn(['courseData', 'keys'], arr => arr.filter(o => o !== course.key)).updateIn(['courseData', 'records'], arr => arr.filter(o => o.key !== course.key))
     }

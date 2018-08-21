@@ -13,8 +13,18 @@ export const DEFAULT_FORM_TAIL_LAYOUT = {
 }
 
 export const FILTER_FORM_ITEM_LAYOUT = {
-	labelCol: { span: 7 },
-	wrapperCol: { span: 17 },
+	labelCol: 
+		{ span: 7 },
+	wrapperCol: 
+		{ span: 17 },
+	labelCol: {
+		xs: { span: 24 },
+		sm: { span: 10 },
+	},
+	wrapperCol: {
+		xs: { span: 24 },
+		sm: { span: 14 },
+	},
 }
 
 export const DEFAULT_FORM_ITEM_LAYOUT_10 = {
