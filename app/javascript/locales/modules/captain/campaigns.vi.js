@@ -92,7 +92,7 @@ export const appLocale = {
               none: '-- Nhập tên chiến dịch --'
           }
         },
-        required: '"TÊN CHIẾN DỊCH" là trường bắt buộc và phải chưa text'
+        required: '"TÊN CHIẾN DỊCH" là trường bắt buộc'
       },
       time_start:{
         label: 'Thời gian bắt đầu',
