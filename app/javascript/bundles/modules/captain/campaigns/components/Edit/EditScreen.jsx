@@ -1,11 +1,24 @@
 import React from 'react'
 import CampaignEditForm from './Campaign/CampaignForm/CampaignEditForm'
 import DetailCampaignEditForm from './Campaign/CampaignForm/DetailCampaignEditForm'
+import {notification} from 'antd'
 import { injectIntl } from 'react-intl'
 
 class EditScreen extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const alert = this.props.editState.get('alert')
+    const nextAlert = nextProps.editState.get('alert')
+    if(nextAlert && !nextAlert.equals(alert)) {
+      nextAlert.get('messages').forEach(message => {
+        notification[nextAlert.get('type')]({
+          message: message,
+        })
+      })
+    }
   }
 
   componentDidMount() {
@@ -16,8 +29,6 @@ class EditScreen extends React.Component {
   render() {
     const { editState } = this.props
     const alert = editState.get('alert')
-    // const deal = editState.get('deal')
-    // const courseData = editState.get('courseData')
 
     return (
       <div className="main-content captain--campaigns--edit box">

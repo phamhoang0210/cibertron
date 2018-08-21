@@ -1,6 +1,7 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
-import { parseError } from 'helpers/applicationHelper'
+import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
+
 export const initialState = Immutable.fromJS({
   alert: null,
   campaign: null,
@@ -8,6 +9,8 @@ export const initialState = Immutable.fromJS({
   isUpdatingCampaign: false,
   isUpdatingCoursesInCampaign: false,
   viewDealCourseComponent: false,
+  isLoadingCategories: false,
+  isLoadingCoursesByCategory: false,
   dealColumns: [{
     title: 'Mã khóa',
     dataIndex: 'course_code',
@@ -22,6 +25,7 @@ export const initialState = Immutable.fromJS({
     title: 'Giá gốc',
     dataIndex: 'price',
     key: 'price',
+    width: 100
   }],
   deal: [{
     key: '5b4ff6ecce4b1455969a029f',
@@ -63,6 +67,7 @@ export const initialState = Immutable.fromJS({
     promotion_price: 599000,
     discount_percent: 0
   }],
+  categories: [],
   courseData: {
     keys: [],
     records: []
@@ -94,7 +99,7 @@ export const initialState = Immutable.fromJS({
 })
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, filters, error, campaignId, coursesDelete, course, campaign, data } = action
+  const { type, record, filters, error, campaignId, coursesDelete, course, campaign, categories, teachers, data } = action
   
   switch (type) {
     case actionTypes.SET_IS_FETCHING_CAMPAIGN: {
@@ -112,7 +117,7 @@ export default function editReducer($$state = initialState, action = null) {
       var temp_courses = record.campaign.courses
       if (temp_courses.length > 0) {
         for (var i=0;i<temp_courses.length;i++) {
-          var courseItem = {key: temp_courses[i]['course_id'], course_code: '', price: temp_courses[i]['old_price'], promotion_price: temp_courses[i]['new_price'], discount_percent: (1 - (temp_courses[i]['new_price']/temp_courses[i]['old_price']))*100}
+          var courseItem = {key: temp_courses[i]['course_id'], course_code: temp_courses[i]['course_code'], price: temp_courses[i]['old_price'], promotion_price: temp_courses[i]['new_price'], discount_percent: (1 - (temp_courses[i]['new_price']/temp_courses[i]['old_price']))*100}
           keys.push(temp_courses[i]['course_id'])
           original_courses.push(courseItem)
         }
@@ -139,7 +144,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CAMPAIGN_SUCCESS: {
       return $$state.merge({
         isUpdatingCampaign: false,
-        alert: 'Campaign was successfully updated',
+        alert: createSuccessAlert('Campaign was successfully updated')
       }).update('campaign', campaignItem => (
         campaignItem.merge(record)
       ))
@@ -148,7 +153,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
       return $$state.merge({
         isUpdatingCampaign: false,
-        alert: 'Something went wrong',
+        alert: parseError(error),
       })
     }
 
@@ -204,7 +209,7 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_SUCCESS: {
       return $$state.merge({
         isUpdatingCoursesInCampaign: false,
-        alert: 'Courses in the campaign was successfully updated',
+        alert: createSuccessAlert('Courses in the campaign was successfully updated'),
       }).update('campaign', campaignItem => (
         campaignItem.merge(record)
       ))
@@ -213,7 +218,55 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_FAILURE: {
       return $$state.merge({
         isUpdatingCoursesInCampaign: false,
-        alert: 'Something went wrong',
+        alert: parseError('Something went wrong'),
+      })
+    }
+
+    case actionTypes.SET_IS_LOADING_CATEGORIES: {
+      return $$state.merge({
+        isLoadingCategories: true,
+      })
+    }
+
+    case actionTypes.LOAD_CATEGORIES_SUCCESS: {
+      console.log('Success',categories)
+      console.log('categories.records',categories.records)
+      return $$state.merge({
+        isLoadingCategories: false,
+        alert: createSuccessAlert('Loading successfully'),
+        // categories: categories.records
+      }).update('categories', categoryItem => (
+        categoryItem.merge(categories.records)
+      ))
+    }
+
+    case actionTypes.LOAD_CATEGORIES_FAILURE: {
+      console.log('Failure')
+      return $$state.merge({
+        isLoadingCategories: false,
+        alert: parseError('Something went wrong'),
+      })
+    }
+
+    case actionTypes.SET_IS_LOADING_COURSES_BY_CATEGORY: {
+      return $$state.merge({
+        isLoadingCoursesByCategory: true,
+      })
+    }
+
+    case actionTypes.LOAD_COURSES_BY_CATEGORY_SUCCESS: {
+      // console.log('Success',categories)
+      return $$state.merge({
+        isLoadingCoursesByCategory: false,
+        alert: createSuccessAlert('Loading successfully'),
+      })
+    }
+
+    case actionTypes.LOAD_COURSES_BY_CATEGORY_FAILURE: {
+      // console.log('Failure')
+      return $$state.merge({
+        isLoadingCoursesByCategory: false,
+        alert: parseError('Something went wrong'),
       })
     }
 

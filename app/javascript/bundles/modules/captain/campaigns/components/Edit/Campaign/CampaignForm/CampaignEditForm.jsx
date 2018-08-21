@@ -32,7 +32,6 @@ class CampaignEditForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
-    const alert = editState.toJS().alert
     var campaignId = this.props.params.id
 
     this.props.form.validateFields((err, values) => {
@@ -50,20 +49,6 @@ class CampaignEditForm extends React.Component {
         console.log('Received values of form: ', record)
         if (moment(record['end_time']).diff(moment(record['start_time'])) > 0) {
           actions.updateCampaign(campaignId, record)
-          if (alert != null) {
-            console.log('Alert:', alert)
-            switch(alert) {
-              case 'Campaign was successfully updated':
-                message.success(alert)
-                break
-              case 'Something went wrong':
-                message.error(alert)
-                break
-              default:
-                message.warning('Something else')
-                break
-            }
-          }
         } else {
           message.warning('End date must be greater than start date')
         }
@@ -79,6 +64,7 @@ class CampaignEditForm extends React.Component {
     const {intl, actions, editState} = this.props
     const { getFieldDecorator } = this.props.form
     const campaign = editState.get('campaign')
+    const alert = editState.toJS().alert
     
     return(
       <Form onSubmit={this.handleSubmit}>

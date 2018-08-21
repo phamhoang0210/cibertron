@@ -27,11 +27,8 @@ class DetailCampaignEditForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
-    const alert = editState.toJS().alert
     var campaignId = this.props.params.id
-    // console.log('this.props:', this.props)
     const records = editState.toJS().courseData.records
-    // console.log('records', records)
     var campaign = {}
 
     this.props.form.validateFields((err, values) => {
@@ -46,27 +43,29 @@ class DetailCampaignEditForm extends React.Component {
         campaign['courses'] = courses
         console.log('courses', courses)
         actions.updateCoursesInCampaign(campaignId, campaign)
-        console.log('Alert:', alert)
-        if (alert != null) {
-          switch(alert) {
-            case 'Courses in the campaign was successfully updated':
-              message.success(alert)
-              break
-            case 'Something went wrong':
-              message.error(alert)
-              break
-            default:
-              message.warning('Something else')
-          }
-        }
       }
     })
   }
 
   handleChange(e) {
     const { editState, actions } = this.props
-
     actions.updateViewDealCourse(e)
+
+    switch (e) {
+      case editState.toJS().findCoursesBy[0]['value']:
+        actions.loadCategories()
+        break;
+      case editState.toJS().findCoursesBy[1]['value']:
+        actions.loadCoursesByTeacher()
+        break;
+      case editState.toJS().findCoursesBy[2]['value']:
+        actions.loadCoursesByPrice()
+        break;
+      case editState.toJS().findCoursesBy[3]['value']:
+        actions.loadCoursesByCourseCode()
+        break;
+    }
+    console.log('editState:',editState.toJS())
   }
 
   handleBack(e) {
@@ -114,7 +113,7 @@ class DetailCampaignEditForm extends React.Component {
           initialValue: record.promotion_price,
           rules:[{ validator: this.checkPrice }], 
           onChange:(e)=>this.handleChangePromotion(e,record) })(
-          <InputNumber/> 
+          <InputNumber min={0} max={record.price}/> 
         )} 
         </FormItem>
       )
@@ -213,6 +212,8 @@ class DetailCampaignEditForm extends React.Component {
 
   renderViewDealCourse() {
     const { editState, intl } = this.props
+    const categories = editState.toJS().categories
+    console.log('categories_ahihi',categories)
     
     if (editState.get('viewDealCourseComponent')) {
       if (['category', 'teacher'].includes(editState.get('viewDealCourseComponent'))) {
@@ -220,9 +221,11 @@ class DetailCampaignEditForm extends React.Component {
           <Col span={24}>
             <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
               {...FORM_SELECT_COURSES}>
-                <Select >
-                  <Option value='Ahihi'>KhangPT</Option>
-                </Select>
+                <Select onChange={this.handleChangeCategory} placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
+                    {categories.map(item => (
+                      <Option value={item.name} key={item._id} >{item.name}</Option>
+                    ))}
+                  </Select>
             </FormItem>
           </Col>
         )
