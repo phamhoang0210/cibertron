@@ -39,7 +39,7 @@ class CampaignsTableBox extends React.Component {
       {
         title: 'Tên chiến dịch',
         dataIndex: 'name',
-        key: 'name'
+        key: 'name',
       },
       {
         title: 'Type',
@@ -55,7 +55,7 @@ class CampaignsTableBox extends React.Component {
         key: 'creator',
       },
       {
-        title: 'Số lượng deal',
+        title: 'SL deal',
         dataIndex: 'course_number',
         key: 'course_number',
         render: (text, record) => (
@@ -66,10 +66,12 @@ class CampaignsTableBox extends React.Component {
         title: 'Ngày tạo',
         dataIndex: 'created_at',
         key: 'created_at',
+        width: 150,
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
         title: 'Ngày bắt đầu',
+        width: 150,
         dataIndex: 'start_time',
         key: 'start_time',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
@@ -78,15 +80,16 @@ class CampaignsTableBox extends React.Component {
         title: 'Ngày kết thúc',
         dataIndex: 'end_time',
         key: 'end_time',
+        width: 150,
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
       {
         title: 'Action',
         key: 'action',
-        width: 180,
+        width: 140,
         render: (text, record) => (
           <div>
-            <Button onClick = {this.handleEdit.bind(this, record)} style={{marginRight:10}}>Edit</Button>
+            <Button onClick = {this.handleEdit.bind(this, record)} style={{marginRight:10}}><Icon type="edit" /></Button>
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -94,7 +97,7 @@ class CampaignsTableBox extends React.Component {
               okText={intl.formatMessage({id: 'popconfirm.delete.ok_text'})}
               cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
-            <Button type="danger">Delete</Button>
+            <Button type="danger"><Icon type="delete" /></Button>
             </Popconfirm>
           </div>
         )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import {Table, Form, Row, Col, Select, Button, Input, Checkbox, Radio, message} from 'antd'
+import {Table, Form, Row, Col, Select, Button, Input, Checkbox, Radio, message, InputNumber} from 'antd'
 import { DEFAULT_TITLE_LAYOUT, DEFAULT_SUBTITLE_LAYOUT, FORM_SELECT_COURSES, LIST_SELECTED_COURSES } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
 
@@ -17,7 +17,6 @@ class DetailCampaignEditForm extends React.Component {
       'handleSubmit',
       'handleChangePromotion'
     ])
-    this.state = {promotionPrice: ''};
   }
 
   handleDelete(record) {
@@ -74,11 +73,20 @@ class DetailCampaignEditForm extends React.Component {
   }
 
   handleChangePromotion(e, record){
-    console.log('record',record)
+    const { editState, actions } = this.props
+    const data = {record: record, value: e}
+    actions.updatePromotionPercent(data)
+  }
+
+  checkPrice = (rule, value, callback) => {
+    if (value > 0) {
+      callback();
+      return;
+    }
+    callback('Please input number greater than 0');
   }
 
   render(){
-    let {promotionPrice} = this.state
     const { intl, editState, actions} = this.props
     const deal = editState.get('deal').toJS()
     const dealColumns = editState.get('dealColumns').toJS()
@@ -100,15 +108,24 @@ class DetailCampaignEditForm extends React.Component {
       dataIndex: 'promotion_price',
       key: 'promotion_price',
       render: (text, record) => (
-        <Input onChange = {(e) => this.handleChangePromotion(e, record)}></Input>
+        <FormItem > 
+          {getFieldDecorator(record.key, { 
+          initialValue: record.promotion_price,
+          rules:[{ validator: this.checkPrice }], 
+          onChange:(e)=>this.handleChangePromotion(e,record) })(
+          <InputNumber min={0} max={record.price}/> 
+        )} 
+        </FormItem>
       )
     },
     {
       title: '% giảm',
       key: '10',
-      render: (text, record) => (
-        <span>{record.discount_percent} %</span>
-      )
+      render: function(text, record) {
+        return (
+          <span>{Math.ceil(record.discount_percent)} %</span>
+        )
+      }
     },
     {
       title: 'Action',
