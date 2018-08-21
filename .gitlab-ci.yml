@@ -129,7 +129,7 @@ stop_staging:
 production:
   stage: production
   script:
-    - deploy production 3
+    - deploy production web 3
     # - delete_v2 canary web
   environment:
     name: production
@@ -141,6 +141,6 @@ production:
 cleanup:
   stage: cleanup
   script:
-    - remove_image
+    - remove_image web
   allow_failure: true
   when: manual
