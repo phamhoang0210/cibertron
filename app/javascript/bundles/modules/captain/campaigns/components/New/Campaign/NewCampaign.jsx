@@ -96,7 +96,7 @@ class NewCampaign extends React.Component {
 				<Row>
 					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.campaign.label'})} >
 						{getFieldDecorator('name', {
-							rules: [{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},) }],
+							rules: [{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},), whitespace: true }],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
 						)}
