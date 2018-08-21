@@ -119,6 +119,13 @@ export function updateCoursesInCampaign(campaignId, params = {}) {
   }
 }
 
+export function updatePromotionPercent(data) {
+  return {
+    type: actionTypes.UPDATE_PROMOTION_PERCENT,
+    data,
+  }
+}
+
 function setIsLoadingCategories() {
   return {
     type: actionTypes.SET_IS_LOADING_CATEGORIES
@@ -214,3 +221,4 @@ function loadCoursesByTeacherFailure(error) {
 //       .catch(error => dispatch(loadCoursesByTeacherFailure(error)))
 //   }
 // }
+

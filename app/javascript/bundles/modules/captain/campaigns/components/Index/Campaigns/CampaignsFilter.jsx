@@ -46,7 +46,6 @@ class CampaignsFilter extends React.Component {
   }
 
   formatFormData(values) {
-    console.log(values,'values')
     let formatedValues = values
     const inCompFields = ['name', 'creator', 'display', 'status','campaign_courses']
     const inCompCreatedAtFields = ['created_at']
@@ -91,7 +90,6 @@ class CampaignsFilter extends React.Component {
     const isFetchingCampaigns = indexState.isFetchingCampaigns
     let campaigns = sharedState.toJS().campaigns
     let users = sharedState.toJS().users
-    console.log('gia tri cu',this.initialValues)
     return (
       <div className="box box-with-shadow box-with-border">
         <Form className="box-body"
@@ -187,7 +185,8 @@ class CampaignsFilter extends React.Component {
                 label={intl.formatMessage({id: 'index.time_over.label'})}
                 {...FILTER_FORM_ITEM_LAYOUT}>
                 { getFieldDecorator('end_time')(
-                  <DatePicker  style={{width: '100%'}} 
+                  <DatePicker  
+                    style={{width: '100%'}} 
                     placeholder={intl.formatMessage({id: 'index.time_over.placeholder.select.none'})} />
                 )}
 
