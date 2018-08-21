@@ -174,7 +174,13 @@ export default function editReducer($$state = initialState, action = null) {
 
   
     case actionTypes.DELETE_COURSE_DATA: {
-      return $$state.updateIn(['courseData', 'keys'], arr => arr.filter(o => o !== course.key)).updateIn(['courseData', 'records'], arr => arr.filter(o => o.key !== course.key))
+      return $$state.setIn(
+        ['courseData', 'keys'],
+        $$state.getIn(['courseData', 'keys']).filter(o => o !== action.course.key)
+      ).setIn(
+        ['courseData', 'records'],
+        $$state.getIn(['courseData', 'records']).filter(o => o.get('key') !== action.course.key)
+      )
     }
 
     case actionTypes.SET_IS_UPDATING_COURSES_IN_CAMPAIGN: {
