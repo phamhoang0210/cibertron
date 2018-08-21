@@ -126,7 +126,6 @@ function setIsLoadingCategories() {
 }
 
 function loadCategoriesSuccess(categories) {
-  console.log('categories',categories)
   return {
     type: actionTypes.LOAD_CATEGORIES_SUCCESS,
     categories
@@ -134,7 +133,6 @@ function loadCategoriesSuccess(categories) {
 }
 
 function loadCategoriesFailure(error) {
-  console.log('error',error)
   return {
     type: actionTypes.LOAD_CATEGORIES_FAILURE,
     error
@@ -158,7 +156,6 @@ function setIsLoadingCoursesByCategory() {
 }
 
 function loadCoursesByCategorySuccess(categories) {
-  console.log('categories',categories)
   return {
     type: actionTypes.LOAD_COURSES_BY_CATEGORY_SUCCESS,
     categories
@@ -166,44 +163,79 @@ function loadCoursesByCategorySuccess(categories) {
 }
 
 function loadCoursesByCategoryFailure(error) {
-  console.log('error',error)
   return {
     type: actionTypes.LOAD_COURSES_BY_CATEGORY_FAILURE,
     error
   }
 }
 
-export function loadCoursesByCategory() {
+export function loadCoursesByCategory(id) {
   return dispatch => {
     dispatch(setIsLoadingCoursesByCategory())
     authRequest
-      .fetchEntities(`${TYCOON_BASE_URL}${COURSES_API_PATH}`)
+      .fetchEntities(`${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[category_ids]=${id}`)
       .then(res => dispatch(loadCoursesByCategorySuccess(res.data)))
       .catch(error => dispatch(loadCoursesByCategoryFailure(error)))
   }
 }
 
-function setIsLoadingCoursesByTeacher() {
+function setIsFetchingCourseByCondition() {
   return {
-    type: actionTypes.SET_IS_LOADING_COURSES_BY_TEACHER
+    type: actionTypes.IS_FETCHING_COURSE_BY_CONDITION
   }
 }
 
-function loadCoursesByTeacherSuccess(teachers) {
-  console.log('categories',categories)
+function fetchCoursesByConditionSuccess(courses) {
   return {
-    type: actionTypes.LOAD_COURSES_BY_TEACHER_SUCCESS,
-    teachers
+    type: actionTypes.FETCHING_COURSES_BY_CONDITION_SUCCESS,
+    courses
   }
 }
 
-function loadCoursesByTeacherFailure(error) {
-  console.log('error',error)
+function fetchCoursesByConditionFailure(error) {
   return {
-    type: actionTypes.LOAD_COURSES_BY_TEACHER_FAILURE,
+    type: actionTypes.FETCHING_COURSES_BY_CONDITION_FAILURE,
     error
   }
 }
+
+export function fetchCourseByCondition(val, target) {
+  if (target == 'price') {
+    var api = `${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[price]=${val}`
+  } else if (target == 'course_code') {
+    var api = `${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[code]=${val}`
+  } else if (target == 'teacher') {
+    var api = `${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[instructor_code]=${val}`
+  }
+
+  return dispatch => {
+    dispatch(setIsFetchingCourseByCondition())
+    authRequest
+      .fetchEntities(api)
+      .then(res => dispatch(fetchCoursesByConditionSuccess(res.data)))
+      .catch(error => dispatch(fetchCoursesByConditionFailure(error)))
+  }
+}
+
+// function setIsLoadingCoursesByTeacher() {
+//   return {
+//     type: actionTypes.SET_IS_LOADING_COURSES_BY_TEACHER
+//   }
+// }
+
+// function loadCoursesByTeacherSuccess(teachers) {
+//   return {
+//     type: actionTypes.LOAD_COURSES_BY_TEACHER_SUCCESS,
+//     teachers
+//   }
+// }
+
+// function loadCoursesByTeacherFailure(error) {
+//   return {
+//     type: actionTypes.LOAD_COURSES_BY_TEACHER_FAILURE,
+//     error
+//   }
+// }
 
 // export function loadCoursesByTeacher() {
 //   return dispatch => {

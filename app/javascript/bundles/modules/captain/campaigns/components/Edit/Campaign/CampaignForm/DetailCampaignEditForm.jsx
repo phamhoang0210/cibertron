@@ -15,7 +15,9 @@ class DetailCampaignEditForm extends React.Component {
     _.bindAll(this, [
       'handleChange',
       'handleSubmit',
-      'handleChangePromotion'
+      'handleChangePromotion',
+      'handleChangeCategory',
+      'onSearchCourseByCondition'
     ])
     this.state = {promotionPrice: ''};
   }
@@ -42,7 +44,6 @@ class DetailCampaignEditForm extends React.Component {
           }
         }
         campaign['courses'] = courses
-        console.log('courses', courses)
         actions.updateCoursesInCampaign(campaignId, campaign)
       }
     })
@@ -52,29 +53,27 @@ class DetailCampaignEditForm extends React.Component {
     const { editState, actions } = this.props
     actions.updateViewDealCourse(e)
 
-    switch (e) {
-      case editState.toJS().findCoursesBy[0]['value']:
-        actions.loadCategories()
-        break;
-      case editState.toJS().findCoursesBy[1]['value']:
-        actions.loadCoursesByTeacher()
-        break;
-      case editState.toJS().findCoursesBy[2]['value']:
-        actions.loadCoursesByPrice()
-        break;
-      case editState.toJS().findCoursesBy[3]['value']:
-        actions.loadCoursesByCourseCode()
-        break;
+    if (e == 'category') {
+      actions.loadCategories()
     }
-    console.log('editState:',editState.toJS())
+  }
+
+  onSearchCourseByCondition(val) {
+    const { editState, actions } = this.props
+    debugger
+    actions.fetchCourseByCondition(val, editState.get('viewDealCourseComponent'))
   }
 
   handleBack(e) {
     browserHistory.goBack()
   }
 
-  handleChangePromotion(e, record){
-    console.log('record',record)
+  handleChangeCategory(e) {
+    const { actions } = this.props
+    actions.loadCoursesByCategory(e)
+  }
+
+  handleChangePromotion(e, record) {
   }
 
   render(){
@@ -143,7 +142,7 @@ class DetailCampaignEditForm extends React.Component {
         </Row>
 
         <Row>
-          <Col span={12}>
+          <Col span={24}>
             <FormItem {...DEFAULT_SUBTITLE_LAYOUT} style={{marginLeft:15}} label={intl.formatMessage({id: 'edit.select_courses.label'})} ></FormItem>
             <Col span={24}>
               <FormItem label={intl.formatMessage({id: 'edit.search_courses_by.label'})}
@@ -158,7 +157,7 @@ class DetailCampaignEditForm extends React.Component {
             {this.renderViewDealCourse()}
             <Col span={23}>
               <Table
-                pagination={{ pageSize: 3 }}
+                pagination={{ pageSize: 20 }}
                 rowSelection={rowSelection}
                 className="components-table-demo-nested"
                 columns={dealColumns}
@@ -167,7 +166,7 @@ class DetailCampaignEditForm extends React.Component {
               />
             </Col>
           </Col>
-          <Col span={12}>
+          <Col span={24}>
             <FormItem {...DEFAULT_SUBTITLE_LAYOUT} style={{marginLeft:15}} label={intl.formatMessage({id: 'edit.list_selected_courses.label'})} ></FormItem>
             <Col span={24}>
               <Table
@@ -196,17 +195,16 @@ class DetailCampaignEditForm extends React.Component {
   renderViewDealCourse() {
     const { editState, intl } = this.props
     const categories = editState.toJS().categories
-    console.log('categories_ahihi',categories)
     
     if (editState.get('viewDealCourseComponent')) {
-      if (['category', 'teacher'].includes(editState.get('viewDealCourseComponent'))) {
+      if (['category'].includes(editState.get('viewDealCourseComponent'))) {
         return (
           <Col span={24}>
             <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
               {...FORM_SELECT_COURSES}>
                 <Select onChange={this.handleChangeCategory} placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
                     {categories.map(item => (
-                      <Option value={item.name} key={item._id} >{item.name}</Option>
+                      <Option value={item._id} key={item._id} >{item.name}</Option>
                     ))}
                   </Select>
             </FormItem>
@@ -216,10 +214,12 @@ class DetailCampaignEditForm extends React.Component {
         return (
           <Col span={24}>
             <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
-              {...FORM_SELECT_COURSES}>
-                <Search
-                  enterButton
-                />
+              {...FORM_SELECT_COURSES}
+            >
+              <Search
+                onSearch={this.onSearchCourseByCondition}
+                enterButton
+              />
             </FormItem>
           </Col>
         )
