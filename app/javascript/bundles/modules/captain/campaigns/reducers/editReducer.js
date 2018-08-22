@@ -10,6 +10,7 @@ export const initialState = Immutable.fromJS({
   isUpdatingCoursesInCampaign: false,
   viewDealCourseComponent: false,
   isLoadingCategories: false,
+  isFetchingCourses: false,
   isLoadingCoursesByCategory: false,
   dealColumns: [{
     title: 'Mã khóa',
@@ -27,46 +28,7 @@ export const initialState = Immutable.fromJS({
     key: 'price',
     width: 100
   }],
-  deal: [{
-    key: '5b4ff6ecce4b1455969a029f',
-    course_name: 'Giải Tỏa Ách Tắc - Trầm Cảm - Sống Đời Hạnh Phúc',
-    course_code: 'NhatHV.01',
-    price: 799000,
-    promotion_price: 799000,
-    discount_percent: 0
-  },
-  {
-    key: '5b4c0f6fce4b14559899b4c2',
-    course_name: 'Thiết kế bài giảng E.learning bằng phần mềm I.spring 9.0',
-    course_code: 'HieuHB.01',
-    price: 699000,
-    promotion_price: 699000,
-    discount_percent: 0
-  },
-  {
-    key: '5b3b85dcce4b14559698960e',
-    course_name: 'ĐẬP TAN CHỨNG BIẾNG ĂN Ở TRẺ',
-    course_code: 'CUONGDN.03',
-    price: 699000,
-    promotion_price: 699000,
-    discount_percent: 0
-  },
-  {
-    key: '5b3994e7ce4b1455989869e8',
-    course_name: 'GIÁO DỤC SỚM CHO TRẺ THEO PHƯƠNG PHÁP GLENN DOMAN: NHẬN BIẾT THẾ GIỚI XUNG QUANH',
-    course_code: 'ThietNV.12',
-    price: 699000,
-    promotion_price: 699000,
-    discount_percent: 0
-  },
-  {
-    key: '5b34b670ce4b145596982cb7',
-    course_name: 'THIẾT KẾ ILLUSTRATOR TỪ SỐ 0 - THÀNH THẠO THIẾT KẾ CHO TỚI VẼ CONTENT',
-    course_code: 'ThiDV.01',
-    price: 599000,
-    promotion_price: 599000,
-    discount_percent: 0
-  }],
+  deal: [],
   categories: [],
   courseData: {
     keys: [],
@@ -98,6 +60,26 @@ export const initialState = Immutable.fromJS({
   }],
 })
 
+function formatCourseData(data) {
+  var results = [];
+
+  if (data.length > 0) {
+    for (var i=0; i < data.length; i++) {
+      let item = {
+        key: data[i]._id,
+        course_name: data[i].name,
+        course_code: data[i].code,
+        price: data[i].price,
+        promotion_price: data[i].price,
+        discount_percent: 0
+      };        
+      results.push(item)
+    }
+  }
+
+  return results;
+}
+
 export default function editReducer($$state = initialState, action = null) {
   const { type, record, filters, error, campaignId, coursesDelete, course, campaign, categories, teachers, data } = action
   
@@ -111,7 +93,6 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.FETCH_CAMPAIGN_SUCCESS: {
-      console.log('record',record)
       var keys = []
       var original_courses = []
       var temp_courses = record.campaign.courses
@@ -166,12 +147,8 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.ADD_COURSES_DATA: {
       var keys = $$state.toJS().courseData.keys
       var records = $$state.toJS().courseData.records
-      console.log('keys truoc:',keys)
-      console.log('records truoc:',records)
       keys.push(course.key)
       records.push(course)
-      console.log('keys sau:',keys)
-      console.log('records sau:',records)
 
       return $$state.merge({
         courseData: {keys,records}
@@ -197,7 +174,13 @@ export default function editReducer($$state = initialState, action = null) {
 
   
     case actionTypes.DELETE_COURSE_DATA: {
-      return $$state.updateIn(['courseData', 'keys'], arr => arr.filter(o => o !== course.key)).updateIn(['courseData', 'records'], arr => arr.filter(o => o.key !== course.key))
+      return $$state.setIn(
+        ['courseData', 'keys'],
+        $$state.getIn(['courseData', 'keys']).filter(o => o !== action.course.key)
+      ).setIn(
+        ['courseData', 'records'],
+        $$state.getIn(['courseData', 'records']).filter(o => o.get('key') !== action.course.key)
+      )
     }
 
     case actionTypes.SET_IS_UPDATING_COURSES_IN_CAMPAIGN: {
@@ -229,21 +212,35 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.LOAD_CATEGORIES_SUCCESS: {
-      console.log('Success',categories)
-      console.log('categories.records',categories.records)
       return $$state.merge({
         isLoadingCategories: false,
-        alert: createSuccessAlert('Loading successfully'),
-        // categories: categories.records
-      }).update('categories', categoryItem => (
-        categoryItem.merge(categories.records)
-      ))
+        categories: categories.records
+      })
     }
 
     case actionTypes.LOAD_CATEGORIES_FAILURE: {
-      console.log('Failure')
       return $$state.merge({
         isLoadingCategories: false,
+        alert: parseError('Something went wrong'),
+      })
+    }
+
+    case actionTypes.IS_FETCHING_COURSE_BY_CONDITION: {
+      return $$state.merge({
+        isFetchingCourses: true,
+      })
+    }
+
+    case actionTypes.FETCHING_COURSES_BY_CONDITION_SUCCESS: {
+      return $$state.merge({
+        isFetchingCourses: false,
+        deal: formatCourseData(action.courses.records)
+      })
+    }
+
+    case actionTypes.FETCHING_COURSES_BY_CONDITION_FAILURE: {
+      return $$state.merge({
+        isFetchingCourses: false,
         alert: parseError('Something went wrong'),
       })
     }
@@ -255,15 +252,13 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.LOAD_COURSES_BY_CATEGORY_SUCCESS: {
-      // console.log('Success',categories)
       return $$state.merge({
         isLoadingCoursesByCategory: false,
-        alert: createSuccessAlert('Loading successfully'),
+        deal: formatCourseData(categories.records)
       })
     }
 
     case actionTypes.LOAD_COURSES_BY_CATEGORY_FAILURE: {
-      // console.log('Failure')
       return $$state.merge({
         isLoadingCoursesByCategory: false,
         alert: parseError('Something went wrong'),
