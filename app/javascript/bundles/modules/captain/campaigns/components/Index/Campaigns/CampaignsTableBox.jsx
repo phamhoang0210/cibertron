@@ -19,11 +19,11 @@ class CampaignsTableBox extends React.Component {
   handleDelete(record) {
     const campaignId = record.id
     const {actions, indexState} = this.props
-    alert = indexState.toJS().alert
-    actions.deleteCampaign(campaignId)
-    if(alert !== ''){
-      message.success('Xóa thành công');
-    }
+    //alert = indexState.toJS().alert
+    actions.deleteCampaign(campaignId);
+    // if(alert !== ''){
+    //   message.success('Xóa thành công');
+    // }
   }
   type(record){
     if(record.display === true){

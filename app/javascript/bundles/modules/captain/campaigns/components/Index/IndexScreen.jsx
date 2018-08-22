@@ -16,7 +16,19 @@ class IndexScreen extends React.Component {
     actions.fetchAllCampaigns()
     actions.fetchAllUsers()
   }
-  
+
+  componentWillReceiveProps(nextProps) {
+    const alert = this.props.indexState.get('alert')
+    const nextAlert = nextProps.indexState.get('alert')
+    if(nextAlert && !nextAlert.equals(alert)) {
+      nextAlert.get('messages').forEach(message => {
+        notification[nextAlert.get('type')]({
+        message: message,
+        })
+      })
+    }
+  }
+
   render() {
     const {indexState} = this.props
     return (
