@@ -64,12 +64,12 @@ export default function indexReducer($$state = initialState, action = null) {
             campaign.findIndex(c => c.get('id') == campaignId),
             campaignItem => (
               campaignItem.merge({
-                isDeleting: false,
+                isDeleting: true,
               })
             )
           )
         )).merge({
-          alert: 'delete',
+          alert: createSuccessAlert('Xóa thành công !'),
         })
       ))
     }

@@ -30,7 +30,7 @@ export function fetchCampaigns(params = {}) {
     dispatch(setIsFetchingCampaigns())
     authRequest
       .fetchEntities(`${CAPTAIN_BASE_URL}${CAMPAIGNS_API_PATH}`, params)
-      .then(res => {dispatch(fetchCampaignsSuccess(res.data)); console.log('res', res)})
+      .then(res => {dispatch(fetchCampaignsSuccess(res.data))})
       .catch(error => dispatch(fetchCampaignsFailure(error)))
   }
 }
