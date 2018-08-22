@@ -91,16 +91,18 @@ class NewCampaign extends React.Component {
 		browserHistory.goBack()
 	}
 
-	// checkLengthName = (rule, value, callback) => {
- //    if (value.length > 60) {
- //      callback();
- //      return;
- //    }
- //    callback('Teen campaign khoong duoc vuot qua 60 ky tu');
- //  }
+	checkExistName = (rule, value, callback) => {
+		const campaigns = this.props.sharedState.toJS().campaigns
+		campaigns.forEach(campaign => {
+			if (value == campaign.name) {
+				callback('Tên đã tồn tại');
+				return;
+			}		
+   	});
+   	callback();	
+  }
 
 	render(){
-		console.log('this props laf laf :',this.props);
 		const {intl, newState, sharedState}  = this.props
 		const { getFieldDecorator } = this.props.form
 		const { startValue, endValue, endOpen } = this.state
@@ -111,8 +113,9 @@ class NewCampaign extends React.Component {
 						{getFieldDecorator('name', {
 							rules: [
 								{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},)},
-								{whitespace: true, message: 'Tên campaign không được chứa toàn khoảng trắng' }, 
-								{ max: 60, message: 'Tên campaign không được vượt quá 60 ký tự' }
+								{ whitespace: true, message: 'Tên campaign không được chứa toàn khoảng trắng' }, 
+								{ max: 60, message: 'Tên campaign không được vượt quá 60 ký tự' },
+								{ validator: this.checkExistName }
 								],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
@@ -190,7 +193,9 @@ class NewCampaign extends React.Component {
 				<Row>
 					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})} >
 						{getFieldDecorator('link_tracking', {
-							rules: [{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},), whitespace: true }],
+							rules: [
+							{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},)}, 
+							{whitespace: true,message: 'link_tracking không được chứa toàn khoảng trắng' }],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.link_tracking.placeholder.select.none'})} />
 						)}

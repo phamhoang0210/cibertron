@@ -7,6 +7,12 @@ class NewScreen extends React.Component{
 		super(props)
 	}
 
+  componentDidMount() {
+    const {actions, newState, sharedState} = this.props
+    actions.fetchAllCampaigns()
+    actions.fetchAllUsers()
+  }
+
 	render() {
     return (
       <div className="main-content captain--campaigns box">
