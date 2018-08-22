@@ -122,7 +122,7 @@ class DetailCampaignEditForm extends React.Component {
       key: '10',
       render: function(text, record) {
         return (
-          <span>{Math.ceil(record.discount_percent)} %</span>
+          <span>{Math.round(record.discount_percent)} %</span>
         )
       }
     },
