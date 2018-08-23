@@ -137,14 +137,21 @@ class DetailCampaignEditForm extends React.Component {
     }]
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        for (var i = 0; i < selectedRows.length; i++) {
-          if (!courseData.keys.includes(selectedRows[i]['key'])) {
-            actions.addCoursesData(selectedRows[i])
+        if (selectedRows.length == 0) {
+          var removeItems = courseData.records;
+          for (var j = 0; j < removeItems.length; j++) {
+            actions.deleteCourseData(removeItems[j])
           }
-          else {
-            var removeItems = courseData.records.filter(function(item){ return !selectedRowKeys.includes(item.key) })
-            for (var j = 0; j < removeItems.length; j++) {
-              actions.deleteCourseData(removeItems[j])
+        } else {
+          for (var i = 0; i < selectedRows.length; i++) {
+            if (!courseData.keys.includes(selectedRows[i]['key'])) {
+              actions.addCoursesData(selectedRows[i])
+            }
+            else {
+              var removeItems = courseData.records.filter(function(item){ return !selectedRowKeys.includes(item.key) })
+              for (var j = 0; j < removeItems.length; j++) {
+                actions.deleteCourseData(removeItems[j])
+              }
             }
           }
         }
@@ -187,7 +194,7 @@ class DetailCampaignEditForm extends React.Component {
             <FormItem {...DEFAULT_SUBTITLE_LAYOUT} style={{marginLeft:15}} label={intl.formatMessage({id: 'edit.list_selected_courses.label'})} ></FormItem>
             <Col span={24}>
               <Table
-                pagination={{ pageSize: 3 }}
+                pagination={{ pageSize: 20 }}
                 className="components-table-demo-nested"
                 columns={courseDataColumns}
                 dataSource={courseData.records}

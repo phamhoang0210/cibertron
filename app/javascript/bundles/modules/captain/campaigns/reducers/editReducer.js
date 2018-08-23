@@ -1,6 +1,7 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
+import { notification } from 'antd'
 
 export const initialState = Immutable.fromJS({
   alert: null,
@@ -123,18 +124,29 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_CAMPAIGN_SUCCESS: {
+      if (record.status == 409) {
+        notification['error']({
+          message: record.message
+        })
+      } else {
+        notification['success']({
+          message: 'Campaign was successfully updated'
+        })
+      }
+      
       return $$state.merge({
-        isUpdatingCampaign: false,
-        alert: createSuccessAlert('Campaign was successfully updated')
+        isUpdatingCampaign: false
       }).update('campaign', campaignItem => (
         campaignItem.merge(record)
       ))
     }
 
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
+      notification['error']({
+        message: 'Update campaign failure'
+      })
       return $$state.merge({
-        isUpdatingCampaign: false,
-        alert: parseError(error),
+        isUpdatingCampaign: false
       })
     }
 
@@ -190,18 +202,22 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_SUCCESS: {
+      notification['success']({
+        message: 'Courses in the campaign was successfully updated'
+      })
       return $$state.merge({
-        isUpdatingCoursesInCampaign: false,
-        alert: createSuccessAlert('Courses in the campaign was successfully updated'),
+        isUpdatingCoursesInCampaign: false
       }).update('campaign', campaignItem => (
         campaignItem.merge(record)
       ))
     }
 
     case actionTypes.UPDATE_COURSES_IN_CAMPAIGN_FAILURE: {
+      notification['error']({
+        message: 'Something went wrong'
+      })
       return $$state.merge({
-        isUpdatingCoursesInCampaign: false,
-        alert: parseError('Something went wrong'),
+        isUpdatingCoursesInCampaign: false
       })
     }
 

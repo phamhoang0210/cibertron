@@ -22,20 +22,35 @@ class CampaignEditForm extends React.Component {
       start_time: null,
       end_time: null
     }
+
+    this.state = {
+      linkErrorStatus: null,
+      linkErrorMessage: null,
+      nameErrorStatus: null,
+      nameErrorMessage: null,
+    }
   }
 
   handleChange(date, id) {
-    const valueOfInput = date.format()
+    const valueOfInput = date ? date.format() : ''
     this.timeData[id] = valueOfInput
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    const {actions, editState} = this.props
+    const {actions, editState, intl} = this.props
     var campaignId = this.props.params.id
 
+    this.setState({linkErrorStatus: null, linkErrorMessage: null})
+
     this.props.form.validateFields((err, values) => {
-      if (!err) {
+      if (!this.validateLength(values.name)) {
+        this.setState({nameErrorStatus: 'error', nameErrorMessage: intl.formatMessage({id: 'attrs.campaign.length'})});
+      } else if (!this.validateLinkFormat(values.link_tracking)) {
+        this.setState({linkErrorStatus: 'error', linkErrorMessage: intl.formatMessage({id: 'attrs.link_tracking.format'})});
+      } else if (!this.validateLength(values.link_tracking)) {
+        this.setState({linkErrorStatus: 'error', linkErrorMessage: intl.formatMessage({id: 'attrs.link_tracking.length'})});
+      } else if (!err) {
         var record = {}
 
         if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
@@ -46,7 +61,6 @@ class CampaignEditForm extends React.Component {
         record['status'] = (values.status == 1) ? true : false
         record['display'] = (values.display == 1) ? true : false
         record['link_tracking'] = values.link_tracking
-        console.log('Received values of form: ', record)
         if (moment(record['end_time']).diff(moment(record['start_time'])) > 0) {
           actions.updateCampaign(campaignId, record)
         } else {
@@ -54,6 +68,14 @@ class CampaignEditForm extends React.Component {
         }
       }
     })
+  }
+
+  validateLinkFormat(link) {
+    return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_{}]*)#?(?:[\w]*))?)$/.test(link)
+  }
+
+  validateLength(val) {
+    return val.length <= 255;
   }
 
   handleBack(e) {
@@ -73,9 +95,17 @@ class CampaignEditForm extends React.Component {
         </Row>
         <Row>
           {campaign && (
-            <FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.campaign.label'})} >
+            <FormItem
+              validateStatus={this.state.nameErrorStatus}
+              help={this.state.nameErrorMessage}
+              {...formItemLayout}
+              label={intl.formatMessage({id: 'attrs.campaign.label'})}
+            >
               {getFieldDecorator('name', {
-                rules: [{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},) }],
+                rules: [
+                  { required: true,message: intl.formatMessage({id: 'attrs.campaign.required'}) },
+                  { whitespace: true, message: intl.formatMessage({id: 'attrs.campaign.whitespace'}) }
+                ],
                 initialValue: campaign.get('campaign').get('name')
               })(
                 <Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
@@ -148,9 +178,16 @@ class CampaignEditForm extends React.Component {
 
         <Row>
           {campaign && (
-            <FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})} >
+            <FormItem
+              validateStatus={this.state.linkErrorStatus}
+              help={this.state.linkErrorMessage}
+              {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})}
+            >
               {getFieldDecorator('link_tracking', {
-                rules: [{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},) }],
+                rules: [
+                  { required: true, message: intl.formatMessage({id: 'attrs.link_tracking.required'}) },
+                  { whitespace: true, message: intl.formatMessage({id: 'attrs.link_tracking.whitespace'}) }
+                ],
                 initialValue: campaign.get('campaign').get('link_tracking')
               })(
                 <Input placeholder={intl.formatMessage({id: 'attrs.link_tracking.placeholder.select.none'})} />
