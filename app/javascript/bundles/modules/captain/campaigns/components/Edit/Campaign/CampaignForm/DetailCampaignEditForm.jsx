@@ -103,7 +103,7 @@ class DetailCampaignEditForm extends React.Component {
       key: 'price',
     },
     {
-      title: 'Giá giảm',
+      title: 'Giá bán',
       dataIndex: 'promotion_price',
       key: 'promotion_price',
       render: (text, record) => (
