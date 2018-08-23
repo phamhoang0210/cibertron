@@ -14,6 +14,7 @@ export const initialState = Immutable.fromJS({
   },
   isFetchingCampaigns: false
 })
+
 export default function indexReducer($$state = initialState, action = null) {
   const {
     type, record, records, filters, error, campaignId,
@@ -30,7 +31,7 @@ export default function indexReducer($$state = initialState, action = null) {
       return $$state.merge({
         isFetchingCampaigns: false,
         campaign: records,
-        filters: filters,
+        campaignsFilters: filters,
       })
     }
 

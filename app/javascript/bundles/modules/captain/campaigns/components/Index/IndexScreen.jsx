@@ -10,11 +10,12 @@ class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {actions, indexState, sharedState} = this.props
-    const campaignParams = getFilterParams(indexState.get('campaignsFilters'),location)
-    actions.fetchCampaigns(campaignParams)
-    actions.fetchAllCampaigns()
-    actions.fetchAllUsers()
+    const {actions, indexState, sharedState, location} = this.props
+    let campaignParams = getFilterParams(indexState.get('campaignsFilters'),location);
+    campaignParams['per_page'] = 'infinite';
+    actions.fetchCampaigns(campaignParams);
+    actions.fetchAllCampaigns({per_page: 'infinite'});
+    actions.fetchAllUsers({per_page: 'infinite'})
   }
 
   componentWillReceiveProps(nextProps) {
