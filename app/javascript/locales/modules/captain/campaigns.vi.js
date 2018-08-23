@@ -92,7 +92,9 @@ export const appLocale = {
               none: '-- Nhập tên chiến dịch --'
           }
         },
-        required: '"TÊN CHIẾN DỊCH" là trường bắt buộc'
+        required: '"TÊN CHIẾN DỊCH" là trường bắt buộc',
+        whitespace: '"TÊN CHIẾN DỊCH" không được chứa toàn khoảng trắng',
+        length: '"TÊN CHIẾN DỊCH" chỉ được phép tối đa 255 ký tự'
       },
       time_start:{
         label: 'Thời gian bắt đầu',
@@ -127,7 +129,11 @@ export const appLocale = {
             none: 'VD: ?utm_source=ECM_MKT&utm_medium=11h_12h_0308&'
           }
         },
-        required: '"Link Tracking" là trường bắt buộc'
+        required: '"Link Tracking" là trường bắt buộc',
+        whitespace: '"Link Tracking" không được chứa toàn khoảng trắng',
+        link: '"Link Tracking" không được chứa toàn khoảng trắng',
+        format: '"Link Tracking" không đúng định dạng',
+        length: '"Link Tracking" chỉ được phép tối đa 255 ký tự'
       }
     },
     edit: {
