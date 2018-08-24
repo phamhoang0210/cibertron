@@ -2,29 +2,39 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { CAMPAIGNS_URL } from '../../../constants/paths'
-import { Table, Icon, Button, Popconfirm, message} from 'antd'
+import { Table, Icon, Button, Popconfirm} from 'antd'
 import { LONG_DATETIME_FORMAT, MYSQL_DATETIME_FORMAT, TIME_PICKER_DEFAULT_SHOW_TIME, SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import moment from 'moment';
+import {getFilterParams, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { injectIntl } from 'react-intl'
 
 class CampaignsTableBox extends React.Component {
   constructor(props) {
     super(props)
     _.bindAll(this, [
+    'handleTableChange'
     ])
   }
   handleEdit(record) {
     browserHistory.push(`${CAMPAIGNS_URL}/${record.id}/edit`)
   }
+
+  handleTableChange(pagination) {
+    const {actions, indexState} = this.props
+    let campaignsParams = getFilterParams(indexState.get('campaignsFilters'))
+    const {current} = pagination
+    if(current !== campaignsParams.page) {
+        campaignsParams.page = current
+    }
+    actions.fetchCampaigns(campaignsParams)
+  }
+
   handleDelete(record) {
     const campaignId = record.id
-    const {actions, indexState} = this.props
-    //alert = indexState.toJS().alert
+    const {actions} = this.props
     actions.deleteCampaign(campaignId);
-    // if(alert !== ''){
-    //   message.success('Xóa thành công');
-    // }
   }
+
   type(record){
     if(record.display === true){
       return 'Active'
@@ -35,6 +45,7 @@ class CampaignsTableBox extends React.Component {
   render() {
     const {indexState, intl} = this.props
     const data = indexState.toJS().campaign
+    const paging = indexState.getIn(['campaignsFilters', 'paging'])
     const columns = [
       {
         title: 'Tên chiến dịch',
@@ -53,11 +64,13 @@ class CampaignsTableBox extends React.Component {
         title: 'Người tạo',
         dataIndex: 'creator',
         key: 'creator',
+        width: 150
       },
       {
         title: 'SL deal',
         dataIndex: 'course_number',
         key: 'course_number',
+        width: 100,
         render: (text, record) => (
           <span>{record.campaign_courses.length}</span>
         )
@@ -106,11 +119,13 @@ class CampaignsTableBox extends React.Component {
     return (
       <div>
         <Table
-          pagination={{ pageSize: 8 }}
+          pagination={getDefaultTablePagination(paging.get('page'), paging.get('record_total'))}
           className="components-table-demo-nested"
           columns={columns}
           dataSource={data}
           bordered
+          rowKey ='id'
+          onChange={this.handleTableChange}
         />
       </div>
       

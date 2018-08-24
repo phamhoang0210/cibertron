@@ -53,7 +53,7 @@ class CampaignsFilter extends React.Component {
     const inCompEndTimeFields = ['end_time']
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[`${field}`] = formatedValues[field]
+      compconds[`${field}.eq`] = formatedValues[field]
       delete formatedValues[field]
     })
     inCompCreatedAtFields.forEach(field => {
@@ -83,7 +83,7 @@ class CampaignsFilter extends React.Component {
   }
 
   render() {
-    const {intl,sharedState,form, indexState, location} = this.props
+    const {intl,sharedState,form, indexState} = this.props
     const type = sharedState.toJS().type
     const status = sharedState.toJS().status
     const { getFieldDecorator } = form
