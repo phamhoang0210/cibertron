@@ -59,7 +59,9 @@ class DetailCampaignEditForm extends React.Component {
 
   onSearchCourseByCondition(val) {
     const { editState, actions } = this.props
-    actions.fetchCourseByCondition(val, editState.get('viewDealCourseComponent'))
+    if (val && (val.trim().length > 0)) {
+      actions.fetchCourseByCondition(val, editState.get('viewDealCourseComponent'))
+    }
   }
 
   handleBack(e) {

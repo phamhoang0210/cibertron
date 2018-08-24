@@ -18,8 +18,12 @@ class NewCampaign extends React.Component {
 	state = {
     startValue: null,
     endValue: null,
-    endOpen: false,
-  };
+		endOpen: false,
+	};
+	
+	validateLinkFormat(link) {
+    return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_{}]*)#?(?:[\w]*))?)$/.test(link)
+  }
 
   disabledStartDate = (startValue) => {
     const endValue = this.state.endValue;
@@ -63,7 +67,7 @@ class NewCampaign extends React.Component {
 	
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const {actions} = this.props
+		const {actions, intl} = this.props
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				var val = {};
@@ -77,12 +81,10 @@ class NewCampaign extends React.Component {
 				val['creator'] = user_name[0];
 				val['creator_email'] = localStorage.getItem('gaia-uid');
 				if (moment(val['end_time']).diff(moment(val['start_time'])) > 0) {
-					message.success('Campaign tạo mới thành công');
-          actions.createCampaign(val)
-        } else {
-          message.warning('End date must be greater than start date')
-        }
-				browserHistory.push(`${CAMPAIGNS_URL}`)
+					actions.createCampaign(val)
+				} else {
+					message.warning('End date must be greater than start date')
+				}
 			}
 		});
 	}
@@ -90,17 +92,37 @@ class NewCampaign extends React.Component {
 	handleBack(e) {
 		browserHistory.goBack()
 	}
+	
+	validateCampaignLink(rule, value, callback) {
+		if (value && !this.validateLinkFormat(value)) {
+			const { intl } = this.props;
+			callback(intl.formatMessage({id: 'attrs.link_tracking.format'}));
+			return;
+		}
+		callback();
+	}
 
-	checkExistName = (rule, value, callback) => {
-		const campaigns = this.props.sharedState.toJS().campaigns
-		campaigns.forEach(campaign => {
-			if (value == campaign.name) {
-				callback('Tên đã tồn tại');
-				return;
-			}		
-   	});
-   	callback();	
-  }
+	validateStartTime(rule, value, callback) {
+		let endTime = this.props.form.getFieldValue('end_time');
+		
+		if (value && endTime && (value.add(10, 'minutes') >= endTime)) {
+			callback('Thời gian bắt đầu và thời gian kết thúc quá gần nhau');
+			return;
+		}
+
+		callback();
+	}
+
+	validateEndTime(rule, value, callback) {
+		let startTime = this.props.form.getFieldValue('start_time');
+		
+		if (value && startTime && (startTime.add(10, 'minutes') >= value)) {
+			callback('Thời gian bắt đầu và thời gian kết thúc quá gần nhau');
+			return;
+		}
+
+		callback();
+	}
 
 	render(){
 		const {intl, newState, sharedState}  = this.props
@@ -109,13 +131,15 @@ class NewCampaign extends React.Component {
 		return(
 			<Form onSubmit={this.handleSubmit}>
 				<Row>
-					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.campaign.label'})} >
+					<FormItem
+						{...formItemLayout}
+						label={intl.formatMessage({id: 'attrs.campaign.label'})}
+					>
 						{getFieldDecorator('name', {
 							rules: [
 								{ required: true,message: intl.formatMessage({id: 'attrs.campaign.required'},)},
 								{ whitespace: true, message: 'Tên campaign không được chứa toàn khoảng trắng' }, 
 								{ max: 60, message: 'Tên campaign không được vượt quá 60 ký tự' },
-								{ validator: this.checkExistName }
 								],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.campaign.placeholder.select.none'})} />
@@ -127,7 +151,10 @@ class NewCampaign extends React.Component {
 					<Col span={8}>
 						<FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_start.label'})} >
 							{getFieldDecorator('start_time', {
-								rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'},) }],
+								rules: [
+									{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'}) },
+									{ validator: this.validateStartTime.bind(this) }
+								],
 							})(
 								<DatePicker
 									showTime format="YYYY-MM-DD HH:mm:ss" 
@@ -144,7 +171,10 @@ class NewCampaign extends React.Component {
 					<Col span={8}>
 						<FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_end.label'})} >
 							{getFieldDecorator('end_time', {
-								rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'},) }],
+								rules: [
+									{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'}) },
+									{ validator: this.validateEndTime.bind(this) }
+								],
 							})(
 								<DatePicker
 									showTime format="YYYY-MM-DD HH:mm:ss" 
@@ -191,11 +221,17 @@ class NewCampaign extends React.Component {
 				</Row>
 
 				<Row>
-					<FormItem {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})} >
+					<FormItem
+						{...formItemLayout}
+						label={intl.formatMessage({id: 'attrs.link_tracking.label'})}
+					>
 						{getFieldDecorator('link_tracking', {
 							rules: [
-							{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},)}, 
-							{whitespace: true,message: 'link_tracking không được chứa toàn khoảng trắng' }],
+								{ required: true,message: intl.formatMessage({id: 'attrs.link_tracking.required'},)}, 
+								{ whitespace: true,message: 'link_tracking không được chứa toàn khoảng trắng' },
+								{ max: 255, message: intl.formatMessage({id: 'attrs.link_tracking.length'}) },
+								{ validator: this.validateCampaignLink.bind(this) },
+							],
 						})(
 							<Input placeholder={intl.formatMessage({id: 'attrs.link_tracking.placeholder.select.none'})} />
 						)}

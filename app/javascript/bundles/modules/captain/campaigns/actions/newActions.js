@@ -6,20 +6,20 @@ export * from './sharedActions'
 
 function setIsCreatingCampaign() {
   return {
-    type: actionTypes.SET_IS_CREATING_CAMPAIGN,
+    type: actionTypes.SET_IS_CAP_CREATING_CAMPAIGN,
   }
 }
 
 function createCampaignSucces(record) {
   return {
-    type: actionTypes.CREATE_CAMPAIGN_SUCCESS,
+    type: actionTypes.CAP_CREATE_CAMPAIGN_SUCCESS,
     record
   }
 }
 
 function createCampaignFailure(error) {
   return {
-    type: actionTypes.CREATE_CAMPAIGN_FAILURE,
+    type: actionTypes.CAP_CREATE_CAMPAIGN_FAILURE,
     error,
   }
 }

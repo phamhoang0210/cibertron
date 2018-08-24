@@ -22,13 +22,6 @@ class CampaignEditForm extends React.Component {
       start_time: null,
       end_time: null
     }
-
-    this.state = {
-      linkErrorStatus: null,
-      linkErrorMessage: null,
-      nameErrorStatus: null,
-      nameErrorMessage: null,
-    }
   }
 
   handleChange(date, id) {
@@ -44,13 +37,7 @@ class CampaignEditForm extends React.Component {
     this.setState({linkErrorStatus: null, linkErrorMessage: null})
 
     this.props.form.validateFields((err, values) => {
-      if (!this.validateLength(values.name)) {
-        this.setState({nameErrorStatus: 'error', nameErrorMessage: intl.formatMessage({id: 'attrs.campaign.length'})});
-      } else if (!this.validateLinkFormat(values.link_tracking)) {
-        this.setState({linkErrorStatus: 'error', linkErrorMessage: intl.formatMessage({id: 'attrs.link_tracking.format'})});
-      } else if (!this.validateLength(values.link_tracking)) {
-        this.setState({linkErrorStatus: 'error', linkErrorMessage: intl.formatMessage({id: 'attrs.link_tracking.length'})});
-      } else if (!err) {
+      if (!err) {
         var record = {}
 
         if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
@@ -74,9 +61,14 @@ class CampaignEditForm extends React.Component {
     return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_{}]*)#?(?:[\w]*))?)$/.test(link)
   }
 
-  validateLength(val) {
-    return val.length <= 255;
-  }
+  validateCampaignLink(rule, value, callback) {
+		if (value && !this.validateLinkFormat(value)) {
+			const { intl } = this.props;
+			callback(intl.formatMessage({id: 'attrs.link_tracking.format'}));
+			return;
+		}
+		callback();
+	}
 
   handleBack(e) {
     browserHistory.goBack()
@@ -96,15 +88,14 @@ class CampaignEditForm extends React.Component {
         <Row>
           {campaign && (
             <FormItem
-              validateStatus={this.state.nameErrorStatus}
-              help={this.state.nameErrorMessage}
               {...formItemLayout}
               label={intl.formatMessage({id: 'attrs.campaign.label'})}
             >
               {getFieldDecorator('name', {
                 rules: [
                   { required: true,message: intl.formatMessage({id: 'attrs.campaign.required'}) },
-                  { whitespace: true, message: intl.formatMessage({id: 'attrs.campaign.whitespace'}) }
+                  { whitespace: true, message: intl.formatMessage({id: 'attrs.campaign.whitespace'}) },
+                  { max: 60, message: 'Tên campaign không được vượt quá 60 ký tự' },
                 ],
                 initialValue: campaign.get('campaign').get('name')
               })(
@@ -179,14 +170,14 @@ class CampaignEditForm extends React.Component {
         <Row>
           {campaign && (
             <FormItem
-              validateStatus={this.state.linkErrorStatus}
-              help={this.state.linkErrorMessage}
               {...formItemLayout} label={intl.formatMessage({id: 'attrs.link_tracking.label'})}
             >
               {getFieldDecorator('link_tracking', {
                 rules: [
                   { required: true, message: intl.formatMessage({id: 'attrs.link_tracking.required'}) },
-                  { whitespace: true, message: intl.formatMessage({id: 'attrs.link_tracking.whitespace'}) }
+                  { whitespace: true, message: intl.formatMessage({id: 'attrs.link_tracking.whitespace'}) },
+                  { max: 255, message: intl.formatMessage({id: 'attrs.link_tracking.length'}) },
+								  { validator: this.validateCampaignLink.bind(this) },
                 ],
                 initialValue: campaign.get('campaign').get('link_tracking')
               })(
