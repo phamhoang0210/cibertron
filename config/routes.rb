@@ -57,6 +57,13 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :captain do
+    root to: 'dashboard#index'
+    with_options only: [:index, :new, :edit, :delete] do |option|
+      option.resources :campaigns
+    end
+  end
+
   namespace :nauh do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|

@@ -198,5 +198,16 @@ export const menuData = [
         title: 'Roles',
       },
     ],
+  }, {
+    type: 'subMenu',
+    path: '/captain',
+    title: (<span><Icon type="bars" /><span>CAMPAIGNS</span></span>),
+    items: [
+      {
+        type: 'link', 
+        path: '/captain/campaigns',
+        title: 'Campaigns',
+      }
+    ],
   }
 ]
