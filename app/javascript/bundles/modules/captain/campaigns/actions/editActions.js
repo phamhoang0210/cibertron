@@ -216,7 +216,7 @@ export function fetchCourseByCondition(val, target) {
   }
 
   return dispatch => {
-    dispatch(setIsFetchingCourseByCondition())
+    dispatch(setIsFetchingCourseByCondition());
     authRequest
       .fetchEntities(api)
       .then(res => dispatch(fetchCoursesByConditionSuccess(res.data)))
