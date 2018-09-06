@@ -6,8 +6,9 @@
   </head>
   <body>
     <div id="app"></div>
-    <%= stylesheet_link_tag "#{FrontComponentDist.where(name: @app_css_antd).limit(1).pluck(:file_url).join('')}" %>
-    <%= stylesheet_link_tag "#{FrontComponentDist.where(name: @app_css).limit(1).pluck(:file_url).join('')}" %>
-    <%= javascript_include_tag "#{FrontComponentDist.where(name: @app_js).limit(1).pluck(:file_url).join('')}" %>
+    <% @dists.each do |dist| %>
+      <%= javascript_include_tag dist.file_url if dist.is_js? %>
+      <%= stylesheet_link_tag dist.file_url if dist.is_css? %>
+    <% end %>
   </body>
 </html>

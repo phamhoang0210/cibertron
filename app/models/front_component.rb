@@ -4,4 +4,16 @@ class FrontComponent < ApplicationRecord
 
   # Define constraints
   validates :name, presence: true
+
+  class << self
+    def compcond_columns
+      [:id, :name, :title]
+    end
+
+    def include_entities
+      {
+        FrontComponentInstance => [:front_component_instances],
+      }
+    end
+  end
 end
