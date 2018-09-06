@@ -34,6 +34,10 @@ class FacebookComment extends React.Component {
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>`}
             </SyntaxHighlighter>
+            <div dangerouslySetInnerHTML={{__html: `(Landingi)Thêm thẻ sau vào phần Page Setting ->  Additional options -> SEO -> Extra meta tags`}}/>
+            <SyntaxHighlighter language='html' style={tomorrowNightEighties}>
+              {`<meta property="fb:app_id" content="781404068653965">`}
+            </SyntaxHighlighter>
           </div>
         ))}
       </div>

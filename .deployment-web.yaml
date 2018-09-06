@@ -1,5 +1,5 @@
 containers:
-  - name: default # Leave it default if your application deploy in a single container style
+  - name: web # Leave it default if your application deploy in a single container style
     # If enable, `<release_name>-<container_name>-environment` secret must be manually created in the namespace.
     # This secret data will be populated into runtime as environment variables
     externalConfig: true

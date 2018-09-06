@@ -1,4 +1,4 @@
-image: registry.edumall.io/sys/reza-image:latest
+image: registry.edumall.io/sys/reza-image:new_namespaces_v2
 
 variables:
   PUBLIC_DOMAIN: edumall.io
@@ -21,19 +21,16 @@ build:
   script:
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./config/authservice_jwt.pub.encrypted > ./config/authservice_jwt.pub
     - reza-tool decrypt -k ~/.reza/ci.pem -p reza ./.ssh/id_rsa.encrypted > ./.ssh/id_rsa
-    - build_image
+    - build_image web -f Dockerfile .
   only:
     - branches
 
 functional_test:
   stage: test
   script:
-    - (docker run -i --rm -d -e MYSQL_DATABASE=gaia_test -e MYSQL_USER=gaia_test -e MYSQL_PASSWORD=gaia_test -e MYSQL_ROOT_PASSWORD=gaia_test --name "mysql-$CI_JOB_ID" mysql:latest &&
-      sleep 10 &&
-      docker run -i --rm -e RAILS_ENV=test --name "$CI_JOB_ID-migration" --link "mysql-$CI_JOB_ID":mysql -d "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "rails db:migrate" &&
-      docker run -i --rm -w="/home/rails/gaia" -e RAILS_ENV=test --link "mysql-$CI_JOB_ID":mysql --name "test-$CI_JOB_ID" "$CI_REGISTRY_IMAGE:$CI_REGISTRY_TAG" /bin/sh -c "bundle exec rake test" &&
-      docker rm -f "mysql-$CI_JOB_ID") ||
-      (docker rm -f "mysql-$CI_JOB_ID" && exit 1)
+    - (until docker run -i --rm -d -e MYSQL_DATABASE=gaia_test -e MYSQL_USER=gaia_test -e MYSQL_PASSWORD=gaia_test -e MYSQL_ROOT_PASSWORD=gaia_test --name "mysql-$CI_JOB_ID" mysql:latest ; do sleep 1; done &&
+      docker run -i --rm -e RAILS_ENV=test --name "$CI_JOB_ID-migration" --link "mysql-$CI_JOB_ID":mysql -d "$CI_REGISTRY_IMAGE/web:$CI_REGISTRY_TAG" /bin/sh -c "rails db:migrate && rails test" &&
+      docker rm -f "mysql-$CI_JOB_ID") || (docker rm -f "mysql-$CI_JOB_ID" && exit 1)
   only:
     - branches
 
@@ -41,14 +38,14 @@ package:
   stage: package
   script:
     - registry_login
-    - push_image
+    - push_image web
   only:
     - branches
 
 review:
   stage: review
   script:
-    - deploy review 1
+    - deploy review web 1
   environment:
     name: review/$CI_COMMIT_REF_NAME
     url: http://$CI_PROJECT_PATH_SLUG-$CI_ENVIRONMENT_SLUG.$PUBLIC_DOMAIN
@@ -66,7 +63,7 @@ stop_review:
   variables:
     GIT_STRATEGY: none
   script:
-    - delete review
+    - delete_v2 review web
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
@@ -82,7 +79,7 @@ stop_review:
 staging:
   stage: staging
   script:
-    - deploy staging 1
+    - deploy staging web 1
   environment:
     name: staging
     url: http://$CI_PROJECT_NAME-staging.$PUBLIC_DOMAIN
@@ -95,7 +92,7 @@ stop_staging:
   variables:
     GIT_STRATEGY: none
   script:
-    - delete staging
+    - delete_v2 staging web
   environment:
     name: staging
     action: stop
@@ -103,34 +100,34 @@ stop_staging:
   only:
     - develop@tcs/gaia
 
-canary:
-  stage: canary
-  script:
-    - deploy canary 1
-  environment:
-    name: canary
-    url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
-  only:
-    - master@tcs/gaia
+# canary:
+#   stage: canary
+#   script:
+#     - deploy canary web 1
+#   environment:
+#     name: canary
+#     url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
+#   only:
+#     - master@tcs/gaia
 
-stop_canary:
-  stage: cleanup
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - delete canary
-  environment:
-    name: canary
-    action: stop
-  when: manual
-  only:
-    - master@tcs/gaia
+# stop_canary:
+#   stage: cleanup
+#   variables:
+#     GIT_STRATEGY: none
+#   script:
+#     - delete_v2 canary web
+#   environment:
+#     name: canary
+#     action: stop
+#   when: manual
+#   only:
+#     - master@tcs/gaia
 
 production:
   stage: production
   script:
-    - deploy production 3
-    - delete canary
+    - deploy production web 3
+    # - delete_v2 canary web
   environment:
     name: production
     url: https://apps.edumall.io
@@ -141,6 +138,6 @@ production:
 cleanup:
   stage: cleanup
   script:
-    - remove_image
+    - remove_image web
   allow_failure: true
   when: manual
