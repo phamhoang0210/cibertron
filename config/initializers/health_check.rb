@@ -65,6 +65,10 @@ HealthCheck.setup do |config|
     HealthCheckService.perform_check # any code that returns blank on success and non blank string upon failure
   end
 
+  config.add_custom_check do
+    HealthCheckService.perform_check_auth
+  end
+
   # Add another custom check with a name, so you can call just specific custom checks. This can also be run using
   # the standard 'custom' check.
   # You can define multiple tests under the same name - they will be run one after the other.
