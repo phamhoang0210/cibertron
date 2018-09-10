@@ -70,3 +70,6 @@ gem 'jwtauth', '~> 0.3.2'
 
 gem "pundit"
 gem 'dotenv-rails'
+
+# health check
+gem "health_check"
