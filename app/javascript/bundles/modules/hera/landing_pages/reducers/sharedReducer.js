@@ -4,7 +4,10 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   discounts: [],
   users: [],
+  adaccounts: [],
+  pixels: [],
   domains: [],
+  landingPageCodes: {},
   domainIdMappings: {},
   userIdMappings: {},
   facebookApps: [],
@@ -13,8 +16,11 @@ export const initialState = Immutable.fromJS({
   isFetchingDomains: false,
   isFetchingDiscounts: false,
   isFetchingUsers: false,
+  isFetchingAdAccount: false,
   isFetchingFacebookApps: false,
   isFetchingFacebookPixelCodes: false,
+  isFetchingPixels: false,
+  isFetchingLogicHome: false,
   strategies: [
     {id: 'industry', title: 'industry'},
     {id: 'pilot', title: 'pilot'},
@@ -181,6 +187,66 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_LOGICS_FAILURE: {
       return $$state.merge({
         isFetchingLogics: false,
+      })
+    }
+
+    //Fetch AdAccounts
+    case actionTypes.SET_IS_FETCHING_AD_ACCOUNTS: {
+      return $$state.merge({
+        isFetchingAdAccounts: true,
+      })
+    }
+
+    case actionTypes.FETCH_AD_ACCOUNTS_SUCCESS: {      
+      return $$state.merge({
+        isFetchingAdAccounts: false,
+        adaccounts: records,
+      })
+    }
+
+    case actionTypes.FETCH_AD_ACCOUNTS_FAILURE: {
+      return $$state.merge({
+        isFetchingAdAccounts: false,
+      })
+    }
+
+    //Fetch pixels
+    case actionTypes.SET_IS_FETCHING_PIXELS: {
+      return $$state.merge({
+        isFetchingPixels: true,
+      })
+    }
+
+    case actionTypes.FETCH_PIXELS_SUCCESS: {      
+      return $$state.merge({
+        isFetchingPixels: false,
+        pixels: records,
+      })
+    }
+
+    case actionTypes.FETCH_PIXELS_FAILURE: {
+      return $$state.merge({
+        isFetchingPixels: false,
+      })
+    }
+
+    //Fetch code logic home
+    case actionTypes.SET_IS_FETCHING_LOGIC_HOME: {
+      return $$state.merge({
+        isFetchingLogicHome: true,
+      })
+    }
+
+    case actionTypes.FETCH_LOGIC_HOME_SUCCESS: {      
+      return $$state.merge({
+        landingPageCodes: record,
+        isFetchingLogicHome: false,
+      })
+    }
+
+    case actionTypes.FETCH_LOGIC_HOME_FAILURE: {
+      return $$state.merge({
+        isFetchingLogicHome: false,
       })
     }
 
