@@ -180,7 +180,7 @@ export function loadCoursesByCategory(id) {
   return dispatch => {
     dispatch(setIsLoadingCoursesByCategory())
     authRequest
-      .fetchEntities(`${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[category_ids]=${id}`)
+      .fetchEntities(`${CAPTAIN_BASE_URL}${COURSES_API_PATH}?compconds[category_ids]=${id}`)
       .then(res => dispatch(loadCoursesByCategorySuccess(res.data)))
       .catch(error => dispatch(loadCoursesByCategoryFailure(error)))
   }
@@ -208,11 +208,11 @@ function fetchCoursesByConditionFailure(error) {
 
 export function fetchCourseByCondition(val, target) {
   if (target == 'price') {
-    var api = `${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[price]=${val}`
+    var api = `${CAPTAIN_BASE_URL}${COURSES_API_PATH}?compconds[price]=${val}`
   } else if (target == 'course_code') {
-    var api = `${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[code]=${val}`
+    var api = `${CAPTAIN_BASE_URL}${COURSES_API_PATH}?compconds[code]=${val}`
   } else if (target == 'teacher') {
-    var api = `${TYCOON_BASE_URL}${COURSES_API_PATH}?compconds[instructor_code]=${val}`
+    var api = `${CAPTAIN_BASE_URL}${COURSES_API_PATH}?compconds[instructor_code]=${val}`
   }
 
   return dispatch => {
