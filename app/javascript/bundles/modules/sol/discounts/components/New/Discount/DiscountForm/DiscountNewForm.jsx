@@ -19,6 +19,7 @@ class DiscountNewForm extends React.Component {
       'handleBack',
       'handleSubmit',
       'formatFormData',
+      'filter',
     ])
   }
 
@@ -80,6 +81,10 @@ class DiscountNewForm extends React.Component {
     ]
   }
 
+  filter(inputValue, path) {
+    return (path.some(option => (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1));
+  }
+
 
   render() {
 
@@ -110,7 +115,7 @@ class DiscountNewForm extends React.Component {
                   <Cascader
                     options={productCascaderOptions}
                     placeholder="Chọn sản phẩm"
-                    showSearch
+                    showSearch={{filter: this.filter}}
                   />
                 )}
               </FormItem>
