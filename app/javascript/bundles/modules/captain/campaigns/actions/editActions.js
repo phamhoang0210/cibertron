@@ -218,7 +218,7 @@ export function fetchCourseByCondition(val, target) {
   return dispatch => {
     dispatch(setIsFetchingCourseByCondition())
     authRequest
-      .fetchEntities(api)
+      .fetchEntities(`${api}&per_page=5000`)
       .then(res => dispatch(fetchCoursesByConditionSuccess(res.data)))
       .catch(error => dispatch(fetchCoursesByConditionFailure(error)))
   }
