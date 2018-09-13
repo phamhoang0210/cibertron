@@ -74,11 +74,38 @@ class CampaignEditForm extends React.Component {
     browserHistory.goBack()
   }
 
+  disabledStartDate = (startValue) => {
+    const endValue = this.timeData.end_time;
+
+    if (!startValue || !endValue) {
+      return false;
+    }
+
+    return startValue.valueOf() > endValue.valueOf();
+  }
+
+  disabledEndDate = (endValue) => {
+    const startValue = this.timeData.start_time;
+
+    if (!endValue || !startValue) {
+      return false;
+    }
+
+    return endValue.valueOf() <= startValue.valueOf();
+  }
+
   render(){
     const {intl, actions, editState} = this.props
     const { getFieldDecorator } = this.props.form
     const campaign = editState.get('campaign')
     const alert = editState.toJS().alert
+
+    if (campaign) {
+      this.timeData = {
+        start_time: moment(campaign.get('campaign').get('start_time')),
+        end_time: moment(campaign.get('campaign').get('end_time'))
+      }
+    }
     
     return(
       <Form onSubmit={this.handleSubmit}>
@@ -113,7 +140,14 @@ class CampaignEditForm extends React.Component {
                   rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'},) }],
                   initialValue: moment(campaign.get('campaign').get('start_time'))
                 })(
-                  <DatePicker onChange={(date) => this.handleChange(date, 'start_time')} style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm"/>
+                  <DatePicker
+                    onChange={(date) => this.handleChange(date, 'start_time')}
+                    style={{width: '100%'}}
+                    disabledDate={this.disabledStartDate.bind(this)}
+                    placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})}
+                    showTime
+                    format="YYYY-MM-DD HH:mm"
+                  />
                 )}
               </FormItem>
             </Col>
@@ -125,7 +159,14 @@ class CampaignEditForm extends React.Component {
                   rules: [{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'},) }],
                   initialValue: moment(campaign.get('campaign').get('end_time'))
                 })(
-                  <DatePicker onChange={(date) => this.handleChange(date, 'end_time')} style={{width: '100%'}} placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} showTime placeholder="Select Time" format="YYYY-MM-DD HH:mm"/>
+                  <DatePicker
+                    onChange={(date) => this.handleChange(date, 'end_time')}
+                    style={{width: '100%'}}
+                    disabledDate={this.disabledEndDate.bind(this)}
+                    placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})}
+                    showTime
+                    format="YYYY-MM-DD HH:mm"
+                  />
                 )}
               </FormItem>
             </Col>
