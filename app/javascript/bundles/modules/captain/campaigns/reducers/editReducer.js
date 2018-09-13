@@ -67,7 +67,7 @@ function formatCourseData(data) {
   if (data.length > 0) {
     for (var i=0; i < data.length; i++) {
       let item = {
-        key: data[i]._id,
+        key: data[i].id,
         course_name: data[i].name,
         course_code: data[i].code,
         price: data[i].price,
@@ -159,12 +159,11 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.ADD_COURSES_DATA: {
       var keys = $$state.toJS().courseData.keys
       var records = $$state.toJS().courseData.records
+
       keys.push(course.key)
       records.push(course)
 
-      return $$state.merge({
-        courseData: {keys,records}
-      })
+      return $$state.updateIn(['courseData', 'keys'], arr => keys).updateIn(['courseData', 'records'], arr => Immutable.fromJS(records))
     }
 
     case actionTypes.UPDATE_PROMOTION_PERCENT:{
