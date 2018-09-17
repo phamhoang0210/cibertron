@@ -110,7 +110,7 @@ class DetailCampaignEditForm extends React.Component {
       key: 'promotion_price',
       render: (text, record) => (
         <FormItem > 
-          {getFieldDecorator(record.key, { 
+          {getFieldDecorator(record.key ? record.key : record.course_code, { 
           initialValue: record.promotion_price,
           rules:[{ validator: this.checkPrice }], 
           onChange:(e)=>this.handleChangePromotion(e,record) })(
