@@ -164,7 +164,12 @@ class DetailCampaignEditForm extends React.Component {
       <Form onSubmit={this.handleSubmit}>
 
         <Row>
-          <FormItem {...DEFAULT_TITLE_LAYOUT} style={{marginLeft:15, fontWeight:'bold'}} label={intl.formatMessage({id: 'edit.manage_deal.label'})} ></FormItem>
+          <FormItem
+            labelCol={{span: 4}}
+            wrapperCol={{span: 3}}
+            style={{marginLeft:15, fontWeight:'bold'}}
+            label={intl.formatMessage({id: 'edit.manage_deal.label'})}
+          ></FormItem>
         </Row>
 
         <Row>

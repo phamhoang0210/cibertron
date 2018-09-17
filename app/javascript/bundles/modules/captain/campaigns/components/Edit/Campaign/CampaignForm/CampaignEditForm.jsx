@@ -1,7 +1,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import {Form, Row, Col, Select, DatePicker, Button, Input, Radio, message} from 'antd'
-import { formItemLayout, DEFAULT_TITLE_LAYOUT } from 'app/constants/form'
+import { formItemLayout } from 'app/constants/form'
 import moment from 'moment'
 import { formDate } from 'app/constants/form'
 import { injectIntl } from 'react-intl'
@@ -22,11 +22,19 @@ class CampaignEditForm extends React.Component {
       start_time: null,
       end_time: null
     }
+
+    this.state = {
+      start_time: null,
+      end_time: null
+    }
   }
 
   handleChange(date, id) {
     const valueOfInput = date ? date.format() : ''
     this.timeData[id] = valueOfInput
+    this.setState({
+      [id]: moment(valueOfInput)
+    });
   }
 
   handleSubmit(e) {
@@ -75,7 +83,11 @@ class CampaignEditForm extends React.Component {
   }
 
   disabledStartDate = (startValue) => {
-    const endValue = this.timeData.end_time;
+    let endValue = this.timeData.end_time;
+
+    if (this.state.end_time) {
+      endValue = this.state.end_time;
+    }
 
     if (!startValue || !endValue) {
       return false;
@@ -85,7 +97,11 @@ class CampaignEditForm extends React.Component {
   }
 
   disabledEndDate = (endValue) => {
-    const startValue = this.timeData.start_time;
+    let startValue = this.timeData.start_time;
+
+    if (this.state.start_time) {
+      startValue = this.state.start_time;
+    }
 
     if (!endValue || !startValue) {
       return false;
@@ -110,7 +126,12 @@ class CampaignEditForm extends React.Component {
     return(
       <Form onSubmit={this.handleSubmit}>
         <Row>
-          <FormItem {...DEFAULT_TITLE_LAYOUT} style={{marginLeft:15, fontWeight:'bold'}} label={intl.formatMessage({id: 'edit.campaign_info.label'})} ></FormItem>
+          <FormItem
+            labelCol={{span: 4}}
+            wrapperCol={{span: 3}}
+            style={{marginLeft:15, fontWeight:'bold'}}
+            label={intl.formatMessage({id: 'edit.campaign_info.label'})}
+          ></FormItem>
         </Row>
         <Row>
           {campaign && (
