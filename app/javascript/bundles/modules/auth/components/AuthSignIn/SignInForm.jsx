@@ -49,7 +49,6 @@ class SignInForm extends React.Component {
     const { getFieldDecorator } = this.props.form
     const {authSignInState} = this.props
     const isSigning = authSignInState.get('isSigning')
-
     const responseGoogle = (response) => {
       var profileObj = response['profileObj'];
       var tokenObj = response['tokenObj'];
@@ -73,7 +72,9 @@ class SignInForm extends React.Component {
         })
         .catch(error => {})
     }
-
+    const disableGetAuth = () => {
+      window.gapi.auth2.getAuthInstance().disconnect()
+    }
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item>
@@ -106,10 +107,11 @@ class SignInForm extends React.Component {
               clientId="756159619050-e6fc577akgdnukparqn0a4qsctdei4k2.apps.googleusercontent.com"
               buttonText="Sign In with Google"
               className="ant-btn login-form-button ant-btn-danger"
+              onRequest={disableGetAuth}
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
             />
-          
+
          {/*Or <Link to={SIGN_UP_PATH}>register now!</Link>*/}
         </Form.Item>
       </Form>

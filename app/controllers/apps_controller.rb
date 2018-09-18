@@ -2,16 +2,13 @@ class AppsController < ApplicationController
   layout false
 
   def index
-    @app_css_antd ||= 'app-front-css-antd'
-    @app_css ||= 'app-front-css'
-    @app_js ||= 'app-front-js'
+    @app = FrontComponentInstance.find_by!(code: params[:code])
+    @dists = @app.front_component_dists.order(:name)
   end
 
-  def namitl
-    @app_css_antd = 'namitl-front-css-antd'
-    @app_css = 'namitl-front-css'
-    @app_js = 'namitl-front-js'
-
-    render :index
+  def myaccount
+    @app_css_antd = 'myaccount-front-css-antd'
+    @app_css = 'myaccount-front-css'
+    @app_js = 'myaccount-front-js'
   end
 end

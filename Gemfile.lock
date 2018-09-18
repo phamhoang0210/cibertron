@@ -73,6 +73,8 @@ GEM
     ffi (1.9.23)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    health_check (2.7.0)
+      rails (>= 4.0)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     jbuilder (2.7.0)
@@ -114,6 +116,7 @@ GEM
     pureapi (0.5.1)
       activesupport (>= 3.0.0)
     rack (2.0.4)
+    rack-cors (1.0.2)
     rack-proxy (0.6.3)
       rack
     rack-test (0.8.3)
@@ -215,6 +218,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   dotenv-rails
+  health_check
   jbuilder (~> 2.5)
   jwtauth (~> 0.3.2)
   listen (>= 3.0.5, < 3.2)
@@ -223,6 +227,7 @@ DEPENDENCIES
   pry-rails
   pundit
   pureapi (~> 0.5.1)
+  rack-cors
   rails (~> 5.1.5)
   react_on_rails (~> 9.0.1)
   sass-rails (~> 5.0)

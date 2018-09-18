@@ -216,41 +216,10 @@ export function fetchCourseByCondition(val, target) {
   }
 
   return dispatch => {
-    dispatch(setIsFetchingCourseByCondition())
+    dispatch(setIsFetchingCourseByCondition());
     authRequest
       .fetchEntities(`${api}&per_page=5000`)
       .then(res => dispatch(fetchCoursesByConditionSuccess(res.data)))
       .catch(error => dispatch(fetchCoursesByConditionFailure(error)))
   }
 }
-
-// function setIsLoadingCoursesByTeacher() {
-//   return {
-//     type: actionTypes.SET_IS_LOADING_COURSES_BY_TEACHER
-//   }
-// }
-
-// function loadCoursesByTeacherSuccess(teachers) {
-//   return {
-//     type: actionTypes.LOAD_COURSES_BY_TEACHER_SUCCESS,
-//     teachers
-//   }
-// }
-
-// function loadCoursesByTeacherFailure(error) {
-//   return {
-//     type: actionTypes.LOAD_COURSES_BY_TEACHER_FAILURE,
-//     error
-//   }
-// }
-
-// export function loadCoursesByTeacher() {
-//   return dispatch => {
-//     dispatch(setIsLoadingCoursesByTeacher())
-//     authRequest
-//       .fetchEntities(`${TYCOON_BASE_URL}${ALL_COURSES_BY_TEACHER_PATH}`)
-//       .then(res => dispatch(loadCoursesByTeacherSuccess(res.data)))
-//       .catch(error => dispatch(loadCoursesByTeacherFailure(error)))
-//   }
-// }
-

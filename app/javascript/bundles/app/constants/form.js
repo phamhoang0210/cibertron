@@ -47,7 +47,7 @@ export const formDate = {
 	wrapperCol: { span: 11 },
 }
 export const DEFAULT_TITLE_LAYOUT = {
-  labelCol: { span: 3 },
+  labelCol: { span: 24 },
   wrapperCol: { span: 3 },
 }
 export const DEFAULT_SUBTITLE_LAYOUT = {

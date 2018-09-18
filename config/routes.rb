@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :minerva, only: [:index]
-  resources :nami, only: [:index]
-
   root to: redirect('/dashboard')
+  health_check_routes
+
+  resources :minerva, only: [:index]
+  resources :nami, path: '/namivn', only: [:index]
+
   resources :dashboard, only: [:index]
   resources :auth, only: [:index] do
     collection do
@@ -114,13 +116,21 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :internal, defaults: { format: :json } do
+    namespace :v01 do
+      with_options only: [:index, :show] do |option|
+        option.resources :front_components
+      end
+    end
+  end
+
   resources :apps, path: '/', only: [] do
     collection do
-      get 'apps/*path', to: 'apps#index'
-      get 'apps', to: 'apps#index'
+      get 'myaccount/*path', to: 'apps#myaccount'
+      get 'myaccount', to: 'apps#myaccount'
 
-      get 'namitl/*path', to: 'apps#namitl'
-      get 'namitl', to: 'apps#namitl'
+      get ':code/*path', to: 'apps#index'
+      get ':code', to: 'apps#index'
     end
   end
 end

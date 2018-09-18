@@ -33,7 +33,7 @@ export function fetchLeads(params = {}) {
     dispatch(setIsFetchingLeads())
     authRequest
       .fetchEntities(`${NAUH_BASE_URL}${LEADS_API_PATH}`, params)
-      .then(res => dispatch(fetchLeadsSuccess(res.data)))
+      .then(res => dispatch(fetchLeadsSuccess(res.data)),console.log(res.data))
       .catch(error => dispatch(fetchLeadsFailure(error)))
   }
 }
