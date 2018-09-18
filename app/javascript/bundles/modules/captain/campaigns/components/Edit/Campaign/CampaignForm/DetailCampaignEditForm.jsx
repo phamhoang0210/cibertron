@@ -235,7 +235,7 @@ class DetailCampaignEditForm extends React.Component {
               {...FORM_SELECT_COURSES}>
                 <Select onChange={this.handleChangeCategory} placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
                     {categories.map(item => (
-                      <Option value={item._id} key={item._id} >{item.name}</Option>
+                      <Option value={item.name} key={item._id} >{item.name}</Option>
                     ))}
                   </Select>
             </FormItem>
