@@ -37,13 +37,13 @@ export const initialState = Immutable.fromJS({
   },
   findCoursesBy:[{
     id: 1,
-    title: 'Category',
+    title: 'Danh mục',
     value: 'category',
     type: 'select'
   },
   {
     id: 2,
-    title: 'Thầy',
+    title: 'Tên thầy',
     value: 'teacher',
     type: 'select'
   },
@@ -55,7 +55,7 @@ export const initialState = Immutable.fromJS({
   },
   {
     id: 4,
-    title: 'Mã khóa',
+    title: 'Tên khóa',
     value: 'course_code',
     type: 'search'
   }],
