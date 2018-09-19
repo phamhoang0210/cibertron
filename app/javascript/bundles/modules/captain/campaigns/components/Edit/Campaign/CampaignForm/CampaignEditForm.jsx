@@ -164,7 +164,7 @@ class CampaignEditForm extends React.Component {
                   <DatePicker
                     onChange={(date) => this.handleChange(date, 'start_time')}
                     style={{width: '100%'}}
-                    disabledDate={this.disabledStartDate.bind(this)}
+                    // disabledDate={this.disabledStartDate.bind(this)}
                     placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})}
                     showTime
                     format="YYYY-MM-DD HH:mm"
@@ -183,7 +183,7 @@ class CampaignEditForm extends React.Component {
                   <DatePicker
                     onChange={(date) => this.handleChange(date, 'end_time')}
                     style={{width: '100%'}}
-                    disabledDate={this.disabledEndDate.bind(this)}
+                    // disabledDate={this.disabledEndDate.bind(this)}
                     placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})}
                     showTime
                     format="YYYY-MM-DD HH:mm"
