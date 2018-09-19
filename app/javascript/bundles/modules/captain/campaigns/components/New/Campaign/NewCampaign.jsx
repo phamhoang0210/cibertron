@@ -26,10 +26,12 @@ class NewCampaign extends React.Component {
   }
 
   disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue;
+		const endValue = this.state.endValue;		
+
     if (!startValue || !endValue) {
       return false;
-    }
+		}
+
     return startValue.valueOf() > endValue.valueOf();
   }
 
@@ -131,7 +133,7 @@ class NewCampaign extends React.Component {
 							{getFieldDecorator('start_time', {
 								rules: [
 									{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'}) }
-								],
+								]
 							})(
 								<DatePicker
 									showTime format="YYYY-MM-DD HH:mm:ss" 
@@ -156,6 +158,7 @@ class NewCampaign extends React.Component {
 									showTime format="YYYY-MM-DD HH:mm:ss" 
 									style={{width: '100%'}} 
 									placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} 
+									disabled={this.state.endValue === null}
 									disabledDate={this.disabledEndDate}
 				          // value={endValue}
 				          onChange={this.onEndChange}

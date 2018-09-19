@@ -51,8 +51,8 @@ class CampaignEditForm extends React.Component {
         if (editState.get('campaign') && (editState.get('campaign').get('campaign').get('name') != values.name)) {
           record['name'] = values.name
         }
-        record['start_time'] = this.timeData.start_time ? this.timeData.start_time : values.start_time
-        record['end_time'] = this.timeData.end_time ? this.timeData.end_time : values.end_time
+        record['start_time'] = this.state.start_time ? this.state.start_time : values.start_time
+        record['end_time'] = this.state.end_time ? this.state.end_time : values.end_time
         record['status'] = (values.status == 1) ? true : false
         record['display'] = (values.display == 1) ? true : false
         record['link_tracking'] = values.link_tracking
