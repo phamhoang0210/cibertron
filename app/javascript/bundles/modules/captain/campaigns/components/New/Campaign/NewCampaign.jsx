@@ -139,7 +139,7 @@ class NewCampaign extends React.Component {
 									showTime format="YYYY-MM-DD HH:mm:ss" 
 									style={{width: '100%'}} 
 									placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})}
-									disabledDate={this.disabledStartDate}
+									// disabledDate={this.disabledStartDate}
 									// value={startValue}
 									onChange={this.onStartChange}
 									onOpenChange={this.handleStartOpenChange}
@@ -158,8 +158,8 @@ class NewCampaign extends React.Component {
 									showTime format="YYYY-MM-DD HH:mm:ss" 
 									style={{width: '100%'}} 
 									placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} 
-									disabled={this.state.endValue === null}
-									disabledDate={this.disabledEndDate}
+									// disabled={this.state.endValue === null}
+									// disabledDate={this.disabledEndDate}
 				          // value={endValue}
 				          onChange={this.onEndChange}
 				          open={endOpen}
