@@ -37,13 +37,13 @@ export const initialState = Immutable.fromJS({
   },
   findCoursesBy:[{
     id: 1,
-    title: 'Category',
+    title: 'Danh mục',
     value: 'category',
     type: 'select'
   },
   {
     id: 2,
-    title: 'Thầy',
+    title: 'Tên thầy',
     value: 'teacher',
     type: 'select'
   },
@@ -55,7 +55,7 @@ export const initialState = Immutable.fromJS({
   },
   {
     id: 4,
-    title: 'Mã khóa',
+    title: 'Tên khóa',
     value: 'course_code',
     type: 'search'
   }],
@@ -142,11 +142,9 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
-      notification['error']({
-        message: 'Update campaign failure'
-      })
       return $$state.merge({
-        isUpdatingCampaign: false
+        isUpdatingCampaign: false,
+        alert: parseError(error)
       })
     }
 

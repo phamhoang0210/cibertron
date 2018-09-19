@@ -164,7 +164,12 @@ class DetailCampaignEditForm extends React.Component {
       <Form onSubmit={this.handleSubmit}>
 
         <Row>
-          <FormItem {...DEFAULT_TITLE_LAYOUT} style={{marginLeft:15, fontWeight:'bold'}} label={intl.formatMessage({id: 'edit.manage_deal.label'})} ></FormItem>
+          <FormItem
+            labelCol={{span: 4}}
+            wrapperCol={{span: 3}}
+            style={{marginLeft:15, fontWeight:'bold'}}
+            label={intl.formatMessage({id: 'edit.manage_deal.label'})}
+          ></FormItem>
         </Row>
 
         <Row>
@@ -230,7 +235,7 @@ class DetailCampaignEditForm extends React.Component {
               {...FORM_SELECT_COURSES}>
                 <Select onChange={this.handleChangeCategory} placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
                     {categories.map(item => (
-                      <Option value={item._id} key={item._id} >{item.name}</Option>
+                      <Option value={item.name} key={item._id} >{item.name}</Option>
                     ))}
                   </Select>
             </FormItem>
