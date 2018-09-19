@@ -142,11 +142,9 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
-      notification['error']({
-        message: 'Update campaign failure'
-      })
       return $$state.merge({
-        isUpdatingCampaign: false
+        isUpdatingCampaign: false,
+        alert: parseError(error)
       })
     }
 
