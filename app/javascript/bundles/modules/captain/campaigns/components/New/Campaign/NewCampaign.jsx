@@ -16,56 +16,74 @@ class NewCampaign extends React.Component {
 	}
 	
 	state = {
-    startValue: null,
-    endValue: null,
+		startValue: null,
+		endValue: null,
 		endOpen: false,
 	};
 	
 	validateLinkFormat(link) {
-    return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_{}]*)#?(?:[\w]*))?)$/.test(link)
-  }
+		return /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_{}]*)#?(?:[\w]*))?)$/.test(link)
+	}
 
-  disabledStartDate = (startValue) => {
-		const endValue = this.state.endValue;		
+	disabledStartDate = (startValue) => {
+		const endValue = this.state.endValue;   
 
-    if (!startValue || !endValue) {
-      return false;
+		if (!startValue || !endValue) {
+			return false;
 		}
 
-    return startValue.valueOf() > endValue.valueOf();
-  }
+		return startValue.valueOf() > endValue.valueOf();
+	}
 
-  disabledEndDate = (endValue) => {
-    const startValue = this.state.startValue;
-    if (!endValue || !startValue) {
-      return false;
-    }
-    return endValue.valueOf() <= startValue.valueOf();
-  }
+	disabledEndDate = (endValue) => {
+		const startValue = this.state.startValue;
+		if (!endValue || !startValue) {
+			return false;
+		}
+		return endValue.valueOf() <= startValue.valueOf();
+	}
 
-  onChange = (field, value) => {
-    this.setState({
-      [field]: value,
-    });
-  }
+	onChange = (field, value) => {
+		this.setState({
+			[field]: value,
+		});
+	}
 
-  onStartChange = (value) => {
-    this.onChange('startValue', value);
-  }
+	onStartChange = (value) => {
+		this.onChange('startValue', value);
+		if (this.state.endValue != null){
+			var get_hour_start = value.hour() < 10 ? "0"+value.hour() : value.hour();
+			var get_hour_end   = this.state.endValue.hour() < 10 ? "0"+this.state.endValue.hour() : this.state.endValue.hour();
+			var get_day        = value.date() < 10 ? "0"+value.date() : value.date();
+			var get_month      = value.format("MM") < 10 ? "0"+value.format("MM") : value.format("MM");
+			this.props.form.setFieldsValue({
+				link_tracking: `https://edumall.vn/flash_sale/all_courses?utm_source=ECM_MKT&utm_medium=flashsale_${get_hour_start}_${get_hour_end}_${get_day}${get_month}&`
+			});
+		}
+	}
 
-  onEndChange = (value) => {
-    this.onChange('endValue', value);
-  }
+	onEndChange = (value) => {
+		this.onChange('endValue', value);
+		if (this.state.startValue != null){
+			var get_hour_end     = value.hour() < 10 ? "0"+value.hour() : value.hour();
+			var get_hour_start   = this.state.startValue.hour() < 10 ? "0"+this.state.startValue.hour() : this.state.startValue.hour();
+			var get_day          = this.state.startValue.date() < 10 ? "0"+this.state.startValue.date() : this.state.startValue.date();
+			var get_month        = this.state.startValue.format("MM") < 10 ? "0"+this.state.startValue.format("MM") : this.state.startValue.format("MM");
+			this.props.form.setFieldsValue({
+				link_tracking: `https://edumall.vn/flash_sale/all_courses?utm_source=ECM_MKT&utm_medium=flashsale_${get_hour_start}_${get_hour_end}_${get_day}${get_month}&`
+			});
+		}
+	}
 
-  handleStartOpenChange = (open) => {
-    if (!open) {
-      this.setState({ endOpen: true });
-    }
-  }
+	handleStartOpenChange = (open) => {
+		if (!open) {
+			this.setState({ endOpen: true });
+		}
+	}
 
-  handleEndOpenChange = (open) => {
-    this.setState({ endOpen: open });
-  }
+	handleEndOpenChange = (open) => {
+		this.setState({ endOpen: open });
+	}
 	
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -160,10 +178,10 @@ class NewCampaign extends React.Component {
 									placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} 
 									// disabled={this.state.endValue === null}
 									// disabledDate={this.disabledEndDate}
-				          // value={endValue}
-				          onChange={this.onEndChange}
-				          open={endOpen}
-				          onOpenChange={this.handleEndOpenChange}
+									// value={endValue}
+									onChange={this.onEndChange}
+									open={endOpen}
+									onOpenChange={this.handleEndOpenChange}
 								/>
 							)}
 						</FormItem>
