@@ -180,7 +180,7 @@ export function loadCoursesByCategory(name) {
   return dispatch => {
     dispatch(setIsLoadingCoursesByCategory())
     authRequest
-      .fetchEntities(`${CAPTAIN_BASE_URL}${COURSES_API_PATH}?compconds[category.like]=%25${name}%25`)
+      .fetchEntities(`${CAPTAIN_BASE_URL}${COURSES_API_PATH}?per_page=infinite&compconds[category.like]=%25${name}%25`)
       .then(res => dispatch(loadCoursesByCategorySuccess(res.data)))
       .catch(error => dispatch(loadCoursesByCategoryFailure(error)))
   }
