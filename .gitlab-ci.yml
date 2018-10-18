@@ -15,6 +15,7 @@ stages:
   - canary
   - production
   - cleanup
+  - monitor
 
 build:
   stage: build
@@ -139,5 +140,15 @@ cleanup:
   stage: cleanup
   script:
     - remove_image web
+  allow_failure: true
+  when: manual
+
+monitor:
+  stage: monitor
+  script:
+    - monitor web
+  only:
+    - branches
+    - tags
   allow_failure: true
   when: manual
