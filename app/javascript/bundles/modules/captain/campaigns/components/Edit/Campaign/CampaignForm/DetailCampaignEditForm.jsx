@@ -110,7 +110,7 @@ class DetailCampaignEditForm extends React.Component {
       key: 'promotion_price',
       render: (text, record) => (
         <FormItem > 
-          {getFieldDecorator(record.key, { 
+          {getFieldDecorator(record.key ? record.key : record.course_code, { 
           initialValue: record.promotion_price,
           rules:[{ validator: this.checkPrice }], 
           onChange:(e)=>this.handleChangePromotion(e,record) })(
@@ -149,12 +149,6 @@ class DetailCampaignEditForm extends React.Component {
             if (!courseData.keys.includes(selectedRows[i]['key'])) {
               actions.addCoursesData(selectedRows[i])
             }
-            else {
-              var removeItems = courseData.records.filter(function(item){ return !selectedRowKeys.includes(item.key) })
-              for (var j = 0; j < removeItems.length; j++) {
-                actions.deleteCourseData(removeItems[j])
-              }
-            }
           }
         }
       },
@@ -164,7 +158,12 @@ class DetailCampaignEditForm extends React.Component {
       <Form onSubmit={this.handleSubmit}>
 
         <Row>
-          <FormItem {...DEFAULT_TITLE_LAYOUT} style={{marginLeft:15, fontWeight:'bold'}} label={intl.formatMessage({id: 'edit.manage_deal.label'})} ></FormItem>
+          <FormItem
+            labelCol={{span: 4}}
+            wrapperCol={{span: 3}}
+            style={{marginLeft:15, fontWeight:'bold'}}
+            label={intl.formatMessage({id: 'edit.manage_deal.label'})}
+          ></FormItem>
         </Row>
 
         <Row>
@@ -229,10 +228,10 @@ class DetailCampaignEditForm extends React.Component {
             <FormItem label={intl.formatMessage({id: 'edit.condition.label'})}
               {...FORM_SELECT_COURSES}>
                 <Select onChange={this.handleChangeCategory} placeholder={intl.formatMessage({id: 'edit.search_courses_by.placeholder.select.none'})} >
-                    {categories.map(item => (
-                      <Option value={item._id} key={item._id} >{item.name}</Option>
-                    ))}
-                  </Select>
+                  {categories.map(item => (
+                    <Option value={item.name} key={item._id} >{item.name}</Option>
+                  ))}
+                </Select>
             </FormItem>
           </Col>
         )

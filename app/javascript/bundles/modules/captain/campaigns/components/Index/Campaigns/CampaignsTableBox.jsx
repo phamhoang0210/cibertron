@@ -55,6 +55,7 @@ class CampaignsTableBox extends React.Component {
       {
         title: 'Type',
         key: 'display',
+        width: 90,
         render: (text, record) => (
           <span>{this.type(record)}</span>
         )
@@ -64,7 +65,7 @@ class CampaignsTableBox extends React.Component {
         title: 'Người tạo',
         dataIndex: 'creator',
         key: 'creator',
-        width: 150
+        width: 120
       },
       {
         title: 'SL deal',

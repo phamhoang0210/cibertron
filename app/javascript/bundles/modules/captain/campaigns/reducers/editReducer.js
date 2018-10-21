@@ -37,13 +37,13 @@ export const initialState = Immutable.fromJS({
   },
   findCoursesBy:[{
     id: 1,
-    title: 'Category',
+    title: 'Danh mục',
     value: 'category',
     type: 'select'
   },
   {
     id: 2,
-    title: 'Thầy',
+    title: 'Tên thầy',
     value: 'teacher',
     type: 'select'
   },
@@ -55,7 +55,7 @@ export const initialState = Immutable.fromJS({
   },
   {
     id: 4,
-    title: 'Mã khóa',
+    title: 'Tên khóa',
     value: 'course_code',
     type: 'search'
   }],
@@ -67,7 +67,7 @@ function formatCourseData(data) {
   if (data.length > 0) {
     for (var i=0; i < data.length; i++) {
       let item = {
-        key: data[i]._id,
+        key: data[i].id,
         course_name: data[i].name,
         course_code: data[i].code,
         price: data[i].price,
@@ -142,11 +142,9 @@ export default function editReducer($$state = initialState, action = null) {
     }
 
     case actionTypes.UPDATE_CAMPAIGN_FAILURE: {
-      notification['error']({
-        message: 'Update campaign failure'
-      })
       return $$state.merge({
-        isUpdatingCampaign: false
+        isUpdatingCampaign: false,
+        alert: parseError(error)
       })
     }
 
@@ -159,12 +157,11 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.ADD_COURSES_DATA: {
       var keys = $$state.toJS().courseData.keys
       var records = $$state.toJS().courseData.records
+
       keys.push(course.key)
       records.push(course)
 
-      return $$state.merge({
-        courseData: {keys,records}
-      })
+      return $$state.updateIn(['courseData', 'keys'], arr => keys).updateIn(['courseData', 'records'], arr => Immutable.fromJS(records))
     }
 
     case actionTypes.UPDATE_PROMOTION_PERCENT:{

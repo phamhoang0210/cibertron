@@ -26,10 +26,12 @@ class NewCampaign extends React.Component {
   }
 
   disabledStartDate = (startValue) => {
-    const endValue = this.state.endValue;
+		const endValue = this.state.endValue;		
+
     if (!startValue || !endValue) {
       return false;
-    }
+		}
+
     return startValue.valueOf() > endValue.valueOf();
   }
 
@@ -102,28 +104,6 @@ class NewCampaign extends React.Component {
 		callback();
 	}
 
-	validateStartTime(rule, value, callback) {
-		let endTime = this.props.form.getFieldValue('end_time');
-		
-		if (value && endTime && (value.add(10, 'minutes') >= endTime)) {
-			callback('Thời gian bắt đầu và thời gian kết thúc quá gần nhau');
-			return;
-		}
-
-		callback();
-	}
-
-	validateEndTime(rule, value, callback) {
-		let startTime = this.props.form.getFieldValue('start_time');
-		
-		if (value && startTime && (startTime.add(10, 'minutes') >= value)) {
-			callback('Thời gian bắt đầu và thời gian kết thúc quá gần nhau');
-			return;
-		}
-
-		callback();
-	}
-
 	render(){
 		const {intl, newState, sharedState}  = this.props
 		const { getFieldDecorator } = this.props.form
@@ -152,15 +132,14 @@ class NewCampaign extends React.Component {
 						<FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_start.label'})} >
 							{getFieldDecorator('start_time', {
 								rules: [
-									{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'}) },
-									{ validator: this.validateStartTime.bind(this) }
-								],
+									{ required: true,message: intl.formatMessage({id: 'attrs.time_start.required'}) }
+								]
 							})(
 								<DatePicker
 									showTime format="YYYY-MM-DD HH:mm:ss" 
 									style={{width: '100%'}} 
 									placeholder={intl.formatMessage({id: 'attrs.time_start.placeholder.select.none'})}
-									disabledDate={this.disabledStartDate}
+									// disabledDate={this.disabledStartDate}
 									// value={startValue}
 									onChange={this.onStartChange}
 									onOpenChange={this.handleStartOpenChange}
@@ -172,15 +151,15 @@ class NewCampaign extends React.Component {
 						<FormItem {...formDate} label={intl.formatMessage({id: 'attrs.time_end.label'})} >
 							{getFieldDecorator('end_time', {
 								rules: [
-									{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'}) },
-									{ validator: this.validateEndTime.bind(this) }
+									{ required: true,message: intl.formatMessage({id: 'attrs.time_end.required'}) }
 								],
 							})(
 								<DatePicker
 									showTime format="YYYY-MM-DD HH:mm:ss" 
 									style={{width: '100%'}} 
 									placeholder={intl.formatMessage({id: 'attrs.time_end.placeholder.select.none'})} 
-									disabledDate={this.disabledEndDate}
+									// disabled={this.state.endValue === null}
+									// disabledDate={this.disabledEndDate}
 				          // value={endValue}
 				          onChange={this.onEndChange}
 				          open={endOpen}

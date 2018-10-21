@@ -125,3 +125,39 @@ export function fetchUsers(data) {
       .catch(error => dispatch(fetchUsersFailure(error)))
   }
 }
+
+//Action for reload landingpage
+function setIsReloadingDomain(domainId) {
+  return {
+    type: actionTypes.SET_IS_RELOADING_DOMAIN,
+    domainId,
+  }
+}
+
+function reloadDomainSuccess(record) {
+  return {
+    type: actionTypes.RELOAD_DOMAIN_SUCCESS,
+    record,
+  }
+}
+
+function reloadDomainFailure(error, domainId) {
+  return {
+    type: actionTypes.RELOAD_DOMAIN_FAILURE,
+    error,
+    domainId,
+  }
+}
+
+export function reloadDomain(domainId, domainParams, params = {}) {
+  return dispatch => {
+    dispatch(setIsReloadingDomain(domainId))
+    authRequest
+      .putEntity(`${HERA_BASE_URL}${DOMAINS_API_PATH}/${domainId}/reload`, params)
+      .then(res => {
+        dispatch(reloadDomainSuccess(res.data))
+        dispatch(fetchDomains(domainParams))
+      })
+      .catch(error => dispatch(reloadDomainFailure(error, domainId)))
+  }
+}
