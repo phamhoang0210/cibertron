@@ -21,6 +21,7 @@ class DomainsTableBox extends React.Component {
       'handleEdit',
       'handleAdd',
       'handleSearch',
+      'handleReload',
     ])
 
     this.columns = [{
@@ -33,10 +34,18 @@ class DomainsTableBox extends React.Component {
       key: 'name',
       render: (cell, row) => (
         <div>
-        <a href={`http://${row.name}`} target="_blank">{row.name}</a><br/>
-        {row.status == 'DELETED' && (<Tag style={{ marginTop: 5 }} color="red">DELETED</Tag>)}
-        {row.status == 'PENDING' && (<Tag style={{ marginTop: 5 }} color="blue">PENDING</Tag>)}
-        {row.status == 'ACTIVE' && (<Tag style={{ marginTop: 5 }} color="green">ACTIVE</Tag>)}
+          <a href={`http://${row.name}`} target="_blank">{row.name}</a><br/>
+          {row.status == 'DELETED' && (<Tag style={{ marginTop: 5 }} color="red">DELETED</Tag>)}
+          {row.status == 'PENDING' && (<Tag style={{ marginTop: 5 }} color="blue">PENDING</Tag>)}
+          {row.status == 'ACTIVE' && (<Tag style={{ marginTop: 5 }} color="green">ACTIVE</Tag>)}
+          
+          {row.backup && (<div><a href={`${intl.formatMessage({id: 'others.aws'})}/${row.name}/index.html`} target="_blank">
+            <Tag style={{ marginTop: 5 }} color="volcano">{intl.formatMessage({id: 'attrs.backup_index.label'})}</Tag>
+          </a>
+          <a href={`${intl.formatMessage({id: 'others.aws'})}/${row.name}/thankyou/thankyou.html`} target="_blank">
+            <Tag style={{ marginTop: 5 }} color="volcano">{intl.formatMessage({id: 'attrs.backup_thankyou.label'})}</Tag>
+          </a></div>)}
+
         </div>
         ),
     },{
@@ -59,9 +68,18 @@ class DomainsTableBox extends React.Component {
         return (
           <div className="text-align--right">
             <Button
+              icon="reload"
+              size="small"
+              className="button-margin--top--default width--full"
+              loading={row.isReloading}
+              onClick={(e) => this.handleReload(row.id)}
+            >
+              Reload
+            </Button>
+            <Button
               icon="edit"
               size="small"
-              className="width--full"
+              className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
               {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
@@ -100,6 +118,20 @@ class DomainsTableBox extends React.Component {
 
   handleAdd(e) {
     browserHistory.push(`${DOMAINS_URL}/new`)
+  }
+
+  handleReload(domainId){
+    const {actions, indexState} = this.props
+    // debugger
+    // const paging = indexState.getIn(['domainFilters', 'paging'])
+    // const domainParams = getFilterParams(indexState.get('landingPageFilters'))
+    // const pagination = getDefaultTablePagination(paging.get('page'), paging.get('record_total'))
+    // const {current, pageSize, total} = pagination
+
+    // if(current != domainParams.page) {
+    //   domainParams.page = current
+    // }
+    actions.reloadDomain(domainId)
   }
 
   handleTableChange(pagination, filters, sorter) {
