@@ -38,6 +38,14 @@ export const appLocale = {
       type: {
         // attrs.type.label
         label: 'Loại',
+      },
+      backup_index: {
+        // attrs.backup_index.label
+        label: 'Backup Index'
+      },
+      backup_thankyou: {
+        // attrs.backup_thankyou.label
+        label: 'Backup Thankyou'
       }
     },
     popconfirm: {
@@ -67,6 +75,9 @@ export const appLocale = {
           placeholder: 'Tìm kiếm..',
         }
       }
+    },
+    others: {
+      aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage/landingpages'
     }
   }),
   antd: antdVi,
