@@ -49,14 +49,19 @@ export const menuData = [
     title: (<span><Icon type="bars" /><span>SOL</span></span>),
     items: [
       {
-        type: 'link', 
+        type: 'link',
         path: '/sol/discounts',
         title: 'Discounts',
       },
       {
-        type: 'link', 
+        type: 'link',
         path: '/sol/catalogs',
         title: 'Catalogs',
+      },
+      {
+        type: 'link',
+        path: '/sol/group_catalogs',
+        title: 'Group Catalogs',
       },
       {
         type: 'link', 
