@@ -3,31 +3,31 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
-  catalog: null,
-  isCreatingCatalog: false,
+  groupCatalog: null,
+  isCreatingGroupCatalog: false,
 })
 
 export default function newReducer($$state = initialState, action = null) {
   const { type, record, records, filters, error } = action
   
   switch (type) {
-    case actionTypes.SET_IS_CREATING_CATALOG: {
+    case actionTypes.SET_IS_CREATING_GROUP_CATALOG: {
       return $$state.merge({
-        isCreatingCatalog: true,
+        isCreatingGroupCatalog: true,
       })
     }
 
-    case actionTypes.CREATE_CATALOG_SUCCESS: {
+    case actionTypes.CREATE_GROUP_CATALOG_SUCCESS: {
       return $$state.merge({
-        isCreatingCatalog: false,
-        catalog: record,
-        alert: createSuccessAlert(`Catalog was successfully created.`),
+        isCreatingGroupCatalog: false,
+        groupCatalog: record,
+        alert: createSuccessAlert(`GroupCatalog was successfully created.`),
       })
     }
 
-    case actionTypes.CREATE_CATALOG_FAILURE: {
+    case actionTypes.CREATE_GROUP_CATALOG_FAILURE: {
       return $$state.merge({
-        isCreatingCatalog: false,
+        isCreatingGroupCatalog: false,
         alert: parseError(error)
       })
     }

@@ -6,7 +6,6 @@ import IndexScreen from '../components/Index/IndexScreen'
 import * as actions from '../actions/indexActions'
 
 const IndexContainer = ({ actions, indexState, sharedState, railsContextState, location}) => {
-	console.log('Ahihi')
   return (
     <IndexScreen {...{actions, indexState, sharedState, railsContextState, location }} />
   );

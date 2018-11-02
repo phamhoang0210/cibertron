@@ -11,7 +11,7 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 const FormItem = Form.Item
 let uuid = 0;
 
-class CatalogEditForm extends React.Component {
+class GroupCatalogEditForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -29,39 +29,39 @@ class CatalogEditForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {actions, editState} = this.props
-    const catalog = editState.get('catalog')
+    const groupCatalog = editState.get('groupCatalog')
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let params = this.formatFormData(values)
-        actions.updateCatalog(catalog.get('id'), {record: params})
+        actions.updateGroupCatalog(groupCatalog.get('id'), {record: params})
       }
     })
   }
 
   formatFormData(values) {
     let params = values
-    var old_courses = params.old_courses ? params.old_courses : []
-    var courses = params.courses ? params.courses : [] 
-    params.courses = courses.concat(old_courses)
+    var old_catalogs = params.old_catalogs ? params.old_catalogs : []
+    var catalogs = params.catalogs ? params.catalogs : [] 
+    params.catalogs = catalogs.concat(old_catalogs)
 
     return params
   }
 
   getProductCascaderOptions() {
     const {editState, sharedState} = this.props
-    const courses = sharedState.get('courses').map(course => (
+    const catalogs = sharedState.get('catalogs').map(catalog => (
       Map({
-        value: `${course.get('id')}`,
-        label: `${course.get('code')} - ${course.get('price')} - ${course.get('name')}`
+        value: `${catalog.get('id')}`,
+        label: `${catalog.get('code')}- ${catalog.get('name')}`
       })
     ))
 
     return [
       {
-        value: 'Course',
-        label: 'Course',
-        children: courses.toJS(),
+        value: 'Catalog',
+        label: 'Catalog',
+        children: catalogs.toJS(),
       },
     ]
   }
@@ -99,37 +99,31 @@ class CatalogEditForm extends React.Component {
     const {editState, sharedState} = this.props
     const {getFieldDecorator, getFieldValue} = this.props.form
     const alert = editState.get('alert')
-    const catalog = editState.get('catalog')
-    const isUpdatingCatalog = editState.get('isUpdatingCatalog')
-    const isFetchingCatalog = editState.get('isFetchingCatalog')
+    const groupCatalog = editState.get('groupCatalog')
+    const isUpdatingGroupCatalog = editState.get('isUpdatingGroupCatalog')
+    const isFetchingGroupCatalog = editState.get('isFetchingGroupCatalog')
     const productCascaderOptions = this.getProductCascaderOptions()
     var oldItems = []
-    if (catalog) {
-      oldItems = catalog.get("catalog_courses").map((cc, index) => {
+    if (groupCatalog) {
+      oldItems = groupCatalog.get("group_catalogs").map((cc, index) => {
         return (
           <FormItem
             {...DEFAULT_FORM_ITEM_LAYOUT}
-            label={'Course'}
+            label={'Catalog'}
             required={false}
             key={index}
           >
           <Row>
-          {getFieldDecorator(`old_courses.${index}.${'id'}`,{
-            initialValue: ['Course', `${cc.get('course').get('id')}`]
+          {getFieldDecorator(`old_catalogs.${index}.${'id'}`,{
+            initialValue: ['Catalog', `${cc.get('catalog').get('id')}`]
           })(
             <Cascader
               options={productCascaderOptions}
-              placeholder="Please select course"
+              placeholder="Please select catalog"
               showSearch
               style={{ width: '60%', marginRight: 8 }}
             />
           )}
-
-          {getFieldDecorator(`old_courses.${index}.${'new_price'}`, {
-            initialValue: `${cc.get('new_price')}`
-          })(
-            <Input style={{ width: '20%', marginRight: 8}}/>)
-          }
 
           {
             <Icon
@@ -151,23 +145,19 @@ class CatalogEditForm extends React.Component {
       return (
         <FormItem
           {...DEFAULT_FORM_ITEM_LAYOUT}
-          label={'Course'}
+          label={'Catalog'}
           required={false}
           key={k}
         >
           <Row>
-            {getFieldDecorator(`courses.${k}.${'id'}`)(   
+            {getFieldDecorator(`catalogs.${k}.${'id'}`)(   
               <Cascader
                 options={productCascaderOptions}
-                placeholder="Please select course"
+                placeholder="Please select catalog"
                 showSearch
                 style={{ width: '60%', marginRight: 8 }}
               />
             )}
-
-            {getFieldDecorator(`courses.${k}.${'new_price'}`)(
-              <Input style={{ width: '20%', marginRight: 8}}/>)
-            }
 
             {
               <Icon
@@ -194,7 +184,7 @@ class CatalogEditForm extends React.Component {
           </Row>
         )}
 
-        {isFetchingCatalog && (
+        {isFetchingGroupCatalog && (
           <div className="main-content-form-box-loading-box">
             <Spin />
           </div>
@@ -202,51 +192,33 @@ class CatalogEditForm extends React.Component {
 
         <Row>
           <Col span={14}>
-            {catalog && !catalog.isEmpty() && (
+            {groupCatalog && !groupCatalog.isEmpty() && (
               <Form onSubmit={this.handleSubmit} layout="horizontal">
                 <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: 'Name is required!' }],
-                    initialValue: [catalog.get('name')],
+                    initialValue: [groupCatalog.get('name')],
                   })(<Input style={{ width: '60%' }}/>)}
                 </FormItem>
 
                 <FormItem label="Code" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   {getFieldDecorator('code', {
                     rules: [{ required: true, message: 'Code is required!' }],
-                    initialValue: [catalog.get('code')],
-                  })(<Input style={{ width: '60%' }}/>)}
-                </FormItem>
-
-                <FormItem label="Banner" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                  {getFieldDecorator('banner', {
-                    initialValue: [catalog.get('banner')],
-                  })(<Input style={{ width: '60%' }}/>)}
-                </FormItem>
-
-                <FormItem label="Banner Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                  {getFieldDecorator('banner_mobile', {
-                    initialValue: [catalog.get('banner_mobile')],
-                  })(<Input style={{ width: '60%' }}/>)}
-                </FormItem>
-
-                <FormItem label="Direct link" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                  {getFieldDecorator('direct_link', {
-                    initialValue: [catalog.get('direct_link')],
+                    initialValue: [groupCatalog.get('code')],
                   })(<Input style={{ width: '60%' }}/>)}
                 </FormItem>
 
                 {oldItems}
                 {formItems}
 
-              <FormItem label="Add Course" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <FormItem label="Add Catalog" {...DEFAULT_FORM_ITEM_LAYOUT}>
                   <Button type="dashed" onClick={this.add}>
                     <Icon type="plus" />
                   </Button>
               </FormItem>
 
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
-                <Button type="primary" htmlType="submit" loading={isUpdatingCatalog}>
+                <Button type="primary" htmlType="submit" loading={isUpdatingGroupCatalog}>
                   Save
                 </Button>
                 <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
@@ -263,4 +235,4 @@ class CatalogEditForm extends React.Component {
   }
 }
 
-export default Form.create()(CatalogEditForm)
+export default Form.create()(GroupCatalogEditForm)

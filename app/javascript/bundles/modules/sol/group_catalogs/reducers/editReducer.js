@@ -4,60 +4,60 @@ import { defaultFilters } from 'app/constants/initialState'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
-  catalog: null,
-  isFetchingCatalog: false,
-  isUpdatingCatalog: false,
-  catalogFilters: {
+  groupCatalog: null,
+  isFetchingGroupCatalog: false,
+  isUpdatingGroupCatalog: false,
+  groupCatalogFilters: {
     ...defaultFilters,
-    fields: 'catalog_courses{course{}}'
+    fields: 'group_catalogs{catalog{}}'
   },
 })
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, records, filters, error, catalogId } = action
+  const { type, record, records, filters, error, groupCatalogId } = action
   
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_CATALOG: {
+    case actionTypes.SET_IS_FETCHING_GROUP_CATALOG: {
       return $$state.merge({
-        isFetchingCatalog: true,
+        isFetchingGroupCatalog: true,
         alert: null,
-        catalog: null,
+        groupCatalog: null,
       })
     }
 
-    case actionTypes.FETCH_CATALOG_SUCCESS: {
+    case actionTypes.FETCH_GROUP_CATALOG_SUCCESS: {
       return $$state.merge({
-        isFetchingCatalog: false,
-        catalog: record,
-        catalogFilters: filters,
+        isFetchingGroupCatalog: false,
+        groupCatalog: record,
+        groupCatalogFilters: filters,
       })
     }
 
-    case actionTypes.FETCH_CATALOG_FAILURE: {
+    case actionTypes.FETCH_GROUP_CATALOG_FAILURE: {
       return $$state.merge({
-        isFetchingCatalog: false,
+        isFetchingGroupCatalog: false,
         alert: parseError(error)
       })
     }
 
-    case actionTypes.SET_IS_UPDATING_CATALOG: {
+    case actionTypes.SET_IS_UPDATING_GROUP_CATALOG: {
       return $$state.merge({
-        isUpdatingCatalog: true,
+        isUpdatingGroupCatalog: true,
       })
     }
 
-    case actionTypes.UPDATE_CATALOG_SUCCESS: {
+    case actionTypes.UPDATE_GROUP_CATALOG_SUCCESS: {
       return $$state.merge({
-        isUpdatingCatalog: false,
-        alert: createSuccessAlert('Catalog was successfully updated'),
-      }).update('catalog', catalogItem => (
-        catalogItem.merge(record)
+        isUpdatingGroupCatalog: false,
+        alert: createSuccessAlert('Group Catalog was successfully updated'),
+      }).update('groupCatalog', groupCatalogItem => (
+        groupCatalogItem.merge(record)
       ))
     }
 
-    case actionTypes.UPDATE_CATALOG_FAILURE: {
+    case actionTypes.UPDATE_GROUP_CATALOG_FAILURE: {
       return $$state.merge({
-        isUpdatingCatalog: false,
+        isUpdatingGroupCatalog: false,
         alert: parseError(error)
       })
     }

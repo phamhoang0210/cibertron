@@ -14,7 +14,6 @@ const Option = Select.Option
 const FormItem = Form.Item
 let uuid = 0;
 
-
 class CatalogsTableBox extends React.Component {
   constructor(props) {
     super(props)

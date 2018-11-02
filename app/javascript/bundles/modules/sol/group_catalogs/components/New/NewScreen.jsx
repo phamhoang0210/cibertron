@@ -1,5 +1,5 @@
 import React from 'react'
-import CatalogNewForm from './Catalog/CatalogForm/CatalogNewForm'
+import GroupCatalogNewForm from './GroupCatalog/GroupCatalogForm/GroupCatalogNewForm'
 
 class NewScreen extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class NewScreen extends React.Component {
 
   componentDidMount() {
     const {actions} = this.props
-    actions.fetchCourses({per_page: 'infinite'})
+    actions.fetchCatalogs({per_page: 'infinite'})
   }
 
   render() {
@@ -16,11 +16,11 @@ class NewScreen extends React.Component {
       <div className="main-content sol--catalogs--new box">
         <div className="box-header">
           <h1 className="box-title">
-            Create new catalog
+            Create new group catalog
           </h1>
         </div>
         <div className="box-body">
-          <CatalogNewForm {...this.props}/>
+          <GroupCatalogNewForm {...this.props}/>
         </div>
       </div>
     )

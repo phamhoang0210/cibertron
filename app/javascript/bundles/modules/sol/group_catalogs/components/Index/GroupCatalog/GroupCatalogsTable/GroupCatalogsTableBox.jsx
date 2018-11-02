@@ -4,10 +4,11 @@ import qs from 'qs'
 import Immutable from 'immutable'
 import {getCredentials} from 'helpers/auth/authHelper'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox, Icon, Table, Popconfirm } from 'antd'
-import { CATALOGS_URL} from '../../../../constants/paths'
+import { GROUP_CATALOGS_URL} from '../../../../constants/paths'
 import { getFilterParamsAndSyncUrl, mergeDeep, rowClassName, getDefaultTablePagination,
         getDefaultTableTitlePagination, getFilterParams, getInitialValueForSearch} from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
+import AlertBox from 'partials/components/Alert/AlertBox'
 
 const { Search } = Input
 const Option = Select.Option
@@ -31,50 +32,51 @@ class GroupCatalogsTableBox extends React.Component {
   getInitialValues() {
     const {indexState, location} = this.props
     
-    const currentCatalogFilters = Immutable.fromJS(getFilterParams(indexState.get('catalogFilters'), location))
+    const currentGroupCatalogFilters = Immutable.fromJS(getFilterParams(indexState.get('groupCatalogFilters'), location))
     return {
-      search: getInitialValueForSearch({}, currentCatalogFilters, ['code.like']),
+      search: getInitialValueForSearch({}, currentGroupCatalogFilters, ['code.like']),
     }
   }
 
   handleSearch(keyword) {
     const {actions, indexState, location} = this.props
-    let catalogParams = getFilterParamsAndSyncUrl(indexState.get('catalogFilters'), location, {compconds: {'code.like': `%${keyword}%`}})
+    let groupCatalogParams = getFilterParamsAndSyncUrl(indexState.get('groupCatalogFilters'), location, {compconds: {'code.like': `%${keyword}%`}})
 
-    actions.fetchCatalogs(catalogParams)
+    actions.fetchGroupCatalogs(groupCatalogParams)
   }
   handleAdd(e) {
-    browserHistory.push(`${CATALOGS_URL}/new`)
+    browserHistory.push(`${GROUP_CATALOGS_URL}/new`)
   }
-  handleDelete(catalogId) {
+  handleDelete(groupCatalogId) {
     const {actions, indexState} = this.props
-    actions.deleteCatalog(catalogId)
+    actions.deleteGroupCatalog(groupCatalogId)
   }
 
-  handleEdit(catalogId) {
-    browserHistory.push(`${CATALOGS_URL}/${catalogId}/edit`)
+  handleEdit(groupCatalogId) {
+    browserHistory.push(`${GROUP_CATALOGS_URL}/${groupCatalogId}/edit`)
   }
 
   handleTableChange(pagination, filters, sorter) {
     const {actions, indexState} = this.props
     const {current, pageSize, total} = pagination
 
-    let catalogParams = {}
-    if(current != catalogParams.page) {
-      catalogParams.page = current
+    let groupCatalogParams = {}
+    if(current != groupCatalogParams.page) {
+      groupCatalogParams.page = current
     }
-    catalogParams = getFilterParamsAndSyncUrl(indexState.get('catalogFilters'), location, catalogParams)
+    groupCatalogParams = getFilterParamsAndSyncUrl(indexState.get('groupCatalogFilters'), location, groupCatalogParams)
 
-    actions.fetchCatalogs(catalogParams)
+    actions.fetchGroupCatalogs(groupCatalogParams)
   }
 
   render() {
     const {actions, indexState, location} = this.props
-    const catalogs = indexState.get('catalogs')
-    const paging = indexState.getIn(['catalogFilters', 'paging'])
-    const isFetchingCatalogs = indexState.get('isFetchingCatalogs')
-    const dataCatalogs = indexState.get('catalogs').toJS()
-    const columnsCatalogs = [
+    const alert = indexState.get('alert')
+    const groupCatalogs = indexState.get('groupCatalogs')
+    const paging = indexState.getIn(['groupCatalogFilters', 'paging'])
+    const isFetchingGroupCatalogs = indexState.get('isFetchingGroupCatalogs')
+    const dataGroupCatalogs = indexState.get('groupCatalogs').toJS()
+    const columnsGroupCatalogs = [
       {title: 'Name', dataIndex: 'name', key: 'name'},
       {title: 'Code', dataIndex: 'code', key: 'price'},
       {title: 'Action',
@@ -84,7 +86,7 @@ class GroupCatalogsTableBox extends React.Component {
             <div className="text-align--right">
               <Popconfirm
                 placement="topLeft"
-                title="Are you sure delete this catalog?"
+                title="Are you sure delete this group catalog?"
                 onConfirm={() => this.handleDelete(row.id)}
                 okText="Yes"
                 cancelText="No"
@@ -106,30 +108,41 @@ class GroupCatalogsTableBox extends React.Component {
     ]
 
     const expandedRowRender = (record) => {
-      var catalog_courses = record.catalog_courses
+      var group_catalogs = record.group_catalogs
       const data = [];
-      for (let i = 0; i < catalog_courses.length; ++i) {
+      for (let i = 0; i < group_catalogs.length; ++i) {
         data.push({
           id: i,
-          name: catalog_courses[i].course.name,
-          price: catalog_courses[i].course.price,
-          new_price: catalog_courses[i].new_price
+          name: group_catalogs[i].catalog.name,
+          code: group_catalogs[i].catalog.code,
         });
       }
 
       const columns = [
         { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Origin Price', dataIndex: 'price', key: 'price' },
-        { title: 'New Price', dataIndex: 'new_price', key: 'new_price' },
+        { title: 'Code', dataIndex: 'code', key: 'code' },
       ];
       
       return (
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          rowKey="id"
-        />
+        <div className="main-content-form-box">
+          {alert && !alert.isEmpty() && (
+            <Row className="main-content-form-box-alert-box">
+              <Col span={14}>
+                <AlertBox
+                  messages={alert.get('messages')}
+                  type={alert.get('type')}
+                />
+              </Col>
+            </Row>
+          )}
+
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            rowKey="id"
+          />
+        </div>
       );
     };
 
@@ -151,12 +164,12 @@ class GroupCatalogsTableBox extends React.Component {
         </Row>
         <Table
             size="middle"
-            columns={columnsCatalogs}
+            columns={columnsGroupCatalogs}
             expandedRowRender={expandedRowRender}
-            dataSource={dataCatalogs}
+            dataSource={dataGroupCatalogs}
             pagination={{ total: paging.get('record_total'), current: paging.get('page'), }}
             onChange={this.handleTableChange}
-            loading={isFetchingCatalogs}
+            loading={isFetchingGroupCatalogs}
             rowKey="id"
           />
       </div>
