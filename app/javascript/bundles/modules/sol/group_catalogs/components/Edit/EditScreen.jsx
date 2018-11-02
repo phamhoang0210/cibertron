@@ -1,6 +1,6 @@
 import React from 'react'
 import { getFilterParams } from 'helpers/applicationHelper'
-import CatalogEditForm from './Catalog/CatalogForm/CatalogEditForm'
+import GroupCatalogEditForm from './GroupCatalog/GroupCatalogForm/GroupCatalogEditForm'
 
 class EditScreen extends React.Component {
   constructor(props) {
@@ -9,9 +9,9 @@ class EditScreen extends React.Component {
 
   componentDidMount() {
     const {actions, editState, params} = this.props
-    actions.fetchCourses({per_page: 'infinite'})
+    actions.fetchCatalogs({per_page: 'infinite'})
     
-    actions.fetchCatalog(params.id, {per_page: 'infinite', fields: "catalog_courses{course{}}"})
+    actions.fetchGroupCatalog(params.id, {per_page: 'infinite', fields: "group_catalogs{catalog{}}"})
   }
 
   render() {
@@ -19,11 +19,11 @@ class EditScreen extends React.Component {
       <div className="main-content sol--catalogs--edit box">
         <div className="box-header">
           <h1 className="box-title">
-            Edit catalog
+            Edit group catalog
           </h1>
         </div>
         <div className="box-body">
-          <CatalogEditForm {...this.props}/>
+          <GroupCatalogEditForm {...this.props}/>
         </div>
       </div>
     )

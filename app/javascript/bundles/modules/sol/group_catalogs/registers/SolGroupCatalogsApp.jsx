@@ -8,7 +8,6 @@ import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
 
 export default (props, railsContext) => {
-  console.log('props', props)
   const appStore = store(props, railsContext)
   const history = syncHistoryWithStore(
     browserHistory,

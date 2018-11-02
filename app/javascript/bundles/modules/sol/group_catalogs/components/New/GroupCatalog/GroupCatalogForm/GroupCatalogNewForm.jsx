@@ -12,7 +12,7 @@ const Option = Select.Option
 const FormItem = Form.Item
 let uuid = 0;
 
-class CatalogNewForm extends React.Component {
+class GroupCatalogNewForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -34,7 +34,7 @@ class CatalogNewForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let params = this.formatFormData(values)
-        actions.createCatalog({record: params})
+        actions.createGroup({record: params})
       }
     })
   }
@@ -54,18 +54,18 @@ class CatalogNewForm extends React.Component {
 
   getProductCascaderOptions() {
     const {newState, sharedState} = this.props
-    const courses = sharedState.get('courses').map(course => (
+    const catalogs = sharedState.get('catalogs').map(catalog => (
       Map({
-        value: `${course.get('id')}`,
-        label: `${course.get('code').toLowerCase()} - ${course.get('price')} - ${course.get('name').toLowerCase()}`
+        value: `${catalog.get('id')}`,
+        label: `${catalog.get('code').toLowerCase()} - ${catalog.get('name').toLowerCase()}`
       })
     ))
 
     return [
       {
-        value: 'Course',
-        label: 'Course',
-        children: courses.toJS(),
+        value: 'Catalog',
+        label: 'Catalog',
+        children: catalogs.toJS(),
       }
     ]
   }
@@ -103,7 +103,7 @@ class CatalogNewForm extends React.Component {
     const {newState, sharedState} = this.props
     const {getFieldDecorator, getFieldValue} = this.props.form
     const alert = newState.get('alert')
-    const isCreatingCatalog = newState.get('isCreatingCatalog')
+    const isCreatingGroupCatalog = newState.get('isCreatingGroupCatalog')
     const productCascaderOptions = this.getProductCascaderOptions()
 
     getFieldDecorator('keys', { initialValue: [] });
@@ -112,23 +112,19 @@ class CatalogNewForm extends React.Component {
       return (
         <FormItem
           {...DEFAULT_FORM_ITEM_LAYOUT}
-          label={'Course'}
+          label={'Catalog'}
           required={false}
           key={k}
         >
         <Row>
-          {getFieldDecorator(`courses.${k}.id`)(
+          {getFieldDecorator(`catalogs.${k}.id`)(
             <Cascader
               options={productCascaderOptions}
-              placeholder="Please select course"
+              placeholder="Please select catalog"
               showSearch
               style={{ width: '60%', marginRight: 8 }}
             />
           )}
-
-          {getFieldDecorator(`courses.${k}.price`)(
-            <Input style={{ width: '20%', marginRight: 8}}/>)
-          }
 
           {
             <Icon
@@ -158,7 +154,6 @@ class CatalogNewForm extends React.Component {
         <Row>
           <Col span={14}>
             <Form onSubmit={this.handleSubmit}>
-              
 
               <FormItem label="Name" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('name', {
@@ -172,26 +167,11 @@ class CatalogNewForm extends React.Component {
                 })(<Input style={{ width: '60%' }}/>)}
               </FormItem>
 
-              <FormItem label="Banner" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('banner', {
-                })(<Input style={{ width: '60%' }}/>)}
-              </FormItem>
-
-              <FormItem label="Banner Mobile" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('banner_mobile', {
-                })(<Input style={{ width: '60%' }}/>)}
-              </FormItem>
-
-              <FormItem label="Direct link" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('direct_link', {
-                })(<Input style={{ width: '60%' }}/>)}
-              </FormItem>
-
               {formItems}
 
-              <FormItem label="Add Course" {...DEFAULT_FORM_ITEM_LAYOUT}>
-                {getFieldDecorator('course', {
-                  rules: [{ required: false, message: 'Course is required!' }],
+              <FormItem label="Add Catalog" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('catalog', {
+                  rules: [{ required: false, message: 'Catalog is required!' }],
                 })(
                   <Button type="dashed" onClick={this.add}>
                     <Icon type="plus" />
@@ -200,7 +180,7 @@ class CatalogNewForm extends React.Component {
               </FormItem>
 
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
-                <Button type="primary" htmlType="submit" loading={isCreatingCatalog}>
+                <Button type="primary" htmlType="submit" loading={isCreatingGroupCatalog}>
                   Create
                 </Button>
                 <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
@@ -217,4 +197,4 @@ class CatalogNewForm extends React.Component {
   }
 }
 
-export default Form.create()(CatalogNewForm)
+export default Form.create()(GroupCatalogNewForm)

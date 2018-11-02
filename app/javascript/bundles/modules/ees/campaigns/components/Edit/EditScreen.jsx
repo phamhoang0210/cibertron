@@ -14,8 +14,8 @@ class EditScreen extends React.Component {
     const {actions, params} = this.props
     actions.fetchCampaign(params.id)
     actions.fetchSenders({per_page: 'infinite'})
-    actions.fetchTemplates({per_page: 'infinite',fields: 'name,code,id'})
-    actions.fetchLists({per_page: 'infinite', fields: 'name,id'})
+    actions.fetchTemplates({per_page: '100',fields: 'name,code,id'})
+    actions.fetchLists({per_page: '100', fields: 'name,id'})
   }
 
   render() {

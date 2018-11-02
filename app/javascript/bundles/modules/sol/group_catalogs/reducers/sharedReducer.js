@@ -3,30 +3,30 @@ import * as actionTypes from '../constants/actionTypes'
 import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 
 export const initialState = Immutable.fromJS({
-  courses: [],
-  isFetchingCourses: false,
+  catalogs: [],
+  isFetchingCatalogs: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
 
   const { type, record, records, filters, error } = action
   switch (type) {
-    case actionTypes.SET_IS_FETCHING_COURSES: {
+    case actionTypes.SET_IS_FETCHING_CATALOGS: {
       return $$state.merge({
-        isFetchingCourses: true,
+        isFetchingCatalogs: true,
       })
     }
 
-    case actionTypes.FETCH_COURSES_SUCCESS: {
+    case actionTypes.FETCH_CATALOGS_SUCCESS: {
       return $$state.merge({
-        isFetchingCourses: false,
-        courses: records,
+        isFetchingCatalogs: false,
+        catalogs: records,
       })
     }
 
-    case actionTypes.FETCH_COURSES_FAILURE: {
+    case actionTypes.FETCH_CATALOGS_FAILURE: {
       return $$state.merge({
-        isFetchingCourses: false,
+        isFetchingCatalogs: false,
       })
     }
 

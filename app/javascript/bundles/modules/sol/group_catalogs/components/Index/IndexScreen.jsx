@@ -10,9 +10,8 @@ class IndexScreen extends React.Component {
 
   componentDidMount() {
     const {actions, indexState, railsContextState, location} = this.props
-    console.log('props', this.props)
-    const catalogParams = getFilterParamsAndSyncUrl(indexState.get('catalogFilters'),location)
-    actions.fetchCatalogs(catalogParams)
+    const groupCatalogParams = getFilterParamsAndSyncUrl(indexState.get('groupCatalogFilters'), location)
+    actions.fetchGroupCatalogs(groupCatalogParams)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +28,6 @@ class IndexScreen extends React.Component {
 
   render() {
     const {indexState} = this.props
-    console.log('Ahihi')
     return (
       <div className="main-content sol--catalogs box">
         <div className="box-header">
