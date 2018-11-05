@@ -156,7 +156,7 @@ class GroupCatalogsTableBox extends React.Component {
             <Search
               enterButton
               defaultValue={this.initialValues.search.initialValue}
-              placeholder="Search by code.."
+              placeholder="Search by code..."
               onSearch={this.handleSearch}
             />
           </Col>

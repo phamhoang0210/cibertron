@@ -48,7 +48,7 @@ function updateGroupCatalogSuccess(record) {
   }
 }
 
-function updateGroupCatalogFailure(error, groupcatalogId) {
+function updateGroupCatalogFailure(error, groupCatalogId) {
   return {
     type: actionTypes.UPDATE_GROUP_CATALOG_FAILURE,
     error,
@@ -63,5 +63,12 @@ export function updateGroupCatalog(groupCatalogId, params = {}) {
       .putEntity(`${SOL_BASE_URL}${GROUP_CATALOGS_API_PATH}/${groupCatalogId}`, params)
       .then(res => dispatch(updateGroupCatalogSuccess(res.data)))
       .catch(error => dispatch(updateGroupCatalogFailure(error, groupCatalogId)))
+  }
+}
+
+export function deleteCatalog(index) {
+  return {
+    type: actionTypes.DELETE_CATALOG,
+    index,
   }
 }
