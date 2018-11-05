@@ -53,7 +53,7 @@ class GroupCatalogEditForm extends React.Component {
     const catalogs = sharedState.get('catalogs').map(catalog => (
       Map({
         value: `${catalog.get('id')}`,
-        label: `${catalog.get('code')}- ${catalog.get('name')}`
+        label: `${catalog.get('code')} - ${catalog.get('name')}`
       })
     ))
 
@@ -67,18 +67,18 @@ class GroupCatalogEditForm extends React.Component {
   }
 
   remove = (k) => {
-    const { form } = this.props;
+    const { actions, form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
     // We need at least one passenger
-    if (keys.length === 1) {
-      return;
+    if (keys.length > 0) {
+      // can use data-binding to set
+      form.setFieldsValue({
+        keys: keys.filter(key => key !== k),
+      });
+    } else {
+      actions.deleteCatalog(k)
     }
-
-    // can use data-binding to set
-    form.setFieldsValue({
-      keys: keys.filter(key => key !== k),
-    });
   }
 
   add = () => {
@@ -150,7 +150,7 @@ class GroupCatalogEditForm extends React.Component {
           key={k}
         >
           <Row>
-            {getFieldDecorator(`catalogs.${k}.${'id'}`)(   
+            {getFieldDecorator(`catalogs.${k}.${'id'}`)(
               <Cascader
                 options={productCascaderOptions}
                 placeholder="Please select catalog"
