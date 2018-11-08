@@ -69,12 +69,11 @@ class SignInForm extends React.Component {
         .then(res => {
           var cookie = res.data
           var myDate = new Date()
-          const redirectUrl = location.query.redirect_url
-          myDate.setDate(1)
-          document.cookie = "access-token" + "=" + cookie['access-token'] + ";expires=" + myDate+ ";domain=.edumall.io;path=/"
-          document.cookie = "client" + "=" + cookie['client'] + ";expires=" + myDate+ ";domain=.edumall.io;path=/"
-          document.cookie = "uid" + "=" + cookie['uid'] + ";expires=" + myDate+ ";domain=.edumall.io;path=/"
-          window.location.href = 'https://eoreka.edumall.io'
+          const redirectUrl = window.location.search.substr(1).split("=")[1]
+          var expires = myDate.setDate(1)
+          document.cookie = "access-token" + "=" + cookie['access-token'] + expires + ";domain=.edumall.io;path=/"
+          document.cookie = "client" + "=" + cookie['client'] + expires + ";domain=.edumall.io;path=/"
+          document.cookie = "uid" + "=" + cookie['uid'] + expires + ";domain=.edumall.io;path=/"
           if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
             window.location.href = redirectUrl
           } else {
