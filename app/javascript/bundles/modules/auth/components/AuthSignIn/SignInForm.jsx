@@ -68,6 +68,7 @@ class SignInForm extends React.Component {
         .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, params_auth)
         .then(res => {
           authHelper.setCredentials(res.data)
+
           window.location.href = 'https://tinhte.vn'
         })
         .catch(error => {})
