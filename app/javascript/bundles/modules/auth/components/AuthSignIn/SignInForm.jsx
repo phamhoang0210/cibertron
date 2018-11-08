@@ -67,8 +67,19 @@ class SignInForm extends React.Component {
       return request
         .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, params_auth)
         .then(res => {
-          authHelper.setCredentials(res.data)
-          window.location.href = '/'
+          var cookie = res.data
+          var myDate = new Date()
+          const redirectUrl = location.query.redirect_url
+          myDate.setDate(1)
+          document.cookie = "access-token" + "=" + cookie['access-token'] + ";expires=" + myDate+ ";domain=.edumall.io;path=/"
+          document.cookie = "client" + "=" + cookie['client'] + ";expires=" + myDate+ ";domain=.edumall.io;path=/"
+          document.cookie = "uid" + "=" + cookie['uid'] + ";expires=" + myDate+ ";domain=.edumall.io;path=/"
+          window.location.href = 'https://eoreka.edumall.io'
+          if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
+            window.location.href = redirectUrl
+          } else {
+            window.location.href = '/'
+          }
         })
         .catch(error => {})
     }
