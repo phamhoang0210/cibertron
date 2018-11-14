@@ -72,9 +72,9 @@ class SignInForm extends React.Component {
           var urlParams = new URLSearchParams(window.location.search)
           var redirectUrl = urlParams.get("redirect_url")
           var expires = myDate.setDate(1)
-          document.cookie = "access-token" + "=" + cookie['access-token']
-          document.cookie = "client" + "=" + cookie['client'] 
-          document.cookie = "uid" + "=" + cookie['uid'] 
+          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=.edumall.io;path=/"
+          document.cookie = "client" + "=" + cookie['client'] + ";domain=.edumall.io;path=/"
+          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=.edumall.io;path=/"
           if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
             window.location.href = redirectUrl
           } else {
