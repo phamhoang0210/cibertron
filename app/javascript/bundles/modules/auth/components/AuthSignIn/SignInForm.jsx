@@ -72,11 +72,22 @@ class SignInForm extends React.Component {
           var urlParams = new URLSearchParams(window.location.search)
           var redirectUrl = urlParams.get("redirect_url")
           var expires = myDate.setDate(1)
-          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=.edumall.io;path=/"
-          document.cookie = "client" + "=" + cookie['client'] + ";domain=.edumall.io;path=/"
-          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=.edumall.io;path=/"
+          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=localhost;path=/"
+          document.cookie = "client" + "=" + cookie['client'] + ";domain=localhost;path=/"
+          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=localhost;path=/"
           if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
-            window.location.href = redirectUrl
+            if(urlParams.has("response_type") === true || urlParams.has("client_id") === true || urlParams.has("redirect_uri") === true || urlParams.has("scope") === true){
+              var response_type = urlParams.get("response_type")
+              var client_id = urlParams.get("client_id")
+              var scope = urlParams.get("scope")
+              var redirectUri = urlParams.get("redirect_uri")
+              var state = "login_success"
+              var url = redirectUrl + "?" + "response_type=" + response_type + "&" + "client_id=" + client_id + "&" + "redirect_uri=" + redirectUri + "&" + "scope=" + scope + "&" + "state=" + state
+              debugger
+              window.location.href = url
+            } else {
+              window.location.href = redirectUrl
+            }
           } else {
             window.location.href = '/'
           }
