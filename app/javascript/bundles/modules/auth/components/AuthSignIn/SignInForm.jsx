@@ -84,7 +84,7 @@ class SignInForm extends React.Component {
               var scope = urlParams.get("scope")
               var redirectUri = urlParams.get("redirect_uri")
               var url = redirectUrl + "?" + "response_type=" + response_type + "&" + "client_id=" + client_id +
-                  "&" + "redirect_uri=" + redirectUri + "&" + "scope=" + scope + "&";
+                  "&" + "redirect_uri=" + redirectUri + "&" + "scope=" + scope + "&" + "uid=" + cookie['uid'] + "&";
               this.setState({isAuthenticated: true, url: url, scope: scope})
               // window.location.href = url
             } else {
