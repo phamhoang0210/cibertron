@@ -72,9 +72,9 @@ class SignInForm extends React.Component {
           var urlParams = new URLSearchParams(window.location.search)
           var redirectUrl = urlParams.get("redirect_url")
           var expires = myDate.setDate(1)
-          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=localhost;path=/"
-          document.cookie = "client" + "=" + cookie['client'] + ";domain=localhost;path=/"
-          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=localhost;path=/"
+          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=.edumall.io;path=/"
+          document.cookie = "client" + "=" + cookie['client'] + ";domain=.edumall.io;path=/"
+          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=.edumall.io;path=/"
           if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
             if(urlParams.has("response_type") === true || urlParams.has("client_id") === true || urlParams.has("redirect_uri") === true || urlParams.has("scope") === true){
               var response_type = urlParams.get("response_type")
