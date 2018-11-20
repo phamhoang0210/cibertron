@@ -161,39 +161,3 @@ export function reloadDomain(domainId, domainParams, params = {}) {
       .catch(error => dispatch(reloadDomainFailure(error, domainId)))
   }
 }
-
-// Action for relive domain
-function setIsRelivingDomain(domainId) {
-  return {
-    type: actionTypes.SET_IS_RELIVING_DOMAIN,
-    domainId,
-  }
-}
-
-function reliveDomainSuccess(record) {
-  return {
-    type: actionTypes.RELIVE_DOMAIN_SUCCESS,
-    record,
-  }
-}
-
-function reliveDomainFailure(error, domainId) {
-  return {
-    type: actionTypes.RELIVE_DOMAIN_FAILURE,
-    error,
-    domainId,
-  }
-}
-
-export function reliveDomain(domainId, domainParams, params = {}){
-  return dispatch => {
-    dispatch(setIsRelivingDomain(domainId))
-    authRequest
-      .putEntity(`${HERA_BASE_URL}${DOMAINS_API_PATH}/${domainId}/relive`, params)
-      .then(res => {
-        dispatch(reliveDomainSuccess(res.data))
-        dispatch(fetchDomains(domainParams))
-      })
-      .catch(error => dispatch(reliveDomainFailure(error, domainId)))
-  }
-}
