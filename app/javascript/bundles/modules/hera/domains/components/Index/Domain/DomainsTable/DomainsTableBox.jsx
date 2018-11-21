@@ -22,8 +22,8 @@ class DomainsTableBox extends React.Component {
       'handleAdd',
       'handleSearch',
       'handleReload',
+      'handleRestore',
     ])
-
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.id.label'}),
       dataIndex: 'id',
@@ -75,6 +75,15 @@ class DomainsTableBox extends React.Component {
               onClick={(e) => this.handleReload(row.id)}
             >
               Reload
+            </Button>
+            <Button
+              icon="restore"
+              size="small"
+              className="button-margin--top--default width--full"
+              loading={row.isReloading}
+              onClick={(e) => this.handleRestore(row.id)}
+            >
+              Restore
             </Button>
             <Button
               icon="edit"
@@ -132,6 +141,11 @@ class DomainsTableBox extends React.Component {
     //   domainParams.page = current
     // }
     actions.reloadDomain(domainId)
+  }
+
+  handleRestore(domainId){
+    const {actions, indexState} = this.props
+    actions.restoreDomain(domainId)
   }
 
   handleTableChange(pagination, filters, sorter) {

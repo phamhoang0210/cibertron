@@ -4,7 +4,7 @@
 * Ensure node version is >= 6.0
 * Copy files `database.yml, secrest.yml, authservice_jwt.pub` to app/config
 * Run `bundle install`
-* Run `yarn insall`
+* Run `yarn install`
 * Run `foreman start -f Procfile.dev`
 * Visit http://localhost:3000
 
