@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     with_options only: [:index, :new, :edit] do |option|
       option.resources :discounts
       option.resources :catalogs
+      option.resources :group_catalogs
       option.resources :promos
       option.resources :courses
       option.resources :combos
