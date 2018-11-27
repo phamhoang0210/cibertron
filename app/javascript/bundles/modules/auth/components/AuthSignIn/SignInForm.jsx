@@ -2,11 +2,11 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
-import {Link} from 'react-router'
 import {SIGN_UP_PATH} from 'app/constants/paths'
 import {GoogleLogin} from 'react-google-login'
 import request from 'libs/requests/request'
 import * as authHelper  from 'helpers/auth/authHelper'
+import OauthGrant from './OauthGrant'
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -52,9 +52,9 @@ class SignInForm extends React.Component {
     const {authSignInState} = this.props
     const isSigning = authSignInState.get('isSigning')
     const responseGoogle = (response) => {
-      var profileObj = response['profileObj'];
-      var tokenObj = response['tokenObj'];
-      var params_auth = {
+      let profileObj = response['profileObj'];
+      let tokenObj = response['tokenObj'];
+      let params_auth = {
         'profileObj'  : {
                           'googleId'    : profileObj['googleId'],
                           'name'        : profileObj['name'],
@@ -69,24 +69,21 @@ class SignInForm extends React.Component {
       return request
         .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, params_auth)
         .then(res => {
-          var cookie = res.data
-          var myDate = new Date()
-          var urlParams = new URLSearchParams(window.location.search)
-          var redirectUrl = urlParams.get("redirect_url")
-          var expires = myDate.setDate(1)
-          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=.edumall.io;path=/"
-          document.cookie = "client" + "=" + cookie['client'] + ";domain=.edumall.io;path=/"
-          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=.edumall.io;path=/"
+          let cookie = res.data
+          let urlParams = new URLSearchParams(window.location.search)
+          let redirectUrl = urlParams.get("redirect_url")
+            document.cookie = `access-token=${cookie['access-token']};domain=.edumall.io;path=/`
+            document.cookie = `client=${cookie['client']};domain=.edumall.io;path=/`
+            document.cookie = `uid=${cookie['uid']};domain=.edumall.io;path=/`
           if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
             if(urlParams.has("response_type") || urlParams.has("client_id") || urlParams.has("redirect_uri") || urlParams.has("scope")){
-              var response_type = urlParams.get("response_type")
-              var client_id = urlParams.get("client_id")
-              var scope = urlParams.get("scope")
-              var redirectUri = urlParams.get("redirect_uri")
-              var url = redirectUrl + "?" + "response_type=" + response_type + "&" + "client_id=" + client_id +
+              let response_type = urlParams.get("response_type")
+              let client_id = urlParams.get("client_id")
+              let scope = urlParams.get("scope")
+              let redirectUri = urlParams.get("redirect_uri")
+              let url = redirectUrl + "?" + "response_type=" + response_type + "&" + "client_id=" + client_id +
                   "&" + "redirect_uri=" + redirectUri + "&" + "scope=" + scope + "&" + "uid=" + cookie['uid'] + "&";
               this.setState({isAuthenticated: true, url: url, scope: scope})
-              // window.location.href = url
             } else {
               window.location.href = redirectUrl
             }
@@ -103,16 +100,7 @@ class SignInForm extends React.Component {
 
     let content;
     if(this.state.isAuthenticated) {
-        content =
-            <div style={{ boxShadow: '5px 1px 1px #e6e3e3',borderRadius: '10px',width: '500px', paddingBottom: '50px', position: 'fixed', top: '45%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fffafa', textAlign: 'left'}}>
-                <div style={{borderBottom: '1px solid #e8e5e5', textAlign: 'center'}}><h1 style={{fontSize: '35px'}}>Authorization</h1></div>
-                <p style={{marginLeft: '30px'}}>ews would like to perform action on your behalf and access your information</p>
-                <ul>
-                    {this.state.scope.split(',').map((a, idx) => <li key={idx}>{a}</li>)}
-                </ul>
-                <Link href={this.state.url+"state=allow"} style={{display: 'inline-block' ,outline: 'none' ,margin: '60px 30px 0 50px',color: 'white', backgroundColor: '#3584c2', border: 'none', padding: '10px 50px', borderRadius: '20px'}}>Allow</Link>
-                <Link href={this.state.url+"state=deny"} style={{display: 'inline-block' ,outline: 'none' ,margin: '60px 30px 0 30px', color: 'white', backgroundColor: '#df5d55', border: 'none', padding: '10px 50px', borderRadius: '20px'}}>Deny</Link>
-            </div>;
+        content = <OauthGrant scope={this.state.scope} url={this.state.url} />
     } else {
         content = <Form onSubmit={this.handleSubmit}>
             <Form.Item>
