@@ -2,11 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
-import {Link} from 'react-router'
 import {SIGN_UP_PATH} from 'app/constants/paths'
 import {GoogleLogin} from 'react-google-login'
 import request from 'libs/requests/request'
-import * as authHelper  from 'helpers/auth/authHelper'
+import OauthGrant from './OauthGrant'
+import {setCredentials} from '../../../../../helpers/auth/authHelper'
+
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -15,7 +16,9 @@ class SignInForm extends React.Component {
     _.bindAll(this, [
       'handleSubmit',
       'onSignInSuccess'
-    ])
+    ]);
+    this.state = {isAuthenticated: false,
+    url: "", scope: ""}
   }
 
   handleSubmit(e) {
@@ -45,7 +48,7 @@ class SignInForm extends React.Component {
     }, 1000)
   }
 
-  render() {
+render() {
     const { getFieldDecorator } = this.props.form
     const {authSignInState} = this.props
     const isSigning = authSignInState.get('isSigning')
@@ -67,8 +70,18 @@ class SignInForm extends React.Component {
       return request
         .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, params_auth)
         .then(res => {
-          authHelper.setCredentials(res.data)
-          window.location.href = '/'
+          var cookie = res.data
+          var urlParams = new URLSearchParams(window.location.search)
+          var redirectUrl = urlParams.get("redirect_url")
+          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=localhost;path=/"
+          document.cookie = "client" + "=" + cookie['client'] + ";domain=localhost;path=/"
+          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=localhost;path=/"
+          setCredentials(cookie)
+          if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
+            window.location.href = redirectUrl
+          } else {
+            window.location.href = '/'
+          }
         })
         .catch(error => {})
     }
