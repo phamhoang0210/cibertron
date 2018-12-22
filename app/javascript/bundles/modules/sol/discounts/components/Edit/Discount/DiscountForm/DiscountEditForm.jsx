@@ -44,7 +44,6 @@ class DiscountEditForm extends React.Component {
     const product = params.product
 
     if(product && product.length == 2) {
-      console.log(product)
       params.product_type = product[0]
       params.product_id = product[1].split(CODE_DELIMITER)[0]
     }

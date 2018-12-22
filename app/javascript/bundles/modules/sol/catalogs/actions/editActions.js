@@ -25,7 +25,6 @@ function fetchCatalogFailure(error) {
 }
 
 export function fetchCatalog(catalogId, params) {
-  console.log(params)
   return dispatch => {
     dispatch(setIsFetchingCatalog())
     authRequest
