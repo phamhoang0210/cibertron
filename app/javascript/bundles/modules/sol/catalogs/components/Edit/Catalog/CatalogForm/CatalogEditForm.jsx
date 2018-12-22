@@ -53,7 +53,7 @@ class CatalogEditForm extends React.Component {
     const courses = sharedState.get('courses').map(course => (
       Map({
         value: `${course.get('id')}`,
-        label: `${course.get('code')} - ${course.get('price')} - ${course.get('name')}`
+        label: `${course.get('code')? course.get('code').toLowerCase() : null} - ${course.get('price')} - ${course.get('name')? course.get('name').toLowerCase() : null}`
       })
     ))
 

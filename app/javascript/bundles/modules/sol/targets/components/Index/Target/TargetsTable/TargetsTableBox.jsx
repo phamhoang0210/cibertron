@@ -45,7 +45,6 @@ class TargetsTableBox extends React.Component {
     const targets = indexState.get('targets')
     const paging = indexState.getIn(['targetFilters', 'paging'])
     const isFetchingTargets = indexState.get('isFetchingTargets')
-    console.log(indexState)
     const data = indexState.get('targets').toJS()
     const columns = [
       {title: 'Name', dataIndex: 'name', key: 'name'},

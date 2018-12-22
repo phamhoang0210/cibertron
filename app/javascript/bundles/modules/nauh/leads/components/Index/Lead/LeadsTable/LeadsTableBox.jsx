@@ -338,7 +338,6 @@ class LeadsTableBox extends React.Component {
 
   handleRecovery() {
     const {actions, indexState, location} = this.props
-    console.log(this.state.selectedRowKeys)
     actions.recoveryLeads({ids: this.state.selectedRowKeys})
 
   }

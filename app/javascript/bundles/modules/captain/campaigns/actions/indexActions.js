@@ -11,7 +11,6 @@ function setIsFetchingCampaigns() {
 }
 
 function fetchCampaignsSuccess({records, filters}) {
-  console.log('filters',filters);
   return {
     type: actionTypes.FETCH_CAMPAIGNS_SUCCESS,
     records,
