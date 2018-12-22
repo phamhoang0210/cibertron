@@ -39,7 +39,6 @@ class PriceNewForm extends React.Component {
     const {actions} = this.props
 
     this.props.form.validateFields((err, values) => {
-        console.log(values)
       if (!err) {
         let params = this.formatFormData(values)
         actions.createPrice({record: params})
