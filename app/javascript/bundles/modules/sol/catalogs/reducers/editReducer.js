@@ -14,7 +14,7 @@ export const initialState = Immutable.fromJS({
 })
 
 export default function editReducer($$state = initialState, action = null) {
-  const { type, record, records, filters, error, catalogId } = action
+  const { type, record, records, filters, error, catalogId,  index} = action
   
   switch (type) {
     case actionTypes.SET_IS_FETCHING_CATALOG: {
@@ -61,6 +61,14 @@ export default function editReducer($$state = initialState, action = null) {
         alert: parseError(error)
       })
     }
+
+    case actionTypes.DELETE_COURSE: {
+      return $$state.setIn(
+        ['catalog', 'catalog_courses'],
+        $$state.getIn(['catalog', 'catalog_courses']).filter((key, i) => i !== index)
+      )
+    }
+
     default: {
       return $$state
     }
