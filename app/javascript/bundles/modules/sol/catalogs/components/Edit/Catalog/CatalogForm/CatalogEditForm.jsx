@@ -42,7 +42,7 @@ class CatalogEditForm extends React.Component {
   formatFormData(values) {
     let params = values
     var old_courses = params.old_courses ? params.old_courses : []
-    var courses = params.courses ? params.courses : [] 
+    var courses = params.courses ? params.courses : []
     params.courses = courses.concat(old_courses)
 
     return params
@@ -67,18 +67,18 @@ class CatalogEditForm extends React.Component {
   }
 
   remove = (k) => {
-    const { form } = this.props;
+    const { actions, form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
     // We need at least one passenger
-    if (keys.length === 1) {
-      return;
+    if (keys.length > 0) {
+      // can use data-binding to set
+      form.setFieldsValue({
+        keys: keys.filter(key => key !== k),
+      });
+    } else {
+      actions.deleteCourse(k)
     }
-
-    // can use data-binding to set
-    form.setFieldsValue({
-      keys: keys.filter(key => key !== k),
-    });
   }
 
   add = () => {

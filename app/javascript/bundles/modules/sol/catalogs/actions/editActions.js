@@ -65,3 +65,10 @@ export function updateCatalog(catalogId, params = {}) {
       .catch(error => dispatch(updateCatalogFailure(error, catalogId)))
   }
 }
+
+export function deleteCourse(index) {
+  return {
+    type: actionTypes.DELETE_COURSE,
+    index,
+  }
+}
