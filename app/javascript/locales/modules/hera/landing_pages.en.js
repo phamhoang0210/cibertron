@@ -160,6 +160,10 @@ export const appLocale = {
             // get_codes.code_tabs.tab.logic_home.title
             title: 'Logic home'
           },
+          new_logic_home: {
+            // get_codes.code_tabs.tab.new_logic_home.title
+            title: 'New logic home'
+          },
           logic_thankyou: {
             // get_codes.code_tabs.tab.logic_thankyou.title
             title: 'Logic thankyou'

@@ -10,10 +10,10 @@ function setIsFetchingLandingPageCodes() {
   }
 }
 
-function fetchLandingPageCodesSuccess({landingPage, landing_page_codes}) {
+function fetchLandingPageCodesSuccess({landing_page, landing_page_codes}) {
   return {
     type: actionTypes.FETCH_LANDING_PAGE_CODES_SUCCESS,
-    landingPage: landingPage,
+    landingPage: landing_page,
     landingPageCodes: landing_page_codes,
   }
 }

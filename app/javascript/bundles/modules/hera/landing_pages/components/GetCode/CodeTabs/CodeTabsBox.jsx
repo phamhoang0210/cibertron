@@ -20,6 +20,8 @@ class CodeTabsBox extends React.Component {
     const {getCodeState, intl} = this.props
     const alert = getCodeState.get('alert')
     const isFetchingLandingPageCodes = getCodeState.get('isFetchingLandingPageCodes')
+    const landingPage = getCodeState.get('landingPage')
+    console.log('debug', landingPage && landingPage.get('landing_page_type') == 'c3_cod')
 
     return (
       <div className="main-content-tabs-box">
@@ -45,6 +47,14 @@ class CodeTabsBox extends React.Component {
             >
               <LogicHome {...this.props}/>
             </TabPane>
+            {landingPage && landingPage.get('landing_page_type') == 'c3_cod' && (
+              <TabPane
+                key="new_logic_home"
+                tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.new_logic_home.title'})}
+              >
+                <LogicHome isNew={true} {...this.props}/>
+              </TabPane>
+            )}
             <TabPane
               key="logic_thankyou"
               tab={intl.formatMessage({id: 'get_codes.code_tabs.tab.logic_thankyou.title'})}

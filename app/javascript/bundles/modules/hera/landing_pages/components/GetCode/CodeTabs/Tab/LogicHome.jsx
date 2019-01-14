@@ -34,9 +34,9 @@ class LogicHome extends React.Component {
   }
 
   renderLogicHomeComponent() {
-    const {getCodeState, sharedState} = this.props
+    const {getCodeState, sharedState, isNew } = this.props
     const landingPageCodes = (sharedState.getIn(['landingPageCodes', 'landing_page_codes'])) ? sharedState.getIn(['landingPageCodes', 'landing_page_codes']) : getCodeState.get('landingPageCodes')
-    const homeLogics = landingPageCodes.get('home_logics')
+    const homeLogics = landingPageCodes.get(isNew ? 'new_home_logics' : 'home_logics')
     const logicItemKeys = sharedState.getIn(['landingPageItemKeys', 'home_logics'])
     return (
         <div>
