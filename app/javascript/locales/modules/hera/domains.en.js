@@ -31,6 +31,10 @@ export const appLocale = {
           required: 'Target server is required'
         },
       },
+      swap_domain: {
+        // attrs.swap_domain.label
+        label: 'Swap domain',
+      },
       landing_page_name: {
         // attrs.landing_page_name.label
         label: 'Landing page name',
@@ -57,6 +61,10 @@ export const appLocale = {
     edit: {
       // edit.title
       title: 'Update domain',
+    },
+    restore: {
+      // restore.title
+      title: 'Restore domain',
     },
     index: {
       // index.title

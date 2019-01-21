@@ -67,7 +67,7 @@ class BudgetNewForm extends React.Component {
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
         
-                {getFieldDecorator('staff_email')(
+                {getFieldDecorator('staff_id')(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
@@ -76,23 +76,12 @@ class BudgetNewForm extends React.Component {
                     onSearch={this.handleSearch}
                   >
                     {users.toJS().map(user => (
-                      <Option value={`${user.email}`} key={user.id}>
+                      <Option value={`${user.id}`} key={user.id}>
                         {user.email}
                       </Option>
                     ))}
                   </Select>
                 )}
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.budget.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('budget', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage({id: 'attrs.budget.errors.required'}),
-                  }],
-                })(<Input />)}
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingBudget}>

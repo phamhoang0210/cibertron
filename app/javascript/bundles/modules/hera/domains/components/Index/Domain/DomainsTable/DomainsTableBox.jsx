@@ -144,8 +144,7 @@ class DomainsTableBox extends React.Component {
   }
 
   handleRestore(domainId){
-    const {actions, indexState} = this.props
-    actions.restoreDomain(domainId)
+    browserHistory.push(`${DOMAINS_URL}/${domainId}/restore`)
   }
 
   handleTableChange(pagination, filters, sorter) {
