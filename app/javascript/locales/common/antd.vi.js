@@ -17,6 +17,10 @@ export default flattenMessages({
           // form.form_item.button.update.text
           text: 'Cập nhật',
         },
+        restore: {
+          // form.form_item.button.restore.text
+          text: 'Khôi phục',
+        },
         back: {
           // form.form_item.button.back.text
           text: 'Trở lại',

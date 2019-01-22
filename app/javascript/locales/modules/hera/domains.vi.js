@@ -27,6 +27,10 @@ export const appLocale = {
           required: 'Target server là trường bắt buộc'
         },
       },
+      swap_domain: {
+        // attrs.swap_domain.label
+        label: 'Swap domain',
+      },
       username: {
         // attrs.user_id.label
         label: 'Sở hữu',
@@ -64,6 +68,10 @@ export const appLocale = {
     },
     edit: {
       // edit.title
+      title: 'Cập nhật domain',
+    },
+    restore: {
+      // restore.title
       title: 'Cập nhật domain',
     },
     index: {

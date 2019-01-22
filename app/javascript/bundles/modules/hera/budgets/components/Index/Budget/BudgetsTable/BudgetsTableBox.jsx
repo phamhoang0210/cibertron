@@ -51,11 +51,7 @@ class BudgetsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.budget.label'}),
       dataIndex: 'budget',
       key: 'budget',
-    }, {
-      title: intl.formatMessage({id: 'attrs.used_domain.label'}),
-      dataIndex: 'used_domain',
-      key: 'used_domain',
-    }, 
+    },
     {
       title: '',
       key: 'action',
@@ -63,14 +59,6 @@ class BudgetsTableBox extends React.Component {
       render: (cell, row) => {
         return (
           <div className="text-align--right">
-            <Button
-              icon="edit"
-              size="small"
-              className="width--full"
-              onClick={(e) => this.handleEdit(row.id)}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
-            </Button>
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -79,6 +67,7 @@ class BudgetsTableBox extends React.Component {
               cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button
+                disabled
                 icon="delete"
                 size="small"
                 className="button-margin--top--default width--full"

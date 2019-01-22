@@ -4,6 +4,7 @@ import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
 export const initialState = Immutable.fromJS({
   alert: null,
   domain: null,
+  swapDomains: [],
   isCreatingDomain: false,
 })
 
@@ -29,6 +30,26 @@ export default function newReducer($$state = initialState, action = null) {
       return $$state.merge({
         isCreatingDomain: false,
         alert: parseError(error)
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_SWAP_DOMAINS: {
+      return $$state.merge({
+        isFetchingSwapDomains: true,
+      })
+    }
+
+    case actionTypes.FETCH_SWAP_DOMAINS_SUCCESS: {
+      return $$state.merge({
+        isFetchingSwapDomains: false,
+        swapDomains: records,
+        domainFilters: filters,
+      })
+    }
+
+    case actionTypes.FETCH_SWAP_DOMAINS_FAILURE: {
+      return $$state.merge({
+        isFetchingSwapDomains: false,
       })
     }
 

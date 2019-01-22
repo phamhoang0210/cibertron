@@ -38,6 +38,7 @@ class DomainNewForm extends React.Component {
   render() {
     const {newState, sharedState, intl} = this.props
     const domainDnsServers = sharedState.get('domainDnsServers')
+    const swapDomains = newState.get('swapDomains')
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingDomain = newState.get('isCreatingDomain')
@@ -89,6 +90,25 @@ class DomainNewForm extends React.Component {
                     ))}
                   </Select>
                 )}
+              </FormItem>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.swap_domain.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('swap_domain_id')(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {swapDomains.map(domain => (
+                      <Option value={`${domain.get('id')}`} key={domain.get('id')}>
+                        {domain.get('name')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+                <i>if no swap domain, domain will create with status as 'deleted'
+                </i>
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingDomain}>

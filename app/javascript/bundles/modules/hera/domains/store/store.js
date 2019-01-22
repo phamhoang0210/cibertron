@@ -5,11 +5,12 @@ import loggerMiddleware from 'libs/middlewares/loggerMiddleware'
 import reducers, { initialStates } from '../reducers'
 
 export default (props, railsContext) => {
-  const {railsContextState, indexState, newState, editState} = initialStates
+  const {railsContextState, indexState, newState, editState, restoreState} = initialStates
   const initialState = {
     indexState,
     newState,
     editState,
+    restoreState,
     railsContextState: railsContextState.merge(railsContext),
   }
 
