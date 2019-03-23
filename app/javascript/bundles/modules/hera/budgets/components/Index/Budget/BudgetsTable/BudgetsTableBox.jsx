@@ -45,12 +45,15 @@ class BudgetsTableBox extends React.Component {
     }, {
       title: intl.formatMessage({id: 'attrs.email.label'}),
       dataIndex: 'staff_email',
-      key: 'email',
-      render: value => (<a href={`http://${value}`} target="_blank">{value}</a>),
+      key: 'staff'
     }, {
       title: intl.formatMessage({id: 'attrs.budget.label'}),
       dataIndex: 'budget',
       key: 'budget',
+    }, {
+      title: intl.formatMessage({id: 'attrs.used_domain.label'}),
+      dataIndex: 'used_domain',
+      key: 'used_domain',
     },
     {
       title: '',
@@ -59,6 +62,14 @@ class BudgetsTableBox extends React.Component {
       render: (cell, row) => {
         return (
           <div className="text-align--right">
+            <Button
+              icon="edit"
+              size="small"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleEdit(row.id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
+            </Button>
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -67,7 +78,6 @@ class BudgetsTableBox extends React.Component {
               cancelText={intl.formatMessage({id: 'popconfirm.delete.cancel_text'})}
             >
               <Button
-                disabled
                 icon="delete"
                 size="small"
                 className="button-margin--top--default width--full"
@@ -109,9 +119,15 @@ class BudgetsTableBox extends React.Component {
   }
 
   handleSearch(keyword) {
+    keyword = removeSpaceInput(keyword)
+    if (keyword) {
+      const {actions, indexState} = this.props
+      let budgetParams = getFilterParams(indexState.get('budgetFilters'))
+      actions.fetchBudgets(mergeDeep([budgetParams, {compconds: {'staff_email.like': `%${keyword}%`}}]))
+    }
     const {actions, indexState} = this.props
     let budgetParams = getFilterParams(indexState.get('budgetFilters'))
-    actions.fetchBudgets(mergeDeep([budgetParams, {compconds: {'name.like': `%${keyword}%`}}]))
+    actions.fetchBudgets(mergeDeep([budgetParams, {compconds: {'staff_email.like': `%${keyword}%`}}]))
   }
 
   render() {
@@ -140,6 +156,7 @@ class BudgetsTableBox extends React.Component {
 
         <Table
           className="main-content-table-box-body"
+          bordered
           size="middle"
           columns={this.columns}
           dataSource={budgets.toJS()}

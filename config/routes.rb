@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   health_check_routes
 
   resources :minerva, only: [:index]
-  resources :nami, path: '/namivn', only: [:index]
+  # resources :nami, path: '/namivn', only: [:index]
 
   resources :dashboard, only: [:index]
   resources :auth, only: [:index] do

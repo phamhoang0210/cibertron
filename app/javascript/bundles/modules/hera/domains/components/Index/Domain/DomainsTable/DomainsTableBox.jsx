@@ -5,7 +5,9 @@ import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/a
 import { removeSpaceInput } from 'helpers/inputHelper'
 import { browserHistory } from 'react-router'
 import { DOMAINS_URL } from '../../../../constants/paths'
+import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { injectIntl } from 'react-intl'
+import moment from 'moment'
 
 const { Search } = Input
 
@@ -56,6 +58,11 @@ class DomainsTableBox extends React.Component {
       title: intl.formatMessage({id: 'attrs.dns_server.label'}),
       dataIndex: 'dns_server',
       key: 'dns_server',
+    }, {
+      title: intl.formatMessage({id: 'attrs.created_at.label'}),
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: value => value ? moment(value).format(LONG_DATETIME_FORMAT) : '',
     }, {
       title: intl.formatMessage({id: 'attrs.landing_page_name.label'}),
       dataIndex: 'landing_page.name',
@@ -161,9 +168,11 @@ class DomainsTableBox extends React.Component {
 
   handleSearch(keyword) {
     keyword = removeSpaceInput(keyword)
-    const {actions, indexState} = this.props
-    let domainParams = getFilterParams(indexState.get('domainFilters'))
-    actions.fetchDomains(mergeDeep([domainParams, {compconds: {'name.like': `%${keyword}%`}}]))
+    if (keyword) {
+      const {actions, indexState} = this.props
+      let domainParams = getFilterParams(indexState.get('domainFilters'))
+      actions.fetchDomains(mergeDeep([domainParams, {compconds: {'name.like': `%${keyword}%`}}]))
+    }
   }
 
   render() {
@@ -191,6 +200,7 @@ class DomainsTableBox extends React.Component {
           </Col>
         </Row>
         <Table
+          bordered
           className="main-content-table-box-body"
           size="middle"
           columns={this.columns}

@@ -39,7 +39,6 @@ class DomainRestoreForm extends React.Component {
 
   render() {
     const {restoreState, sharedState, intl} = this.props
-    const swapDomains = restoreState.get('swapDomains')
     const { getFieldDecorator } = this.props.form
     const alert = restoreState.get('alert')
     const domain = restoreState.get('domain')
@@ -83,23 +82,6 @@ class DomainRestoreForm extends React.Component {
                     })(<Input disabled />)}
                   </FormItem>
                 </div>
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.swap_domain.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('swap_domain_id')(
-                    <Select
-                      showSearch
-                      filterOption={selectFilterOption}
-                    >
-                      {swapDomains.map(domain => (
-                        <Option value={`${domain.get('id')}`} key={domain.get('id')}>
-                          {domain.get('name')}
-                        </Option>
-                      ))}
-                    </Select>
-                  )}
-                </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingDomain}>
                     {intl.formatMessage({id: 'form.form_item.button.restore.text'})}
