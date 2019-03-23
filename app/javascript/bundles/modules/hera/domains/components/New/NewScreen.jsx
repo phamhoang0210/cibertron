@@ -9,7 +9,6 @@ class NewScreen extends React.Component {
 
   componentDidMount() {
     const {actions} = this.props
-    actions.fetchSwapDomains({per_page: 'infinite', status: {in: ["ACTIVE", "PENDING"]}})
   }
 
   render() {

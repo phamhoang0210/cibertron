@@ -6,7 +6,6 @@ export const initialState = Immutable.fromJS({
   domain: null,
   isFetchingDomain: false,
   isUpdatingDomain: false,
-  swapDomains: [],
 })
 
 export default function restoreReducer($$state = initialState, action = null) {
@@ -77,28 +76,6 @@ export default function restoreReducer($$state = initialState, action = null) {
       return $$state.merge({
         isUpdatingDomain: false,
         alert: parseError(error)
-      })
-    }
-
-    
-
-    case actionTypes.SET_IS_FETCHING_SWAP_DOMAINS: {
-      return $$state.merge({
-        isFetchingSwapDomains: true,
-      })
-    }
-
-    case actionTypes.FETCH_SWAP_DOMAINS_SUCCESS: {
-      return $$state.merge({
-        isFetchingSwapDomains: false,
-        swapDomains: records,
-        domainFilters: filters,
-      })
-    }
-
-    case actionTypes.FETCH_SWAP_DOMAINS_FAILURE: {
-      return $$state.merge({
-        isFetchingSwapDomains: false,
       })
     }
 
