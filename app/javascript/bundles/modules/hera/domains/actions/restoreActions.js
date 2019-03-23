@@ -65,34 +65,3 @@ export function updateDomain(domainId, params = {}) {
       .catch(error => dispatch(updateDomainFailure(error, domainId)))
   }
 }
-
-function setIsFetchingSwapDomains() {
-  return {
-    type: actionTypes.SET_IS_FETCHING_SWAP_DOMAINS,
-  }
-}
-
-function fetchSwapDomainsSuccess({records, filters}) {
-  return {
-    type: actionTypes.FETCH_SWAP_DOMAINS_SUCCESS,
-    records,
-    filters,
-  }
-}
-
-function fetchSwapDomainsFailure(error) {
-  return {
-    type: actionTypes.FETCH_SWAP_DOMAINS_FAILURE,
-    error,
-  }
-}
-
-export function fetchSwapDomains(params = {}) {
-  return dispatch => {
-    dispatch(setIsFetchingSwapDomains())
-    authRequest
-      .fetchEntities(`${HERA_BASE_URL}${DOMAINS_API_PATH}`, params)
-      .then(res => dispatch(fetchSwapDomainsSuccess(res.data)))
-      .catch(error => dispatch(fetchSwapDomainsFailure(error)))
-  }
-}

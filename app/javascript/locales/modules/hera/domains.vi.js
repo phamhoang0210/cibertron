@@ -50,6 +50,10 @@ export const appLocale = {
       backup_thankyou: {
         // attrs.backup_thankyou.label
         label: 'Backup Thankyou'
+      },
+      created_at: {
+        // attrs.created_at.label
+        label: 'Created At',
       }
     },
     popconfirm: {

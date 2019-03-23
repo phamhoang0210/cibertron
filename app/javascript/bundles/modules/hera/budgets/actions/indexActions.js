@@ -102,7 +102,7 @@ export function fetchUsers(data) {
 
     if(data.records){
       data.records.map(record => {
-        list_user_id.push(record.user_id)
+        list_user_id.push(record.staff_id)
       })
     }
     authRequest
@@ -117,7 +117,7 @@ export function fetchUsers(data) {
         }
         if(data.records && users_array){
           data.records.map(record => {
-            record["staff_email"] = users_array[record.user_id]
+            record["staff_email"] = users_array[record.staff_id]
           })
         }
         dispatch(fetchUsersSuccess())

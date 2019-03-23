@@ -10,7 +10,6 @@ class RestoreScreen extends React.Component {
   componentDidMount() {
     const {actions, params} = this.props
     actions.fetchDomain(params.id, {fields: 'landing_page{}'})
-    actions.fetchSwapDomains({per_page: 'infinite', status: {in: ["ACTIVE", "PENDING"]}})
   }
 
   render() {
