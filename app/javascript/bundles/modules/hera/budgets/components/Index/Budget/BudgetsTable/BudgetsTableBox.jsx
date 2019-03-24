@@ -13,6 +13,7 @@ import {
 } from 'helpers/applicationHelper'
 import { browserHistory } from 'react-router'
 import { BUDGETS_URL } from '../../../../constants/paths'
+import { removeSpaceInput } from 'helpers/inputHelper'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { SHORT_DATETIME_FORMAT } from 'app/constants/datatime'
 import { FILTER_ORDER_MAPPINGS } from 'app/constants/table'
