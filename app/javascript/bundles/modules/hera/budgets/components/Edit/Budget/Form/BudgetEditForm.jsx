@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Spin, InputNumber } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -76,8 +76,11 @@ class BudgetEditForm extends React.Component {
                       required: true,
                       message: intl.formatMessage({id: 'attrs.budget.errors.required'}),
                     }],
+
                     initialValue: budget.get('budget'),
-                  })(<Input />)}
+                  })(<InputNumber
+                    min = {0}
+                  />)}
                 </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingBudget}>
