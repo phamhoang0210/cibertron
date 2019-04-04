@@ -213,8 +213,8 @@ class CampaignsFilter extends React.Component {
             </Row>
             <Row>
               <Col span={24} style={{ textAlign: 'right' }}>
-                <Button onClick = { this.handleAdd } style={{marginRight:10}} >Tạo chiến dịch mới</Button>
-                <Button type htmlType="submit" loading={isFetchingCampaigns}  style={{marginRight:10}} type="primary">Lọc</Button>
+                <Button onClick = { this.handleAdd } style={{marginRight:10}} >Create campaign new</Button>
+                <Button type htmlType="submit" loading={isFetchingCampaigns}  style={{marginRight:10}} type="primary">Filter</Button>
                 <Button onClick ={ this.handleReset }>Clear</Button>
               </Col>
             </Row>
