@@ -127,8 +127,6 @@ Rails.application.routes.draw do
 
   resources :apps, path: '/', only: [] do
     collection do
-      get 'myaccount/*path', to: 'apps#myaccount'
-      get 'myaccount', to: 'apps#myaccount'
 
       get ':code/*path', to: 'apps#index'
       get ':code', to: 'apps#index'
