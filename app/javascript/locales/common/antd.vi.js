@@ -96,6 +96,7 @@ export default flattenMessages({
         eros: {
           // form.form_item.button.eros.text
           text: 'Eros',
+          emptyEmail: 'Vui lòng chọn email!',
         },
       },
     },
