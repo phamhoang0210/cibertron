@@ -121,14 +121,8 @@ class BudgetsTableBox extends React.Component {
 
   handleSearch(keyword) {
     keyword = removeSpaceInput(keyword)
-    if (keyword) {
-      const {actions, indexState} = this.props
-      let budgetParams = getFilterParams(indexState.get('budgetFilters'))
-      actions.fetchBudgets(mergeDeep([budgetParams, {compconds: {'staff_email.like': `%${keyword}%`}}]))
-    }
-    const {actions, indexState} = this.props
-    let budgetParams = getFilterParams(indexState.get('budgetFilters'))
-    actions.fetchBudgets(mergeDeep([budgetParams, {compconds: {'staff_email.like': `%${keyword}%`}}]))
+    const {actions} = this.props
+    actions.fetchBudgets({keyword})
   }
 
   render() {
