@@ -104,7 +104,11 @@ Rails.application.routes.draw do
           get 'get_code', to: 'landing_pages#get_code'
         end
       end
-      option.resources :domains
+      option.resources :domains do
+        member do
+          get 'restore', to: 'domains#restore'
+        end
+      end
       option.resources :budgets
     end
   end

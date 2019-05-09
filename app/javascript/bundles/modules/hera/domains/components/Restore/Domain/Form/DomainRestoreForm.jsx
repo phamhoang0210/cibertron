@@ -18,6 +18,7 @@ class DomainRestoreForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'handleSearch',
     ])
   }
 
@@ -37,6 +38,12 @@ class DomainRestoreForm extends React.Component {
     })
   }
 
+  handleSearch(value) {
+    const {actions} = this.props
+    value != "" ? actions.fetchAllUsers({keyword: value}) : ''
+
+  }
+
   render() {
     const {restoreState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
@@ -44,8 +51,12 @@ class DomainRestoreForm extends React.Component {
     const domain = restoreState.get('domain')
     const isUpdatingDomain = restoreState.get('isUpdatingDomain')
     const isFetchingDomain = restoreState.get('isFetchingDomain')
-    const providers = sharedState.get('providers')
-    const categories = sharedState.get('categories')
+    const setUsers = sharedState && sharedState.get('allusers').toJS()
+    if (domain){
+      let u = {id: parseInt(domain.get('user_id')), nickname: domain.get('username')}
+      setUsers.push(u)
+    }
+
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -75,6 +86,30 @@ class DomainRestoreForm extends React.Component {
                     initialValue: domain.get('name'),
                   })(<Input disabled />)}
                 </FormItem>
+
+                <FormItem
+                label={intl.formatMessage({id: 'attrs.username.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+                >
+
+                  {getFieldDecorator('user_id', {initialValue: `${domain.get('user_id')}`})(
+                    <Select
+                      showSearch
+                      filterOption={selectFilterOption}
+                      placeholder="User name"
+                      allowClear={true}
+                      onSearch={this.handleSearch}
+                    >
+                      {setUsers.map(user => (
+                        <Option value={`${user.id}`} key={user.id}>
+                          {user.nickname}
+                        </Option>
+
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+
                 <div hidden>
                   <FormItem>
                     {getFieldDecorator('id', {
