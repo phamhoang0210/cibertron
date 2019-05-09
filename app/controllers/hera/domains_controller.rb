@@ -11,5 +11,8 @@ module Hera
     # GET /hera/domains/new
     def new
     end
+
+    def restore
+    end
   end
 end

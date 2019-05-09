@@ -1,6 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {DOMAINS_API_PATH} from '../constants/paths'
+import {AUTHS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -29,7 +30,7 @@ export function fetchDomain(domainId, params = {}) {
     dispatch(setIsFetchingDomain())
     authRequest
       .fetchEntities(`${HERA_BASE_URL}${DOMAINS_API_PATH}/${domainId}`, params)
-      .then(res => dispatch(fetchDomainSuccess(res.data)))
+      .then(res => dispatch(fetchUsers(res.data)))
       .catch(error => dispatch(fetchDomainFailure(error)))
   }
 }
@@ -63,5 +64,51 @@ export function updateDomain(domainId, params = {}) {
       .putEntity(`${HERA_BASE_URL}${DOMAINS_API_PATH}/${domainId}/restore`, params)
       .then(res => dispatch(updateDomainSuccess(res.data)))
       .catch(error => dispatch(updateDomainFailure(error, domainId)))
+  }
+}
+
+function setIsFetchingUsers() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_USERS,
+  }
+}
+
+function fetchUsersSuccess() {
+  return {
+    type: actionTypes.FETCH_USERS_SUCCESS,
+  }
+}
+
+function fetchUsersFailure(error) {
+  return {
+    type: actionTypes.FETCH_USERS_FAILURE,
+    error,
+  }
+}
+
+
+export function fetchUsers(data) {
+  return dispatch => {
+    dispatch(setIsFetchingUsers())
+    var list_user_id = []
+
+    list_user_id.push(data.user_id)
+    authRequest
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .then(res => {
+        var users = res.data.records
+        const users_array = {}
+        if(users) {
+          users.map(user => {
+            users_array[user.id] = user.nickname
+          })
+        }
+        if(data && users_array){
+            data["username"] = users_array[data.user_id]
+        }
+        dispatch(fetchUsersSuccess())
+        dispatch(fetchDomainSuccess(data))
+      })
+      .catch(error => dispatch(fetchUsersFailure(error)))
   }
 }
