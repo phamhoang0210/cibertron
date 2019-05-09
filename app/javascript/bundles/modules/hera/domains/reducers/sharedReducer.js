@@ -10,6 +10,7 @@ export const initialState = Immutable.fromJS({
   ],
   allusers: [],
   isFetchingAllUsers: false,
+  userIdMappings: {},
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -29,7 +30,7 @@ export default function sharedReducer($$state = initialState, action = null) {
 
     case actionTypes.FETCH_ALL_USERS_SUCCESS: {
       return $$state.merge({
-        isFetchingAllUsers: false,
+        isFetchingAllUsers: true,
         allusers: records,
         userIdMappings: recordIdMappings,
       })

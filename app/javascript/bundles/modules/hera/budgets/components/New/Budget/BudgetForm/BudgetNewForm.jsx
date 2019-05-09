@@ -29,14 +29,20 @@ class BudgetNewForm extends React.Component {
     const {actions} = this.props
 
     this.props.form.validateFields((err, values) => {
+      const setValues = values.staff_id.split("_")
+      const staff_id = setValues && setValues[0]
+      const staff_email = setValues && setValues[1]
+      const setParams = {};
+      setParams['staff_id'] = staff_id
+      setParams['staff_email'] = staff_email;
       if (!err) {
-        actions.createBudget({record: values})
+        actions.createBudget({record: setParams})
       }
     })
   }
   handleSearch(value) {
     const {actions} = this.props
-    actions.fetchAllUsers({keyword: value})
+    value != "" ? actions.fetchAllUsers({keyword: value}) : ''
   }
   render() {
     const {newState, sharedState, intl} = this.props
@@ -45,6 +51,7 @@ class BudgetNewForm extends React.Component {
     const alert = newState.get('alert')
     const isCreatingBudget = newState.get('isCreatingBudget')
     const users = sharedState.get('allusers')
+    const setUsers = sharedState && sharedState.get('allusers').toJS()
 
     return (
       <div className="main-content-form-box">
@@ -61,25 +68,31 @@ class BudgetNewForm extends React.Component {
         <Row>
           <Col span={10}>
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-              
+
               <FormItem
                 label={intl.formatMessage({id: 'attrs.email.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-        
-                {getFieldDecorator('staff_id')(
+
+                {getFieldDecorator('staff_id',{
+                   rules: [{ required: true, message: intl.formatMessage({id: 'form.form_item.button.eros.emptyEmail'}) }],
+                })(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
                     placeholder="Email"
-                    allowClear={true}
+                    allowClear
                     onSearch={this.handleSearch}
                   >
-                    {users.toJS().map(user => (
-                      <Option value={`${user.id}`} key={user.id}>
-                        {user.email}
-                      </Option>
-                    ))}
+                    {
+                      setUsers.map(user => {
+                      return (
+                          <Option value={`${user.id}_${user.uid}`} key={user.id}>
+                            {user.email}
+                          </Option>
+                       )
+                      })
+                    }
                   </Select>
                 )}
               </FormItem>
