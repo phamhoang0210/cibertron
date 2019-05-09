@@ -10,9 +10,7 @@ stages:
   - build
   - test
   - package
-  - review
   - staging
-  - canary
   - production
   - cleanup
   - monitor
@@ -43,44 +41,10 @@ package:
   only:
     - branches
 
-review:
-  stage: review
-  script:
-    - deploy review web 1
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: http://$CI_PROJECT_PATH_SLUG-$CI_ENVIRONMENT_SLUG.$PUBLIC_DOMAIN
-    on_stop: stop_review
-  only:
-    - branches
-  except:
-    - master
-    - develop
-    - /^release-.*$/
-    - /^hotfix-.*$/
-
-stop_review:
-  stage: cleanup
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - delete_v2 review web
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    action: stop
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-    - develop
-    - /^release-.*$/
-    - /^hotfix-.*$/
-
 staging:
   stage: staging
   script:
-    - deploy staging web 1
+    - deploy staging web 3
   environment:
     name: staging
     url: http://$CI_PROJECT_NAME-staging.$PUBLIC_DOMAIN
@@ -101,34 +65,10 @@ stop_staging:
   only:
     - develop@tcs/gaia
 
-# canary:
-#   stage: canary
-#   script:
-#     - deploy canary web 1
-#   environment:
-#     name: canary
-#     url: http://$CI_PROJECT_NAME.$PUBLIC_DOMAIN
-#   only:
-#     - master@tcs/gaia
-
-# stop_canary:
-#   stage: cleanup
-#   variables:
-#     GIT_STRATEGY: none
-#   script:
-#     - delete_v2 canary web
-#   environment:
-#     name: canary
-#     action: stop
-#   when: manual
-#   only:
-#     - master@tcs/gaia
-
 production:
   stage: production
   script:
     - deploy production web 3
-    # - delete_v2 canary web
   environment:
     name: production
     url: https://apps.edumall.io
