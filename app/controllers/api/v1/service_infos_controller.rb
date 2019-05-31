@@ -1,7 +1,16 @@
 class Api::V1::ServiceInfosController < Apiv1Controller
+  skip_before_action :authorize_user!, only: [:index]
+
   def define_entity
     @entity_model = ServiceInfo
   end
+
+  def index
+    @records = core_index_filter(@entity_model)
+
+    render json: { filters: filter_jsons, records: records_as_json(@records) }
+  end
+
   protected
     # Only allow a trusted parameter "white list" through.
     def entity_params
