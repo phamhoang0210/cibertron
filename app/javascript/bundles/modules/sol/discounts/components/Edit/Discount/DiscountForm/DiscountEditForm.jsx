@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
 import { CODE_DELIMITER } from 'app/constants/cascader'
-import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Spin } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Spin, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
@@ -19,6 +19,7 @@ class DiscountEditForm extends React.Component {
       'handleBack',
       'handleSubmit',
       'formatFormData',
+      'renderMessage',
     ])
   }
 
@@ -51,6 +52,19 @@ class DiscountEditForm extends React.Component {
     return params
   }
 
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="smile-o" /> Sản phẩm: Chọn 1 khóa học / combo có tên cụ thể</h3>
+        <h3><Icon type="smile-o" /> Hiển thị giá cũ: Là thông tin giá bị gạch đi trên landingpage</h3>
+        <h3><Icon type="smile-o" /> Giá mới: Là giá bán thực tế của khóa học (giá của contact)</h3>
+        <h3><Icon type="smile-o" /> Hiển thị giá mới: Là thông tin giá bán được hiển thị trên landingpage</h3>
+        <h3><Icon type="smile-o" /> Reduce (%): Là % được giảm giá hiển thị trên landingpage</h3>
+        <h3 style={{'color': 'red'}}><Icon type="warning" />Check kỹ giá trần và giá sàn của TM để tránh vi phạm giá với giảng viên</h3>
+      </div>
+    )
+  }
+
   getProductCascaderOptions() {
     const {newState, sharedState} = this.props
     const courses = sharedState.get('courses').map(course => (
@@ -81,7 +95,7 @@ class DiscountEditForm extends React.Component {
   }
 
   render() {
-    
+
     const {editState, sharedState} = this.props
     const {getFieldDecorator} = this.props.form
     const alert = editState.get('alert')
@@ -170,7 +184,16 @@ class DiscountEditForm extends React.Component {
                 </Button>
               </FormItem>
             </Form>
-            )} 
+            )}
+          </Col>
+          <Col span={8} offset={3}>
+            <Alert
+              message="Documents create discount"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+              closeText="Close"
+            />
           </Col>
         </Row>
       </div>

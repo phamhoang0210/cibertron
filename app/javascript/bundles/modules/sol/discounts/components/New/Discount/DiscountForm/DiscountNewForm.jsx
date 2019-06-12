@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
 import { CODE_DELIMITER } from 'app/constants/cascader'
-import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const Option = Select.Option
@@ -20,6 +20,7 @@ class DiscountNewForm extends React.Component {
       'handleSubmit',
       'formatFormData',
       'filter',
+      'renderMessage',
     ])
   }
 
@@ -50,6 +51,19 @@ class DiscountNewForm extends React.Component {
     }
 
     return params
+  }
+
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="smile-o" /> Sản phẩm: Chọn 1 khóa học / combo có tên cụ thể</h3>
+        <h3><Icon type="smile-o" /> Hiển thị giá cũ: Là thông tin giá bị gạch đi trên landingpage</h3>
+        <h3><Icon type="smile-o" /> Giá mới: Là giá bán thực tế của khóa học (giá của contact)</h3>
+        <h3><Icon type="smile-o" /> Hiển thị giá mới: Là thông tin giá bán được hiển thị trên landingpage</h3>
+        <h3><Icon type="smile-o" /> Reduce (%): Là % được giảm giá hiển thị trên landingpage</h3>
+        <h3 style={{'color': 'red'}}><Icon type="warning" />Check kỹ giá trần và giá sàn của TM để tránh vi phạm giá với giảng viên</h3>
+      </div>
+    )
   }
 
   getProductCascaderOptions() {
@@ -93,7 +107,7 @@ class DiscountNewForm extends React.Component {
     const alert = newState.get('alert')
     const isCreatingDiscount = newState.get('isCreatingDiscount')
     const productCascaderOptions = this.getProductCascaderOptions()
-    
+
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -160,6 +174,15 @@ class DiscountNewForm extends React.Component {
               </FormItem>
 
             </Form>
+          </Col>
+          <Col span={8} offset={3}>
+            <Alert
+              message="Lưu ý:"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+              closeText="Close"
+            />
           </Col>
         </Row>
       </div>
