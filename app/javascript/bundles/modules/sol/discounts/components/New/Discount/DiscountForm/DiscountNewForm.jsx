@@ -58,7 +58,7 @@ class DiscountNewForm extends React.Component {
       <div>
         <h3><Icon type="smile-o" /> Sản phẩm: Chọn 1 khóa học / combo có tên cụ thể</h3>
         <h3><Icon type="smile-o" /> Hiển thị giá cũ: Là thông tin giá bị gạch đi trên landingpage</h3>
-        <h3><Icon type="smile-o" /> Giá mới: Là giá bán thực tế của khóa học (giá của contact)</h3>
+        <h3><Icon type="smile-o" /> Giá mới: Là giá bán thực tế của khóa học</h3>
         <h3><Icon type="smile-o" /> Hiển thị giá mới: Là thông tin giá bán được hiển thị trên landingpage</h3>
         <h3><Icon type="smile-o" /> Reduce (%): Là % được giảm giá hiển thị trên landingpage</h3>
         <h3 style={{'color': 'red'}}><Icon type="warning" />Check kỹ giá trần và giá sàn của TM để tránh vi phạm giá với giảng viên</h3>
