@@ -109,10 +109,10 @@ class LandingPagesTableBox extends React.Component {
                   <small style={{color: 'red'}}>- {error}</small>
                 </div>
               ))}
-              <Button type="primary"  href={record.link_custom} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design LP</i></Button>
-              <Button type="primary" href={record.link_custom_one} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design LandingI</i></Button>
-              <Button type="primary" href={record.link_custom_two} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design LP Two</i></Button>
-              <Button type="info" href={link_amazon} target="blank" size="small" type="primary" ghost style = {{marginTop: '2px'}}><i>Design LP Amazon</i></Button>
+              <Button type="primary"  href={record.link_custom} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design Ladipage</i></Button>
+              <Button type="primary" href={record.link_custom_one} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design Landingi</i></Button>
+              <Button type="primary" href={record.link_custom_two} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design other</i></Button>
+              <Button type="info" href={link_amazon} target="blank" size="small" type="primary" ghost style = {{marginTop: '2px'}}><i>View IT Backup</i></Button>
 
               {landing_page_error.map(lp_error => 
                 {return lp_error.status==false ?
