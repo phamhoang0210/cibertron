@@ -60,6 +60,14 @@ export const appLocale = {
         // attrs.ga_code.label
         label: 'Link Design',
       },
+      link_custom_one: {
+        // attrs.ga_code.label
+        label: 'Link Design Landingi',
+      },
+      link_custom_two: {
+        // attrs.ga_code.label
+        label: 'Link Design Two',
+      },
       ga_code: {
         // attrs.ga_code.label
         label: 'Ga code',
