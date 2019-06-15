@@ -58,7 +58,7 @@ export const appLocale = {
       },
       link_custom: {
         // attrs.ga_code.label
-        label: 'Link Design',
+        label: 'Link Design Ladipage',
       },
       link_custom_one: {
         // attrs.ga_code.label
@@ -66,7 +66,7 @@ export const appLocale = {
       },
       link_custom_two: {
         // attrs.ga_code.label
-        label: 'Link Design Two',
+        label: 'Link Design Other',
       },
       ga_code: {
         // attrs.ga_code.label
