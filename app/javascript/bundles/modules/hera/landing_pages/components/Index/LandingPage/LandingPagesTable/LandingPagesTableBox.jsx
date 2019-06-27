@@ -54,7 +54,7 @@ class LandingPagesTableBox extends React.Component {
           </div>
         )
       }
-    }, 
+    },    
     // {
     //   title: intl.formatMessage({id: 'attrs.score.label'}),
     //   dataIndex: 'domain',
@@ -86,7 +86,7 @@ class LandingPagesTableBox extends React.Component {
     //         <Progress width={60} status={status} type="circle" percent={score} format={percent => `${percent}`} />
     //       )
     //     }
-        
+
     //   },
     // },
     {
@@ -96,10 +96,13 @@ class LandingPagesTableBox extends React.Component {
       width: '23%',
       render: (value, record) => {
         if(value && value.name) {
+
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
           const landing_page_error = record.landing_page_error
           let link_amazon = 'https://edumall-landingpage.s3-ap-southeast-1.amazonaws.com/landingpages/' + record.domain.name +'/index.html'
+          let backup = record.domain && record.domain.backup || ''
+          let name_domain = record.domain && record.domain.name || ''
           return (
             <div style={{ padding: '26px 16px 16px' }}>
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
@@ -121,6 +124,17 @@ class LandingPagesTableBox extends React.Component {
                   </div>)
                   : null
                 }
+              )}
+
+              {backup && (
+                <div>
+                 <a href={`${intl.formatMessage({id: 'others.aws'})}/${name_domain}/index.html`} target="_blank">  
+                   <Tag style={{ marginTop: 5 }} color="volcano">{intl.formatMessage({id: 'attrs.backup_index.label'})}</Tag> 
+                 </a>
+                 <a href={`${intl.formatMessage({id: 'others.aws'})}/${name_domain}/thankyou/thankyou.html`} target="_blank">  
+                   <Tag style={{ marginTop: 5 }} color="volcano">{intl.formatMessage({id: 'attrs.backup_thankyou.label'})}</Tag> 
+                 </a>
+                </div>
               )}
             </div>
           )
