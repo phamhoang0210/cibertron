@@ -39,7 +39,11 @@ class DomainNewForm extends React.Component {
   renderMessage(){
     return (
       <div>
-        <h3><Icon type="smile-o" /> Domain: cần có đuôi ".edumall.vn"</h3>
+        <h3><Icon type="smile-o" /> Định dạng đuôi domain:</h3>
+        <h4><Icon type="check" /> .edumall.vn </h4>
+        <h4><Icon type="check" /> .edumalltopica.edu.vn </h4>
+        <h4><Icon type="check" /> .edumall.co.th </h4>
+        <h4><Icon type="check" /> .eduvip.vn (.eduvip.vn chỉ dành cho team Comando)</h4>
         <h3><Icon type="smile-o" /> Target server: là platform nơi MKTer đã tạo landingpage cần được gắn domain</h3>
       </div>
     )
