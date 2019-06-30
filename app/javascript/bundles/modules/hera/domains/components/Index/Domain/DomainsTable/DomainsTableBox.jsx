@@ -81,7 +81,7 @@ class DomainsTableBox extends React.Component {
               loading={row.isReloading}
               onClick={(e) => this.handleReload(row.id)}
             >
-              Reload
+              Backup LDP
             </Button>
             <Button
               icon="restore"

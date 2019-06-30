@@ -4,7 +4,7 @@ import { Map } from 'immutable'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Spin, Cascader } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Spin, Cascader, Icon } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -19,6 +19,7 @@ class LandingPageEditForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'renderMessage'
     ])
   }
 
@@ -45,6 +46,22 @@ class LandingPageEditForm extends React.Component {
     return params
   }
 
+  renderMessage(){
+    return (
+      <div>
+        <h3 style={{'frontWeight':'700'}}><Icon type="smile-o" /> Discount:</h3>
+        <h3><Icon type="minus" /> Landingpage tuyển dụng không cần điền phần này</h3>
+        <h3><Icon type="minus" /> Landingpage MKT bắt buộc phải điền phần này, và chọn đúng khóa discount → Nếu ko chọn đúng khóa, contact đổ về sẽ bị sai khóa học</h3>
+
+        <h3><Icon type="smile-o" /> Strategy:</h3>
+        <h3><Icon type="minus" /> Đối với MKT cho khóa học của Edumall, chỉ chọn 1 trong 2 strategy là "industry" hoặc "pilot"</h3>
+
+        <h3><Icon type="smile-o" /> Loại landingpage:</h3>
+        <h3><Icon type="minus" /> Chọn đúng loại C3 của landingpage và bộ phận MKT. Đối với MKT, loại C3 thường là "c3_cod", "c3_cod_no_online_payment", "c3_tele"</h3>
+      </div>
+    )
+  }
+
   render() {
     const {editState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
@@ -61,7 +78,7 @@ class LandingPageEditForm extends React.Component {
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == (getFieldValue('discount_id') || (landingPage && landingPage.get('discount_id')))
     ))
-    
+
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -177,7 +194,7 @@ class LandingPageEditForm extends React.Component {
                     initialValue: landingPage.get('ga_code'),
                   })(<Input />)}
                 </FormItem>
-                
+
                 <FormItem
                   label={intl.formatMessage({id: 'attrs.link_custom.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -299,13 +316,21 @@ class LandingPageEditForm extends React.Component {
                   </Button>
                 </FormItem>
               </Form>
-            )} 
+            )}
+          </Col>
+          <Col span={10} offset={2}>
+            <Alert
+              message="Lưu ý :"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+              closeText="Close"
+            />
           </Col>
         </Row>
       </div>
     );
   }
 }
-
 
 export default Form.create()(injectIntl(LandingPageEditForm))

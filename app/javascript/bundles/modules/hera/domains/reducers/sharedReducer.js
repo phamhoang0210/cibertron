@@ -7,6 +7,8 @@ export const initialState = Immutable.fromJS({
     { id: 'cname.landingi.com', title: 'Landingi' },
     { id: 'landingpages.pedia.vn', title: 'Custom' },
     { id: 'ssl.ladipage.vn', title: 'Ladipage' },
+    { id: 'unbouncepages.com', title: 'Unbounce' },
+    { id: 'tls.wishpond.com', title: 'Wishpond' },
   ],
   allusers: [],
   isFetchingAllUsers: false,
