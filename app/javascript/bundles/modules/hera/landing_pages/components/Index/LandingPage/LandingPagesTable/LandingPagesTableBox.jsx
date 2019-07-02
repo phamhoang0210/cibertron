@@ -270,7 +270,7 @@ class LandingPagesTableBox extends React.Component {
     keyword = removeSpaceInput(keyword)
     const {actions, indexState} = this.props
     let landingPageParams = getFilterParams(indexState.get('landingPageFilters'))
-    actions.fetchLandingPages(mergeDeep([landingPageParams, {compconds: {'name.like': `%${keyword}%`}}]))
+    actions.fetchLandingPages(mergeDeep([landingPageParams, {compconds: {domain: {'name.like': `%${keyword}%`}}}]))
   }
 
   handleGetCode(landingPageId) {
