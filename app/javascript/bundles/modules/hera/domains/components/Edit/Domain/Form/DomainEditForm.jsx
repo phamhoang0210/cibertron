@@ -52,7 +52,6 @@ class DomainEditForm extends React.Component {
 
   render() {
     const {editState, sharedState, intl} = this.props
-    const domainDnsServers = sharedState.get('domainDnsServers')
     const { getFieldDecorator } = this.props.form
     const alert = editState.get('alert')
     const domain = editState.get('domain')
@@ -60,6 +59,7 @@ class DomainEditForm extends React.Component {
     const isFetchingDomain = editState.get('isFetchingDomain')
     const providers = sharedState.get('providers')
     const categories = sharedState.get('categories')
+    const dnsServer = sharedState && sharedState.get('allPlatforms');
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -98,18 +98,18 @@ class DomainEditForm extends React.Component {
                   label={intl.formatMessage({id: 'attrs.dns_server.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
-                  {getFieldDecorator('dns_server', {
+                  {getFieldDecorator('platform_id', {
                     rules: [{
                       required: true,
                       message: intl.formatMessage({id: 'attrs.dns_server.errors.required'})
                     }],
-                    initialValue: domain.get('dns_server'),
+                    initialValue: `${domain.get('platform_id') || ''}`,
                   })(
                     <Select
                       showSearch
                       filterOption={selectFilterOption}
                     >
-                      {domainDnsServers.map(server => (
+                      {dnsServer.map(server => (
                         <Option value={`${server.get('id')}`} key={server.get('id')}>
                           {server.get('title')}
                         </Option>
