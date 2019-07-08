@@ -55,7 +55,7 @@ class DomainNewForm extends React.Component {
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingDomain = newState.get('isCreatingDomain')
-
+    const dnsServer = sharedState && sharedState.get('allPlatforms').toJS();
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -86,7 +86,7 @@ class DomainNewForm extends React.Component {
                 label={intl.formatMessage({id: 'attrs.dns_server.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('dns_server', {
+                {getFieldDecorator('platform_id', {
                   rules: [{
                     required: true,
                     message: intl.formatMessage({id: 'attrs.dns_server.errors.required'})
@@ -96,9 +96,9 @@ class DomainNewForm extends React.Component {
                     showSearch
                     filterOption={selectFilterOption}
                   >
-                    {domainDnsServers.map(server => (
-                      <Option value={`${server.get('id')}`} key={server.get('id')}>
-                        {server.get('title')}
+                    {dnsServer.map(server => (
+                      <Option value={`${server.id}`} key={server.id}>
+                        {server.title}
                       </Option>
                     ))}
                   </Select>

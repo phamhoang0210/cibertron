@@ -33,11 +33,15 @@ export const appLocale = {
       },
       username: {
         // attrs.user_id.label
-        label: 'Sở hữu',
+        label: 'Owner',
+      },
+      platform: {
+        // attrs.user_id.label
+        label: 'Platform',
       },
       landing_page_name: {
         // attrs.landing_page_name.label
-        label: 'Tên landing page',
+        label: 'Landing page',
       },
       type: {
         // attrs.type.label
