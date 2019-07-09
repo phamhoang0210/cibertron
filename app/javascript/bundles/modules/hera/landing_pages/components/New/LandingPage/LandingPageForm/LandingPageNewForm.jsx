@@ -132,6 +132,50 @@ class LandingPageNewForm extends React.Component {
                 )}
               </FormItem>
               <FormItem
+                label={intl.formatMessage({id: 'attrs.strategy.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('strategy', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.strategy.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {strategies.map(strategy => (
+                      <Option value={`${strategy.get('id')}`} key={strategy.get('id')}>
+                        {strategy.get('title')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.landing_page_type.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('landing_page_type', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.landing_page_type.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {logics.map(type => (
+                      <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
+                        {type.get('landing_page_type')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.discount_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
@@ -155,29 +199,6 @@ class LandingPageNewForm extends React.Component {
                   </div>
                 )}
               </FormItem>
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.strategy.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('strategy', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage({id: 'attrs.strategy.errors.required'}),
-                  }],
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {strategies.map(strategy => (
-                      <Option value={`${strategy.get('id')}`} key={strategy.get('id')}>
-                        {strategy.get('title')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </FormItem>
-
               <FormItem
                 label={intl.formatMessage({id: 'attrs.link_custom.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -216,28 +237,6 @@ class LandingPageNewForm extends React.Component {
                 {getFieldDecorator('thankyou_page_url', {
                   initialValue: '/thankyou'
                 })(<Input disabled={true}/>)}
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.landing_page_type.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('landing_page_type', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage({id: 'attrs.landing_page_type.errors.required'}),
-                  }],
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {logics.map(type => (
-                      <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
-                        {type.get('landing_page_type')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
               </FormItem>
               <FormItem
                 label={intl.formatMessage({id: 'attrs.facebook_app_id.label'})}
