@@ -83,7 +83,7 @@ class DomainNewForm extends React.Component {
                 })(<Input />)}
               </FormItem>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.dns_server.label'})}
+                label={intl.formatMessage({id: 'attrs.platform.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('platform_id', {
