@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
 import { CODE_DELIMITER } from 'app/constants/cascader'
+import { LANDINGPAGE_URL } from '../../../../constants/paths'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Checkbox, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 
@@ -21,11 +22,20 @@ class DiscountNewForm extends React.Component {
       'formatFormData',
       'filter',
       'renderMessage',
+      'redirectLp'
     ])
   }
 
   handleBack(e) {
     browserHistory.goBack()
+  }
+
+  redirectLp(e){
+    let newState = this.props.newState
+    let discount = newState.get('discount').toJS()
+
+    browserHistory.push(`${LANDINGPAGE_URL}/new?discount_id=${discount.id}`)
+    window.location.reload()
   }
 
   handleSubmit(e) {
@@ -171,6 +181,11 @@ class DiscountNewForm extends React.Component {
                 <Button type="default" className="button-margin--left--default" onClick={this.handleBack}>
                   Back
                 </Button>
+                { newState.get('discount') != null &&
+                  <Button type="primary" className="button-margin--left--default" onClick={this.redirectLp}>
+                    Create Landingpage
+                  </Button>
+                }
               </FormItem>
 
             </Form>
