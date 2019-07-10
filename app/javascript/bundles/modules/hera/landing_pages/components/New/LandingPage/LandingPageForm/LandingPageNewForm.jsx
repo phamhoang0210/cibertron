@@ -29,6 +29,23 @@ class LandingPageNewForm extends React.Component {
     browserHistory.goBack()
   }
 
+  handleSearch(type, value){
+    let {actions} = this.props
+    switch (type){
+      case 'domain':
+        actions.fetchDomains({compconds: {"name.like": `%${value}%`}});
+        break;
+      case 'discount':
+        actions.fetchDiscounts({
+          fields: 'product_json',
+          compconds: {"name.like": `%${value}%`}
+        })
+        break;
+      default:
+        return null
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     const {actions} = this.props
@@ -91,7 +108,7 @@ class LandingPageNewForm extends React.Component {
       discount.get('id') == this.getDiscountIdFromUrl()
     ))
     let selectedDiscount = discounts.find(discount => (
-      ( discount.get('id') == getFieldValue('discount_id') )
+      discount.get('id') == getFieldValue('discount_id')
     ))
 
     selectedDiscount = selectedDiscount || urlDiscount
@@ -138,6 +155,7 @@ class LandingPageNewForm extends React.Component {
                     showSearch
                     allowClear
                     filterOption={selectFilterOption}
+                    onSearch={this.handleSearch.bind(this, "domain")}
                   >
                     {domains.map(domain => (
                       <Option value={`${domain.get('id')}`} key={domain.get('id')}>
@@ -201,6 +219,7 @@ class LandingPageNewForm extends React.Component {
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
+                    onSearch={this.handleSearch.bind(this, "discount")}
                   >
                     {discounts.map(discount => (
                       <Option value={`${discount.get('id')}`} key={discount.get('id')}>
