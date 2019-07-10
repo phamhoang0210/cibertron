@@ -11,7 +11,9 @@ export const initialState = Immutable.fromJS({
     { id: 'tls.wishpond.com', title: 'Wishpond' },
   ],
   allusers: [],
+  allPlatforms: [],
   isFetchingAllUsers: false,
+  isFetchingAllPlatforms: false,
   userIdMappings: {},
 })
 
@@ -41,6 +43,26 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_ALL_USERS_FAILURE: {
       return $$state.merge({
         isFetchingAllUsers: false,
+      })
+    }
+
+    //platform
+    case actionTypes.SET_IS_FETCHING_PLATFORMS: {
+      return $$state.merge({
+        isFetchingAllPlatforms: true,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_PLATFORMS_SUCCESS: {
+      return $$state.merge({
+        isFetchingAllPlatforms: true,
+        allPlatforms: records,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_PLATFORMS_FAILURE: {
+      return $$state.merge({
+        isFetchingAllPlatforms: false,
       })
     }
 

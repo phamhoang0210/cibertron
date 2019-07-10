@@ -9,6 +9,7 @@ class NewScreen extends React.Component {
 
   componentDidMount() {
     const {actions} = this.props
+    actions.fetchPlatforms();
   }
 
   render() {

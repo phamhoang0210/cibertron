@@ -5,7 +5,7 @@ import {
   COMBOS_API_PATH, AUTH_API_PATH, DOMAINS_API_PATH,
   LOGICS_API_PATH, AD_ACCOUNTS_API_PATH, PIXELS_API_PATH,
   FACEBOOK_APPS_API_PATH, FACEBOOK_PIXEL_CODES_API_PATH,
-  LOGIC_HOME_API_PATH,
+  LOGIC_HOME_API_PATH, PLATFORM_API_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -63,10 +63,14 @@ function fetchUsersFailure(error) {
 }
 
 export function fetchUsers(params = {}) {
+  let keyword=""
+  if (params['keyword']) {
+    keyword = params['keyword'] || ''
+  }
   return dispatch => {
     dispatch(setIsFetchingUsers())
     authRequest
-      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTH_API_PATH}`, params)
+      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTH_API_PATH}`, {'full_search': keyword})
       .then(res => dispatch(fetchUsersSuccess(res.data)))
       .catch(error => dispatch(fetchUsersFailure(error)))
   }
@@ -291,5 +295,36 @@ export function fetchLogicHome(params = {}) {
       .fetchEntities(`${HERA_BASE_URL}${LOGIC_HOME_API_PATH}`, params)
       .then(res => dispatch(fetchLogicHomeSuccess(res.data)))
       .catch(error => dispatch(fetchLogicHomeFailure(error)))
+  }
+}
+
+//Fetch platform
+function setIsFetchingPlatForms() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PLATFORMS,
+  }
+}
+
+function fetchPlatformsSuccess(records) {
+  return {
+    type: actionTypes.FETCH_ALL_PLATFORMS_SUCCESS,
+    records: records.data,
+  }
+}
+
+function fetchPlatformsFailure(error) {
+  return {
+    type: actionTypes.FETCH_ALL_PLATFORMS_FAILURE,
+    error,
+  }
+}
+
+export function fetchPlatforms(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingPlatForms())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${PLATFORM_API_PATH}`, params)
+      .then(res => dispatch(fetchPlatformsSuccess(res.data)))
+      .catch(error => dispatch(fetchPlatformsFailure(error)))
   }
 }

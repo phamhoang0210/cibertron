@@ -22,6 +22,7 @@ class LandingPageFiltersFormBox extends React.Component {
     _.bindAll(this, [
       'handleFilter',
       'formatFormData',
+      'handleSearchUser',
     ])
   }
 
@@ -56,6 +57,11 @@ class LandingPageFiltersFormBox extends React.Component {
     })
 
     return mergeDeep([formatedValues, {compconds}])
+  }
+
+  handleSearchUser(keyword){
+    const {actions} = this.props
+    actions.fetchUsers({keyword: `${keyword}`})
   }
 
   render() {
@@ -137,6 +143,7 @@ class LandingPageFiltersFormBox extends React.Component {
                     filterOption={selectFilterOption}
                     mode="multiple"
                     allowClear={true}
+                    onSearch={this.handleSearchUser}
                   >
                     {users.toJS().map(user => (
                       <Option value={`${user.id}`} key={user.id}>

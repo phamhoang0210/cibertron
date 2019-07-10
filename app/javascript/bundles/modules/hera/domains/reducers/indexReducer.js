@@ -8,7 +8,7 @@ export const initialState = Immutable.fromJS({
   domains: [],
   domainFilters: {
     ...defaultFilters,
-    fields: 'landing_page{}'
+    fields: 'landing_page{}, platform{}'
   },
   users: [],
   isFetchingDomains: false,
