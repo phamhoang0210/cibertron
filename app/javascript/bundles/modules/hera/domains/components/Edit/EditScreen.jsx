@@ -9,7 +9,8 @@ class EditScreen extends React.Component {
 
   componentDidMount() {
     const {actions, params} = this.props
-    actions.fetchDomain(params.id, {fields: 'landing_page{}'})
+    actions.fetchDomain(params.id, {fields: 'landing_page{}, platform{}'})
+    actions.fetchPlatforms();
   }
 
   render() {

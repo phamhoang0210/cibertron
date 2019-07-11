@@ -1,8 +1,10 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import { LANDING_PAGES_API_PATH } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
-import { AUTHS_API_PATH } from '../constants/paths'
+import { 
+  AUTHS_API_PATH, 
+  PLATFORM_API_PATH
+} from '../constants/paths'
 
 function setIsFetchingAllUsers() {
   return {
@@ -36,5 +38,36 @@ export function fetchAllUsers(params = {}) {
       .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'full_search': keyword})
       .then(res => dispatch(fetchAllUsersSuccess(res.data)))
       .catch(error => dispatch(fetchAllUsersFailure(error)))
+  }
+}
+
+//Fetch platform
+function setIsFetchingPlatForms() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_PLATFORMS,
+  }
+}
+
+function fetchPlatformsSuccess(records) {
+  return {
+    type: actionTypes.FETCH_ALL_PLATFORMS_SUCCESS,
+    records: records.data,
+  }
+}
+
+function fetchPlatformsFailure(error) {
+  return {
+    type: actionTypes.FETCH_ALL_PLATFORMS_FAILURE,
+    error,
+  }
+}
+
+export function fetchPlatforms(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingPlatForms())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${PLATFORM_API_PATH}`, params)
+      .then(res => dispatch(fetchPlatformsSuccess(res.data)))
+      .catch(error => dispatch(fetchPlatformsFailure(error)))
   }
 }

@@ -38,6 +38,14 @@ export const appLocale = {
           required: 'Domain is required'
         }
       },
+      backup_index: {
+        // attrs.backup_index.label
+        label: 'Backup Index'
+      },
+      backup_thankyou: {
+        // attrs.backup_thankyou.label
+        label: 'Backup Thankyou'
+      },
       discount_id: {
         // attrs.discount_id.label
         label: 'Discount',
@@ -62,7 +70,15 @@ export const appLocale = {
       },
       link_custom: {
         // attrs.ga_code.label
-        label: 'Link Design',
+        label: 'Link Design Ladipage',
+      },
+      link_custom_one: {
+        // attrs.ga_code.label
+        label: 'Link Design Landingi',
+      },
+      link_custom_two: {
+        // attrs.ga_code.label
+        label: 'Link Design Other',
       },
       ga_code: {
         // attrs.ga_code.label
@@ -194,6 +210,9 @@ export const appLocale = {
           },
         }
       }
+    },
+    others: {
+      aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage/landingpages'
     }
   }),
   antd: antdVi,

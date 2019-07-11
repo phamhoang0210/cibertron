@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Icon } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -17,6 +17,7 @@ class DomainNewForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'renderMessage',
     ])
   }
 
@@ -35,13 +36,26 @@ class DomainNewForm extends React.Component {
     })
   }
 
+  renderMessage(){
+    return (
+      <div>
+        <h3><Icon type="smile-o" /> Định dạng đuôi domain:</h3>
+        <h4><Icon type="check" /> .edumall.vn </h4>
+        <h4><Icon type="check" /> .edumalltopica.edu.vn </h4>
+        <h4><Icon type="check" /> .edumall.co.th </h4>
+        <h4><Icon type="check" /> .eduvip.vn (.eduvip.vn chỉ dành cho team Comando)</h4>
+        <h3><Icon type="smile-o" /> Target server: là platform nơi MKTer đã tạo landingpage cần được gắn domain</h3>
+      </div>
+    )
+  }
+
   render() {
     const {newState, sharedState, intl} = this.props
     const domainDnsServers = sharedState.get('domainDnsServers')
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingDomain = newState.get('isCreatingDomain')
-    
+    const dnsServer = sharedState && sharedState.get('allPlatforms').toJS();
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -69,10 +83,10 @@ class DomainNewForm extends React.Component {
                 })(<Input />)}
               </FormItem>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.dns_server.label'})}
+                label={intl.formatMessage({id: 'attrs.platform.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('dns_server', {
+                {getFieldDecorator('platform_id', {
                   rules: [{
                     required: true,
                     message: intl.formatMessage({id: 'attrs.dns_server.errors.required'})
@@ -82,9 +96,9 @@ class DomainNewForm extends React.Component {
                     showSearch
                     filterOption={selectFilterOption}
                   >
-                    {domainDnsServers.map(server => (
-                      <Option value={`${server.get('id')}`} key={server.get('id')}>
-                        {server.get('title')}
+                    {dnsServer.map(server => (
+                      <Option value={`${server.id}`} key={server.id}>
+                        {server.title}
                       </Option>
                     ))}
                   </Select>
@@ -99,6 +113,15 @@ class DomainNewForm extends React.Component {
                 </Button>
               </FormItem>
             </Form>
+          </Col>
+          <Col span={8} offset={3}>
+            <Alert
+              message="Lưu ý :"
+              description={this.renderMessage()}
+              type="info"
+              showIcon
+              closeText="Close"
+            />
           </Col>
         </Row>
       </div>

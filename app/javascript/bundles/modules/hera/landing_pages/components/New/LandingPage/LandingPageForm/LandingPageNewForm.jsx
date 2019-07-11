@@ -4,7 +4,7 @@ import { Map } from 'immutable'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Cascader } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Icon } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -21,6 +21,7 @@ class LandingPageNewForm extends React.Component {
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
+      'renderMessage',
     ])
   }
 
@@ -46,6 +47,22 @@ class LandingPageNewForm extends React.Component {
     const discount = params.discount
 
     return params
+  }
+
+  renderMessage(){
+    return (
+      <div>
+        <h3 style={{'frontWeight':'700'}}><Icon type="smile-o" /> Discount:</h3>
+        <h3><Icon type="minus" /> Landingpage tuyển dụng không cần điền phần này</h3>
+        <h3><Icon type="minus" /> Landingpage MKT bắt buộc phải điền phần này, và chọn đúng khóa discount → Nếu ko chọn đúng khóa, contact đổ về sẽ bị sai khóa học</h3>
+
+        <h3><Icon type="smile-o" /> Strategy:</h3>
+        <h3><Icon type="minus" /> Đối với MKT cho khóa học của Edumall, chỉ chọn 1 trong 2 strategy là "industry" hoặc "pilot"</h3>
+
+        <h3><Icon type="smile-o" /> Loại landingpage:</h3>
+        <h3><Icon type="minus" /> Chọn đúng loại C3 của landingpage và bộ phận MKT. Đối với MKT, loại C3 thường là "c3_cod", "c3_cod_no_online_payment", "c3_tele"</h3>
+      </div>
+    )
   }
 
   render() {
@@ -115,6 +132,50 @@ class LandingPageNewForm extends React.Component {
                 )}
               </FormItem>
               <FormItem
+                label={intl.formatMessage({id: 'attrs.strategy.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('strategy', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.strategy.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {strategies.map(strategy => (
+                      <Option value={`${strategy.get('id')}`} key={strategy.get('id')}>
+                        {strategy.get('title')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.landing_page_type.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('landing_page_type', {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.landing_page_type.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                  >
+                    {logics.map(type => (
+                      <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
+                        {type.get('landing_page_type')}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+              <FormItem
                 label={intl.formatMessage({id: 'attrs.discount_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
@@ -139,33 +200,26 @@ class LandingPageNewForm extends React.Component {
                 )}
               </FormItem>
               <FormItem
-                label={intl.formatMessage({id: 'attrs.strategy.label'})}
+                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('strategy', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage({id: 'attrs.strategy.errors.required'}),
-                  }],
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {strategies.map(strategy => (
-                      <Option value={`${strategy.get('id')}`} key={strategy.get('id')}>
-                        {strategy.get('title')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
+                {getFieldDecorator('link_custom', {
+                })(<Input />)}
               </FormItem>
 
               <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
+                label={intl.formatMessage({id: 'attrs.link_custom_one.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
-              > 
-                {getFieldDecorator('link_custom', {
+              >
+                {getFieldDecorator('link_custom_one', {
+                })(<Input />)}
+              </FormItem>
+
+              <FormItem
+                label={intl.formatMessage({id: 'attrs.link_custom_two.label'})}
+                {...DEFAULT_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('link_custom_two', {
                 })(<Input />)}
               </FormItem>
 
@@ -183,28 +237,6 @@ class LandingPageNewForm extends React.Component {
                 {getFieldDecorator('thankyou_page_url', {
                   initialValue: '/thankyou'
                 })(<Input disabled={true}/>)}
-              </FormItem>
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.landing_page_type.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('landing_page_type', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage({id: 'attrs.landing_page_type.errors.required'}),
-                  }],
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                  >
-                    {logics.map(type => (
-                      <Option value={`${type.get('landing_page_type')}`} key={type.get('id')}>
-                        {type.get('landing_page_type')}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
               </FormItem>
               <FormItem
                 label={intl.formatMessage({id: 'attrs.facebook_app_id.label'})}
@@ -258,6 +290,17 @@ class LandingPageNewForm extends React.Component {
               </FormItem>
             </Form>
           </Col>
+        </Row>
+        <Row>
+            <Col span={15} offset={2}>
+              <Alert
+                message="Lưu ý :"
+                description={this.renderMessage()}
+                type="info"
+                showIcon
+                closeText="Close"
+              />
+            </Col>
         </Row>
       </div>
     );

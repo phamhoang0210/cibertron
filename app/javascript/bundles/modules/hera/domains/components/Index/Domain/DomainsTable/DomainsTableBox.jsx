@@ -50,14 +50,14 @@ class DomainsTableBox extends React.Component {
 
         </div>
         ),
-    },{
+    }, {
       title: intl.formatMessage({id: 'attrs.username.label'}),
       dataIndex: 'username',
       key: 'username',
     }, {
-      title: intl.formatMessage({id: 'attrs.dns_server.label'}),
-      dataIndex: 'dns_server',
-      key: 'dns_server',
+      title: intl.formatMessage({id: 'attrs.platform.label'}),
+      dataIndex: 'platform.title',
+      key: 'platform.title',
     }, {
       title: intl.formatMessage({id: 'attrs.created_at.label'}),
       dataIndex: 'created_at',
@@ -81,7 +81,7 @@ class DomainsTableBox extends React.Component {
               loading={row.isReloading}
               onClick={(e) => this.handleReload(row.id)}
             >
-              Reload
+              Backup LDP
             </Button>
             <Button
               icon="restore"
@@ -180,7 +180,6 @@ class DomainsTableBox extends React.Component {
     const domains = indexState.get('domains')
     const paging = indexState.getIn(['domainFilters', 'paging'])
     const isFetchingDomains = indexState.get('isFetchingDomains')
-
     return (
       <div className="main-content-table-box">
         <Row className="main-content-table-box-tools">
