@@ -10,6 +10,7 @@ const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const FormItem = Form.Item
+let uid = 0;
 const DEFAULT_FORM_ITEM_LAYOUT = {
   labelCol: { span: 4},
   wrapperCol: {span: 12}
@@ -49,6 +50,33 @@ class LandingPageNewForm extends React.Component {
     return params
   }
 
+  remove = (k) => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length === 1) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    });
+  }
+
+  add = () => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(uid++);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
+  }
+
   renderMessage(){
     return (
       <div>
@@ -79,6 +107,57 @@ class LandingPageNewForm extends React.Component {
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == getFieldValue('discount_id')
     ))
+    const dnsServer = sharedState && sharedState.get('allPlatforms')
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+    const formCreateEditorLinks = keys.map((k, index) => {
+      return (
+        <FormItem
+          {...DEFAULT_FORM_ITEM_LAYOUT}
+          label={'Link custom:'}
+          required={false}
+          key={k}
+        >
+          <Row>
+            {getFieldDecorator(`platform_id[${k}]`, {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.domain_id.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    allowClear
+                    filterOption={selectFilterOption}
+                    placeholder="Please select landing page"
+                    style={{ width: '30%', marginRight: 8 }}
+                  >
+                    {dnsServer.map(server => (
+                      <Option value={`${server.get('id')}`} key={server.get('id')}>
+                        {server.get('title')}
+                      </Option>
+                    ))}
+                  </Select>
+              )}
+
+              {getFieldDecorator(`link[${k}]`, {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                  }],
+              })(<Input placeholder="link design" style={{width:'67%'}}/>)}
+
+              {keys.length > 1 ? (
+                <Icon
+                  className="dynamic-delete-button"
+                  type="minus-circle-o"
+                  onClick={() => this.remove(k)}
+                />
+              ) : null}
+          </Row>
+        </FormItem>
+      );
+    });
 
     return (
       <div className="main-content-form-box">
@@ -179,30 +258,6 @@ class LandingPageNewForm extends React.Component {
               </FormItem>
 
               <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('link_custom', {
-                })(<Input />)}
-              </FormItem>
-
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom_one.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('link_custom_one', {
-                })(<Input />)}
-              </FormItem>
-
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom_two.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('link_custom_two', {
-                })(<Input />)}
-              </FormItem>
-
-              <FormItem
                 label={intl.formatMessage({id: 'attrs.ga_code.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
@@ -273,6 +328,19 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
+
+              {formCreateEditorLinks}
+
+              <FormItem label="Add Link" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('course', {
+                  rules: [{ required: false, message: 'Course is required!' }],
+                })(
+                  <Button type="dashed" onClick={this.add}>
+                    <Icon type="plus" />
+                  </Button>
+                )}
+              </FormItem>
+
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button
                   type="primary"

@@ -1,6 +1,9 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
-import {LANDING_PAGES_API_PATH} from '../constants/paths'
+import {
+  LANDING_PAGES_API_PATH, 
+  LINK_EDITOR_PATH
+} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
 
@@ -34,6 +37,37 @@ export function fetchLandingPage(landingPageId, params = {}) {
   }
 }
 
+//fetch editor link
+function setIsFetchingEditorLink() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_EDITOR_LINK,
+  }
+}
+
+function fetchEditorLinkSuccess(record) {
+  return {
+    type: actionTypes.FETCH_EDITOR_LINK_SUCCESS,
+    record,
+  }
+}
+
+function fetchEditorLinkFailure(error) {
+  return {
+    type: actionTypes.FETCH_EDITOR_LINK_FAILURE,
+    error,
+  }
+}
+
+export function fetchEditorLink(landingPageId, params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingEditorLink())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${LINK_EDITOR_PATH}/${landingPageId}`, params)
+      .then(res => dispatch(fetchEditorLinkSuccess(res.data)))
+      .catch(error => dispatch(fetchEditorLinkFailure(error)))
+  }
+}
+
 function setIsUpdatingLandingPage(landingPageId) {
   return {
     type: actionTypes.SET_IS_UPDATING_LANDING_PAGE,
@@ -63,5 +97,13 @@ export function updateLandingPage(landingPageId, params = {}) {
       .putEntity(`${HERA_BASE_URL}${LANDING_PAGES_API_PATH}/${landingPageId}`, params)
       .then(res => dispatch(updateLandingPageSuccess(res.data)))
       .catch(error => dispatch(updateLandingPageFailure(error, landingPageId)))
+  }
+}
+
+//delete edit link
+export function deleteCourse(index) {
+  return {
+    type: actionTypes.DELETE_COURSE,
+    index,
   }
 }
