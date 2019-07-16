@@ -12,6 +12,7 @@ export const initialState = Immutable.fromJS({
   userIdMappings: {},
   facebookApps: [],
   facebookPixelCodes: [],
+  allPlatforms: [],
   discountIdMappings: {},
   isFetchingDomains: false,
   isFetchingDiscounts: false,
@@ -21,6 +22,7 @@ export const initialState = Immutable.fromJS({
   isFetchingFacebookPixelCodes: false,
   isFetchingPixels: false,
   isFetchingLogicHome: false,
+  isFetchingAllPlatforms: false,
   strategies: [
     {id: 'industry', title: 'industry'},
     {id: 'pilot', title: 'pilot'},
@@ -247,6 +249,26 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_LOGIC_HOME_FAILURE: {
       return $$state.merge({
         isFetchingLogicHome: false,
+      })
+    }
+
+    //allplatform
+    case actionTypes.SET_IS_FETCHING_PLATFORMS: {
+      return $$state.merge({
+        isFetchingAllPlatforms: true,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_PLATFORMS_SUCCESS: {
+      return $$state.merge({
+        isFetchingAllPlatforms: true,
+        allPlatforms: records,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_PLATFORMS_FAILURE: {
+      return $$state.merge({
+        isFetchingAllPlatforms: false,
       })
     }
 
