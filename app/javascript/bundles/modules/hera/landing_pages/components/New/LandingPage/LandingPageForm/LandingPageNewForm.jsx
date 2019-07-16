@@ -29,6 +29,23 @@ class LandingPageNewForm extends React.Component {
     browserHistory.goBack()
   }
 
+  handleSearch(type, value){
+    let {actions} = this.props
+    switch (type){
+      case 'domain':
+        actions.fetchDomains({compconds: {"name.like": `%${value}%`}});
+        break;
+      case 'discount':
+        actions.fetchDiscounts({
+          fields: 'product_json',
+          compconds: {"name.like": `%${value}%`}
+        })
+        break;
+      default:
+        return null
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     const {actions} = this.props
@@ -65,6 +82,17 @@ class LandingPageNewForm extends React.Component {
     )
   }
 
+  getDiscountIdFromUrl(){
+    let params = window.location.search
+    if (params != ""){
+      let match = params.match(/discount_id=(\d+)/)
+      if (match != null){
+        return match[1].toString()
+      }
+    }
+    return null
+  }
+
   render() {
     const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
@@ -76,9 +104,14 @@ class LandingPageNewForm extends React.Component {
     const facebookPixelCodes = sharedState.get('facebookPixelCodes')
     const logics = sharedState.get('logics')
     const strategies = sharedState.get('strategies')
-    const selectedDiscount = discounts.find(discount => (
+    let urlDiscount = discounts.find(discount => (
+      discount.get('id') == this.getDiscountIdFromUrl()
+    ))
+    let selectedDiscount = discounts.find(discount => (
       discount.get('id') == getFieldValue('discount_id')
     ))
+
+    selectedDiscount = selectedDiscount || urlDiscount
 
     return (
       <div className="main-content-form-box">
@@ -122,6 +155,7 @@ class LandingPageNewForm extends React.Component {
                     showSearch
                     allowClear
                     filterOption={selectFilterOption}
+                    onSearch={this.handleSearch.bind(this, "domain")}
                   >
                     {domains.map(domain => (
                       <Option value={`${domain.get('id')}`} key={domain.get('id')}>
@@ -179,10 +213,13 @@ class LandingPageNewForm extends React.Component {
                 label={intl.formatMessage({id: 'attrs.discount_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('discount_id')(
+                {getFieldDecorator('discount_id', {
+                  initialValue: urlDiscount && urlDiscount.get('name')
+                })(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
+                    onSearch={this.handleSearch.bind(this, "discount")}
                   >
                     {discounts.map(discount => (
                       <Option value={`${discount.get('id')}`} key={discount.get('id')}>
