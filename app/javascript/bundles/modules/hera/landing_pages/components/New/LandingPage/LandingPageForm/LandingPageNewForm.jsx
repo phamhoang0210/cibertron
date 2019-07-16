@@ -214,7 +214,7 @@ class LandingPageNewForm extends React.Component {
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
                 {getFieldDecorator('discount_id', {
-                  initialValue: urlDiscount && urlDiscount.get('name')
+                  initialValue: urlDiscount && urlDiscount.get('id')
                 })(
                   <Select
                     showSearch
