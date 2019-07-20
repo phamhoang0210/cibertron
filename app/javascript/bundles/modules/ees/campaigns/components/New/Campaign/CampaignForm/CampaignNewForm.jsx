@@ -1,15 +1,15 @@
 import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
-import { selectFilterOption } from 'helpers/antdHelper'
-import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Checkbox, Icon } from 'antd'
+import ListSelect from '../../../Base/ListSelect';
+import TemplateSelect from '../../../Base/TemplateSelect';
+import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
+import { Form, Input, Row, Col, Button, Select, Alert, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
 const Option = Select.Option
 const FormItem = Form.Item
-const TextArea = Input.TextArea
 
 class CampaignNewForm extends React.Component {
   constructor(props) {
@@ -48,8 +48,9 @@ class CampaignNewForm extends React.Component {
   }
 
   render() {
-    const {newState, sharedState, intl} = this.props
-    const { getFieldDecorator, getFieldValue } = this.props.form
+    const {form, newState, sharedState, intl, actions} = this.props
+
+    const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const senders = sharedState.get('senders')
     const lists = sharedState.get('lists')
@@ -166,35 +167,12 @@ class CampaignNewForm extends React.Component {
               </FormItem>
 
               {/* List item */}
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.list.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('list_id', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage(
-                      {id: 'attrs.list.errors.required'},
-                    ),
-                  }],
-                })(
-                  <Select
-                    showSearch
-                    placeholder={intl.formatMessage({id: 'attrs.list.placeholder'})}
-                    optionFilterProp="children"
-                    // onChange={handleChange}
-                    // onFocus={handleFocus}
-                    // onBlur={handleBlur}
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {lists && lists.map((list, index) => {
-                      return (
-                        <Option value={list.get('id')} key={index}>{`${list.get('name')}`}</Option>
-                      );
-                    })}
-                  </Select>
-                )}
-              </FormItem>
+              <ListSelect
+                list_id=""
+                lists={lists}
+                fetchLists={actions.fetchLists}
+                form={form}
+              />
 
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button
