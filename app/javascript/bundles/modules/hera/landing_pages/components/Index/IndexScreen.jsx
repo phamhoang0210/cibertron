@@ -18,6 +18,8 @@ class IndexScreen extends React.Component {
     actions.fetchDiscounts({fields: 'product_json'})
     actions.fetchUsers({per_page: 'infinite'})
     actions.fetchDomains({per_page: 'infinite'})
+    actions.fetchEditorLinks({fields: 'platform{}'})
+    actions.fetchPlatforms()
   }
 
   componentWillReceiveProps(nextProps) {
