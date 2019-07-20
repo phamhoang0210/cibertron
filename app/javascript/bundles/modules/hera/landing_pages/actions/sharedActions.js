@@ -5,7 +5,7 @@ import {
   COMBOS_API_PATH, AUTH_API_PATH, DOMAINS_API_PATH,
   LOGICS_API_PATH, AD_ACCOUNTS_API_PATH, PIXELS_API_PATH,
   FACEBOOK_APPS_API_PATH, FACEBOOK_PIXEL_CODES_API_PATH,
-  LOGIC_HOME_API_PATH, PLATFORM_API_PATH,
+  LOGIC_HOME_API_PATH, PLATFORM_API_PATH, LINK_EDITOR_PATH,
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -326,5 +326,36 @@ export function fetchPlatforms(params = {}) {
       .fetchEntities(`${HERA_BASE_URL}${PLATFORM_API_PATH}`, params)
       .then(res => dispatch(fetchPlatformsSuccess(res.data)))
       .catch(error => dispatch(fetchPlatformsFailure(error)))
+  }
+}
+
+//Fetch editor link
+function setIsFetchingEditorLinks() {
+  return {
+    type: actionTypes.SET_IS_FETCHING_EDITOR_LINKS,
+  }
+}
+
+function fetchEditorLinksSuccess(records) {
+  return {
+    type: actionTypes.FETCH_EDITOR_LINKS_SUCCESS,
+    records: records.data,
+  }
+}
+
+function fetchEditorLinksFailure(error) {
+  return {
+    type: actionTypes.FETCH_EDITOR_LINKS_FAILURE,
+    error,
+  }
+}
+
+export function fetchEditorLinks(params = {}) {
+  return dispatch => {
+    dispatch(setIsFetchingEditorLinks())
+    authRequest
+      .fetchEntities(`${HERA_BASE_URL}${LINK_EDITOR_PATH}`, params)
+      .then(res => dispatch(fetchEditorLinksSuccess(res.data)))
+      .catch(error => dispatch(fetchEditorLinksFailure(error)))
   }
 }
