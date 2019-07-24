@@ -15,6 +15,8 @@ export const initialState = Immutable.fromJS({
   isFetchingAllUsers: false,
   isFetchingAllPlatforms: false,
   userIdMappings: {},
+  statusDomainCount: {},
+  isFetchStatusDomainCount: false,
 })
 
 export default function sharedReducer($$state = initialState, action = null) {
@@ -66,6 +68,25 @@ export default function sharedReducer($$state = initialState, action = null) {
       })
     }
 
+    //status domain
+    case actionTypes.SET_IS_FETCHING_STATUS_DOMAIN_COUNT: {
+      return $$state.merge({
+        isFetchStatusDomainCount: true,
+      })
+    }
+
+    case actionTypes.FETCH_STATUS_DOMAIN_COUNT_SUCCESS: {
+      return $$state.merge({
+        isFetchStatusDomainCount: true,
+        statusDomainCount: record,
+      })
+    }
+
+    case actionTypes.FETCH_STATUS_DOMAIN_COUNT_FAILURE: {
+      return $$state.merge({
+        isFetchStatusDomainCount: false,
+      })
+    }
     default: {
       return $$state
     }
