@@ -117,15 +117,13 @@ class LandingPagesTableBox extends React.Component {
               {editor_links.map(editor_link =>         
                 {return editor_link.landing_page_id == record.id && (
                   (<div key={editor_link.id} style={{float:'left'}}>
-                  <Button type="primary"  href={editor_link.link} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>
-                    {dns_servers.map(dns_server =>
-                       (dns_server.id == editor_link.platform_id) ? dns_server.title : ''
-                     )}
+                  <Button type="primary"  href={editor_link.link} target="blank" size="small" ghost style = {{marginTop: '2px', marginRight: "2px"}}><i>
+                    {editor_link.platform.title}
                   </i></Button>
                   </div>)
                 )}
               )}
-              <Button type="info" href={link_amazon} target="blank" size="small" type="primary" ghost style = {{marginTop: '2px'}}><i>View IT Backup</i></Button>
+              <Button type="primary" href={link_amazon} target="blank" size="small" ghost style = {{marginTop: '2px', marginRight: "2px"}}><i>View IT Backup</i></Button>
               {landing_page_error.map(lp_error => 
                 {return lp_error.status==false ?
                   (<div key={lp_error.error.id}>

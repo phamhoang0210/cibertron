@@ -10,7 +10,7 @@ class EditScreen extends React.Component {
   componentDidMount() {
     const {actions, params} = this.props
     actions.fetchLandingPage(params.id)
-    actions.fetchEditorLink(params.id,  {fields: 'platform{}'})
+    actions.fetchEditorLink(params.id)
     actions.fetchDiscounts({per_page: 'infinite', fields: 'product_json'})
     actions.fetchDomains({per_page: 'infinite'})
     actions.fetchFacebookApps({per_page: 'infinite'})

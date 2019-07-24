@@ -83,8 +83,8 @@ export default function editReducer($$state = initialState, action = null) {
     case actionTypes.DELETE_COURSE: {
       debugger
       return $$state.setIn(
-        ['editorLink','data'],
-        $$state.getIn(['editorLink', 'data']).filter((key, i) => i !== index)
+        ['editorLink'],
+        $$state.getIn(['editorLink']).filter((key, i) => i !== index)
       )
     }
     default: {

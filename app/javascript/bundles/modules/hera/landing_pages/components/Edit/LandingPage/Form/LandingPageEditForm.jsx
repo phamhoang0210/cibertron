@@ -112,7 +112,7 @@ class LandingPageEditForm extends React.Component {
     var oldItems = []
     if(editorLink) {
        let keyID = 0;
-       oldItems = editorLink.get('data').toJS().map((e, index) =>{
+       oldItems = editorLink.toJS().map((e, index) =>{
         return (
            <FormItem
              {...DEFAULT_FORM_ITEM_LAYOUT}
