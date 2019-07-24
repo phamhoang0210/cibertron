@@ -336,10 +336,11 @@ function setIsFetchingEditorLinks() {
   }
 }
 
-function fetchEditorLinksSuccess(records) {
+function fetchEditorLinksSuccess({records, filters}) {
   return {
     type: actionTypes.FETCH_EDITOR_LINKS_SUCCESS,
-    records: records.data,
+    records,
+    filters
   }
 }
 
