@@ -102,6 +102,10 @@ class DomainsFiltersFormBox extends React.Component {
     const users = sharedState.get('allusers')
     const dnsServer = sharedState && sharedState.get('allPlatforms')
     const statusDomainCount = sharedState && sharedState.get('statusDomainCount')
+    const active = indexState.getIn(['domainFilters', 'paging', 'active'])
+    const pending = indexState.getIn(['domainFilters', 'paging', 'pending'])
+    const deleted = indexState.getIn(['domainFilters', 'paging', 'deleted'])
+    const error = indexState.getIn(['domainFilters', 'paging', 'error'])
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -187,7 +191,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'ACTIVE' ? "down-square" : ''}
             >
-              {`ACTIVE (${!statusDomainCount.get('ACTIVE') ? 0 : statusDomainCount.get('ACTIVE')})`}
+              {`ACTIVE (${active})`}
             </Button>
             <Button
               className="button-margin--right--default"
@@ -195,7 +199,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'PENDING' ? "warning" : ''}
             >
-              {`PENDING (${!statusDomainCount.get('PENDING') ? 0 : statusDomainCount.get('PENDING')})`}
+              {`PENDING (${pending})`}
             </Button>
 
             <Button
@@ -204,7 +208,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'DELETED' ? "delete" : ''}
             >
-              {`DELETED (${!statusDomainCount.get('DELETED') ? 0 : statusDomainCount.get('DELETED')})`}
+              {`DELETED (${deleted})`}
             </Button>
 
             <Button
@@ -213,7 +217,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'ERROR' ? "close-square" : ''}
             >
-              {`ERROR (${!statusDomainCount.get('ERROR') ? 0 : statusDomainCount.get('ERROR')})`}
+              {`ERROR (${error})`}
             </Button>
 
               <Button type="primary" htmlType="submit" loading={isFetchingDomains} >
