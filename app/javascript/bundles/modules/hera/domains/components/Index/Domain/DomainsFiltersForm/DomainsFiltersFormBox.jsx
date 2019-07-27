@@ -23,6 +23,8 @@ const dateFormat = 'YYYY/MM/DD'
 class DomainsFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
+    let { actions } = this.props
+    this.fetchAllUsers = _.debounce(actions.fetchAllUsers, 1000)
 
     _.bindAll(this, [
       'handleFilter',
@@ -48,7 +50,8 @@ class DomainsFiltersFormBox extends React.Component {
 
   handleSearch(keyword){
     const {actions} = this.props
-    actions.fetchAllUsers({ keyword:`${keyword}` })
+
+    this.fetchAllUsers({ keyword:`${keyword}` })
   }
   
   handleExport() {

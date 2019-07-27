@@ -4,6 +4,7 @@ class AppsController < ApplicationController
   def index
     @app = FrontComponentInstance.find_by!(code: params[:code])
     @dists = @app.front_component_dists.order(:name)
+    puts 'Detect user agent ' + request.user_agent.to_s
   end
 
   def myaccount
