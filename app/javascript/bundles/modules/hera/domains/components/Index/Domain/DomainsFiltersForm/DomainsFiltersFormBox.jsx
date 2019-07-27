@@ -81,18 +81,18 @@ class DomainsFiltersFormBox extends React.Component {
     
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[field] = {in: formatedValues[field]}
+      compconds[`${field}.in`] = formatedValues[field]
       delete formatedValues[field]
     })
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
       compconds[field] = {}
-      compconds[field]['gte'] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    return mergeDeep([formatedValues, compconds])
+    return mergeDeep([formatedValues, {compconds}])
   }
 
   render() {
@@ -105,6 +105,10 @@ class DomainsFiltersFormBox extends React.Component {
     const users = sharedState.get('allusers')
     const dnsServer = sharedState && sharedState.get('allPlatforms')
     const statusDomainCount = sharedState && sharedState.get('statusDomainCount')
+    const active = indexState.getIn(['domainFilters', 'paging', 'active'])
+    const pending = indexState.getIn(['domainFilters', 'paging', 'pending'])
+    const deleted = indexState.getIn(['domainFilters', 'paging', 'deleted'])
+    const error = indexState.getIn(['domainFilters', 'paging', 'error'])
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -117,9 +121,7 @@ class DomainsFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at',{
-                  initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]
-                })(
+                {getFieldDecorator('created_at', {initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]})(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}
@@ -190,7 +192,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'ACTIVE' ? "down-square" : ''}
             >
-              {`ACTIVE (${!statusDomainCount.get('ACTIVE') ? 0 : statusDomainCount.get('ACTIVE')})`}
+              {`ACTIVE (${active})`}
             </Button>
             <Button
               className="button-margin--right--default"
@@ -198,7 +200,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'PENDING' ? "warning" : ''}
             >
-              {`PENDING (${!statusDomainCount.get('PENDING') ? 0 : statusDomainCount.get('PENDING')})`}
+              {`PENDING (${pending})`}
             </Button>
 
             <Button
@@ -207,7 +209,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'DELETED' ? "delete" : ''}
             >
-              {`DELETED (${!statusDomainCount.get('DELETED') ? 0 : statusDomainCount.get('DELETED')})`}
+              {`DELETED (${deleted})`}
             </Button>
 
             <Button
@@ -216,7 +218,7 @@ class DomainsFiltersFormBox extends React.Component {
               onClick={this.handleStatus}
               icon={this.state.selectedStatus == 'ERROR' ? "close-square" : ''}
             >
-              {`ERROR (${!statusDomainCount.get('ERROR') ? 0 : statusDomainCount.get('ERROR')})`}
+              {`ERROR (${error})`}
             </Button>
 
               <Button type="primary" htmlType="submit" loading={isFetchingDomains} >
