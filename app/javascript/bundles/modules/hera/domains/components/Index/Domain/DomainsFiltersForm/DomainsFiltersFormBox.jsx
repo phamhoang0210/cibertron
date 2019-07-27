@@ -23,6 +23,8 @@ const dateFormat = 'YYYY/MM/DD'
 class DomainsFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
+    let { actions } = this.props
+    this.fetchAllUsers = _.debounce(actions.fetchAllUsers, 1000)
 
     _.bindAll(this, [
       'handleFilter',
@@ -48,7 +50,8 @@ class DomainsFiltersFormBox extends React.Component {
 
   handleSearch(keyword){
     const {actions} = this.props
-    actions.fetchAllUsers({ keyword:`${keyword}` })
+
+    this.fetchAllUsers({ keyword:`${keyword}` })
   }
   
   handleExport() {
@@ -78,18 +81,18 @@ class DomainsFiltersFormBox extends React.Component {
     
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[field] = {in: formatedValues[field]}
+      compconds[`${field}.in`] = formatedValues[field]
       delete formatedValues[field]
     })
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
       compconds[field] = {}
-      compconds[field]['gte'] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    return mergeDeep([formatedValues, compconds])
+    return mergeDeep([formatedValues, {compconds}])
   }
 
   render() {
@@ -118,9 +121,7 @@ class DomainsFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at',{
-                  initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]
-                })(
+                {getFieldDecorator('created_at', {initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]})(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}

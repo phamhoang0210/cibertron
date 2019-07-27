@@ -11,6 +11,7 @@ import {getCredentials} from 'helpers/auth/authHelper'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { injectIntl } from 'react-intl'
 
+
 const FormItem = Form.Item
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker
@@ -18,11 +19,14 @@ const RangePicker = DatePicker.RangePicker
 class LandingPageFiltersFormBox extends React.Component {
   constructor(props) {
     super(props)
+    let { actions } = this.props
+
+    this.fetchUsers = _.debounce(actions.fetchUsers, 1000)
+    this.fetchDiscounts = _.debounce(actions.fetchDiscounts, 1000)
 
     _.bindAll(this, [
       'handleFilter',
-      'formatFormData',
-      'handleSearchUser',
+      'formatFormData'
     ])
   }
 
@@ -59,9 +63,21 @@ class LandingPageFiltersFormBox extends React.Component {
     return mergeDeep([formatedValues, {compconds}])
   }
 
-  handleSearchUser(keyword){
-    const {actions} = this.props
-    actions.fetchUsers({keyword: `${keyword}`})
+  handleSearch(type, keyword){
+    switch (type){
+      case "user":
+        this.fetchUsers({keyword: `${keyword}`});
+        break;
+      case "discount":
+        this.fetchDiscounts({
+          fields: 'product_json',
+          compconds: { "name.like": `%${keyword}%` },
+          per_page: 20
+        })
+        break;
+      default:
+        return null
+    }
   }
 
   render() {
@@ -117,6 +133,7 @@ class LandingPageFiltersFormBox extends React.Component {
                   mode="multiple"
                   placeholder={intl.formatMessage({id: 'attrs.discount_id.placeholder.select.all'})}
                   filterOption={selectFilterOption}
+                  onSearch={this.handleSearch.bind(this, "discount")}
                 >
                   {discounts.toJS().map(discount => (
                     <Option value={`${discount.id}`} key={discount.id}>
@@ -143,7 +160,7 @@ class LandingPageFiltersFormBox extends React.Component {
                     filterOption={selectFilterOption}
                     mode="multiple"
                     allowClear={true}
-                    onSearch={this.handleSearchUser}
+                    onSearch={this.handleSearch.bind(this, "user")}
                   >
                     {users.toJS().map(user => (
                       <Option value={`${user.id}`} key={user.id}>
