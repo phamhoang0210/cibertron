@@ -28,9 +28,10 @@ class DomainsFiltersFormBox extends React.Component {
       'handleFilter',
       'formatFormData',
       'handleExport',
-      'handleSearch'
+      'handleSearch',
+      'handleStatus'
     ])
-
+    this.state = {'selectedStatus': null}
   }
 
   handleFilter(e) {
@@ -42,6 +43,7 @@ class DomainsFiltersFormBox extends React.Component {
         actions.fetchDomains(mergeDeep([domainParams, this.formatFormData(values)]))
       }
     })
+    this.state = {'selectedStatus': null}
   }
 
   handleSearch(keyword){
@@ -53,6 +55,22 @@ class DomainsFiltersFormBox extends React.Component {
 
   }
 
+  handleStatus(e) {
+    const {actions} = this.props
+    e.preventDefault()
+    let a = this.state.selectedStatus != e.target.value ? e.target.value : ''
+
+    this.setState({'selectedStatus': a})
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const {actions, indexState, location} = this.props
+        let domainParams = getFilterParams(indexState.get('domainFilters'))
+        actions.fetchDomains(mergeDeep([domainParams, this.formatFormData(values), {status: a}]))
+      }
+    })
+  }
+
   formatFormData(values) {
     let formatedValues = values
     const inCompFields = ['status', 'platform_id', 'user_id']
@@ -60,18 +78,18 @@ class DomainsFiltersFormBox extends React.Component {
     
     let compconds = {}
     inCompFields.forEach(field => {
-      compconds[field] = {in: formatedValues[field]}
+      compconds[`${field}.in`] = formatedValues[field]
       delete formatedValues[field]
     })
 
     timerangeFields.forEach(field => {
       const timeRange = formatedValues[field] || []
       compconds[field] = {}
-      compconds[field]['gte'] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
-      compconds[field]['lt'] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.gte`] = timeRange[0] && timeRange[0].format(MYSQL_DATETIME_FORMAT)
+      compconds[`${field}.lt`] = timeRange[1] && timeRange[1].format(MYSQL_DATETIME_FORMAT)
       delete formatedValues[field]
     })
-    return mergeDeep([formatedValues, compconds])
+    return mergeDeep([formatedValues, {compconds}])
   }
 
   render() {
@@ -83,6 +101,7 @@ class DomainsFiltersFormBox extends React.Component {
     const domainDnsServers = sharedState.get('domainDnsServers')
     const users = sharedState.get('allusers')
     const dnsServer = sharedState && sharedState.get('allPlatforms')
+    const statusDomainCount = sharedState && sharedState.get('statusDomainCount')
     return (
       <div className="box box-with-shadow box-with-border">
         <Form
@@ -95,39 +114,12 @@ class DomainsFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at',{
-                  initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]
-                })(
+                {getFieldDecorator('created_at', {initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]})(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}
                     showTime={TIME_PICKER_DEFAULT_SHOW_TIME}
                   />
-                )}
-              </FormItem>
-            </Col>
-
-            <Col span={8}>
-              <FormItem
-                label="Status"
-                {...FILTER_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('status', {
-                  rules: [{ type: 'array' }],
-                })(
-                  <Select
-                    showSearch
-                    filterOption={selectFilterOption}
-                    mode="multiple"
-                    placeholder="-- All --"
-                    allowClear={true}
-                  >
-                    {logstatuses && logstatuses.map(status => (
-                      <Option key={status.id} value={status.name}>
-                        {status.name}
-                      </Option>
-                    ))}
-                  </Select>
                 )}
               </FormItem>
             </Col>
@@ -157,44 +149,72 @@ class DomainsFiltersFormBox extends React.Component {
                 )}
               </FormItem>
             </Col>
-              
+
+            <Col span={8}>
+              <FormItem
+                label="User"
+                {...FILTER_FORM_ITEM_LAYOUT}
+              >
+                {getFieldDecorator('user_id', {
+                  rules: [{ type: 'array' }],
+                })(
+                  <Select
+                    showSearch
+                    filterOption={selectFilterOption}
+                    mode="multiple"
+                    placeholder="Nhân viên"
+                    allowClear={true}
+                    onSearch={this.handleSearch}
+                  >
+                    {users.toJS().map(user => (
+                      <Option value={`${user.id}`} key={user.id}>
+                        {user.nickname}
+                      </Option>
+                    ))}
+                    <Option value={null}>No user</Option>
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
           </Row>
           <Row gutter={40}>
-            <Col span={8}>
-                <FormItem
-                  label="User"
-                  {...FILTER_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('user_id', {
-                    rules: [{ type: 'array' }],
-                  })(
-                    <Select
-                      showSearch
-                      filterOption={selectFilterOption}
-                      mode="multiple"
-                      placeholder="Nhân viên"
-                      allowClear={true}
-                      onSearch={this.handleSearch}
-                    >
-                      {users.toJS().map(user => (
-                        <Option value={`${user.id}`} key={user.id}>
-                          {user.nickname}
-                        </Option>
-                      ))}
-                      <Option value={null}>No user</Option>
-                    </Select>
-                  )}
-                </FormItem>
-              </Col>
-            <Col span={16} style={{ textAlign: 'right' }}>
+            <Col span={24} style={{ textAlign: 'right'}}>
             <Button
               className="button-margin--right--default"
-              onClick={this.handleExport}
-              disabled={isFetchingDomains}
+              value = 'ACTIVE'
+              onClick={this.handleStatus}
+              icon={this.state.selectedStatus == 'ACTIVE' ? "down-square" : ''}
             >
-              {`Result (${totalPage})`}
+              {`ACTIVE (${!statusDomainCount.get('ACTIVE') ? 0 : statusDomainCount.get('ACTIVE')})`}
             </Button>
-              <Button type="primary" htmlType="submit" loading={isFetchingDomains}>
+            <Button
+              className="button-margin--right--default"
+              value = 'PENDING'
+              onClick={this.handleStatus}
+              icon={this.state.selectedStatus == 'PENDING' ? "warning" : ''}
+            >
+              {`PENDING (${!statusDomainCount.get('PENDING') ? 0 : statusDomainCount.get('PENDING')})`}
+            </Button>
+
+            <Button
+              className="button-margin--right--default"
+              value = 'DELETED'
+              onClick={this.handleStatus}
+              icon={this.state.selectedStatus == 'DELETED' ? "delete" : ''}
+            >
+              {`DELETED (${!statusDomainCount.get('DELETED') ? 0 : statusDomainCount.get('DELETED')})`}
+            </Button>
+
+            <Button
+              className="button-margin--right--default"
+              value = 'ERROR'
+              onClick={this.handleStatus}
+              icon={this.state.selectedStatus == 'ERROR' ? "close-square" : ''}
+            >
+              {`ERROR (${!statusDomainCount.get('ERROR') ? 0 : statusDomainCount.get('ERROR')})`}
+            </Button>
+
+              <Button type="primary" htmlType="submit" loading={isFetchingDomains} >
                 Filter
               </Button>
             </Col>
