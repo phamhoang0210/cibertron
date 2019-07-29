@@ -26,7 +26,9 @@ class TemplateSelect extends React.Component {
   };
 
   handleSearch = (value) => {
-    this.fetchTemplates({fields: 'name,id', compconds: {'name.like': `%${value}%`} });
+    if(value != '') {
+      this.fetchTemplates({fields: 'name,id', compconds: {'name.like': `%${value}%`} });
+    }
   };
 
   render() {

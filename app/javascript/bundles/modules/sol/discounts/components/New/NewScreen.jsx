@@ -8,8 +8,8 @@ class NewScreen extends React.Component {
 
   componentDidMount() {
     const {actions} = this.props
-    actions.fetchCourses({per_page: 'infinite'})
-    actions.fetchCombos({per_page: 'infinite'})
+    actions.fetchCourses({per_page: 'product_json'})
+    actions.fetchCombos({per_page: 'product_json'})
   }
 
   render() {

@@ -209,7 +209,7 @@ class LandingPageEditForm extends React.Component {
                     required: true,
                     message: intl.formatMessage({id: 'attrs.name.errors.required'}),
                   }],
-              })(<Input placeholder="link design" style={{width:'67%'}}/>)}
+               })(<Input placeholder="link design" style={{width:'62%', marginRight: 8}}/>)}
 
               {keys.length > 0 ? (
                 <Icon
