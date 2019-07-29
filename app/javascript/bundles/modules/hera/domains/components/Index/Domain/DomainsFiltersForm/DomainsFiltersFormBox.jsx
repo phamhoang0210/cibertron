@@ -100,11 +100,9 @@ class DomainsFiltersFormBox extends React.Component {
     const { getFieldDecorator } = form
     const totalPage = indexState.getIn(['domainFilters', 'paging', 'record_total'])
     const isFetchingDomains = indexState.get('isFetchingDomains')
-    const logstatuses = [{id: 1, name: "ACTIVE"},{id: 2, name: "DELETED"},{id: 3, name: "PENDING"}]
     const domainDnsServers = sharedState.get('domainDnsServers')
     const users = sharedState.get('allusers')
     const dnsServer = sharedState && sharedState.get('allPlatforms')
-    const statusDomainCount = sharedState && sharedState.get('statusDomainCount')
     const active = indexState.getIn(['domainFilters', 'paging', 'active'])
     const pending = indexState.getIn(['domainFilters', 'paging', 'pending'])
     const deleted = indexState.getIn(['domainFilters', 'paging', 'deleted'])
@@ -121,7 +119,7 @@ class DomainsFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at', {initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]})(
+                {getFieldDecorator('created_at')(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}
