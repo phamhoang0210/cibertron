@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/actionTypes'
 import { getFilterParams } from 'helpers/applicationHelper'
 import { 
   AUTHS_API_PATH, 
-  PLATFORM_API_PATH
+  PLATFORM_API_PATH,
 } from '../constants/paths'
 
 function setIsFetchingAllUsers() {
