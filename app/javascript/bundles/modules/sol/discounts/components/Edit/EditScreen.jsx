@@ -8,8 +8,8 @@ class EditScreen extends React.Component {
 
   componentDidMount() {
     const {actions, params} = this.props
-    actions.fetchCourses({per_page: 'infinite'})
-    actions.fetchCombos({per_page: 'infinite'})
+    actions.fetchCourses({fields: 'product_json'})
+    actions.fetchCombos({fields: 'product_json'})
     actions.fetchDiscount(params.id)
   }
 

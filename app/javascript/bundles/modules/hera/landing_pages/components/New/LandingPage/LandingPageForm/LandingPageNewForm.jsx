@@ -32,18 +32,20 @@ class LandingPageNewForm extends React.Component {
 
   handleSearch(type, value){
     let {actions} = this.props
-    switch (type){
-      case 'domain':
-        actions.fetchDomains({compconds: {"name.like": `%${value}%`}});
-        break;
-      case 'discount':
-        actions.fetchDiscounts({
-          fields: 'product_json',
-          compconds: {"name.like": `%${value}%`}
-        })
-        break;
-      default:
-        return null
+    if( value != '') {
+      switch (type){
+        case 'domain':
+          actions.fetchDomains({compconds: {"name.like": `%${value}%`}});
+          break;
+        case 'discount':
+          actions.fetchDiscounts({
+            fields: 'product_json',
+            compconds: {"name.like": `%${value}%`}
+          })
+          break;
+        default:
+          return null
+      }
     }
   }
 

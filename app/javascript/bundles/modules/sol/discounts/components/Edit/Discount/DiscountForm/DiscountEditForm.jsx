@@ -7,6 +7,7 @@ import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT, DEFAULT_FORM_TAIL
 import { CODE_DELIMITER } from 'app/constants/cascader'
 import { Form, Input, Row, Col, Button, Select, Alert, Cascader, Spin, Icon } from 'antd'
 import AlertBox from 'partials/components/Alert/AlertBox'
+import EditProductOption from '../../../Base/EditProductOption';
 
 const Option = Select.Option
 const FormItem = Form.Item
@@ -44,11 +45,6 @@ class DiscountEditForm extends React.Component {
     let params = values
     const product = params.product
 
-    if(product && product.length == 2) {
-      params.product_type = product[0]
-      params.product_id = product[1].split(CODE_DELIMITER)[0]
-    }
-
     return params
   }
 
@@ -65,45 +61,16 @@ class DiscountEditForm extends React.Component {
     )
   }
 
-  getProductCascaderOptions() {
-    const {newState, sharedState} = this.props
-    const courses = sharedState.get('courses').map(course => (
-      Map({
-        value: `${course.get('id')}`,
-        label: `${course.get('code')} - ${course.get('name')}`
-      })
-    ))
-    const combos = sharedState.get('combos').map(combo => (
-      Map({
-        value: `${combo.get('id')}`,
-        label: `${combo.get('code')} - ${combo.get('name')}`
-      })
-    ))
-
-    return [
-      {
-        value: 'Course',
-        label: 'Course',
-        children: courses.toJS(),
-      },
-      {
-        value: 'Combo',
-        label: 'Combo',
-        children: combos.toJS(),
-      }
-    ]
-  }
-
   render() {
 
-    const {editState, sharedState} = this.props
+    const {editState, sharedState, actions, form} = this.props
     const {getFieldDecorator} = this.props.form
     const alert = editState.get('alert')
     const discount = editState.get('discount')
     const isUpdatingDiscount = editState.get('isUpdatingDiscount')
     const isFetchingDiscount = editState.get('isFetchingDiscount')
-    const productCascaderOptions = this.getProductCascaderOptions()
-
+    const combos = sharedState.get('combos')
+    const courses = sharedState.get('courses')
     return (
       <div className="main-content-form-box">
         {alert && !alert.isEmpty() && (
@@ -127,8 +94,15 @@ class DiscountEditForm extends React.Component {
           <Col span={10}>
             {discount && !discount.isEmpty() && (
             <Form onSubmit={this.handleSubmit} layout="horizontal">
-
-              <FormItem label="Sản phẩm" {...DEFAULT_FORM_ITEM_LAYOUT}>
+              <EditProductOption
+                combos={combos}
+                courses={courses}
+                fetchCombos={actions.fetchCombos}
+                fetchCourses={actions.fetchCourses}
+                discount={discount}
+                form={form}
+              />
+   {/*           <FormItem label="Sản phẩm" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('product', {
                   initialValue: [discount.get('product_type'), `${discount.get('product_id')}`]
                 })(
@@ -138,7 +112,7 @@ class DiscountEditForm extends React.Component {
                     showSearch
                   />
                 )}
-              </FormItem>
+              </FormItem>*/}
 
               <FormItem label="Giá cũ" {...DEFAULT_FORM_ITEM_LAYOUT}>
                 {getFieldDecorator('old_price', {
