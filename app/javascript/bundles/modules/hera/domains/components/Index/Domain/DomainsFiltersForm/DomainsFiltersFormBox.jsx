@@ -100,11 +100,9 @@ class DomainsFiltersFormBox extends React.Component {
     const { getFieldDecorator } = form
     const totalPage = indexState.getIn(['domainFilters', 'paging', 'record_total'])
     const isFetchingDomains = indexState.get('isFetchingDomains')
-    const logstatuses = [{id: 1, name: "ACTIVE"},{id: 2, name: "DELETED"},{id: 3, name: "PENDING"}]
     const domainDnsServers = sharedState.get('domainDnsServers')
     const users = sharedState.get('allusers')
     const dnsServer = sharedState && sharedState.get('allPlatforms')
-    const statusDomainCount = sharedState && sharedState.get('statusDomainCount')
     const active = indexState.getIn(['domainFilters', 'paging', 'active'])
     const pending = indexState.getIn(['domainFilters', 'paging', 'pending'])
     const deleted = indexState.getIn(['domainFilters', 'paging', 'deleted'])

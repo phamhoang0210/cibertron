@@ -16,7 +16,6 @@ class IndexScreen extends React.Component {
     actions.fetchDomains(domainParams)
     actions.fetchAllUsers({per_page: 'infinite'})
     actions.fetchPlatforms({per_page: 'infinite'})
-    actions.fetchStatusDomainCount()
   }
 
   componentWillReceiveProps(nextProps) {

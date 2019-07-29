@@ -8,4 +8,3 @@ export const USERS_URL = '/userservice/users'
 export const AUTHS_API_PATH = '/api/v01/accounts'
 
 export const PLATFORM_API_PATH = '/api/secure/v1/platforms'
-export const STATUS_DOMAIN_COUNT_PATH = '/api/secure/v1/domains/status_domain_count'
