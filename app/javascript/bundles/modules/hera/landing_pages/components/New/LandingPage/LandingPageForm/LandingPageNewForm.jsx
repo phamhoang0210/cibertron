@@ -10,6 +10,7 @@ const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
 
 const FormItem = Form.Item
+let uid = 0;
 const DEFAULT_FORM_ITEM_LAYOUT = {
   labelCol: { span: 4},
   wrapperCol: {span: 12}
@@ -27,6 +28,25 @@ class LandingPageNewForm extends React.Component {
 
   handleBack(e) {
     browserHistory.goBack()
+  }
+
+  handleSearch(type, value){
+    let {actions} = this.props
+    if( value != '') {
+      switch (type){
+        case 'domain':
+          actions.fetchDomains({compconds: {"name.like": `%${value}%`}});
+          break;
+        case 'discount':
+          actions.fetchDiscounts({
+            fields: 'product_json',
+            compconds: {"name.like": `%${value}%`}
+          })
+          break;
+        default:
+          return null
+      }
+    }
   }
 
   handleSubmit(e) {
@@ -49,6 +69,33 @@ class LandingPageNewForm extends React.Component {
     return params
   }
 
+  remove = (k) => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length === 1) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    });
+  }
+
+  add = () => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(uid++);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
+  }
+
   renderMessage(){
     return (
       <div>
@@ -65,6 +112,17 @@ class LandingPageNewForm extends React.Component {
     )
   }
 
+  getDiscountIdFromUrl(){
+    let params = window.location.search
+    if (params != ""){
+      let match = params.match(/discount_id=(\d+)/)
+      if (match != null){
+        return match[1].toString()
+      }
+    }
+    return null
+  }
+
   render() {
     const {newState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
@@ -76,9 +134,65 @@ class LandingPageNewForm extends React.Component {
     const facebookPixelCodes = sharedState.get('facebookPixelCodes')
     const logics = sharedState.get('logics')
     const strategies = sharedState.get('strategies')
-    const selectedDiscount = discounts.find(discount => (
+    let urlDiscount = discounts.find(discount => (
+      discount.get('id') == this.getDiscountIdFromUrl()
+    ))
+    let selectedDiscount = discounts.find(discount => (
       discount.get('id') == getFieldValue('discount_id')
     ))
+    const dnsServer = sharedState && sharedState.get('allPlatforms')
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+    const formCreateEditorLinks = keys.map((k, index) => {
+      return (
+        <FormItem
+          {...DEFAULT_FORM_ITEM_LAYOUT}
+          label={'Link custom:'}
+          required={false}
+          key={k}
+        >
+          <Row>
+            {getFieldDecorator(`platform_id[${k}]`, {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.domain_id.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    allowClear
+                    filterOption={selectFilterOption}
+                    placeholder="Please select landing page"
+                    style={{ width: '30%', marginRight: 8 }}
+                  >
+                    {dnsServer.map(server => (
+                      <Option value={`${server.get('id')}`} key={server.get('id')}>
+                        {server.get('title')}
+                      </Option>
+                    ))}
+                  </Select>
+              )}
+
+              {getFieldDecorator(`link[${k}]`, {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                  }],
+              })(<Input placeholder="link design" style={{width:'67%'}}/>)}
+
+              {keys.length > 1 ? (
+                <Icon
+                  className="dynamic-delete-button"
+                  type="minus-circle-o"
+                  onClick={() => this.remove(k)}
+                />
+              ) : null}
+          </Row>
+        </FormItem>
+      );
+    });
+
+    selectedDiscount = selectedDiscount || urlDiscount
 
     return (
       <div className="main-content-form-box">
@@ -122,6 +236,7 @@ class LandingPageNewForm extends React.Component {
                     showSearch
                     allowClear
                     filterOption={selectFilterOption}
+                    onSearch={this.handleSearch.bind(this, "domain")}
                   >
                     {domains.map(domain => (
                       <Option value={`${domain.get('id')}`} key={domain.get('id')}>
@@ -179,10 +294,13 @@ class LandingPageNewForm extends React.Component {
                 label={intl.formatMessage({id: 'attrs.discount_id.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('discount_id')(
+                {getFieldDecorator('discount_id', {
+                  initialValue: urlDiscount && urlDiscount.get('id')
+                })(
                   <Select
                     showSearch
                     filterOption={selectFilterOption}
+                    onSearch={this.handleSearch.bind(this, "discount")}
                   >
                     {discounts.map(discount => (
                       <Option value={`${discount.get('id')}`} key={discount.get('id')}>
@@ -199,30 +317,6 @@ class LandingPageNewForm extends React.Component {
                   </div>
                 )}
               </FormItem>
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('link_custom', {
-                })(<Input />)}
-              </FormItem>
-
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom_one.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('link_custom_one', {
-                })(<Input />)}
-              </FormItem>
-
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.link_custom_two.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('link_custom_two', {
-                })(<Input />)}
-              </FormItem>
-
               <FormItem
                 label={intl.formatMessage({id: 'attrs.ga_code.label'})}
                 {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -272,6 +366,19 @@ class LandingPageNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
+
+              {formCreateEditorLinks}
+
+              <FormItem label="Add Link" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                {getFieldDecorator('course', {
+                  rules: [{ required: false, message: 'Course is required!' }],
+                })(
+                  <Button type="dashed" onClick={this.add}>
+                    <Icon type="plus" />
+                  </Button>
+                )}
+              </FormItem>
+
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button
                   type="primary"

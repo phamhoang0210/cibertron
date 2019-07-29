@@ -12,6 +12,8 @@ export const initialState = Immutable.fromJS({
   userIdMappings: {},
   facebookApps: [],
   facebookPixelCodes: [],
+  allPlatforms: [],
+  allEditorLinks: [],
   discountIdMappings: {},
   isFetchingDomains: false,
   isFetchingDiscounts: false,
@@ -21,6 +23,8 @@ export const initialState = Immutable.fromJS({
   isFetchingFacebookPixelCodes: false,
   isFetchingPixels: false,
   isFetchingLogicHome: false,
+  isFetchingAllPlatforms: false,
+  isFetchingEditorLinks: false,
   strategies: [
     {id: 'industry', title: 'industry'},
     {id: 'pilot', title: 'pilot'},
@@ -247,6 +251,46 @@ export default function sharedReducer($$state = initialState, action = null) {
     case actionTypes.FETCH_LOGIC_HOME_FAILURE: {
       return $$state.merge({
         isFetchingLogicHome: false,
+      })
+    }
+
+    //allplatform
+    case actionTypes.SET_IS_FETCHING_PLATFORMS: {
+      return $$state.merge({
+        isFetchingAllPlatforms: true,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_PLATFORMS_SUCCESS: {
+      return $$state.merge({
+        isFetchingAllPlatforms: true,
+        allPlatforms: records,
+      })
+    }
+
+    case actionTypes.FETCH_ALL_PLATFORMS_FAILURE: {
+      return $$state.merge({
+        isFetchingAllPlatforms: false,
+      })
+    }
+
+    //allEditorLink
+    case actionTypes.SET_IS_FETCHING_EDITOR_LINKS: {
+      return $$state.merge({
+        isFetchingEditorLinks: true,
+      })
+    }
+
+    case actionTypes.FETCH_EDITOR_LINKS_SUCCESS: {
+      return $$state.merge({
+        isFetchingEditorLinks: true,
+        allEditorLinks: records,
+      })
+    }
+
+    case actionTypes.FETCH_EDITOR_LINKS_FAILURE: {
+      return $$state.merge({
+        isFetchingEditorLinks: false,
       })
     }
 

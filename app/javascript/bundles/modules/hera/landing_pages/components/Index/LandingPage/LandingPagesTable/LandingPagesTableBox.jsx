@@ -96,27 +96,34 @@ class LandingPagesTableBox extends React.Component {
       width: '23%',
       render: (value, record) => {
         if(value && value.name) {
-
+          const {sharedState} = this.props
           const pagespeedInsight = value.pagespeed_insight
           const requestErrors = pagespeedInsight && pagespeedInsight.request_errors || []
           const landing_page_error = record.landing_page_error
           let link_amazon = 'https://edumall-landingpage.s3-ap-southeast-1.amazonaws.com/landingpages/' + record.domain.name +'/index.html'
           let backup = record.domain && record.domain.backup || ''
           let name_domain = record.domain && record.domain.name || ''
+          const editor_links = sharedState.get('allEditorLinks').toJS();
+          const dns_servers = sharedState.get('allPlatforms').toJS();
           return (
             <div style={{ padding: '26px 16px 16px' }}>
               <Badge status={(pagespeedInsight && pagespeedInsight.request_success) ? 'success' : 'error'}/>
               <a href={`http://${value.name}`} target="_blank">{value.name}</a><br/>
-              {requestErrors.map(error => (
+              {requestErrors.map(error =>
                 <div key={error}>
                   <small style={{color: 'red'}}>- {error}</small>
                 </div>
-              ))}
-              <Button type="primary"  href={record.link_custom} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design Ladipage</i></Button>
-              <Button type="primary" href={record.link_custom_one} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design Landingi</i></Button>
-              <Button type="primary" href={record.link_custom_two} target="blank" size="small" type="primary" ghost style = {{marginRight: "4px"}}><i>Design other</i></Button>
-              <Button type="info" href={link_amazon} target="blank" size="small" type="primary" ghost style = {{marginTop: '2px'}}><i>View IT Backup</i></Button>
-
+              )}
+              {editor_links.map(editor_link =>         
+                {return editor_link.landing_page_id == record.id && (
+                  (<div key={editor_link.id} style={{float:'left'}}>
+                  <Button type="primary"  href={editor_link.link} target="blank" size="small" ghost style = {{marginTop: '2px', marginRight: "2px"}}><i>
+                    {editor_link.platform.title}
+                  </i></Button>
+                  </div>)
+                )}
+              )}
+              <Button type="primary" href={link_amazon} target="blank" size="small" ghost style = {{marginTop: '2px', marginRight: "2px"}}><i>View IT Backup</i></Button>
               {landing_page_error.map(lp_error => 
                 {return lp_error.status==false ?
                   (<div key={lp_error.error.id}>

@@ -11,7 +11,7 @@ import AlertBox from 'partials/components/Alert/AlertBox'
 import { injectIntl } from 'react-intl'
 
 const FormItem = Form.Item
-
+let uid = 0;
 class LandingPageEditForm extends React.Component {
   constructor(props) {
     super(props)
@@ -42,7 +42,7 @@ class LandingPageEditForm extends React.Component {
 
   formatFormData(values) {
     let params = values
-    // do something
+    // do something   
     return params
   }
 
@@ -62,6 +62,34 @@ class LandingPageEditForm extends React.Component {
     )
   }
 
+  remove = (k) => {
+    const { actions, form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length > 0) {
+      // can use data-binding to set
+      form.setFieldsValue({
+        keys: keys.filter(key => key !== k),
+      });
+    } else {
+      actions.deleteCourse(k)
+    }
+  }
+
+  add = () => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(uid++);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
+  }
+
+
   render() {
     const {editState, sharedState, intl} = this.props
     const { getFieldDecorator, getFieldValue } = this.props.form
@@ -78,6 +106,122 @@ class LandingPageEditForm extends React.Component {
     const selectedDiscount = discounts.find(discount => (
       discount.get('id') == (getFieldValue('discount_id') || (landingPage && landingPage.get('discount_id')))
     ))
+    const editorLink = editState.get('editorLink');
+    const dnsServer = sharedState && sharedState.get('allPlatforms');
+    // oldEditorLink
+    var oldItems = []
+    if(editorLink) {
+       let keyID = 0;
+       oldItems = editorLink.toJS().map((e, index) =>{
+        return (
+           <FormItem
+             {...DEFAULT_FORM_ITEM_LAYOUT}
+             label={'Editor Link:'}
+             required={false}
+             key={index}
+           >
+             <Row>
+               {getFieldDecorator(`old_id[${index}]`,
+                  { initialValue: `${e.id}` }
+                )(<Input type="hidden" />)}
+               {getFieldDecorator(`old_keys[${index}]`,
+                  { initialValue: keyID },
+                  keyID++
+                )(<Input type="hidden" />)}
+
+               {getFieldDecorator(`old_platform_id[${index}]`, {
+                     rules: [{
+                       required: true,
+                       message: intl.formatMessage({id: 'attrs.domain_id.errors.required'}),
+                     }],
+                     initialValue: `${e.platform_id}`
+                   })(
+                     <Select
+                       showSearch
+                       allowClear
+                       filterOption={selectFilterOption}
+                       placeholder="Please select landing page"
+                       style={{ width: '30%', marginRight: 8 }}
+                     >
+                       {dnsServer.map(server => (
+                         <Option value={`${server.get('id')}`} key={server.get('id')}>
+                           {server.get('title')}
+                         </Option>
+                       ))}
+                     </Select>
+                 )}
+
+                 {getFieldDecorator(`old_link[${index}]`, {
+                     rules: [{
+                       required: true,
+                       message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                     }],
+                     initialValue: `${e.link}`
+                 })(<Input placeholder="link design" style={{ width:'62%', marginRight: 8 }}/>)}
+
+                {
+                   <Icon
+                     className="dynamic-delete-button"
+                     type="minus-circle-o"
+                     onClick={() => this.remove(index)}
+                   />
+                }
+             </Row>
+           </FormItem>
+        ); 
+      });
+    }
+
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+    const formCreateEditorLinks = keys.map((k, index) => {
+      return (
+        <FormItem
+          {...DEFAULT_FORM_ITEM_LAYOUT}
+          label={'Link custom:'}
+          required={false}
+          key={k}
+        >
+          <Row>
+            {getFieldDecorator(`platform_id[${k}]`, {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.domain_id.errors.required'}),
+                  }],
+                })(
+                  <Select
+                    showSearch
+                    allowClear
+                    filterOption={selectFilterOption}
+                    placeholder="Please select landing page"
+                    style={{ width: '30%', marginRight: 8 }}
+                  >
+                    {dnsServer.map(server => (
+                      <Option value={`${server.get('id')}`} key={server.get('id')}>
+                        {server.get('title')}
+                      </Option>
+                    ))}
+                  </Select>
+              )}
+
+              {getFieldDecorator(`link[${k}]`, {
+                  rules: [{
+                    required: true,
+                    message: intl.formatMessage({id: 'attrs.name.errors.required'}),
+                  }],
+               })(<Input placeholder="link design" style={{width:'62%', marginRight: 8}}/>)}
+
+              {keys.length > 0 ? (
+                <Icon
+                  className="dynamic-delete-button"
+                  type="minus-circle-o"
+                  onClick={() => this.remove(k)}
+                />
+              ) : null}
+          </Row>
+        </FormItem>
+      );
+    });
 
     return (
       <div className="main-content-form-box">
@@ -194,34 +338,6 @@ class LandingPageEditForm extends React.Component {
                     initialValue: landingPage.get('ga_code'),
                   })(<Input />)}
                 </FormItem>
-
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.link_custom.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('link_custom', {
-                    initialValue: landingPage.get('link_custom'),
-                  })(<Input />)}
-                </FormItem>
-
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.link_custom_one.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('link_custom_one', {
-                    initialValue: landingPage.get('link_custom_one'),
-                  })(<Input />)}
-                </FormItem>
-
-                <FormItem
-                  label={intl.formatMessage({id: 'attrs.link_custom_two.label'})}
-                  {...DEFAULT_FORM_ITEM_LAYOUT}
-                >
-                  {getFieldDecorator('link_custom_two', {
-                    initialValue: landingPage.get('link_custom_two'),
-                  })(<Input />)}
-                </FormItem>
-
                 <FormItem
                   label={intl.formatMessage({id: 'attrs.ga_code.label'})}
                   {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -299,6 +415,20 @@ class LandingPageEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
+
+                {oldItems}
+                {formCreateEditorLinks}
+
+                <FormItem label="Add Link" {...DEFAULT_FORM_ITEM_LAYOUT}>
+                  {getFieldDecorator('course', {
+                    rules: [{ required: false, message: 'Course is required!' }],
+                  })(
+                    <Button type="dashed" onClick={this.add}>
+                      <Icon type="plus" />
+                    </Button>
+                  )}
+                </FormItem>
+
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button
                     type="primary"
