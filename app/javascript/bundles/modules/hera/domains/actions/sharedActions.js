@@ -4,7 +4,6 @@ import { getFilterParams } from 'helpers/applicationHelper'
 import { 
   AUTHS_API_PATH, 
   PLATFORM_API_PATH,
-  STATUS_DOMAIN_COUNT_PATH,
 } from '../constants/paths'
 
 function setIsFetchingAllUsers() {
@@ -69,37 +68,6 @@ export function fetchPlatforms(params = {}) {
     authRequest
       .fetchEntities(`${HERA_BASE_URL}${PLATFORM_API_PATH}`, params)
       .then(res => dispatch(fetchPlatformsSuccess(res.data)))
-      .catch(error => dispatch(fetchPlatformsFailure(error)))
-  }
-}
-
-// status domain count
-function setIsFetchStatusDomainCount() {
-  return {
-    type: actionTypes.SET_IS_FETCHING_STATUS_DOMAIN_COUNT,
-  }
-}
-
-function fetchStatusDomainCountSuccess(record) {
-  return {
-    type: actionTypes.FETCH_STATUS_DOMAIN_COUNT_SUCCESS,
-    record: record.data,
-  }
-}
-
-function fetchPlatformsFailure(error) {
-  return {
-    type: actionTypes.FETCH_STATUS_DOMAIN_COUNT_FAILURE,
-    error,
-  }
-}
-
-export function fetchStatusDomainCount(params = {}) {
-  return dispatch => {
-    dispatch(setIsFetchStatusDomainCount())
-    authRequest
-      .fetchEntities(`${HERA_BASE_URL}${STATUS_DOMAIN_COUNT_PATH}`, params)
-      .then(res => dispatch(fetchStatusDomainCountSuccess(res.data)))
       .catch(error => dispatch(fetchPlatformsFailure(error)))
   }
 }
