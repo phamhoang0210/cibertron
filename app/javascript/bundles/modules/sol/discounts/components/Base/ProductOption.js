@@ -45,6 +45,7 @@ class ProductOption extends React.Component {
   }
 
   handleSelectChange(value) {
+    this.props.form.resetFields()
     this.setState({dataChange: value})
   }
 
@@ -67,7 +68,7 @@ class ProductOption extends React.Component {
           <Select
             placeholder="Select option"
             onChange={this.handleSelectChange}
-            style={{ width: '20%', marginRight: 8 }}
+            style={{ width: '20%', marginRight: 5 }}
             allowClear={true}
           >
             <Option value="Course">Course</Option>
@@ -85,7 +86,7 @@ class ProductOption extends React.Component {
             showSearch
             allowClear
             filterOption={selectFilterOption}
-            style={{ width: '78%', marginRight: 0 }}
+            style={{ width: '78%', float: 'right', marginTop: 5}}
             onSearch={this.handleSearch}
           >
             {products.map((product) => (
