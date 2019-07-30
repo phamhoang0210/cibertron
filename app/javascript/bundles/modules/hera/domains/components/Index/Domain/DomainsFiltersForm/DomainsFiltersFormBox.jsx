@@ -119,7 +119,7 @@ class DomainsFiltersFormBox extends React.Component {
                 label="Created in"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('created_at', {initialValue: [moment((new Date().toISOString().split('T')[0])+' 00:00:00'), moment((new Date().toISOString().split('T')[0])+' 23:59:59')]})(
+                {getFieldDecorator('created_at')(
                   <RangePicker
                     style={{width: '100%'}}
                     format={LONG_DATETIME_FORMAT}
