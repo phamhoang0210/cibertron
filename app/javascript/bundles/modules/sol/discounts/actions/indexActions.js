@@ -1,7 +1,7 @@
 import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {
-  DISCOUNTS_API_PATH, AUTHS_API_PATH
+  DISCOUNTS_API_PATH, AUTHS_API_PATH, USERS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 export * from './sharedActions'
@@ -100,26 +100,26 @@ function fetchUsersFailure(error) {
 export function fetchUsers(data) {
   return dispatch => {
     dispatch(setIsFetchingUsers())
-    var list_user_id = []
+    var list_user_gid = []
 
     if(data.records){
       data.records.map(record => {
-        list_user_id.push(record.user_id)
+        list_user_gid.push(record.user_gid)
       })
     }
     authRequest
-      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTHS_API_PATH}`, {'compconds': {'id.in':list_user_id}})
+      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {'compconds': {'gid.in':list_user_gid}})
       .then(res => {
         var users = res.data.records
         const users_array = {}
         if(users) {
           users.map(user => {
-            users_array[user.id] = user.nickname
+            users_array[user.gid] = user.username
           })
         }
         if(data.records && users_array){
           data.records.map(discount => {
-            discount["username"] = users_array[discount.user_id]
+            discount["username"] = users_array[discount.user_gid]
           })
         }
         dispatch(fetchDiscountsSuccess(data))
