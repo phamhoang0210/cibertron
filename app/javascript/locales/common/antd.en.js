@@ -33,6 +33,10 @@ export default flattenMessages({
           // form.form_item.button.restore.text
           text: 'Restore',
         },
+        history: {
+          // form.form_item.button.history.text
+          text: 'History',
+        },
         back: {
           // form.form_item.button.back.text
           text: 'Back',
