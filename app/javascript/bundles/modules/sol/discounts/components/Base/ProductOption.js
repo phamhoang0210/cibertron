@@ -28,7 +28,8 @@ class ProductOption extends React.Component {
         this.fetchCombos({ 
         fields: 'product_json', 
         compconds: { "code.like": `%${keyword}%`},
-        per_page: 10
+        per_page: 10,
+        orders: ["code.asc"]
         })
         break;
       case "Course":
