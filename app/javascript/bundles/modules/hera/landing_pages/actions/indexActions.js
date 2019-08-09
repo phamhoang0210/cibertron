@@ -2,6 +2,8 @@ import authRequest from 'libs/requests/authRequest'
 import * as actionTypes from '../constants/actionTypes'
 import {LANDING_PAGES_API_PATH, LANDING_PAGE_LOGS_API_PATH} from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
+import * as sharedActions from './sharedActions'
+import _ from 'lodash'
 export * from './sharedActions'
 
 function setIsFetchingLandingPages() {
@@ -25,14 +27,37 @@ function fetchLandingPagesFailure(error) {
   }
 }
 
-export function fetchLandingPages(params = {}) {
+export function fetchLandingPages(params = {}, onSuccessCallback = fetchUsersAndDiscounts ) {
   return dispatch => {
     dispatch(setIsFetchingLandingPages())
     authRequest
       .fetchEntities(`${HERA_BASE_URL}${LANDING_PAGES_API_PATH}`, params)
-      .then(res => dispatch(fetchLandingPagesSuccess(res.data)))
+      .then(res => {
+        dispatch(fetchLandingPagesSuccess(res.data))
+        dispatch(onSuccessCallback(res.data.records))
+      })
       .catch(error => dispatch(fetchLandingPagesFailure(error)))
   }
+}
+
+function fetchUsersAndDiscounts(landingpages){
+  return dispatch => {
+    let lpUserGids = filterFieldsFromLandingpages(landingpages, "user_gid")
+    let lpDiscountIds = filterFieldsFromLandingpages(landingpages, "discount_id")
+    let discount_ids = landingpages
+    const {fetchUsers, fetchDiscounts} = sharedActions
+
+    dispatch(fetchUsers({compconds: {"gid.in": lpUserGids}}))
+    dispatch(fetchDiscounts({
+      fields: 'product_json',
+      compconds: {"id.in": lpDiscountIds}
+    }))
+  }
+}
+
+function filterFieldsFromLandingpages(lps, field){
+  let fieldValues = lps.map(lp => lp[field]).filter(f => ((f != null) && (f != undefined)))
+  return _.uniq(fieldValues)
 }
 
 function setIsFetchingLandingPageLogs(landingPage) {
