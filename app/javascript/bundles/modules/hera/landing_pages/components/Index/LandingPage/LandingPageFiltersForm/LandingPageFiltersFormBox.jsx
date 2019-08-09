@@ -66,7 +66,7 @@ class LandingPageFiltersFormBox extends React.Component {
   handleSearch(type, keyword){
     switch (type){
       case "user":
-        this.fetchUsers({keyword: `${keyword}`});
+        this.fetchUsers({compconds: { "username.like": `%${keyword}%` }});
         break;
       case "discount":
         this.fetchDiscounts({
@@ -152,7 +152,7 @@ class LandingPageFiltersFormBox extends React.Component {
                 label="User"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('user_id', {
+                {getFieldDecorator('user_gid', {
                   rules: [{ type: 'array' }],
                 })(
                   <Select
@@ -163,8 +163,8 @@ class LandingPageFiltersFormBox extends React.Component {
                     onSearch={this.handleSearch.bind(this, "user")}
                   >
                     {users.toJS().map(user => (
-                      <Option value={`${user.id}`} key={user.id}>
-                        {user.nickname}
+                      <Option value={`${user.gid}`} key={user.gid}>
+                        {user.username}
                       </Option>
                     ))}
                     <Option value={null}>No user</Option>
