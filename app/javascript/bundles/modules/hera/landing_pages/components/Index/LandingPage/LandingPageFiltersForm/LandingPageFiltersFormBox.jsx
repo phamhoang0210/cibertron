@@ -44,7 +44,7 @@ class LandingPageFiltersFormBox extends React.Component {
   formatFormData(values) {
     let formatedValues = values
 
-    const inCompFields = ['discount_id', 'user_id']
+    const inCompFields = ['discount_id', 'user_gid']
     const timerangeFields = ['created_at', 'updated_at']
     
     let compconds = {}
