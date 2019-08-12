@@ -14,7 +14,7 @@ class IndexScreen extends React.Component {
     const {actions, indexState} = this.props
     const domainParams = getFilterParams(indexState.get('domainFilters'))
     actions.fetchDomains(domainParams)
-    actions.fetchAllUsers({per_page: 'infinite'})
+    actions.fetchAllUsers()
     actions.fetchPlatforms({per_page: 'infinite'})
   }
 
