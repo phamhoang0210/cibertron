@@ -49,9 +49,7 @@ class DomainsFiltersFormBox extends React.Component {
   }
 
   handleSearch(keyword){
-    const {actions} = this.props
-
-    this.fetchAllUsers({ keyword:`${keyword}` })
+    this.fetchAllUsers({compconds: {"username.like": `%${keyword}%`}})
   }
   
   handleExport() {
@@ -76,7 +74,7 @@ class DomainsFiltersFormBox extends React.Component {
 
   formatFormData(values) {
     let formatedValues = values
-    const inCompFields = ['status', 'platform_id', 'user_id']
+    const inCompFields = ['status', 'platform_id', 'user_gid']
     const timerangeFields = ['created_at']
     
     let compconds = {}
@@ -160,7 +158,7 @@ class DomainsFiltersFormBox extends React.Component {
                 label="User"
                 {...FILTER_FORM_ITEM_LAYOUT}
               >
-                {getFieldDecorator('user_id', {
+                {getFieldDecorator('user_gid', {
                   rules: [{ type: 'array' }],
                 })(
                   <Select
@@ -172,8 +170,8 @@ class DomainsFiltersFormBox extends React.Component {
                     onSearch={this.handleSearch}
                   >
                     {users.toJS().map(user => (
-                      <Option value={`${user.id}`} key={user.id}>
-                        {user.nickname}
+                      <Option value={`${user.gid}`} key={user.gid}>
+                        {user.username}
                       </Option>
                     ))}
                     <Option value={null}>No user</Option>
