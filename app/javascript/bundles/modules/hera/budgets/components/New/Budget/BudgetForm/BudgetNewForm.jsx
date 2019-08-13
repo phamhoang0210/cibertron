@@ -12,7 +12,10 @@ const FormItem = Form.Item
 class BudgetNewForm extends React.Component {
   constructor(props) {
     super(props)
-
+    this.fetchAllUsers = _.debounce(
+      this.props.actions.fetchAllUsers,
+      800
+    )
     _.bindAll(this, [
       'handleBack',
       'handleSubmit',
@@ -29,11 +32,11 @@ class BudgetNewForm extends React.Component {
     const {actions} = this.props
 
     this.props.form.validateFields((err, values) => {
-      const setValues = values.staff_id.split("_")
-      const staff_id = setValues && setValues[0]
+      const setValues = values.staff_gid.split("_")
+      const staff_gid = setValues && setValues[0]
       const staff_email = setValues && setValues[1]
       const setParams = {};
-      setParams['staff_id'] = staff_id
+      setParams['staff_gid'] = staff_gid
       setParams['staff_email'] = staff_email;
       if (!err) {
         actions.createBudget({record: setParams})
@@ -42,7 +45,11 @@ class BudgetNewForm extends React.Component {
   }
   handleSearch(value) {
     const {actions} = this.props
-    value != "" ? actions.fetchAllUsers({keyword: value}) : ''
+    if (!value){
+      return null
+    }
+
+    this.fetchAllUsers({compconds: {"account_uid.like": `%${value}%`}})
   }
   render() {
     const {newState, sharedState, intl} = this.props
@@ -74,7 +81,7 @@ class BudgetNewForm extends React.Component {
                 {...DEFAULT_FORM_ITEM_LAYOUT}
               >
 
-                {getFieldDecorator('staff_id',{
+                {getFieldDecorator('staff_gid',{
                    rules: [{ required: true, message: intl.formatMessage({id: 'form.form_item.button.eros.emptyEmail'}) }],
                 })(
                   <Select
@@ -87,8 +94,8 @@ class BudgetNewForm extends React.Component {
                     {
                       setUsers.map(user => {
                       return (
-                          <Option value={`${user.id}_${user.uid}`} key={user.id}>
-                            {user.email}
+                          <Option value={`${user.gid}_${user.account_uid}`} key={user.gid}>
+                            {user.account_uid}
                           </Option>
                        )
                       })
