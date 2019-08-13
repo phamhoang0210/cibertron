@@ -94,6 +94,16 @@ export const appLocale = {
     },
     others: {
       aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage/landingpages'
+    },
+    history: {
+      //history.title
+      title: "History",
+      history_table: {
+        time: 'Time created',
+        user: 'User',
+        old_status: 'Old Status',
+        new_status: 'New Status',
+      }
     }
   }),
   antd: antdVi,

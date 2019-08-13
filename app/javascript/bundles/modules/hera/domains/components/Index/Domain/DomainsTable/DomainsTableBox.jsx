@@ -25,6 +25,7 @@ class DomainsTableBox extends React.Component {
       'handleSearch',
       'handleReload',
       'handleRestore',
+      'handleHistory'
     ])
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.id.label'}),
@@ -104,7 +105,7 @@ class DomainsTableBox extends React.Component {
               icon="edit"
               size="small"
               className="button-margin--top--default width--full"
-              onClick={(e) => this.handleEdit(row.id)}
+              onClick={(e) => this.handleHistory(row.id)}
             >
               {intl.formatMessage({id: 'form.form_item.button.history.text'})}
             </Button>
@@ -138,6 +139,10 @@ class DomainsTableBox extends React.Component {
 
   handleEdit(domainId) {
     browserHistory.push(`${DOMAINS_URL}/${domainId}/edit`)
+  }
+
+  handleHistory(domainId) {
+     browserHistory.push(`${DOMAINS_URL}/${domainId}/history`)
   }
 
   handleAdd(e) {
