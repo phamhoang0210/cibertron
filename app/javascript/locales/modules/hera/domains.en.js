@@ -75,6 +75,16 @@ export const appLocale = {
           placeholder: 'Search by code..',
         }
       }
+    },
+    history: {
+      //history.title
+      title: "History",
+      history_table: {
+        time: 'Time created',
+        user: 'User',
+        old_status: 'Old Status',
+        new_status: 'New Status',
+      }
     }
   }),
   antd: antdEn,
