@@ -26,7 +26,9 @@ class ListSelect extends React.Component {
   };
 
   handleSearch = (value) => {
-    this.fetchLists({fields: 'name,id', compconds: {'name.like': `%${value}%`} });
+    if(value != '') {
+      this.fetchLists({fields: 'name,id', compconds: {'name.like': `%${value}%`} });
+    }
   };
 
   render() {

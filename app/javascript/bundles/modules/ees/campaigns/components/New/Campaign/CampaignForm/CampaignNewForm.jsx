@@ -136,35 +136,12 @@ class CampaignNewForm extends React.Component {
               </FormItem>
 
             {/* Template item*/}
-              <FormItem
-                label={intl.formatMessage({id: 'attrs.template.label'})}
-                {...DEFAULT_FORM_ITEM_LAYOUT}
-              >
-                {getFieldDecorator('template_id', {
-                  rules: [{
-                    required: true,
-                    message: intl.formatMessage(
-                      {id: 'attrs.template.errors.required'},
-                    ),
-                  }],
-                })(
-                  <Select
-                    showSearch
-                    placeholder={intl.formatMessage({id: 'attrs.template.placeholder'})}
-                    optionFilterProp="children"
-                    // onChange={handleChange}
-                    // onFocus={handleFocus}
-                    // onBlur={handleBlur}
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    {templates && templates.map((template, index) => {
-                      return (
-                        <Option value={template.get('id')} key={index}>{`${template.get('name')}`}</Option>
-                      );
-                    })}
-                  </Select>
-                )}
-              </FormItem>
+              <TemplateSelect
+                list_id=""
+                templates={templates}
+                fetchTemplates={actions.fetchTemplates}
+                form={form}
+              />
 
               {/* List item */}
               <ListSelect

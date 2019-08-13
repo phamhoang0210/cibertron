@@ -62,7 +62,7 @@ export function fetchEditorLink(landingPageId, params = {}) {
   return dispatch => {
     dispatch(setIsFetchingEditorLink())
     authRequest
-      .fetchEntities(`${HERA_BASE_URL}${LINK_EDITOR_PATH}/${landingPageId}`, params)
+      .fetchEntities(`${HERA_BASE_URL}${LINK_EDITOR_PATH}/${landingPageId}/landing_page`, params)
       .then(res => dispatch(fetchEditorLinkSuccess(res.data)))
       .catch(error => dispatch(fetchEditorLinkFailure(error)))
   }

@@ -112,7 +112,7 @@ class LandingPageEditForm extends React.Component {
     var oldItems = []
     if(editorLink) {
        let keyID = 0;
-       oldItems = editorLink.get('data').toJS().map((e, index) =>{
+       oldItems = editorLink.toJS().map((e, index) =>{
         return (
            <FormItem
              {...DEFAULT_FORM_ITEM_LAYOUT}
@@ -209,7 +209,7 @@ class LandingPageEditForm extends React.Component {
                     required: true,
                     message: intl.formatMessage({id: 'attrs.name.errors.required'}),
                   }],
-              })(<Input placeholder="link design" style={{width:'67%'}}/>)}
+               })(<Input placeholder="link design" style={{width:'62%', marginRight: 8}}/>)}
 
               {keys.length > 0 ? (
                 <Icon
