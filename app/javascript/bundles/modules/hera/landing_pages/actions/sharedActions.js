@@ -6,6 +6,7 @@ import {
   LOGICS_API_PATH, AD_ACCOUNTS_API_PATH, PIXELS_API_PATH,
   FACEBOOK_APPS_API_PATH, FACEBOOK_PIXEL_CODES_API_PATH,
   LOGIC_HOME_API_PATH, PLATFORM_API_PATH, LINK_EDITOR_PATH,
+  USERS_API_PATH
 } from '../constants/paths'
 import { getFilterParams } from 'helpers/applicationHelper'
 
@@ -63,14 +64,10 @@ function fetchUsersFailure(error) {
 }
 
 export function fetchUsers(params = {}) {
-  let keyword=""
-  if (params['keyword']) {
-    keyword = params['keyword'] || ''
-  }
   return dispatch => {
     dispatch(setIsFetchingUsers())
     authRequest
-      .fetchEntities(`${AUTHSERVICE_BASE_URL}${AUTH_API_PATH}`, {'full_search': keyword})
+      .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, params)
       .then(res => dispatch(fetchUsersSuccess(res.data)))
       .catch(error => dispatch(fetchUsersFailure(error)))
   }
