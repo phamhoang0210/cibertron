@@ -14,6 +14,10 @@ const FormItem = Form.Item
 class DomainRestoreForm extends React.Component {
   constructor(props) {
     super(props)
+    this.fetchAllUsers = _.debounce(
+      this.props.actions.fetchAllUsers,
+      800
+    )
 
     _.bindAll(this, [
       'handleBack',
@@ -40,7 +44,8 @@ class DomainRestoreForm extends React.Component {
 
   handleSearch(value) {
     const {actions} = this.props
-    value != "" ? actions.fetchAllUsers({keyword: value}) : ''
+    if (!value) return null
+    this.fetchAllUsers({compconds: {"username.like": `%${value}%`}})
 
   }
 
@@ -52,8 +57,9 @@ class DomainRestoreForm extends React.Component {
     const isUpdatingDomain = restoreState.get('isUpdatingDomain')
     const isFetchingDomain = restoreState.get('isFetchingDomain')
     const setUsers = sharedState && sharedState.get('allusers').toJS()
+
     if (domain){
-      let u = {id: parseInt(domain.get('user_id')), nickname: domain.get('username')}
+      let u = {gid: domain.get('user_gid'), username: domain.get('username')}
       setUsers.push(u)
     }
 
@@ -92,7 +98,7 @@ class DomainRestoreForm extends React.Component {
                 {...DEFAULT_FORM_ITEM_LAYOUT}
                 >
 
-                  {getFieldDecorator('user_id', {initialValue: `${domain.get('user_id')}`})(
+                  {getFieldDecorator('user_gid', {initialValue: `${domain.get('user_gid')}`})(
                     <Select
                       showSearch
                       filterOption={selectFilterOption}
@@ -101,8 +107,8 @@ class DomainRestoreForm extends React.Component {
                       onSearch={this.handleSearch}
                     >
                       {setUsers.map(user => (
-                        <Option value={`${user.id}`} key={user.id}>
-                          {user.nickname}
+                        <Option value={`${user.gid}`} key={user.gid}>
+                          {user.username}
                         </Option>
 
                       ))}
