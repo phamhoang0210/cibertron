@@ -102,7 +102,7 @@ class DomainsTableBox extends React.Component {
               {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
             <Button
-              icon="edit"
+              icon="calendar"
               size="small"
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleHistory(row.id)}
