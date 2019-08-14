@@ -121,8 +121,8 @@ class CampaignsTableBox extends React.Component {
       },
       {
         title: intl.formatMessage({id: 'attrs.last_action_by.label'}),
-        dataIndex: 'updated_at',
-        key: 'updated_at',
+        dataIndex: 'sent_at',
+        key: 'sent_at',
         width: '15%',
         render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
       },
