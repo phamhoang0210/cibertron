@@ -100,7 +100,7 @@ export const appLocale = {
       title: "History",
       history_table: {
         time: 'Time created',
-        user: 'User',
+        username: 'User',
         old_status: 'Old Status',
         new_status: 'New Status',
       }
