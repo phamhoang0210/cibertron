@@ -14,5 +14,9 @@ module Hera
 
     def restore
     end
+
+    def history
+        
+    end
   end
 end
