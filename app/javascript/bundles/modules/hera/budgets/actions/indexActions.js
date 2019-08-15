@@ -99,18 +99,18 @@ function fetchUsersFailure(error) {
 export function fetchUsers(data) {
   return dispatch => {
     dispatch(setIsFetchingUsers())
-    var list_user_gid = []
+    var list_staff_gid = []
 
     if(data.records){
       data.records.map(record => {
-        list_user_gid.push(record.user_gid)
+        list_staff_gid.push(record.staff_gid)
       })
     }
-    console.log(list_user_gid, "list_user_gid")
+    console.log(list_staff_gid, "list_user_gid")
     authRequest
       .fetchEntities(`${USERSERVICE_BASE_URL}${USERS_API_PATH}`, {
         'compconds': {
-          'gid.in': _.compact(_.uniq(list_user_gid))
+          'gid.in': _.compact(_.uniq(list_staff_gid))
       }})
       .then(res => {
         var users = res.data.records
@@ -122,7 +122,7 @@ export function fetchUsers(data) {
         }
         if(data.records && users_array){
           data.records.map(record => {
-            record["staff_email"] = users_array[record.user_gid]
+            record["staff_email"] = users_array[record.staff_gid] || record.staff_email
           })
         }
         dispatch(fetchUsersSuccess())
