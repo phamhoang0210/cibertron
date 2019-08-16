@@ -25,6 +25,7 @@ class DomainsTableBox extends React.Component {
       'handleSearch',
       'handleReload',
       'handleRestore',
+      'handleHistory'
     ])
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.id.label'}),
@@ -100,6 +101,14 @@ class DomainsTableBox extends React.Component {
             >
               {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
             </Button>
+            <Button
+              icon="calendar"
+              size="small"
+              className="button-margin--top--default width--full"
+              onClick={(e) => this.handleHistory(row.id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.history.text'})}
+            </Button>
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -130,6 +139,10 @@ class DomainsTableBox extends React.Component {
 
   handleEdit(domainId) {
     browserHistory.push(`${DOMAINS_URL}/${domainId}/edit`)
+  }
+
+  handleHistory(domainId) {
+     browserHistory.push(`${DOMAINS_URL}/${domainId}/history`)
   }
 
   handleAdd(e) {
