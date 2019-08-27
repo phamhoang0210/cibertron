@@ -12,11 +12,16 @@ module Hera
     def new
     end
 
+    # GET /hera/domains/:id/restore
     def restore
     end
 
+    # GET /hera/domains/:id/history
     def history
-        
+    end
+
+    # GET /hera/domains/:id/versions
+    def versions
     end
   end
 end

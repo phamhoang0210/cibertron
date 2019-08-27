@@ -81,6 +81,14 @@ export default flattenMessages({
           // form.form_item.button.email_no_answer.text
           text: 'No answer',
         },
+        switch: {
+          // form.form_item.button.switch.text
+          text: 'Switch',
+        },
+        version: {
+          // form.form_item.button.versions.text
+          text: 'Version'
+        },
       },
     },
   },

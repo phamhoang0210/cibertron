@@ -5,6 +5,7 @@ import IndexContainer from '../containers/IndexContainer'
 import EditContainer from '../containers/EditContainer'
 import RestoreContainer from '../containers/RestoreContainer'
 import HistoryContainer from '../containers/HistoryContainer'
+import VersionContainer from '../containers/VersionContainer'
 import NewContainer from '../containers/NewContainer'
 import {DOMAINS_URL} from '../constants/paths'
 import {requireAuth} from 'helpers/auth/authHelper'
@@ -15,6 +16,7 @@ export default (
     <Route path=":id/edit" component={EditContainer} />
     <Route path=":id/restore" component={RestoreContainer} />
     <Route path=":id/history" component={HistoryContainer} />
+    <Route path=":id/versions" component={VersionContainer} />
     <Route path="new" component={NewContainer} />
   </Route>
 )
