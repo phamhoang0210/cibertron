@@ -108,6 +108,7 @@ Rails.application.routes.draw do
         member do
           get 'restore', to: 'domains#restore'
           get 'history', to: 'domains#history'
+          get 'versions', to: 'domains#versions'
         end
       end
       option.resources :budgets

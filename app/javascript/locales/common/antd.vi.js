@@ -102,6 +102,14 @@ export default flattenMessages({
           text: 'Eros',
           emptyEmail: 'Vui lòng chọn email!',
         },
+        switch: {
+          // form.form_item.button.switch.text
+          text: 'Switch',
+        },
+        version: {
+          // form.form_item.button.version.text
+          text: 'Version'
+        },
       },
     },
   },

@@ -25,7 +25,8 @@ class DomainsTableBox extends React.Component {
       'handleSearch',
       'handleReload',
       'handleRestore',
-      'handleHistory'
+      'handleHistory',
+      'handleVersions',
     ])
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.id.label'}),
@@ -94,12 +95,12 @@ class DomainsTableBox extends React.Component {
               Restore
             </Button>
             <Button
-              icon="edit"
+              icon="swap"
               size="small"
               className="button-margin--top--default width--full"
               onClick={(e) => this.handleEdit(row.id)}
             >
-              {intl.formatMessage({id: 'form.form_item.button.edit.text'})}
+              {intl.formatMessage({id: 'form.form_item.button.switch.text'})}
             </Button>
             <Button
               icon="calendar"
@@ -109,6 +110,15 @@ class DomainsTableBox extends React.Component {
             >
               {intl.formatMessage({id: 'form.form_item.button.history.text'})}
             </Button>
+            <Button
+              icon="bars"
+              size="small"
+              className="button-margin--tio--default width--full"
+              onClick={(e) => this.handleVersions(row.id)}
+            >
+              {intl.formatMessage({id: 'form.form_item.button.version.text'})}
+            </Button>
+
             <Popconfirm
               placement="topLeft"
               title={intl.formatMessage({id: 'popconfirm.delete.title'})}
@@ -142,7 +152,11 @@ class DomainsTableBox extends React.Component {
   }
 
   handleHistory(domainId) {
-     browserHistory.push(`${DOMAINS_URL}/${domainId}/history`)
+    browserHistory.push(`${DOMAINS_URL}/${domainId}/history`)
+  }
+
+  handleVersions(domainId) {
+    browserHistory.push(`${DOMAINS_URL}/${domainId}/versions`)
   }
 
   handleAdd(e) {
