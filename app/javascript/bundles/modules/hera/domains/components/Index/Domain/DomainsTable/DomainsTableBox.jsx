@@ -113,7 +113,7 @@ class DomainsTableBox extends React.Component {
             <Button
               icon="bars"
               size="small"
-              className="button-margin--tio--default width--full"
+              className="button-margin--top--default width--full"
               onClick={(e) => this.handleVersions(row.id)}
             >
               {intl.formatMessage({id: 'form.form_item.button.version.text'})}
