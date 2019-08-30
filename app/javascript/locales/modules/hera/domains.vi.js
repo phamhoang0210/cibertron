@@ -104,7 +104,11 @@ export const appLocale = {
         old_status: 'Old Status',
         new_status: 'New Status',
       }
-    }
+    },
+    version: {
+      create_by: 'Create By',
+      version_name: 'Version Name'
+    },
   }),
   antd: antdVi,
   locale: 'en-US',
