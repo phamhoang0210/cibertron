@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Icon } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Icon, Checkbox } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -18,7 +18,9 @@ class DomainNewForm extends React.Component {
       'handleBack',
       'handleSubmit',
       'renderMessage',
+      'onCheckAutoSwitch'
     ])
+    this.state = {isAutoSwitch: 0}
   }
 
   handleBack(e) {
@@ -31,9 +33,14 @@ class DomainNewForm extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        actions.createDomain({record: values})
+        actions.createDomain({record: {...values, is_autoswitch: this.state.isAutoSwitch}})
       }
     })
+  }
+
+  onCheckAutoSwitch(e) {
+    let temp = this.state.isAutoSwitch
+    this.setState({isAutoSwitch: Math.abs(temp-1)})
   }
 
   renderMessage(){
@@ -51,7 +58,6 @@ class DomainNewForm extends React.Component {
 
   render() {
     const {newState, sharedState, intl} = this.props
-    const domainDnsServers = sharedState.get('domainDnsServers')
     const { getFieldDecorator } = this.props.form
     const alert = newState.get('alert')
     const isCreatingDomain = newState.get('isCreatingDomain')
@@ -103,6 +109,9 @@ class DomainNewForm extends React.Component {
                     ))}
                   </Select>
                 )}
+              </FormItem>
+              <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
+                <Checkbox onChange={this.onCheckAutoSwitch}>AutoSwitch</Checkbox>
               </FormItem>
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingDomain}>
