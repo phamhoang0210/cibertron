@@ -1,13 +1,18 @@
 import Immutable from 'immutable'
 import * as actionTypes from '../constants/actionTypes'
-import { parseError, createSuccessAlert } from 'helpers/applicationHelper'
-import { defaultFilters } from 'app/constants/initialState'
 
 export const initialState = Immutable.fromJS({
   alert: null,
   domainHistoryActions: [],
+  domainHistorySwitchs: [],
   users: [],
   isFetchingDomainHistoryActions: false,
+  isFetchingDomainHistorySwitchs: false,
+
+  versions: [],
+  domain: null,
+  isFetchVersions: false,
+  isFetchingDomain: false,
 })
 
 export default function historyReducer($$state = initialState, action = null) {
@@ -32,6 +37,65 @@ export default function historyReducer($$state = initialState, action = null) {
         isFetchingDomainHistoryactions: false,
       })
     }
+
+    case actionTypes.SET_IS_FETCHING_DOMAIN: {
+      return $$state.merge({
+        isFetchingDomain: true,
+        domain: null,
+      })
+    }
+
+    case actionTypes.FETCH_DOMAIN_SUCCESS: {
+      return $$state.merge({
+        isFetchingDomain: false,
+        domain: record,
+      })
+    }
+
+    case actionTypes.FETCH_DOMAIN_FAILURE: {
+      return $$state.merge({
+        isFetchingDomain: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_VERSIONS: {
+      return $$state.merge({
+        isFetchVersions: true,
+      })
+    }
+
+    case actionTypes.FETCH_VERSIONS_SUCCESS: {
+      return $$state.merge({
+        isFetchVersions:false,
+        versions: records,
+      })
+    }
+
+    case actionTypes.FETCH_VERSIONS_FAILURE: {
+      return $$state.merge({
+        isFetchVersions: false,
+      })
+    }
+
+    case actionTypes.SET_IS_FETCHING_DOMAIN_HISTORY_SWITCHS: {
+      return $$state.merge({
+        isFetchDomainHistorySwitchs: true,
+      })
+    }
+
+    case actionTypes.FETCH_DOMAIN_HISTORY_SWITCHS_SUCCESS: {
+      return $$state.merge({
+        isFetchDomainHistorySwitchs:false,
+        domainHistorySwitchs: records,
+      })
+    }
+
+    case actionTypes.FETCH_DOMAIN_HISTORY_SWITCHS_FAILURE: {
+      return $$state.merge({
+        isFetchDomainHistorySwitchs: false,
+      })
+    }
+
 		default: {
       return $$state
     }

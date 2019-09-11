@@ -1,13 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input, Tag, version } from 'antd'
+import { Table } from 'antd'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { injectIntl } from 'react-intl'
 import moment from 'moment'
 
-const { Search } = Input
 
-class VersionTableBox extends React.Component {
+class DomainVersionHistoryTableBox extends React.Component {
   constructor(props) {
     super(props)
     console.log(props)
@@ -42,25 +41,23 @@ class VersionTableBox extends React.Component {
   }
   
   render() {
-    const {versionState, intl} = this.props
-    const versions = versionState.get('versions')
-    const isFetchVersions = versionState.get('isFetchVersions')
+    const {historyState, intl} = this.props
+    const versions = historyState.get('versions')
+    const isFetchVersions = historyState.get('isFetchVersions')
     return (
       <div className="main-content-table-box">
-        {versions && !versions.isEmpty() && 
-          <Table 
-            bordered
-            className="main-content-table-box-body"
-            size="middle"
-            columns={this.columns}
-            dataSource={versions.toJS()}
-            rowKey="id"
-            loading={isFetchVersions}
-          />
-        }
+        <Table 
+          bordered
+          className="main-content-table-box-body"
+          size="middle"
+          columns={this.columns}
+          dataSource={versions.toJS()}
+          rowKey="id"
+          loading={isFetchVersions}
+        />
       </div>
     )
   }
 }
 
-export default injectIntl(VersionTableBox)
+export default injectIntl(DomainVersionHistoryTableBox)

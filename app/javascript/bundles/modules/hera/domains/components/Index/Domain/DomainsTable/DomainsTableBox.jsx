@@ -25,8 +25,7 @@ class DomainsTableBox extends React.Component {
       'handleSearch',
       'handleReload',
       'handleRestore',
-      'handleHistory',
-      'handleVersions',
+      'handleHistory'
     ])
     this.columns = [{
       title: intl.formatMessage({id: 'attrs.id.label'}),
@@ -110,14 +109,6 @@ class DomainsTableBox extends React.Component {
             >
               {intl.formatMessage({id: 'form.form_item.button.history.text'})}
             </Button>
-            <Button
-              icon="bars"
-              size="small"
-              className="button-margin--top--default width--full"
-              onClick={(e) => this.handleVersions(row.id)}
-            >
-              {intl.formatMessage({id: 'form.form_item.button.version.text'})}
-            </Button>
 
             <Popconfirm
               placement="topLeft"
@@ -153,10 +144,6 @@ class DomainsTableBox extends React.Component {
 
   handleHistory(domainId) {
     browserHistory.push(`${DOMAINS_URL}/${domainId}/history`)
-  }
-
-  handleVersions(domainId) {
-    browserHistory.push(`${DOMAINS_URL}/${domainId}/versions`)
   }
 
   handleAdd(e) {

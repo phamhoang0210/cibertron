@@ -1,16 +1,12 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input, Tag } from 'antd'
-import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
-import { removeSpaceInput } from 'helpers/inputHelper'
-import { browserHistory } from 'react-router'
-import { DOMAINS_URL } from '../../../constants/paths'
+import { Table } from 'antd'
 import { LONG_DATETIME_FORMAT } from 'app/constants/datatime'
 import { injectIntl } from 'react-intl'
 import moment from 'moment'
 
 
-class DomainHistoryActionsTableBox extends React.Component {
+class DomainActionsHistoryTableBox extends React.Component {
   constructor(props) {
     super(props)
 
@@ -61,4 +57,4 @@ class DomainHistoryActionsTableBox extends React.Component {
   }
 }
 
-export default injectIntl(DomainHistoryActionsTableBox)
+export default injectIntl(DomainActionsHistoryTableBox)

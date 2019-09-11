@@ -103,6 +103,8 @@ export const appLocale = {
         username: 'User',
         old_status: 'Old Status',
         new_status: 'New Status',
+        old_cname: 'Old CNAME',
+        new_cname: 'New CNAME',
       }
     },
     version: {
