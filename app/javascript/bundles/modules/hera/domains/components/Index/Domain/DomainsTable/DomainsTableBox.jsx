@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Icon, Button, Popconfirm, Row, Col, Input, Tag } from 'antd'
+import { Table, Icon, Button, Popconfirm, Row, Col, Input, Tag, message } from 'antd'
 import { getFilterParams, mergeDeep, getDefaultTablePagination } from 'helpers/applicationHelper'
 import { removeSpaceInput } from 'helpers/inputHelper'
 import { browserHistory } from 'react-router'
@@ -42,10 +42,10 @@ class DomainsTableBox extends React.Component {
           {row.status == 'PENDING' && (<Tag style={{ marginTop: 5 }} color="blue">PENDING</Tag>)}
           {row.status == 'ACTIVE' && (<Tag style={{ marginTop: 5 }} color="green">ACTIVE</Tag>)}
           
-          {row.backup && (<div><a href={`${intl.formatMessage({id: 'others.aws'})}/${row.name}/index.html`} target="_blank">
+          {row.status == 'ACTIVE' && (<div><a href={`${intl.formatMessage({id: 'others.aws'})}/${row.name}/index.html`} target="_blank">
             <Tag style={{ marginTop: 5 }} color="volcano">{intl.formatMessage({id: 'attrs.backup_index.label'})}</Tag>
           </a>
-          <a href={`${intl.formatMessage({id: 'others.aws'})}/${row.name}/thankyou/thankyou.html`} target="_blank">
+          <a href={`${intl.formatMessage({id: 'others.aws'})}/${row.name}/thankyou.html`} target="_blank">
             <Tag style={{ marginTop: 5 }} color="volcano">{intl.formatMessage({id: 'attrs.backup_thankyou.label'})}</Tag>
           </a></div>)}
 
@@ -150,6 +150,14 @@ class DomainsTableBox extends React.Component {
     browserHistory.push(`${DOMAINS_URL}/new`)
   }
 
+  notification(type){
+    switch (type) {
+      case 'error': {return message.error('Failed!');}
+      case 'success': {return message.success('Requested!');}
+    }
+  }
+
+
   handleReload(domainId){
     const {actions, indexState} = this.props
     // debugger
@@ -161,8 +169,10 @@ class DomainsTableBox extends React.Component {
     // if(current != domainParams.page) {
     //   domainParams.page = current
     // }
-    actions.reloadDomain(domainId)
+    actions.reloadDomain(domainId, {}, {}, this.notification)
   }
+
+  
 
   handleRestore(domainId){
     browserHistory.push(`${DOMAINS_URL}/${domainId}/restore`)

@@ -93,7 +93,7 @@ export const appLocale = {
       }
     },
     others: {
-      aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage/landingpages'
+      aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage-v2/landingpages'
     },
     history: {
       //history.title
