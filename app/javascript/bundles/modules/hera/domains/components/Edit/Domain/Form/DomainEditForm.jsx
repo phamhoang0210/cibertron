@@ -124,9 +124,9 @@ class DomainEditForm extends React.Component {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
+                {/* <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Checkbox onChange={this.onCheckAutoSwitch} defaultChecked={(this.state.isAutoSwitch != null) ? this.state.isAutoSwitch : domain.get('is_autoswitch') }>AutoSwitch</Checkbox>
-                </FormItem>
+                </FormItem> */}
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingDomain}>
                     {intl.formatMessage({id: 'form.form_item.button.update.text'})}
