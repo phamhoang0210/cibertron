@@ -110,9 +110,9 @@ class DomainNewForm extends React.Component {
                   </Select>
                 )}
               </FormItem>
-              <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
+              {/* <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Checkbox onChange={this.onCheckAutoSwitch}>AutoSwitch</Checkbox>
-              </FormItem>
+              </FormItem> */}
               <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                 <Button type="primary" htmlType="submit" loading={isCreatingDomain}>
                   {intl.formatMessage({id: 'form.form_item.button.create.text'})}
