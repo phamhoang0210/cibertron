@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { selectFilterOption } from 'helpers/antdHelper'
 import { DEFAULT_FORM_ITEM_LAYOUT, DEFAULT_BUTTON_ITEM_LAYOUT } from 'app/constants/form'
-import { Form, Input, Row, Col, Button, Select, Alert, Spin } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Alert, Spin, Checkbox } from 'antd'
 const { TextArea } = Input
 const { Option } = Select
 import AlertBox from 'partials/components/Alert/AlertBox'
@@ -19,7 +19,9 @@ class DomainEditForm extends React.Component {
       'handleBack',
       'handleSubmit',
       'handleAssign',
+      'onCheckAutoSwitch'
     ])
+    this.state = {isAutoSwitch: null}
   }
 
   handleBack(e) {
@@ -33,7 +35,7 @@ class DomainEditForm extends React.Component {
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        actions.updateDomain(domain.get('id'), {record: values})
+        actions.updateDomain(domain.get('id'), {record: {...values, is_autoswitch: (this.state.isAutoSwitch != null) ? this.state.isAutoSwitch : domain.get('is_autoswitch')}})
       }
     })
   }
@@ -50,6 +52,13 @@ class DomainEditForm extends React.Component {
     })
   }
 
+  onCheckAutoSwitch(e) {
+    const {editState} = this.props
+    const domain = editState.get('domain')
+    let temp = (this.state.isAutoSwitch != null) ? this.state.isAutoSwitch : domain.get('is_autoswitch')
+    this.setState({isAutoSwitch: Math.abs(temp-1)})
+  }
+
   render() {
     const {editState, sharedState, intl} = this.props
     const { getFieldDecorator } = this.props.form
@@ -57,8 +66,6 @@ class DomainEditForm extends React.Component {
     const domain = editState.get('domain')
     const isUpdatingDomain = editState.get('isUpdatingDomain')
     const isFetchingDomain = editState.get('isFetchingDomain')
-    const providers = sharedState.get('providers')
-    const categories = sharedState.get('categories')
     const dnsServer = sharedState && sharedState.get('allPlatforms');
     return (
       <div className="main-content-form-box">
@@ -116,6 +123,9 @@ class DomainEditForm extends React.Component {
                       ))}
                     </Select>
                   )}
+                </FormItem>
+                <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
+                  <Checkbox onChange={this.onCheckAutoSwitch} defaultChecked={(this.state.isAutoSwitch != null) ? this.state.isAutoSwitch : domain.get('is_autoswitch') }>AutoSwitch</Checkbox>
                 </FormItem>
                 <FormItem  {...DEFAULT_BUTTON_ITEM_LAYOUT}>
                   <Button type="primary" htmlType="submit" loading={isUpdatingDomain}>

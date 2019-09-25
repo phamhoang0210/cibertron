@@ -93,7 +93,7 @@ export const appLocale = {
       }
     },
     others: {
-      aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage/landingpages'
+      aws: 'http://s3.ap-southeast-1.amazonaws.com/edumall-landingpage-v2/landingpages'
     },
     history: {
       //history.title
@@ -103,6 +103,8 @@ export const appLocale = {
         username: 'User',
         old_status: 'Old Status',
         new_status: 'New Status',
+        old_cname: 'Old CNAME',
+        new_cname: 'New CNAME',
       }
     },
     version: {
