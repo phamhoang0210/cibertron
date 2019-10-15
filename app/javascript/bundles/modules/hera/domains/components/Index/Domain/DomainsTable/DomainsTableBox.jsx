@@ -75,15 +75,17 @@ class DomainsTableBox extends React.Component {
       render: (cell, row) => {
         return (
           <div className="text-align--right">
-            <Button
-              icon="reload"
-              size="small"
-              className="button-margin--top--default width--full"
-              loading={row.isReloading}
-              onClick={(e) => this.handleReload(row.id)}
-            >
-              Backup LDP
-            </Button>
+            {row.status !== 'ERROR' && (
+              <Button
+                icon="reload"
+                size="small"
+                className="button-margin--top--default width--full"
+                loading={row.isReloading}
+                onClick={(e) => this.handleReload(row.id)}
+              >
+                Backup LDP
+              </Button>
+            )}
             <Button
               icon="restore"
               size="small"
