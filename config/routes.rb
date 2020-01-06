@@ -15,19 +15,6 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :cronus do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :channels
-      option.resources :categories
-      option.resources :providers
-      option.resources :nodes
-      option.resources :campaigns
-      option.resources :campaign_bydates
-      option.resources :leads
-    end
-  end
-
   namespace :authservice do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit] do |option|
