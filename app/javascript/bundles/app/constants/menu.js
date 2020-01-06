@@ -3,41 +3,6 @@ import {Icon} from 'antd'
 export const menuData = [
  {
     type: 'subMenu',
-    path: '/sol',
-    title: (<span><Icon type="bars" /><span>SOL</span></span>),
-    items: [
-      {
-        type: 'link',
-        path: '/sol/discounts',
-        title: 'Discounts',
-      },
-      {
-        type: 'link',
-        path: '/sol/catalogs',
-        title: 'Catalogs',
-      },
-      {
-        type: 'link',
-        path: '/sol/group_catalogs',
-        title: 'Group Catalogs',
-      },
-      {
-        type: 'link', 
-        path: '/sol/promos',
-        title: 'Promos',
-      },
-      {
-        type: 'link', 
-        path: '/sol/targets',
-        title: 'Targets',
-      }, {
-        type: 'link',
-        path: '/sol/prizes',
-        title: 'Prizes',
-      },
-    ],
-  }, {
-    type: 'subMenu',
     path: '/nauh',
     title: (<span><Icon type="bars" /><span>AFTERSALES</span></span>),
     items: [

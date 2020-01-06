@@ -33,42 +33,10 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :sol do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :discounts
-      option.resources :catalogs
-      option.resources :group_catalogs
-      option.resources :promos
-      option.resources :courses
-      option.resources :combos
-      option.resources :targets
-      option.resources :prizes
-    end
-  end
-
   namespace :captain do
     root to: 'dashboard#index'
     with_options only: [:index, :new, :edit, :delete] do |option|
       option.resources :campaigns
-    end
-  end
-
-  namespace :nauh do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :leads do
-        collection do
-          get 'assign', to: 'leads#assign'
-          get 'report', to: 'leads#report'
-        end
-      end
-      option.resources :orders
-      option.resources :sources
-      option.resources :prices
-      option.namespace :settings do
-        resources :ipphones
-      end
     end
   end
 
