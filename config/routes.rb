@@ -33,43 +33,6 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :captain do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit, :delete] do |option|
-      option.resources :campaigns
-    end
-  end
-
-  namespace :ees do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :campaigns
-      option.resources :lists
-      option.resources :templates
-      option.resources :senders
-      option.resources :logs
-    end
-  end
-
-  namespace :hera do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :landing_pages do
-        member do
-          get 'get_code', to: 'landing_pages#get_code'
-        end
-      end
-      option.resources :domains do
-        member do
-          get 'restore', to: 'domains#restore'
-          get 'history', to: 'domains#history'
-          get 'versions', to: 'domains#versions'
-        end
-      end
-      option.resources :budgets
-    end
-  end
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       with_options only: [:index, :show, :create, :update, :destroy] do |option|
