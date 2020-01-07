@@ -20,10 +20,10 @@ default:
 
 development:
   <<: *default
-  database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
-  username: <%= ENV['GAIA_MYSQL_USER'] %>
-  password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
-  url:      <%= ENV['GAIA_MYSQL_HOST'] %>
+  database: <%= ENV['CIBERTRON_MYSQL_DATABASE'] %>
+  username: <%= ENV['CIBERTRON_MYSQL_USER'] %>
+  password: <%= ENV['CIBERTRON_MYSQL_PASSWORD'] %>
+  host:      <%= ENV['CIBERTRON_MYSQL_HOST'] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -54,23 +54,23 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 
-production:
-  <<: *default
-  database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
-  username: <%= ENV['GAIA_MYSQL_USER'] %>
-  password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
-  url:      <%= ENV['GAIA_MYSQL_HOST'] %>
+# production:
+#   <<: *default
+#   database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
+#   username: <%= ENV['GAIA_MYSQL_USER'] %>
+#   password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
+#   url:      <%= ENV['GAIA_MYSQL_HOST'] %>
 
-staging:
-  <<: *default
-  database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
-  username: <%= ENV['GAIA_MYSQL_USER'] %>
-  password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
-  url:      <%= ENV['GAIA_MYSQL_HOST'] %>
+# staging:
+#   <<: *default
+#   database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
+#   username: <%= ENV['GAIA_MYSQL_USER'] %>
+#   password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
+#   url:      <%= ENV['GAIA_MYSQL_HOST'] %>
 
-review:
-  <<: *default
-  database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
-  username: <%= ENV['GAIA_MYSQL_USER'] %>
-  password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
-  url:      <%= ENV['GAIA_MYSQL_HOST'] %>
+# review:
+#   <<: *default
+#   database: <%= ENV['GAIA_MYSQL_DATABASE'] %>
+#   username: <%= ENV['GAIA_MYSQL_USER'] %>
+#   password: <%= ENV['GAIA_MYSQL_PASSWORD'] %>
+#   url:      <%= ENV['GAIA_MYSQL_HOST'] %>
