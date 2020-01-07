@@ -5,7 +5,7 @@ class Footer extends React.Component {
   render() {
     return (
       <Layout.Footer className="layout-content-footer">
-        Copyright © 2017 TST Team. All rights reserved.
+        Copyright © 2020. All rights reserved.
       </Layout.Footer>
     )
   }

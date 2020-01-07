@@ -3,11 +3,10 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
 import {SIGN_UP_PATH} from 'app/constants/paths'
-import {GoogleLogin} from 'react-google-login'
+// import {GoogleLogin} from 'react-google-login'
+// import OauthGrant from './OauthGrant'
 import request from 'libs/requests/request'
-import OauthGrant from './OauthGrant'
 import {setCredentials} from '../../../../../helpers/auth/authHelper'
-
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -43,7 +42,7 @@ class SignInForm extends React.Component {
       if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
         window.location.href = redirectUrl
       } else {
-        window.location.href = '/'
+        window.location.href = '/authservice/accounts'
       }
     }, 1000)
   }
@@ -106,7 +105,7 @@ render() {
         </Form.Item>
         <Form.Item>
           <Checkbox>Remember me</Checkbox>
-          {/*<a className="login-form-forgot" href="">Forgot password</a>*/}
+         {/* <a className="login-form-forgot" href="">Forgot password</a>*/}
           <Button
             type="primary"
             htmlType="submit"
@@ -116,16 +115,6 @@ render() {
           >
             Log in
           </Button>
-            <GoogleLogin
-              clientId="756159619050-e6fc577akgdnukparqn0a4qsctdei4k2.apps.googleusercontent.com"
-              buttonText="Sign In with Google"
-              className="ant-btn login-form-button ant-btn-danger"
-              onRequest={disableGetAuth}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-            />
-
-         {/*Or <Link to={SIGN_UP_PATH}>register now!</Link>*/}
         </Form.Item>
       </Form>
     )

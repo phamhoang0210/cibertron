@@ -5,7 +5,7 @@ import DashboardContainer from '../containers/DashboardContainer'
 import {requireAuth} from 'helpers/auth/authHelper'
 
 export default (
-  <Route path="/dashboard" component={ApplicationLayout} onEnter={requireAuth}>
+  <Route path="/dashboard" component={ApplicationLayout}>
     <IndexRoute component={DashboardContainer}/>
   </Route>
 );
