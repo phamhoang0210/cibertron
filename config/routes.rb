@@ -3,9 +3,6 @@ Rails.application.routes.draw do
   root to: redirect('/dashboard')
   health_check_routes
 
-  resources :minerva, only: [:index]
-  # resources :nami, path: '/namivn', only: [:index]
-
   resources :dashboard, only: [:index]
   resources :auth, only: [:index] do
     collection do
@@ -26,25 +23,10 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :userservice do
-    root to: 'dashboard#index'
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :users
-    end
-  end
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       with_options only: [:index, :show, :create, :update, :destroy] do |option|
         option.resources :service_infos
-      end
-    end
-  end
-
-  namespace :internal, defaults: { format: :json } do
-    namespace :v01 do
-      with_options only: [:index, :show] do |option|
-        option.resources :front_components
       end
     end
   end
