@@ -31,6 +31,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      with_options only: [:index, :show, :create, :update, :destroy ] do |option|
+        option.resources :roles
+      end
+    end
+  end
+
   resources :apps, path: '/', only: [] do
     collection do
 
