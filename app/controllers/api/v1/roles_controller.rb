@@ -1,29 +1,51 @@
 class Api::V1::RolesController < Apiv1Controller
-  skip_before_action :authorize_user!, only: [:index]
+  def index
+    @record = Role.all
 
-  def define_entity
-    @entity_model = Role
+    render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: @record}, status: :ok
   end
 
-  def index
-    @records = core_index_filter(@entity_model)
+  def show
+    @record = Role.find_by(id: params[:id])
 
-    render json: { filters: filter_jsons, records: records_as_json(@records) }
+    render json: {status:'SUCCESS', messages: 'Loaded Show Role', data: @record}, status: :ok
+  end
+
+  def new
+    @record = Role.new
+  end
+
+  def create
+   @record = Role.new(entity_params)
+   if @record.save
+     render json: {status:'SUCCESS', messages: 'create role', data: @record}, status: :ok
+   else
+     render json: {status:'ERRORS', messages: 'create errors role', date:@record.errors}, status: :ok
+   end
+  end
+
+  def destroy
+     @record = Role.find(params[:id])
+     @record.destroy
+     render json: {status:'SUCCESS', messages: 'delete role', data: @record}, status: :ok
+  end
+
+  def update
+    @record = Role.find(params[:id])
+    if @record.update_attributes(entity_params)
+      render json: {status:'SUCCESS', messages: 'update role', data: @record}, status: :ok
+    else
+      render json: {status:'ERRORS', messages: 'update role', data: @record.errors}, status: :unprocessable_entity
+    end
   end
 
   protected
-  # Only allow a trusted parameter "white list" through.
+
   def entity_params
-    params.require(:record).permit(:name)
-  end
-
-  # Strong parameters for default search query
-  def search_params
-    params.permit(:id, :name)
-  end
-
-  # Strong parameters for default advanced search query
-  def advanced_search_params
-    params.permit(:id)
+    params.require(:record).permit(
+      :name,
+      :title,
+      :description
+    )
   end
 end
