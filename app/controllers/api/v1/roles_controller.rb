@@ -1,7 +1,12 @@
 class Api::V1::RolesController < Apiv1Controller
-  def index
-    @record = Role.all
 
+  def define_entity
+    @entity_model = Role
+  end
+
+  def index
+    @record = core_index_filter(Role.all)
+    binding.pry
     render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: @record}, status: :ok
   end
 
