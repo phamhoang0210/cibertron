@@ -1,5 +1,6 @@
 class Apiv1Controller < AuthController
   include Pundit
+  before_action :define_entity
 
   def define_entity
     send_json_error(['entity model is not defined'], :internal_server_error)
@@ -17,6 +18,8 @@ class Apiv1Controller < AuthController
         per_page: params[:per_page],
         page_total: params[:page_total],
         record_total: params[:record_total],
+        next: params[:page] < params[:page_total] ? (params[:page] + 1) : nil,
+        prev: params[:page] > 1 ? (params[:page] - 1) : nil,
 
       },
       orders: params[:orders] || [],
@@ -32,6 +35,12 @@ class Apiv1Controller < AuthController
     page.blank? || page <= 0 ? 1 : (page > page_total ? page_total : page)
   end
 
+  # Return records as json
+  def records_as_json(criterias, includes_deep_level = 2)
+    options = {}
+    
+    criterias.as_json(options)
+  end
 
   #page
   def paging_standard(intial)
@@ -48,6 +57,8 @@ class Apiv1Controller < AuthController
     params[:per_page] = per_page
     params[:page_total] = page_total
     params[:record_total] = record_total
+
+    intial.paginate(page: page, per_page: per_page)
   end
 
   private

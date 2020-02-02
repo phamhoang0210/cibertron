@@ -5,9 +5,9 @@ class Api::V1::RolesController < Apiv1Controller
   end
 
   def index
-    @record = core_index_filter(Role.all)
-    binding.pry
-    render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: @record}, status: :ok
+    @records = core_index_filter(@entity_model)
+    
+    render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: records_as_json(@records)}, status: :ok
   end
 
   def show
