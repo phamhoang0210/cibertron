@@ -11,23 +11,40 @@ class Api::V1::AccountsController < Apiv1Controller
      render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: records_as_json(@records)}, status: :ok
 	end
 
-	#Get api/v1/acocunt/1
-	def show
-	end
+  def show
+    @record = @entity_model.find_by(id: params[:id])
 
-	def new
-	end
+    render json: records_as_json(@record)
+  end
   
-  #POST api/v1/account
-	def create
-	end
+  
+  def create
+    @record = @entity_model.new(entity_params)
 
-	#Update api/v1/id/update
-	def update
-	end
+    if @record.save
+      render json: records_as_json(@record), status: :created
+    else
+      render json: @record.errors, status: :failse
+    end
+  end
+  
+  # DELETE /api/v01/entity_names(s)/1
+  def destroy
+     @record = @entity_model.find(params[:id])
 
-	def destroy
-	end
+     @record.destroy
+  end
+  
+  # PATCH/PUT /api/v01/entity_names(s)/1
+  def update
+    @record = @entity_model.find(params[:id])
+
+    if @record.update_attributes(entity_params)
+      render json: {status:'SUCCESS', messages: 'update', record: @record}, status: :ok
+    else
+      render json: {status:'ERRORS', messages: 'update role', data: @record.errors}, status: :unprocessable_entity
+    end
+  end
 
 	protected
 

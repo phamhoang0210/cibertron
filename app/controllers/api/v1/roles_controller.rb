@@ -1,56 +1,55 @@
 class Api::V1::RolesController < Apiv1Controller
-
+  skip_before_action :verify_authenticity_token
   def define_entity
     @entity_model = Role
   end
 
   def index
+    # authorize @entity_model
     @records = core_index_filter(@entity_model)
-    
+    binding.pry
     render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: records_as_json(@records)}, status: :ok
   end
 
   def show
-    @record = Role.find_by(id: params[:id])
+    @record = @entity_model.find_by(id: params[:id])
 
-    render json: {status:'SUCCESS', messages: 'Loaded Show Role', data: @record}, status: :ok
+    render json: records_as_json(@record)
   end
-
-  def new
-    @record = Role.new
-  end
-
+  
+  
   def create
-   @record = Role.new(entity_params)
-   if @record.save
-     render json: {status:'SUCCESS', messages: 'create role', data: @record}, status: :ok
-   else
-     render json: {status:'ERRORS', messages: 'create errors role', date:@record.errors}, status: :ok
-   end
-  end
+    @record = @entity_model.new(entity_params)
 
+    if @record.save
+      render json: records_as_json(@record), status: :created
+    else
+      render json: @record.errors, status: :failse
+    end
+  end
+  
+  # DELETE /api/v01/entity_names(s)/1
   def destroy
-     @record = Role.find(params[:id])
-     @record.destroy
-     render json: {status:'SUCCESS', messages: 'delete role', data: @record}, status: :ok
-  end
+     @record = @entity_model.find(params[:id])
 
+     @record.destroy
+  end
+  
+  # PATCH/PUT /api/v01/entity_names(s)/1
   def update
-    @record = Role.find(params[:id])
+    @record = @entity_model.find(params[:id])
+
     if @record.update_attributes(entity_params)
-      render json: {status:'SUCCESS', messages: 'update role', data: @record}, status: :ok
+      render json: {status:'SUCCESS', messages: 'update', record: @record}, status: :ok
     else
       render json: {status:'ERRORS', messages: 'update role', data: @record.errors}, status: :unprocessable_entity
     end
   end
 
   protected
-
+  
+  #Only allow params
   def entity_params
-    params.require(:record).permit(
-      :name,
-      :title,
-      :description
-    )
+    params.permit(:name)
   end
 end

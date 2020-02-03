@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       with_options only: [:index, :show, :create, :update, :destroy ] do |option|
         option.resources :roles
+        option.resources :accounts
+        option.resources :sessions
       end
     end
   end

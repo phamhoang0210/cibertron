@@ -1,5 +1,4 @@
 class Apiv1Controller < AuthController
-  include Pundit
   before_action :define_entity
 
   def define_entity

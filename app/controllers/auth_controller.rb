@@ -15,11 +15,10 @@ class AuthController < ApplicationController
   def sign_out
   end
 
-  def authorize record
-     require_login
-  end
+  # def authorize record
+  #   require_login
+  # end
 
-  # before_action :require_login
   def require_login
     unless require_login?
       render json: {errors:'You not loggin!'}
@@ -30,6 +29,7 @@ class AuthController < ApplicationController
   def log_in user
     session[:user_id] = user.id
   end
+  
   #logout
   def log_out
     session.delete :user_id
@@ -38,7 +38,7 @@ class AuthController < ApplicationController
   private
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= Account.find(session[:user_id]) if session[:user_id]
   end
 
   def require_login?
