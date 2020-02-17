@@ -3,8 +3,6 @@ import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
 import {SIGN_UP_PATH} from 'app/constants/paths'
-// import {GoogleLogin} from 'react-google-login'
-// import OauthGrant from './OauthGrant'
 import request from 'libs/requests/request'
 import {setCredentials} from '../../../../../helpers/auth/authHelper'
 
@@ -51,42 +49,7 @@ render() {
     const { getFieldDecorator } = this.props.form
     const {authSignInState} = this.props
     const isSigning = authSignInState.get('isSigning')
-    const responseGoogle = (response) => {
-      var profileObj = response['profileObj'];
-      var tokenObj = response['tokenObj'];
-      var params_auth = {
-        'profileObj'  : {
-                          'googleId'    : profileObj['googleId'],
-                          'name'        : profileObj['name'],
-                          'email'       : profileObj['email']
-                        },
-        'tokenObj'    : {
-                          'id_token'    : tokenObj['id_token'],
-                          'access_token': tokenObj['access_token']
-                        },
-        'provider'    : response['provider']
-      };
-      return request
-        .fetchEntities(`${AUTHSERVICE_BASE_URL}/auth/google_oauth2/callback`, params_auth)
-        .then(res => {
-          var cookie = res.data
-          var urlParams = new URLSearchParams(window.location.search)
-          var redirectUrl = urlParams.get("redirect_url")
-          document.cookie = "access-token" + "=" + cookie['access-token'] + ";domain=localhost;path=/"
-          document.cookie = "client" + "=" + cookie['client'] + ";domain=localhost;path=/"
-          document.cookie = "uid" + "=" + cookie['uid'] + ";domain=localhost;path=/"
-          setCredentials(cookie)
-          if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
-            window.location.href = redirectUrl
-          } else {
-            window.location.href = '/'
-          }
-        })
-        .catch(error => {})
-    }
-    const disableGetAuth = () => {
-      window.gapi.auth2.getAuthInstance().disconnect()
-    }
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item>

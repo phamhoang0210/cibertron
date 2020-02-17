@@ -1,5 +1,5 @@
 class Api::V1::AccountsController < Apiv1Controller
-
+  skip_before_action :verify_authenticity_token
   def define_entity
     @entity_model = Account
   end
@@ -49,7 +49,7 @@ class Api::V1::AccountsController < Apiv1Controller
 	protected
 
 	def entity_params
-		params.require(:record).permit(
+		params.permit(
       :name,
       :email,
       :role_id,

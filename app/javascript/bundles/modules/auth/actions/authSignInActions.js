@@ -26,7 +26,6 @@ function signInFailure(error) {
 function setLocalCredentials(data) {
   authHelper.setCredentials({
     'access-token': data['access-token'],
-    'client': data['client'],
     'uid': data['uid'],
   })
 }
@@ -35,7 +34,7 @@ export function signIn(params = {}, onSuccess = null) {
   return dispatch => {
     dispatch(setIsSigning())
     return request
-      .submitEntity(`${AUTHSERVICE_BASE_URL}/auth/sign_in`, params)
+      .submitEntity(`${CIBERTRON_BASE_URL}/api/v1/sessions`, params)
       .then(res => {
         setLocalCredentials(res.headers)
         dispatch(signInSuccess(res.data))

@@ -4,7 +4,6 @@ export function getCredentials() {
   return {
     'access-token': localStorage.getItem('gaia-access-token'),
     'uid': localStorage.getItem('gaia-uid'),
-    'client': localStorage.getItem('gaia-client'),
   }
 }
 
@@ -12,7 +11,6 @@ export function setCredentials(credentials) {
   if(credentials) {
     localStorage.setItem('gaia-access-token', credentials['access-token'])
     localStorage.setItem('gaia-uid', credentials['uid'])
-    localStorage.setItem('gaia-client', credentials['client'])
   } else {
     return false
   }
@@ -21,14 +19,13 @@ export function setCredentials(credentials) {
 export function deleteCredentials() {
   localStorage.removeItem('gaia-access-token')
   localStorage.removeItem('gaia-uid')
-  localStorage.removeItem('gaia-client')
 
   return !isAuthenticated()
 }
 
 export function isAuthenticated() {
   const credentials = getCredentials()
-  return credentials['access-token'] && credentials['uid'] && credentials['client']
+  return credentials['access-token'] && credentials['uid']
 }
 
 export function requireAuth() {
