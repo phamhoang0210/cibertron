@@ -27,6 +27,22 @@ export default {
     });
   },
 
+  fetchEntity(path, params = {}) {
+    const credentials = getCredentials();
+
+    return request({
+      method: 'GET',
+      url: path,
+      responseType: 'json',
+      params: params,
+      paramsSerializer: function(params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+      },
+      headers: credentials,
+      validateStatus: validateStatus,
+    });
+  },
+
   submitEntity(path, entity = {}) {
     const credentials = getCredentials()
     const railsAuthenticityHeaders = ReactOnRails.authenticityHeaders()
