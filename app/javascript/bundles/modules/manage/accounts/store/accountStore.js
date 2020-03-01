@@ -1,27 +1,21 @@
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
-import thunkMiddleware from 'redux-thunk'
-import loggerMiddleware from 'libs/middlewares/loggerMiddleware'
-import reducers, { initialStates } from '../reducers'
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from '../reducers';
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
 
-export default (props, railsContext) => {
-  const {authState, authSignUpState, authSignInState, authSignOutState} = initialStates
+import promiseMiddleware from 'libs/middlewares/promise-middleware';
 
-  const initialState = {
-    authState,
-    authSignUpState,
-    authSignInState,
-    authSignOutState,
-  }
 
-  const reducer = combineReducers({
-    ...reducers,
-    routing: routerReducer,
-  });
+const router = routerMiddleware(browserHistory);
 
-  const finalCreateStore = compose(
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
-  )(createStore);
-
-  return finalCreateStore(reducer, initialState)
-};
+export default function configureStore(initialState) {
+  return createStore(rootReducer,
+    initialState,
+    applyMiddleware(
+      thunk,
+      promiseMiddleware(),
+      router
+    )
+  );
+}
