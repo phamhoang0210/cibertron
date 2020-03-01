@@ -1,1 +1,1 @@
-intialState.js
+import Immutable from 'immutable'

@@ -1,4 +1,4 @@
-import AccountIndex from './AccountIndex';
+import AccountIndex from './AccountIndexPage';
 
 export {
 	AccountIndex,
