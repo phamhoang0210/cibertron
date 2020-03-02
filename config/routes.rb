@@ -48,4 +48,10 @@ Rails.application.routes.draw do
       get ':code', to: 'apps#index'
     end
   end
+
+  resources :admincp, only: [:index] do
+    collection do
+      get 'accounts', to: 'admincp#accounts'
+    end
+  end
 end
