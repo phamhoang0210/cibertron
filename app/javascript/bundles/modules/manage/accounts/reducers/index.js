@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import reduceReducers from 'reduce-reducers';
+// import reduceReducers from 'reduce-reducers';
 
 
-import AccountReducer from './AccountReducer';
+import accountsReducer from './accountsReducer';
 
-const accounts = AccountReducer;
+const accounts = accountsReducer;
 // const accounts = reduceReducers(fetchAccounts);
 
 const rootReducer = combineReducers({

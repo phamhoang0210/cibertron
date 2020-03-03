@@ -1,9 +1,9 @@
 import {
   FETCH_ACCOUNTS,
-} from './../constans/acctionTypes';
-import initialState from './initialState';
+} from './../constants/actionTypes';
+import initialState from './intialState';
 
-export default function accountReducer($$state = initialState, action) {
+export default function accountsReducer($$state = initialState, action) {
 	const { type, payload, error } = action;
 
 	switch (type) {

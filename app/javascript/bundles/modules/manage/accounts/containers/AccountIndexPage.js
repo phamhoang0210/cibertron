@@ -37,7 +37,7 @@ function mapDispatchToProps(dispatch) {
   return { ...actions };
 }
 
-export default connect(){
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-}(AccountIndexPage);
+)(AccountIndexPage);

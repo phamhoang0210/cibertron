@@ -49,9 +49,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :admincp, only: [:index] do
-    collection do
-      get 'accounts', to: 'admincp#accounts'
+  namespace :manage do
+    with_options only: [:index, :new, :edit] do |option|
+      option.resources :accounts
     end
   end
 end

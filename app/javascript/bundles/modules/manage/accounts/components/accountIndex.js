@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'props-type';
+import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
 class AccountIndex extends React.Component {
@@ -7,7 +7,8 @@ class AccountIndex extends React.Component {
 		super(props);
 	}
 
-	componentDidMount();
+	componentDidMount(){
+	};
 
 	render() {
 		return (

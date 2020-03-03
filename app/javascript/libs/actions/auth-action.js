@@ -15,7 +15,7 @@ function processSuccess(actionstype, payload = {}){
 }
 function processFailse(actionstype, error) {
 	return {
-		type `${actionstype}_FAILSE`,
+		type: `${actionstype}_FAILSE`,
     error,
 	};
 }
@@ -155,4 +155,4 @@ export function deleteRecord(dispatch, actionstype, url, id, options){
 	);
 }
 
-// END Hoangpvs
+// END Hoangpv
