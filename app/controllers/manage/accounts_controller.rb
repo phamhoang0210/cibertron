@@ -1,14 +1,14 @@
 module Manage
   class AccountsController < ApplicationController
-    # GET /authservice/accounts
+    # GET /manage/accounts
     def index
     end
 
-    # GET /authservice/accounts/:id/edit
+    # GET /manage/accounts/:id/edit
     def edit
     end
 
-    # GET /authservice/accounts/new
+    # GET /manage/accounts/new
     def new
     end
   end

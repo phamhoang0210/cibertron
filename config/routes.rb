@@ -23,6 +23,13 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :manage do
+    root to: 'dashboard#index'
+    with_options only: [:index, :new, :edit] do |option|
+      option.resources :accounts
+    end
+  end
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       with_options only: [:index, :show, :create, :update, :destroy] do |option|
@@ -43,15 +50,8 @@ Rails.application.routes.draw do
 
   resources :apps, path: '/', only: [] do
     collection do
-
       get ':code/*path', to: 'apps#index'
       get ':code', to: 'apps#index'
-    end
-  end
-
-  namespace :manage do
-    with_options only: [:index, :new, :edit] do |option|
-      option.resources :accounts
     end
   end
 end
