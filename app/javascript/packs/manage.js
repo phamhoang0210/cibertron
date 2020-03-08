@@ -1,7 +1,7 @@
 import ReactOnRails from 'react-on-rails'
-import ManageAccountApp from 'modules/manage/accounts/registers/ManageAccountApp'
+import ManageAccountsApp from 'modules/manage/accounts/registers/ManageAccountsApp'
 
-//this is react_on_rails can see the HelloWorld in the browser
-ReactOnRails.registers({
-	ManageAccountApp,
+// This is how react_on_rails can see the HelloWorld in the browser.
+ReactOnRails.register({
+	ManageAccountsApp,
 });

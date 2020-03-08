@@ -2,7 +2,7 @@
 import isPromise from './isPromise';
 import { message } from 'antd';
 
-const defaulttypes = ['PENDING', 'FULFILLED', 'REJECTED'];
+const defaultTypes = ['PENDING', 'FULFILLED', 'REJECTED'];
 
 /**
  * @function promiseMiddleware

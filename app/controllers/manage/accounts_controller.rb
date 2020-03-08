@@ -1,5 +1,5 @@
 module Manage
-  class AccountsController < ApplicationController
+  class AccountsController < ManageController
     # GET /manage/accounts
     def index
     end
