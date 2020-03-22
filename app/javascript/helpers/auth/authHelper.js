@@ -25,7 +25,9 @@ export function deleteCredentials() {
 
 export function isAuthenticated() {
   const credentials = getCredentials()
-  return credentials['access-token'] && credentials['uid']
+  return !!(
+    credentials['access-token'] && credentials['uid']
+  );
 }
 
 export function requireAuth() {
@@ -35,5 +37,6 @@ export function requireAuth() {
 }
 
 export function handleAuthFailure() {
+  deleteCredentials();
   window.location.href = SIGN_OUT_PATH
 }

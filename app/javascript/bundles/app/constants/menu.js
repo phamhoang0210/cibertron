@@ -14,12 +14,12 @@ export const menuData = [
     ],
   }, {
     type: 'subMenu',
-    path: '/authservice',
+    path: '/manage',
     title: (<span><Icon type="bars" /><span>ACCOUNTS</span></span>),
     items: [
       {
         type: 'link', 
-        path: '/authservice/accounts',
+        path: '/manage/accounts',
         title: 'Accounts',
       },
     ],

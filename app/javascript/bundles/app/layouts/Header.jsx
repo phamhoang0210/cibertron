@@ -24,7 +24,7 @@ class Header extends React.Component {
                 overlay={(
                   <Menu>
                     <Menu.Item key="myaccount">
-                      <a href="/myaccount">Your Account</a>
+                      <a href="/manage/account">Your Account</a>
                     </Menu.Item>
                     <Menu.Item key="sign_out">
                       <a href="/auth/sign_out">Sign out</a>
@@ -33,7 +33,7 @@ class Header extends React.Component {
                 )}
               >
                 <span className="layout-content-header-tools-action">
-                  <Icon type="user"/> {localStorage.getItem('gaia-uid') || 'User'}
+                  <Icon type="user"/> {localStorage.getItem('cibertron-uid') || 'User'}
                 </span>
               </Dropdown>
             </div>
