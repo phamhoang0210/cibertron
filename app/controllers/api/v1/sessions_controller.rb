@@ -8,15 +8,13 @@ class Api::V1::SessionsController < Apiv1Controller
     user = @entity_model.find_by email: params[:email]
     if user && user.authenticate(params[:password])
       log_in user
-      current_user
-      render json: {status: 'Login Success'}
     else
-      render json: {status: status, errors: 'Not Login'}
+      render json: {errors: 'Not Login'}, status: :unauthorized
     end
   end
 
   def destroy
     log_out
-    render json: {status: status, message: 'Logout success'}
+    render json: {message: 'Logout success'}, status: :ok
   end
 end

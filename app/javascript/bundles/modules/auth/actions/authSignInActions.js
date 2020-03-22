@@ -36,7 +36,7 @@ export function signIn(params = {}, onSuccess = null) {
     return request
       .submitEntity(`${CIBERTRON_BASE_URL}/api/v1/sessions`, params)
       .then(res => {
-        setLocalCredentials(res.headers)
+        setLocalCredentials(res.data)
         dispatch(signInSuccess(res.data))
         if(onSuccess) { onSuccess(res.data) }
       })

@@ -6,6 +6,9 @@ class CreateAccounts < ActiveRecord::Migration[5.1]
       t.references :role, foreign_key: true
       t.string :password_digest
 
+      # Tokens
+      t.json :tokens
+
       t.timestamps
     end
 

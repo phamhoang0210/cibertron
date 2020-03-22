@@ -2,23 +2,23 @@ import { SIGN_IN_PATH, SIGN_OUT_PATH } from 'app/constants/paths'
 
 export function getCredentials() {
   return {
-    'access-token': localStorage.getItem('gaia-access-token'),
-    'uid': localStorage.getItem('gaia-uid'),
+    'access-token': localStorage.getItem('cibertron-access-token'),
+    'uid': localStorage.getItem('cibertron-uid'),
   }
 }
 
 export function setCredentials(credentials) {
   if(credentials) {
-    localStorage.setItem('gaia-access-token', credentials['access-token'])
-    localStorage.setItem('gaia-uid', credentials['uid'])
+    localStorage.setItem('cibertron-access-token', credentials['access-token'])
+    localStorage.setItem('cibertron-uid', credentials['uid'])
   } else {
     return false
   }
 }
 
 export function deleteCredentials() {
-  localStorage.removeItem('gaia-access-token')
-  localStorage.removeItem('gaia-uid')
+  localStorage.removeItem('cibertron-access-token')
+  localStorage.removeItem('cibertron-uid')
 
   return !isAuthenticated()
 }

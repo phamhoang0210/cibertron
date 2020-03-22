@@ -40,7 +40,7 @@ class SignInForm extends React.Component {
       if(redirectUrl && !RegExp('sign_out|sign_in').test(redirectUrl)) {
         window.location.href = redirectUrl
       } else {
-        window.location.href = '/authservice/accounts'
+        window.location.href = '/manage/accounts'
       }
     }, 1000)
   }

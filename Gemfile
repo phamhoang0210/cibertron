@@ -59,6 +59,9 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+# Authentication
+gem 'devise_token_auth'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'react_on_rails', '~> 9.0.1'
@@ -68,6 +71,7 @@ gem 'mini_racer', platforms: :ruby
 # Use for basic api of resources
 gem 'pureapi', '~> 0.5.1'
 gem 'jwtauth', '~> 0.3.2'
+gem 'jwt'
 
 gem "pundit"
 gem 'dotenv-rails'
