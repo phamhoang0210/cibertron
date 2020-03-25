@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
+import AccountTableBox from './AccountTableBox';
 
 class AccountIndex extends React.Component {
 	constructor(props) {
@@ -19,8 +20,7 @@ class AccountIndex extends React.Component {
           </h1>
         </div>
         <div className="box-body">
-          {/*<AccountTableBox {...this.props} />*/}
-          <h1> Hello World </h1>
+          <AccountTableBox {...this.props} />
         </div>
       </div>
 		);

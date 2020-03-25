@@ -1,5 +1,6 @@
 class Api::V1::RolesController < Apiv1Controller
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
+  before_action :authenticate
   def define_entity
     @entity_model = Role
   end
@@ -7,7 +8,6 @@ class Api::V1::RolesController < Apiv1Controller
   def index
     # authorize @entity_model
     @records = core_index_filter(@entity_model)
-    binding.pry
     render json: {filters: filter_jsons ,status:'SUCCESS', messages: 'Loaded Role', records: records_as_json(@records)}, status: :ok
   end
 
@@ -22,9 +22,9 @@ class Api::V1::RolesController < Apiv1Controller
     @record = @entity_model.new(entity_params)
 
     if @record.save
-      render json: records_as_json(@record), status: :created
+      render json: records_as_json(@record), status: :ok
     else
-      render json: @record.errors, status: :failse
+      render json: @record.errors, status: :not_found
     end
   end
   

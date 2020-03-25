@@ -27,7 +27,7 @@ export function signOut(onSuccess = null) {
     dispatch(setIsSigout())
 
     return request
-      .deleteEntity(`${AUTHSERVICE_BASE_URL}/auth/sign_out`)
+      .deleteEntity(`${CIBERTRON_BASE_URL}/api/v1/sessions/signout`)
       .then(res => {
         dispatch(signOutSuccess(res.data))
         deleteCredentials()

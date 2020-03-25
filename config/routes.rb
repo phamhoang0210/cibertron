@@ -43,7 +43,11 @@ Rails.application.routes.draw do
       with_options only: [:index, :show, :create, :update, :destroy ] do |option|
         option.resources :roles
         option.resources :accounts
-        option.resources :sessions
+        option.resources :sessions do
+          collection do
+            delete 'signout', to: 'sessions@signout'
+          end
+        end
       end
     end
   end

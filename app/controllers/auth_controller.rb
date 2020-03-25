@@ -23,15 +23,14 @@ class AuthController < ApplicationController
 
   def require_login
     unless require_login?
-      render json: {errors:'You not loggin!'}
+      render json: {errors:'You not loggin!'}, status: :unauthorized
     end
   end
 
   #login
   def log_in user
     session[:user_id] = user.id
-    current_user
-
+    p "log_in #{session.to_json} ------------------ log in"
     ## call intance create token
     create_token(user)
   end
@@ -39,6 +38,7 @@ class AuthController < ApplicationController
   #logout
   def log_out
     session.delete :user_id
+    p "log_out #{session.to_json} ------------------log out"
   end
 
   #############CREATE TOKEN###########################
@@ -92,6 +92,7 @@ class AuthController < ApplicationController
   private
 
   def current_user
+    p "#{session.to_json} -----------------------------current_user"
     @current_user ||= Account.find(session[:user_id]) if session[:user_id]
   end
 

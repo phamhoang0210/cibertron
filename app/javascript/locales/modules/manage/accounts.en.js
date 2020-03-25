@@ -6,11 +6,13 @@ import commontAntdEn from 'locales/common/antd.en'
 export const appLocale = {
   messages: flattenMessages({
     ...commontAntdEn,
-    attrs: {
-      id: 'ID',
-      createdAt: 'Created At',
-      updatedAt: 'Updated At',
-    },
+    label: {
+      attrs: {
+        id: 'ID',
+        createdAt: 'Created At',
+        updatedAt: 'Updated At',
+      }
+    }
   }),
   antd: antdEn,
   locale: 'en-US',

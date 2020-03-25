@@ -68,7 +68,6 @@ render() {
         </Form.Item>
         <Form.Item>
           <Checkbox>Remember me</Checkbox>
-         {/* <a className="login-form-forgot" href="">Forgot password</a>*/}
           <Button
             type="primary"
             htmlType="submit"
