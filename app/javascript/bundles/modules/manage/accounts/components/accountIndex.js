@@ -16,7 +16,7 @@ class AccountIndex extends React.Component {
 			<div className="main-content box">
         <div className="box-header">
           <h1 className="box-title">
-            "This is title"
+            {this.props.intl.formatMessage({id: 'label.modules.accounts'})}
           </h1>
         </div>
         <div className="box-body">

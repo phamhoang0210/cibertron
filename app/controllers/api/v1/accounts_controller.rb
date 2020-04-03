@@ -1,5 +1,7 @@
 class Api::V1::AccountsController < Apiv1Controller
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
+  before_action :authenticate
+  
   def define_entity
     @entity_model = Account
   end

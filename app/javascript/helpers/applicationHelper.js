@@ -224,3 +224,11 @@ export function notify(noti, nextNoti) {
     })
   }
 }
+
+export function replaceStr(str, params) {
+  if (str) {
+    return str.replace(/\:([a-zA-Z_][0-9a-zA-Z_]*)/g, function(all, p1) {
+      return params[p1] || all;
+    });
+  }
+}

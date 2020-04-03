@@ -5,7 +5,16 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import { getFilterParamsAndSyncUrl } from 'helpers/applicationHelper';
 import { Table } from 'antd';
-// import moment from 'moment/moment';
+import moment from 'moment/moment';
+import { 
+  SHORT_DATETIME_FORMAT,
+  MEDIUM_WIDTH, 
+  ID_WIDTH, 
+  ACTION_WIDTH, 
+  SMALL_WIDTH,
+  TIME_WIDTH
+} from './../constants/initials';
+import ActionCell from 'partials/base/ActionCell';
 
 class AccountTableBox extends React.Component {
   constructor(props) {
@@ -24,7 +33,7 @@ class AccountTableBox extends React.Component {
 
   fetchAccounts(options = {}, isclear = false) {
     const { accounts, location, fetchAccounts, params } = this.props;
-
+    debugger
     fetchAccounts(
       getFilterParamsAndSyncUrl(
         accounts.get('filters'),
@@ -61,8 +70,52 @@ class AccountTableBox extends React.Component {
         title: intl.formatMessage({id: 'label.attrs.id'}),
         dataIndex: 'id',
         key: 'id',
-        width: 120
+        width: ID_WIDTH
+      },{
+        title: intl.formatMessage({id: 'label.attrs.name'}),
+        dataIndex: 'name',
+        key: 'name',
+        width: MEDIUM_WIDTH,
+      },{
+        title: intl.formatMessage({id: 'label.attrs.email'}),
+        dataIndex: 'email',
+        key: 'email',
+        width: MEDIUM_WIDTH,
       },
+      {
+        title: intl.formatMessage({id: 'label.attrs.createdAt'}),
+        dataIndex: 'created_at',
+        key: 'created_at',
+        width: TIME_WIDTH,
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
+      {
+        title: intl.formatMessage({id: 'label.attrs.updatedAt'}),
+        dataIndex: 'updated_at',
+        key: 'updated_at',
+        width: TIME_WIDTH,
+        render: value => value ? moment(value).format(SHORT_DATETIME_FORMAT) : ''
+      },
+      {
+        title: '',
+        key: 'action',
+        render: (cell, row) => {
+          return (
+            <ActionCell {...{
+                cell,
+                row,
+                showShow:true,
+                showDelete:false,
+                showEdit:false,
+                // handleDeleteEntity: this.handleDeleteAdEvent,
+                // entityPath: adEventEditPath,
+                params: params,
+              }}
+            />
+          );
+        },
+        width: ACTION_WIDTH
+      }
     ]);
   }
 
@@ -91,7 +144,7 @@ class AccountTableBox extends React.Component {
 
   render() {
     const { intl, accounts, params } = this.props;
-    debugger
+
     return (
       <div className="main-content-table-box">
         <Table
@@ -116,6 +169,11 @@ AccountTableBox.propTypes = {
   params: PropTypes.object,
   fetchAccounts: PropTypes.func,
   location: PropTypes.object,
+};
+
+AccountTableBox.contextTypes = {
+  uid: PropTypes.string,
+  access_token: PropTypes.string,
 };
 
 export default injectIntl(AccountTableBox);

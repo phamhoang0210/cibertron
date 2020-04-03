@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 import { Layout, Menu, Icon } from 'antd'
 import Footer from '../Footer'
 import Header from '../Header'
@@ -82,6 +83,14 @@ class ManageLayout extends React.Component {
     }
   }
 
+  //get Context ( uid, token )
+  getChildContext() {
+    return {
+      uid: localStorage.getItem("cibertron-uid"),
+      access_token: localStorage.getItem("cibertron-access-token")
+    }
+  }
+
   render() {
     const {location} = this.props
     const {collapsed} = this.state
@@ -136,6 +145,11 @@ class ManageLayout extends React.Component {
   
     );
   }
+}
+
+ManageLayout.childContextTypes = {
+  uid: PropTypes.string,
+  access_token: PropTypes.string
 }
 
 export default ManageLayout

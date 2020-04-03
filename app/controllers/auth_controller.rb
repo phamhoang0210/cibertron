@@ -23,7 +23,7 @@ class AuthController < ApplicationController
 
   def require_login
     unless require_login?
-      render json: {errors:'You not loggin!'}, status: :unauthorized
+      render json: {errors:'You Authorized!'}, status: :unauthorized
     end
   end
 

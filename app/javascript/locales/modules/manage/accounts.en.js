@@ -11,6 +11,11 @@ export const appLocale = {
         id: 'ID',
         createdAt: 'Created At',
         updatedAt: 'Updated At',
+        name: "Name",
+        email: "Email",
+      },
+      modules: {
+        accounts: 'Accounts',
       }
     }
   }),
