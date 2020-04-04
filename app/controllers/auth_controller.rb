@@ -84,7 +84,7 @@ class AuthController < ApplicationController
 
   #get token_lifespan from gem devise_token_auth
   def token_lifespan
-    return 2.week
+    return 1.week
   end
   ################ END TOKEN ##############################
 
@@ -97,6 +97,13 @@ class AuthController < ApplicationController
   end
 
   def require_login?
-    current_user.present?
+    if current_user.present?
+      _token = current_user.tokens
+      if _token["uid"] === (request.headers["uid"]) && _token["access-token"] === (request.headers["access-token"])
+        return true
+      else
+        return false
+      end
+    end
   end
 end

@@ -10,7 +10,7 @@ class Api::V1::SessionsController < Apiv1Controller
       log_in user
       current_user
     else
-      render json: {errors: 'Not Login'}, status: :unauthorized
+      render json: {errors: 'Login Errors! Please try again.', success: false}, status: :unauthorized
     end
   end
 

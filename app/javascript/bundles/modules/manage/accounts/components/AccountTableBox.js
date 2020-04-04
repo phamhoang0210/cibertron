@@ -33,7 +33,7 @@ class AccountTableBox extends React.Component {
 
   fetchAccounts(options = {}, isclear = false) {
     const { accounts, location, fetchAccounts, params } = this.props;
-    debugger
+
     fetchAccounts(
       getFilterParamsAndSyncUrl(
         accounts.get('filters'),

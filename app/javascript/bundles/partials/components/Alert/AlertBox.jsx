@@ -10,17 +10,14 @@ class AlertBox extends React.Component {
 
   render() {
     const { messages, type } = this.props
-
     return (
       <div>
-        {messages.map((message, index) => (
-          <Alert
-            style={{marginTop: '2px', marginButton: '2px'}}
-            key={`${type}${message}`}
-            message={message}
-            type={type}
-          />
-        ))}
+        <Alert
+          style={{marginTop: '2px', marginButton: '2px'}}
+          key={`${type}${messages}`}
+          message={messages}
+          type={type}
+        />
       </div>
     )
   }
