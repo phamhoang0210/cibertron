@@ -23,6 +23,17 @@ export const DEFAULT_RECORDS = {
   records: [],
 };
 
+export const DEFAULT_RECORD = {
+  isFetching: false,
+};
+
+export const ACCOUNT = {
+  name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+};
+
 //with table
 export const LX_WIDTH = 310;
 export const MID_WIDTH = 260;

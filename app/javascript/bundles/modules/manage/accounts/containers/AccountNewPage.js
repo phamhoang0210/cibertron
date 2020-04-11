@@ -1,36 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  fetchAccounts,
-} from './../actions/accounts';
-import AccountIndex from './../components/AccountIndex';
+import * as accountNewActions from './../actions/accountNew';
+import AccountNew from './../components/AccountNew';
 
-export class AccountIndexPage extends React.Component {
-  constructor(props){
+export class AccountNewPage extends React.Component {
+  constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <AccountIndex {...this.props} />
+      <AccountNew {...this.props} />
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { accounts } = state;
+  const { accountNew } = state;
 
   return {
-    accounts
+    accountNew
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = bindActionCreators(
-    {
-      fetchAccounts,
-    },
+    accountNewActions,
     dispatch
   );
 
@@ -40,4 +36,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountIndexPage);
+)(AccountNewPage);

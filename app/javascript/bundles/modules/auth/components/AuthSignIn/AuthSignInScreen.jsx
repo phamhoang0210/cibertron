@@ -16,7 +16,7 @@ class AuthSignInScreen extends React.Component {
     return (
       <div className="login-form">
         <div className="login-form-logo">
-          <img alt="Edumall logo"src="/assets/edumall-logo.png" />
+          <img alt="Edumall logo"src="/assets/log9.png" />
           <b>LOGIN</b>
         </div>
         {alert && !alert.isEmpty() && (

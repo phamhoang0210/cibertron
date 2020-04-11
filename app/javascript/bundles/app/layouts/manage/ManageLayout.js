@@ -113,8 +113,8 @@ class ManageLayout extends React.Component {
           <div className="layout-sider-logo">
             <a href="/">
               <img
-                alt="Edumall logo"
-                src={collapsed ? '/assets/edumall-logo.png' : '/assets/edumall-logo-full.png'}
+                alt="Log9"
+                src={collapsed ? '/assets/log9.png' : '/assets/log9.png'}
               />
             </a>
           </div>
