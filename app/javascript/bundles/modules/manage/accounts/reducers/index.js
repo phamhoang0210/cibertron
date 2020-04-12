@@ -5,15 +5,26 @@ import reduceReducers from 'reduce-reducers';
 
 import accountsReducer from './accountsReducer';
 import accountNewReducer from './accountNewReducer';
+import accountEditReducer from './accountEditReducer';
+import accountDeleteReducer from './accountDeleteReducer';
 
-const accounts = accountsReducer;
-// const accounts = reduceReducers(fetchAccounts);
+
+//show and delete
+const fetchAccounts = accountsReducer;
+const deleteAccounts = accountDeleteReducer;
+const accounts = reduceReducers(fetchAccounts, deleteAccounts);
+
+//new
 const accountNew = accountNewReducer;
+
+//edit 
+const account = accountEditReducer;
 
 const rootReducer = combineReducers({
 	routing: routerReducer,
   accounts,
   accountNew,
+  account,
 });
 
 export default rootReducer;

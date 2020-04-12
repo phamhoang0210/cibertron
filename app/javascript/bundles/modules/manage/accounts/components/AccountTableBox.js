@@ -15,6 +15,7 @@ import {
   TIME_WIDTH
 } from './../constants/initials';
 import ActionCell from 'partials/base/ActionCell';
+import TableBoxSearch from 'partials/base/TableBoxSearch';
 
 class AccountTableBox extends React.Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class AccountTableBox extends React.Component {
       'handleTableChange',
       'handlePageSizeChange',
       'fetchAccounts',
+      'handleDeleteAccount',
+      'reloadAccounts',
     ]);
   }
 
@@ -53,7 +56,6 @@ class AccountTableBox extends React.Component {
     }
   }
 
-
   handlePageSizeChange(current, size) {
     const paging = this.props.accounts.getIn(['filters', 'paging']);
     if (paging) {
@@ -61,9 +63,19 @@ class AccountTableBox extends React.Component {
     }
   }
 
+  handleDeleteAccount(id) {
+    this.props.deleteAccount(id, {
+      successcallback: this.reloadAccounts,
+    });
+  }
+
+  reloadAccounts() {
+    this.fetchAccounts();
+  }
+
 
   columns() {
-    const { intl, params } = this.props;
+    const { intl, params, accountEditPath } = this.props;
 
     return ([
       {
@@ -104,11 +116,11 @@ class AccountTableBox extends React.Component {
             <ActionCell {...{
                 cell,
                 row,
-                showShow:true,
-                showDelete:false,
-                showEdit:false,
-                // handleDeleteEntity: this.handleDeleteAdEvent,
-                // entityPath: adEventEditPath,
+                showShow:false,
+                showDelete:true,
+                showEdit:true,
+                handleDeleteEntity: this.handleDeleteAccount,
+                entityPath: accountEditPath,
                 params: params,
               }}
             />
@@ -143,10 +155,20 @@ class AccountTableBox extends React.Component {
   }
 
   render() {
-    const { intl, accounts, params } = this.props;
+    const { intl, accounts, params, accountNewPath } = this.props;
+    const contextLinks = [{
+      path: accountNewPath,
+      params: params,
+      title: intl.formatMessage({id: 'form.button.new'})
+    }];
 
     return (
       <div className="main-content-table-box">
+        <TableBoxSearch
+          placeholder={intl.formatMessage({id: 'form.button.searchName'})}
+          onSearch={this.handleSearchAdEvent}
+          contextLinks={contextLinks}
+        />
         <Table
           className="main-content-table-box-body"
           size="middle"

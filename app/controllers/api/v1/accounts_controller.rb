@@ -51,7 +51,7 @@ class Api::V1::AccountsController < Apiv1Controller
 	protected
 
 	def entity_params
-		params.permit(
+		params.require(:record).permit(
       :name,
       :email,
       :role_id,

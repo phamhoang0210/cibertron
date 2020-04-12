@@ -42,10 +42,10 @@ class ActionCell extends React.Component {
         {showDelete && (
           <Popconfirm
             placement="topLeft"
-            title={intl.formatMessage({id: 'title.delete'})}
+            title={intl.formatMessage({id: 'form.button.delete'})}
             onConfirm={() => handleDeleteEntity(row.id)}
-            okText={intl.formatMessage({id: 'label.button.ok'})}
-            cancelText={intl.formatMessage({id: 'label.button.cancel'})}
+            okText={intl.formatMessage({id: 'form.button.ok'})}
+            cancelText={intl.formatMessage({id: 'form.button.cancel'})}
              >
             <Button type="danger" loading={row.isDeleting}>
               <Icon type="delete" />

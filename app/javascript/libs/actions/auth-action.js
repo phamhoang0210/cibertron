@@ -144,7 +144,7 @@ export function deleteRecord(dispatch, actionstype, url, id, options){
 
 	return (
 		actionRequests
-			.deleteEntity(url, {...entity, ...(options.context || {})})
+			.deleteEntity(url, {...(options.context || {})})
 			.then(res => {
 				dispatch(processSuccess(actionstype, res.data));
 				options.successcallback(res);

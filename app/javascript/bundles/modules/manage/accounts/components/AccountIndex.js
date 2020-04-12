@@ -30,6 +30,7 @@ class AccountIndex extends React.Component {
 AccountIndex.PropTypes = {
 	intl: PropTypes.object,
 	fetchAccounts: PropTypes.func,
+	deleteAccount: PropTypes.func,
 }
 
 export default injectIntl(AccountIndex);

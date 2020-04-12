@@ -11,7 +11,7 @@ export const submitAccount = (account, options) => {
     submitRecord(
       dispatch,
       CREATE_ACCOUNT,
-      `${CIBERTRON_BASE_URL.baseUri}${ACCOUNTS_API_PATH}`,
+      `${CIBERTRON_BASE_URL}${ACCOUNTS_API_PATH}`,
       { record: account },
       options
     );

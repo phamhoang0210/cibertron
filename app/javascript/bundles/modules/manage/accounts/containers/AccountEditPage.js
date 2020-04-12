@@ -1,38 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  fetchAccounts,
-  deleteAccount,
-} from './../actions/accounts';
-import AccountIndex from './../components/AccountIndex';
+import * as accountEditActions from './../actions/accountEdit';
+import AccountEdit from './../components/AccountEdit';
 
-export class AccountIndexPage extends React.Component {
-  constructor(props){
+export class AccountEditPage extends React.Component {
+  constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <AccountIndex {...this.props} />
+      <AccountEdit {...this.props} />
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { accounts } = state;
+  const { account } = state;
 
   return {
-    accounts
+    account
   };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = bindActionCreators(
-    {
-      fetchAccounts,
-      deleteAccount,
-    },
+    accountEditActions,
     dispatch
   );
 
@@ -42,4 +36,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountIndexPage);
+)(AccountEditPage);

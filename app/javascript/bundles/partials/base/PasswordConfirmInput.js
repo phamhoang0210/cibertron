@@ -5,7 +5,7 @@ import { Form, Input } from 'antd';
 
 const ITEM_LAYOUT = { labelCol: { span: 7 }, wrapperCol: { span: 17 } };
 
-class PasswordInput extends React.Component {
+class PasswordConfirmInput extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -15,13 +15,13 @@ class PasswordInput extends React.Component {
 
     return (
       <Form.Item
-        label={intl.formatMessage({id: 'label.attrs.password'})}
+        label={intl.formatMessage({id: 'label.attrs.Confirm'})}
         {...ITEM_LAYOUT}
       >
-        {form.getFieldDecorator('password', {
+        {form.getFieldDecorator('password_confirmation', {
           initialValue: password,
           rules: [
-            { required: true, message: intl.formatMessage({id: 'errors.required.password'}) },
+            { required: true, message: intl.formatMessage({id: 'errors.required.passwordConfirm'}) },
             { validator:this.mess },
             { max: 255, message: intl.formatMessage({id: 'errors.length.password'}) }
           ],
@@ -31,10 +31,10 @@ class PasswordInput extends React.Component {
   }
 }
 
-PasswordInput.propTypes = {
-  password: PropTypes.string,
+PasswordConfirmInput.propTypes = {
+  password_confirmation: PropTypes.string,
   form: PropTypes.object,
   intl: PropTypes.object,
 };
 
-export default injectIntl(PasswordInput);
+export default injectIntl(PasswordConfirmInput);

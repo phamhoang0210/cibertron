@@ -13,4 +13,8 @@ export default {
 		...DEFAULT_RECORD,
 		record: ACCOUNT,
 	}),
+	account: Immutable.fromJS({
+		...DEFAULT_RECORD,
+		record: ACCOUNT,
+	})
 }
